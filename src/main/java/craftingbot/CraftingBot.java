@@ -20,7 +20,7 @@ public class CraftingBot {
     
     public static ModList modlist = null;
     
-    public static void main(String[] args) throws AWTException, UnsupportedFlavorException, IOException, Exception {
+    public static void runBot(String[] args) throws AWTException, UnsupportedFlavorException, IOException, Exception {
 //        modlist = Utility.pullModsFromAPI();
         
         runChaosSpam();
