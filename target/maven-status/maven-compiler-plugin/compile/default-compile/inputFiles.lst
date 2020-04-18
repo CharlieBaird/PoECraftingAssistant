@@ -1,0 +1,13 @@
+C:\CB\school\10\cs\CraftingBot_0.1\src\main\java\modlist\FileScanner.java
+C:\CB\school\10\cs\CraftingBot_0.1\src\main\java\modlist\Converter.java
+C:\CB\school\10\cs\CraftingBot_0.1\src\main\java\craftingbot\Filter.java
+C:\CB\school\10\cs\CraftingBot_0.1\src\main\java\craftingbot\filtertypes\Count.java
+C:\CB\school\10\cs\CraftingBot_0.1\src\main\java\craftingbot\filtertypes\Mod.java
+C:\CB\school\10\cs\CraftingBot_0.1\src\main\java\craftingbot\filtertypes\And.java
+C:\CB\school\10\cs\CraftingBot_0.1\src\main\java\craftingbot\filtertypes\Not.java
+C:\CB\school\10\cs\CraftingBot_0.1\src\main\java\craftingbot\filtertypes\IFilter.java
+C:\CB\school\10\cs\CraftingBot_0.1\src\main\java\craftingbot\filtertypes\FilterBase.java
+C:\CB\school\10\cs\CraftingBot_0.1\src\main\java\craftingbot\filtertypes\WeightedSum.java
+C:\CB\school\10\cs\CraftingBot_0.1\src\main\java\craftingbot\CraftingBot.java
+C:\CB\school\10\cs\CraftingBot_0.1\src\main\java\craftingbot\Utility.java
+C:\CB\school\10\cs\CraftingBot_0.1\src\main\java\modlist\ModList.java
