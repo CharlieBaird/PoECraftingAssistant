@@ -52,6 +52,12 @@ public class Filter
         print();
     }
     
+    public Filter(String content)
+    {
+        this();
+        print();
+    }
+    
     public static boolean checkIfHit() throws AWTException, UnsupportedFlavorException, IOException
     {
         for (Filter f : FiltersParent)
