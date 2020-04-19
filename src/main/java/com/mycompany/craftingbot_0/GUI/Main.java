@@ -6,7 +6,9 @@
 package com.mycompany.craftingbot_0.GUI;
 
 import craftingbot.Filter;
+import craftingbot.Filters;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -243,17 +245,26 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser chooser = new JFileChooser();
+        File defaultDir = new File("C:\\CB\\dev\\PoE\\CraftingBot");
+        chooser.setCurrentDirectory(defaultDir);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
             String path = file.toPath().toString();
-            String content = null;
+//            Filters f = null;
+            
+//            Filters fr = new Filters();
+            
+            
             try {
-                content = FileScanner.readFromFile(path);
-            } catch (Exception ex) {
+            Filters.loadFilters(path);
+            System.out.println(path);
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            Filter f = new Filter(content);
+            Filters.print();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -287,6 +298,11 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                try {
+                    Filters ff = new Filters();
+                } catch (IOException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 new Main().setVisible(true);
             }
         });

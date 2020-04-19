@@ -23,7 +23,7 @@ public class CraftingBot {
     public static void runBot(String[] args) throws AWTException, UnsupportedFlavorException, IOException, Exception {
 //        modlist = Utility.pullModsFromAPI();
         
-        runChaosSpam();
+//        runChaosSpam();
 
 //        Filter filter = new Filter();
 //        filter.print();

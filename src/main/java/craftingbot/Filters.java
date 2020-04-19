@@ -7,15 +7,29 @@ package craftingbot;
 
 import java.awt.AWTException;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author charl
  */
-public class Filters {
-    private static ArrayList<Filter> filters = new ArrayList<Filter>();
+public class Filters implements Serializable {
+    private ArrayList<Filter> filters = new ArrayList<Filter>();
+    
+    private static Filters singleton = new Filters(false);
+    
+    public Filters(boolean x)
+    {
+        filters.clear();
+    }
     
     public Filters(ArrayList<Filter> filters)
     {
@@ -26,9 +40,19 @@ public class Filters {
         }
     }
     
+    public Filters() throws IOException
+    {
+        Filter f = new Filter();
+        singleton.filters.clear();
+        singleton.filters.add(f);
+//        print();
+        
+        saveFilters("C:\\CB\\dev\\PoE\\CraftingBot\\test.txt");
+    }
+    
     public static void add(Filter f)
     {
-        filters.add(f);
+        singleton.filters.add(f);
     }
     
     public static boolean checkIfHitOne() throws AWTException, UnsupportedFlavorException, IOException
@@ -38,7 +62,7 @@ public class Filters {
 
         mods = mods.toLowerCase();
         
-        for (Filter f : filters)
+        for (Filter f : singleton.filters)
         {
             if (f.checkIfHit(mods)) return true;
         }
@@ -46,11 +70,40 @@ public class Filters {
         return false;
     }
     
-    public void print()
+    public static void print()
     {
-        for (Filter f : filters)
+        System.out.println("Filters: ");
+        for (Filter f : singleton.filters)
         {
             f.print();
         }
+        System.out.println("----");
+    }
+    
+    public static void loadFilters(String path) throws FileNotFoundException, IOException, ClassNotFoundException
+    {
+        singleton.filters.clear();
+        
+        FileInputStream fi = new FileInputStream(new File(path));
+        ObjectInputStream oi = new ObjectInputStream(fi);
+        
+        singleton = (Filters) oi.readObject();
+                
+        fi.close();
+        oi.close();
+    }
+    
+    public static void saveFilters(String path) throws FileNotFoundException, IOException
+    {
+        FileOutputStream f = new FileOutputStream(new File(path));
+        ObjectOutputStream o = new ObjectOutputStream(f);
+
+        // Write objects to file
+        o.writeObject(singleton);
+
+        o.close();
+        f.close();
     }
 }
+
+// C:\CB\dev\PoE\CraftingBot\test.txt

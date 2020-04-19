@@ -9,13 +9,14 @@ import craftingbot.filtertypes.*;
 import java.awt.AWTException;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author charl
  */
-public class Filter
+public class Filter implements Serializable
 {
 //    public static ArrayList<Filter> FiltersParent = new ArrayList<Filter>(); // deprecated
     
@@ -24,6 +25,7 @@ public class Filter
     public Filter()
     {
 //        /*
+        filters.clear();
         Mod ms = new Mod("% increased movement speed", 25, 35);        
         Mod totalES = new Mod("energy shield: ", 130, 1000);
         Mod fRes = new Mod("% to fire resistance", 30, 48);
@@ -49,7 +51,7 @@ public class Filter
         
 //        FiltersParent.add(this);
         
-        print();
+//        print();
     }
     
     public Filter(Filter old) // duplicates
@@ -83,11 +85,5 @@ public class Filter
         {
             f.print();
         }
-    }
-    
-    public Filter(String content) // todo
-    {
-        this();
-        print();
     }
 }

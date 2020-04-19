@@ -6,12 +6,13 @@
 package craftingbot.filtertypes;
 
 import craftingbot.Utility;
+import java.io.Serializable;
 
 /**
  *
  * @author charl
  */
-public class Mod {
+public class Mod implements Serializable {
     public String name; // Form of: #% increased movement speed
     public Id[] ids; // Form of: min 25, max 35
     
@@ -81,7 +82,7 @@ public class Mod {
     }
 }
 
-class Id
+class Id implements Serializable
 {
     int min = -100000;
     int max = -100000;

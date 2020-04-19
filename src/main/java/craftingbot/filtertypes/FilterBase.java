@@ -5,11 +5,13 @@
  */
 package craftingbot.filtertypes;
 
+import java.io.Serializable;
+
 /**
  *
  * @author charl
  */
-public class FilterBase implements IFilter {
+public class FilterBase implements IFilter, Serializable {
     
     public Mod[] mods;
     
