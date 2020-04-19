@@ -27,6 +27,11 @@ public class Filters implements Serializable {
     
     private static Filters singleton = new Filters(false);
     
+    public static String getName()
+    {
+        return singleton.name;
+    }
+    
     public Filters(boolean x)
     {
         filters.clear();
@@ -47,7 +52,6 @@ public class Filters implements Serializable {
         singleton.name = name;
         singleton.filters.clear();
         singleton.filters.add(f);
-//        print();
         
         saveFilters("C:\\CB\\dev\\PoE\\CraftingBot\\test.txt");
     }
@@ -80,6 +84,16 @@ public class Filters implements Serializable {
             f.print();
         }
         System.out.println("----");
+    }
+    
+    public static String view()
+    {
+        String str = "";
+        for (Filter f : singleton.filters)
+        {
+            str += f.view() + "\n";
+        }
+        return str;
     }
     
     public static void loadFilters(String path) throws FileNotFoundException, IOException, ClassNotFoundException

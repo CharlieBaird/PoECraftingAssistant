@@ -1,4 +1,7 @@
-package craftingbot.filtertypes;
+package craftingbot.filtertypes.logicgroups;
+
+import craftingbot.filtertypes.FilterBase;
+import craftingbot.filtertypes.Mod;
 
 public class Count extends FilterBase {
     int needed;
@@ -19,5 +22,18 @@ public class Count extends FilterBase {
         }
         
         return count >= needed;
+    }
+    
+    @Override
+    public String view()
+    {
+        String str = "    " + this.getClass().getSimpleName() + " " + needed + "\n";
+              
+        for (Mod m : mods)
+        {
+            str += "        " + m.view() + "\n";
+        }
+        
+        return str;
     }
 }

@@ -11,5 +11,6 @@ public interface IFilter {
     
     public void print();
     
+    public String view();
 //    public FilterBase dupe();
 }

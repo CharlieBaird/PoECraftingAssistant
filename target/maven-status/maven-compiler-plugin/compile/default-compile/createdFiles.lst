@@ -1,3 +1,4 @@
+com\mycompany\craftingbot_0\GUI\Main$4.class
 modlist\ID.class
 modlist\Result.class
 com\mycompany\craftingbot_0\GUI\Main$2.class
@@ -11,6 +12,7 @@ craftingbot\filtertypes\Id.class
 modlist\Type$1.class
 modlist\ID$Serializer.class
 modlist\Type.class
+com\mycompany\craftingbot_0\GUI\Main$3.class
 com\mycompany\craftingbot_0\GUI\Main.class
 craftingbot\Filter.class
 modlist\Converter.class

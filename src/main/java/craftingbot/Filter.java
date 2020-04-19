@@ -6,6 +6,7 @@
 package craftingbot;
 
 import craftingbot.filtertypes.*;
+import craftingbot.filtertypes.logicgroups.*;
 import java.awt.AWTException;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
@@ -22,8 +23,11 @@ public class Filter implements Serializable
     
     public ArrayList<FilterBase> filters = new ArrayList<FilterBase>();
     
+    private String name;
+    
     public Filter()
     {
+        name = "Count MS/ES/RES";
 //        /*
         filters.clear();
         Mod ms = new Mod("% increased movement speed", 25, 35);        
@@ -85,5 +89,15 @@ public class Filter implements Serializable
         {
             f.print();
         }
+    }
+    
+    public String view()
+    {
+        String str = name + "\n";
+        for (FilterBase f : filters)
+        {
+            str += f.view() + "\n";
+        }
+        return str;
     }
 }

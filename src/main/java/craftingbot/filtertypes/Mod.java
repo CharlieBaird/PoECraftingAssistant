@@ -80,6 +80,15 @@ public class Mod implements Serializable {
         for (int i=0; i<ids.length; i++)
             System.out.println("        ids: " + ids[i].min + ", " + ids[i].max);
     }
+    
+    public String view()
+    {
+        String str = name + "\n";
+        for (int i=0; i<ids.length; i++)
+            str += ("            min: " + ids[i].min + ", max: " + ids[i].max);
+        
+        return str;
+    }
 }
 
 class Id implements Serializable
