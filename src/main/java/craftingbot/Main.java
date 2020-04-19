@@ -3,23 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.craftingbot_0.GUI;
+package craftingbot;
 
-import craftingbot.Filter;
 import craftingbot.Filters;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import modlist.FileScanner;
+import javax.swing.JOptionPane;
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
+import org.jnativehook.keyboard.NativeKeyEvent;
+import org.jnativehook.keyboard.NativeKeyListener;
 
 /**
  *
  * @author charl
  */
-public class Main extends javax.swing.JFrame {
+public class Main extends javax.swing.JFrame implements NativeKeyListener, WindowListener {
 
     /**
      * Creates new form Main
@@ -27,7 +31,53 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
     }
+    
+        public void windowOpened(WindowEvent e) {
+		// Initialze native hook.
+		try {
+			GlobalScreen.registerNativeHook();
+		}
+		catch (NativeHookException ex) {
+			System.err.println("There was a problem registering the native hook.");
+			System.err.println(ex.getMessage());
+			ex.printStackTrace();
 
+			System.exit(1);
+		}
+
+		GlobalScreen.addNativeKeyListener(this);
+	}
+
+	public void windowClosed(WindowEvent e) {
+        try {
+            //Clean up the native hook.
+            GlobalScreen.unregisterNativeHook();
+        } catch (NativeHookException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+		System.runFinalization();
+		System.exit(0);
+	}
+        
+//        public void windowClosed(WindowEvent e) {
+//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        }
+
+	public void windowClosing(WindowEvent e) { /* Unimplemented */ }
+	public void windowIconified(WindowEvent e) { /* Unimplemented */ }
+	public void windowDeiconified(WindowEvent e) { /* Unimplemented */ }
+	public void windowActivated(WindowEvent e) { /* Unimplemented */ }
+	public void windowDeactivated(WindowEvent e) { /* Unimplemented */ }
+
+        public void nativeKeyReleased(NativeKeyEvent e) {
+		if (e.getKeyCode() == NativeKeyEvent.VC_SPACE) {
+			JOptionPane.showMessageDialog(null, "This will run on Swing's Event Dispatch Thread.");
+		}
+	}
+
+	public void nativeKeyPressed(NativeKeyEvent e) { /* Unimplemented */ }
+	public void nativeKeyTyped(NativeKeyEvent e) { /* Unimplemented */ }
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -326,10 +376,11 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        Filters.print();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        Filters.reset();
         jTextArea1.setText("");
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -370,11 +421,11 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-//                try {
-//                    Filters fr = new Filters("Purposeful Harby");
-//                } catch (IOException ex) {
-//                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+                try {
+                    Filters fr = new Filters("SorcererBoots");
+                } catch (IOException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 new Main().setVisible(true);
             }
         });
@@ -401,4 +452,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
+
+    
 }

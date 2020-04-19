@@ -46,6 +46,12 @@ public class Filters implements Serializable {
         }
     }
     
+    public static void reset()
+    {
+        singleton.name = "";
+        singleton.filters.clear();
+    }
+    
     public Filters(String name) throws IOException
     {
         Filter f = new Filter();
@@ -53,7 +59,8 @@ public class Filters implements Serializable {
         singleton.filters.clear();
         singleton.filters.add(f);
         
-        saveFilters("C:\\CB\\dev\\PoE\\CraftingBot\\PurposefulHarbinger.txt");
+        saveFilters("C:\\CB\\dev\\PoE\\CraftingBot\\filters\\" + name + ".txt");
+        saveFilters("C:\\CB\\dev\\PoE\\CraftingBot\\filters\\" + name + ".txt");
     }
     
     public static void add(Filter f)

@@ -28,7 +28,6 @@ public class Filter implements Serializable
     public Filter()
     {
         // boots
-        /*
         name = "Count MS/ES/RES";
         filters.clear();
         Mod ms = new Mod("% increased movement speed", 25, 35);        
@@ -37,20 +36,17 @@ public class Filter implements Serializable
         Mod lRes = new Mod("% to lightning resistance", 30, 48);
         Mod cRes = new Mod("% to cold resistance", 30, 48);
         filters.add(new Count(6, ms, ms, ms, totalES, totalES, totalES, fRes, fRes, lRes, lRes, cRes, cRes));
-        */
         
 //        Mod life = new Mod(" to maximum life", 80, 89);
         
 //        HERALD ABUSE JEWELS
-//        /*
-        name = "PurposefulHarbinger";
-        filters.clear();
-        Mod ph = new Mod(" added passive skill is purposeful harbinger", 1, 2);
-        Mod end = new Mod(" added passive skill is endbringer", 1, 1);
-        Mod her = new Mod(" added passive skill is heraldry", 1, 1);
-        filters.add(new And(ph));
-        filters.add(new Count(1, end, her));
-//        */
+//        name = "PurposefulHarbinger";
+//        filters.clear();
+//        Mod ph = new Mod(" added passive skill is purposeful harbinger", 1, 2);
+//        Mod end = new Mod(" added passive skill is endbringer", 1, 1);
+//        Mod her = new Mod(" added passive skill is heraldry", 1, 1);
+//        filters.add(new And(ph));
+//        filters.add(new Count(1, end, her));
         
         /* EXPLODE MOD ON CHEST
         Mod explode = new Mod("enemies you kill explode, dealing 3% of their life as physical damage");
