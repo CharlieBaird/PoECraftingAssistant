@@ -306,7 +306,7 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser chooser = new JFileChooser();
-        File defaultDir = new File("C:\\CB\\dev\\PoE\\CraftingBot");
+        File defaultDir = new File("C:\\CB\\dev\\PoE\\CraftingBot\\filters");
         chooser.setCurrentDirectory(defaultDir);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
@@ -370,11 +370,11 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    Filters fr = new Filters("SorcererBoots");
-                } catch (IOException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                }
+//                try {
+//                    Filters fr = new Filters("Purposeful Harby");
+//                } catch (IOException ex) {
+//                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//                }
                 new Main().setVisible(true);
             }
         });

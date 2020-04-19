@@ -53,7 +53,7 @@ public class Filters implements Serializable {
         singleton.filters.clear();
         singleton.filters.add(f);
         
-        saveFilters("C:\\CB\\dev\\PoE\\CraftingBot\\test.txt");
+        saveFilters("C:\\CB\\dev\\PoE\\CraftingBot\\PurposefulHarbinger.txt");
     }
     
     public static void add(Filter f)
