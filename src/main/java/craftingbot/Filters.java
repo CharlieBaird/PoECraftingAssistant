@@ -22,6 +22,7 @@ import java.util.ArrayList;
  * @author charl
  */
 public class Filters implements Serializable {
+    private String name = "";
     private ArrayList<Filter> filters = new ArrayList<Filter>();
     
     private static Filters singleton = new Filters(false);
@@ -40,9 +41,10 @@ public class Filters implements Serializable {
         }
     }
     
-    public Filters() throws IOException
+    public Filters(String name) throws IOException
     {
         Filter f = new Filter();
+        singleton.name = name;
         singleton.filters.clear();
         singleton.filters.add(f);
 //        print();
@@ -72,7 +74,7 @@ public class Filters implements Serializable {
     
     public static void print()
     {
-        System.out.println("Filters: ");
+        System.out.println(singleton.name + ":");
         for (Filter f : singleton.filters)
         {
             f.print();

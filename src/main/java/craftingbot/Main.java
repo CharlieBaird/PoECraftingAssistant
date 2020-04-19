@@ -52,9 +52,7 @@ public class Main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(1152, 768));
         setMinimumSize(new java.awt.Dimension(1152, 768));
-        setPreferredSize(new java.awt.Dimension(1152, 768));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -250,10 +248,6 @@ public class Main extends javax.swing.JFrame {
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
             String path = file.toPath().toString();
-//            Filters f = null;
-            
-//            Filters fr = new Filters();
-            
             
             try {
             Filters.loadFilters(path);
@@ -299,7 +293,7 @@ public class Main extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    Filters ff = new Filters();
+                    Filters fr = new Filters("SorcererBoots");
                 } catch (IOException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
