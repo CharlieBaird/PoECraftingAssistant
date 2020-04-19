@@ -31,6 +31,20 @@ public class Mod {
         name = name.toLowerCase();
     }
     
+    public Mod dupe()
+    {
+        int[] dupeIds = new int[ids.length*2];
+        
+        for (int i=0; i<ids.length; i++)
+        {
+            dupeIds[i*2] = ids[i].min;
+            dupeIds[i*2+1] = ids[i].max;
+        }
+        
+        return new Mod(this.name, dupeIds);
+    }
+    
+    
     public boolean hit(String input)
     {
         String[] inputLines = input.split("\\R");

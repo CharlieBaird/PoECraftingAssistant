@@ -68,7 +68,6 @@ public class CraftingBot {
         Point modCheckLoc = new Point(331,559); // Point to check if the item has the correct mod (orange outline)
         Point getChaosLoc = new Point(547, 289); // Point to get chaos from
         
-        Filter filter = new Filter();
         Robot r = new Robot();
         
         r.keyPress(KeyEvent.VK_SHIFT);
@@ -81,7 +80,7 @@ public class CraftingBot {
         {
             lclick();
             delay(50);
-            if (Filter.checkIfHit())
+            if (Filters.checkIfHitOne())
                 break;
         }
         

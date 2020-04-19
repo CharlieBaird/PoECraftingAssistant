@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class Filter
 {
-    public static ArrayList<Filter> FiltersParent = new ArrayList<Filter>();
+//    public static ArrayList<Filter> FiltersParent = new ArrayList<Filter>(); // deprecated
     
     public ArrayList<FilterBase> filters = new ArrayList<FilterBase>();
     
@@ -47,50 +47,47 @@ public class Filter
         filters.add(new Count(1, explode));
         */
         
-        FiltersParent.add(this);
+//        FiltersParent.add(this);
         
         print();
     }
     
-    public Filter(String content)
+    public Filter(Filter old) // duplicates
     {
-        this();
-        print();
+        for (FilterBase fb : old.filters)
+        {
+            for (Mod mod : fb.mods)
+            {
+                Mod dupe = mod.dupe();
+            }
+        }
     }
     
-    public static boolean checkIfHit() throws AWTException, UnsupportedFlavorException, IOException
+    public boolean checkIfHit(String mods)
     {
-        for (Filter f : FiltersParent)
+        int goal = filters.size();
+        int numhit = 0;
+            
+        for (FilterBase fb : filters)
         {
-            String mods = Utility.copy();
-            Utility.delay(40);
-
-            mods = mods.toLowerCase();
-            
-            int goal = f.filters.size();
-            int numhit = 0;
-            
-            for (FilterBase fb : f.filters)
-            {
-                if (fb.hit(mods)) numhit++;
-            }
-            
-            if (numhit >= goal) return true;
+            if (fb.hit(mods)) numhit++;
         }
+        
+        if (numhit >= goal) return true;
         return false;
     }
     
-    public static void print()
+    public void print()
     {
-        int i = 1;
-        for (Filter f : FiltersParent)
+        for (FilterBase f : filters)
         {
-            System.out.println(i + ")");
-            i++;
-            for (FilterBase fb : f.filters)
-            {
-                fb.print();
-            }
+            f.print();
         }
+    }
+    
+    public Filter(String content) // todo
+    {
+        this();
+        print();
     }
 }
