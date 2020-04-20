@@ -429,7 +429,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    Filters fr = new Filters("SorcererBoots");
+                    new Filters("SorcererBoots");
                 } catch (IOException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }

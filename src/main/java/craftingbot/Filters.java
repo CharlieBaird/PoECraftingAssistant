@@ -60,7 +60,7 @@ public class Filters implements Serializable {
         singleton.filters.add(f);
         
         saveFilters("C:\\CB\\dev\\PoE\\CraftingBot\\filters\\" + name + ".txt");
-        saveFilters("C:\\CB\\dev\\PoE\\CraftingBot\\filters\\" + name + ".txt");
+//        saveFilters("C:\\CB\\dev\\PoE\\CraftingBot\\filters\\" + name + ".txt");
     }
     
     public static void add(Filter f)

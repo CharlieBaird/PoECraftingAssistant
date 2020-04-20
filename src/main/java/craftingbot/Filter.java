@@ -32,10 +32,15 @@ public class Filter implements Serializable
         filters.clear();
         Mod ms = new Mod("% increased movement speed", 25, 35);        
         Mod totalES = new Mod("energy shield: ", 130, 1000);
+        Mod maxES = new Mod("energy shield: ", 160, 1000);
         Mod fRes = new Mod("% to fire resistance", 30, 48);
         Mod lRes = new Mod("% to lightning resistance", 30, 48);
         Mod cRes = new Mod("% to cold resistance", 30, 48);
-        filters.add(new Count(6, ms, ms, ms, totalES, totalES, totalES, fRes, fRes, lRes, lRes, cRes, cRes));
+        Mod maxMS = new Mod("% increased movement speed", 35, 35);
+        filters.add(new Count(6, ms, ms, ms, totalES, totalES, totalES, fRes, fRes, lRes, lRes, cRes, cRes, maxMS, maxMS, maxMS, maxMS, maxMS, maxMS, maxES, maxES, maxES, maxES, maxES, maxES));
+        
+        
+        
         
 //        Mod life = new Mod(" to maximum life", 80, 89);
         
