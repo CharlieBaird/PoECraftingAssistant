@@ -5,7 +5,8 @@
  */
 package craftingbot;
 
-import craftingbot.Filters;
+import java.awt.AWTException;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
@@ -32,21 +33,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         initComponents();
     }
     
-        public void windowOpened(WindowEvent e) {
-		// Initialze native hook.
-		try {
-			GlobalScreen.registerNativeHook();
-		}
-		catch (NativeHookException ex) {
-			System.err.println("There was a problem registering the native hook.");
-			System.err.println(ex.getMessage());
-			ex.printStackTrace();
-
-			System.exit(1);
-		}
-
-		GlobalScreen.addNativeKeyListener(this);
-	}
+        public void windowOpened(WindowEvent e) { /* Unimplemented */ }
 
 	public void windowClosed(WindowEvent e) {
         try {
@@ -58,24 +45,22 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 		System.runFinalization();
 		System.exit(0);
 	}
-        
-//        public void windowClosed(WindowEvent e) {
-//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//        }
 
 	public void windowClosing(WindowEvent e) { /* Unimplemented */ }
 	public void windowIconified(WindowEvent e) { /* Unimplemented */ }
 	public void windowDeiconified(WindowEvent e) { /* Unimplemented */ }
 	public void windowActivated(WindowEvent e) { /* Unimplemented */ }
 	public void windowDeactivated(WindowEvent e) { /* Unimplemented */ }
+        public void nativeKeyReleased(NativeKeyEvent e) { /* Unimplemented */ }
 
-        public void nativeKeyReleased(NativeKeyEvent e) {
-		if (e.getKeyCode() == NativeKeyEvent.VC_SPACE) {
-			JOptionPane.showMessageDialog(null, "This will run on Swing's Event Dispatch Thread.");
-		}
-	}
-
-	public void nativeKeyPressed(NativeKeyEvent e) { /* Unimplemented */ }
+	public void nativeKeyPressed(NativeKeyEvent e)
+        {
+//            System.out.println("'" + NativeKeyEvent.getKeyText(e.getKeyCode()) + "'");
+            if (NativeKeyEvent.getKeyText(e.getKeyCode()).equals("Enter"))
+            {
+                CraftingBot.run = false;
+            }
+        }
 	public void nativeKeyTyped(NativeKeyEvent e) { /* Unimplemented */ }
         
     /**
@@ -376,12 +361,20 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Filters.print();
+        try {
+            CraftingBot.runChaosSpam();
+        } catch (AWTException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedFlavorException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         Filters.reset();
-        jTextArea1.setText("");
+        updateLeftTab();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void updateLeftTab()
@@ -419,6 +412,20 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         //</editor-fold>
 
         /* Create and display the form */
+        
+        try {
+            Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+            logger.setLevel(Level.OFF);
+            logger.setUseParentHandlers(false);
+            GlobalScreen.registerNativeHook();
+        }
+        catch (NativeHookException ex) {
+                System.err.println("There was a problem registering the native hook.");
+                System.err.println(ex.getMessage());
+
+                System.exit(1);
+        }
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -426,7 +433,9 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                 } catch (IOException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                new Main().setVisible(true);
+                Main main = new Main();
+                main.setVisible(true);
+                GlobalScreen.addNativeKeyListener(main);
             }
         });
     }

@@ -20,6 +20,8 @@ public class CraftingBot {
     
     public static ModList modlist = null;
     
+    public static boolean run = true;
+    
     public static void runBot(String[] args) throws AWTException, UnsupportedFlavorException, IOException, Exception {
 //        modlist = Utility.pullModsFromAPI();
         
@@ -68,6 +70,8 @@ public class CraftingBot {
         Point modCheckLoc = new Point(331,559); // Point to check if the item has the correct mod (orange outline)
         Point getChaosLoc = new Point(547, 289); // Point to get chaos from
         
+        run = true;
+        
         Robot r = new Robot();
         
         r.keyPress(KeyEvent.VK_SHIFT);
@@ -76,7 +80,7 @@ public class CraftingBot {
         r.mouseMove(modCheckLoc.x, modCheckLoc.y-40);
         delay(50);
         
-        while (true)
+        while (run)
         {
             lclick();
             delay(50);
