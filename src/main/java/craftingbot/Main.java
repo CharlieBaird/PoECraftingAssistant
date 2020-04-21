@@ -127,6 +127,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
+        jButton4.setFont(getNewFont(12f));
         jButton4.setText("Save");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,6 +135,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             }
         });
 
+        jButton5.setFont(getNewFont(12f));
         jButton5.setText("Clear");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -345,6 +347,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jLayeredPane2.add(jLabel5);
         jLabel5.setBounds(30, 0, 500, 50);
 
+        jButton1.setFont(getNewFont(12f));
         jButton1.setText("Open Filter");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
