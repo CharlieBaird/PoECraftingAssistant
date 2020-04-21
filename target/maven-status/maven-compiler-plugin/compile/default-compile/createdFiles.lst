@@ -26,6 +26,7 @@ modlist\EntryOption.class
 modlist\FileScanner.class
 craftingbot\filtertypes\IFilter.class
 craftingbot\Filters.class
+craftingbot\Main$10.class
 modlist\OptionElement.class
 craftingbot\Utility.class
 craftingbot\Main$6.class
