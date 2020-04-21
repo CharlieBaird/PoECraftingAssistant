@@ -325,7 +325,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
         jLayeredPane2.setPreferredSize(new java.awt.Dimension(1158, 44));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/angryimg (7).png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gradient.png"))); // NOI18N
         jLabel2.setMaximumSize(new java.awt.Dimension(1152, 44));
         jLabel2.setMinimumSize(new java.awt.Dimension(1152, 44));
         jLabel2.setOpaque(true);
