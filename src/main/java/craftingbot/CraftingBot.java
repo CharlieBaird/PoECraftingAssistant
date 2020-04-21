@@ -90,4 +90,35 @@ public class CraftingBot {
         
         r.keyRelease(KeyEvent.VK_SHIFT);
     }
+    
+        
+    public static void runAltSpam() throws AWTException, UnsupportedFlavorException, IOException
+    {
+        Point modCheckLoc = new Point(331,559);
+        Point getAltLoc = new Point(115, 290);
+        Point getAugLoc = new Point(230, 350);
+        
+        Robot r = new Robot();
+                
+        run = true;
+        while (run)
+        {
+            rclick(getAltLoc.x, getAltLoc.y);
+            delay(50);
+            r.mouseMove(modCheckLoc.x, modCheckLoc.y-40);
+            delay(50);
+            lclick();
+            delay(50);
+            rclick(getAugLoc.x, getAugLoc.y);
+            delay(50);
+            r.mouseMove(modCheckLoc.x, modCheckLoc.y-40);
+            delay(50);
+            lclick();
+            delay(50);
+            if (Filters.checkIfHitOne())
+                break;
+        }
+        
+        r.keyRelease(KeyEvent.VK_SHIFT);
+    }
 }

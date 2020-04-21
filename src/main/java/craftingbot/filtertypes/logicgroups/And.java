@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package craftingbot.filtertypes;
+package craftingbot.filtertypes.logicgroups;
+
+import craftingbot.filtertypes.FilterBase;
+import craftingbot.filtertypes.Mod;
 
 public class And extends FilterBase {
     public And(Mod... mods)
