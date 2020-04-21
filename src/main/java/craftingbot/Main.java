@@ -8,11 +8,9 @@ package craftingbot;
 import craftingbot.UI.ComponentMover;
 import java.awt.AWTException;
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -20,9 +18,6 @@ import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
@@ -110,7 +105,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         Window.setForeground(new java.awt.Color(255, 255, 255));
         Window.setPreferredSize(new java.awt.Dimension(1152, 768));
 
-        jPanel2.setBackground(new java.awt.Color(0, 2, 30));
+        jPanel2.setBackground(new java.awt.Color(20, 20, 20));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
 
         jPanel6.setBackground(new java.awt.Color(255, 91, 1));
@@ -146,11 +141,12 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
         );
 
-        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setBackground(new java.awt.Color(20, 20, 20));
         jPanel7.setPreferredSize(new java.awt.Dimension(1152, 500));
 
-        jTextArea1.setBackground(new java.awt.Color(255, 255, 255));
+        jTextArea1.setBackground(new java.awt.Color(20, 20, 20));
         jTextArea1.setColumns(20);
+        jTextArea1.setForeground(new java.awt.Color(255, 255, 255));
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
@@ -169,6 +165,11 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         });
 
         jButton2.setText("jButton2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runChaosSpam(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -420,6 +421,10 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runChaosSpam
+        // TODO add your handling code here:
+    }//GEN-LAST:event_runChaosSpam
 
     private void updateLeftTab()
     {
