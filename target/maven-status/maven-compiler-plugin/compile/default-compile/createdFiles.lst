@@ -4,16 +4,19 @@ modlist\Result.class
 craftingbot\Main.class
 craftingbot\filtertypes\Mod.class
 craftingbot\Main$3.class
+craftingbot\Main$7.class
 modlist\ModList.class
 craftingbot\filtertypes\And.class
 craftingbot\filtertypes\FilterBase.class
 craftingbot\filtertypes\logicgroups\Count.class
+craftingbot\Main$5.class
 modlist\Entry.class
 craftingbot\filtertypes\Id.class
 modlist\Type$1.class
 modlist\ID$Serializer.class
 modlist\Type.class
 craftingbot\Filter.class
+craftingbot\Main$4.class
 modlist\Converter.class
 craftingbot\Main$2.class
 modlist\ID$Deserializer.class
@@ -23,6 +26,7 @@ craftingbot\filtertypes\IFilter.class
 craftingbot\Filters.class
 modlist\OptionElement.class
 craftingbot\Utility.class
+craftingbot\Main$6.class
 craftingbot\CraftingBot.class
 craftingbot\Main$1.class
 modlist\ID$1.class
