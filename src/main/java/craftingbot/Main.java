@@ -188,11 +188,11 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane1))
                 .addGap(16, 16, 16))
         );
@@ -329,16 +329,15 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                 .addGap(0, 0, 0))
         );
 
+        jLayeredPane2.setBackground(new java.awt.Color(0, 255, 0));
         jLayeredPane2.setPreferredSize(new java.awt.Dimension(1158, 44));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gradient.png"))); // NOI18N
-        jLabel2.setMaximumSize(new java.awt.Dimension(1152, 44));
-        jLabel2.setMinimumSize(new java.awt.Dimension(1152, 44));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/angryimg (10).png"))); // NOI18N
+        jLabel2.setText("null");
         jLabel2.setOpaque(true);
-        jLabel2.setPreferredSize(new java.awt.Dimension(1152, 44));
         jLayeredPane2.setLayer(jLabel2, -5);
         jLayeredPane2.add(jLabel2);
-        jLabel2.setBounds(-5, 0, 1160, 44);
+        jLabel2.setBounds(-45, 0, 1240, 44);
 
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
         jLabel5.setFont(getNewFont(18f));
@@ -359,12 +358,14 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1158, Short.MAX_VALUE)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1191, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -384,7 +385,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             WindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(WindowLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
         WindowLayout.setVerticalGroup(
             WindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
