@@ -8,6 +8,9 @@ package craftingbot;
 import craftingbot.UI.ComponentMover;
 import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -32,6 +35,8 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     /**
      * Creates new form Main
      */
+    
+    Font font = null;   
         
     public Main() {
         initComponents();
@@ -296,6 +301,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         );
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(getNewFont(12f));
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("PoE CraftBot 1.0");
 
@@ -334,9 +340,11 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jLayeredPane2.add(jLabel2);
         jLabel2.setBounds(-5, 0, 1160, 44);
 
-        jLabel5.setText("jLabel5");
+        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel5.setFont(getNewFont(18f));
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLayeredPane2.add(jLabel5);
-        jLabel5.setBounds(30, 0, 500, 40);
+        jLabel5.setBounds(30, 0, 500, 50);
 
         jButton1.setText("Open Filter");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -466,9 +474,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     }//GEN-LAST:event_jButton7runChaosSpam
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFileChooser chooser = new JFileChooser();
-        File defaultDir = new File("C:\\CB\\dev\\PoE\\CraftingBot\\filters");
-        chooser.setCurrentDirectory(defaultDir);
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/resources/filters");
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
             String path = file.toPath().toString();
@@ -496,7 +502,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException, FontFormatException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -547,9 +553,10 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                 
                 int x=3;// use x value from 1 to 8
                 main.getRootPane().setWindowDecorationStyle( x);
-                main.setVisible(true);
                 main.setName("MainFrame");
                 ComponentMover cm = new ComponentMover(JFrame.class, main.jPanel1);
+                
+                main.setVisible(true);
             }
         });
     }
@@ -584,5 +591,20 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         comp.setBackground(c);
     }
 
+    public Font getNewFont(float size)
+    {
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("/Volkhov-Regular.TTF").openStream());
+        } catch (FontFormatException | IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        genv.registerFont(font);
+        // makesure to derive the size
+        font = font.deriveFont(size);
+        
+        
+        return this.font;
+    }
 
 }
