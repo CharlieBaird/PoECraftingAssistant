@@ -30,8 +30,12 @@ import java.io.File;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+import java.util.Iterator;
+import java.util.Set;
 //import craftingbot.modlist.ModList;
 
 public class Utility {
@@ -94,14 +98,6 @@ public class Utility {
         File file = new File(path);
         File[] fileNames = file.listFiles();
         int numFiles = fileNames.length;
-        for (int i=0; i<fileNames.length; i++)
-        {
-            if (fileNames[i].getCanonicalPath().contains(".txt"))
-            {
-                fileNames[i] = null;
-                numFiles--;
-            }
-        }
         JsonParser parser = new JsonParser();
         
         Modifier[] modifiers = new Modifier[numFiles];
@@ -113,26 +109,52 @@ public class Utility {
                 continue;
             }
             
+//            System.out.println(fileNames[i].getCanonicalPath());
+            
             String string = FileScanner.readFromFile(fileNames[i].getCanonicalPath());
             
             JsonObject object = parser.parse(string).getAsJsonObject();
-            JsonArray normal = object.getAsJsonArray("normal");
+            JsonElement normalElement = object.get("normal");
             
-            for (int j=0; j<normal.size(); j++)
+            Modifier m = null;
+            
+            if (normalElement.isJsonArray())
             {
-                JsonObject obj = normal.get(j).getAsJsonObject();
-            
-                String ModGenerationTypeID = obj.get("ModGenerationTypeID").getAsString();
-                String CorrectGroup = obj.get("CorrectGroup").getAsString();
-                String str = obj.get("str").getAsString();
-                
-                Modifier m = new Modifier(ModGenerationTypeID, CorrectGroup, str);
-//                m.print();
-            }
+                JsonArray normal = normalElement.getAsJsonArray();
+                for (int j=0; j<normal.size(); j++)
+                {
+                    JsonObject obj = normal.get(j).getAsJsonObject();
 
-            break;
-            
+                    String ModGenerationTypeID = obj.get("ModGenerationTypeID").getAsString();
+                    String CorrectGroup = obj.get("CorrectGroup").getAsString();
+                    String str = obj.get("str").getAsString();
+
+                    m = new Modifier(ModGenerationTypeID, CorrectGroup, str);
+                }
+            }
+            else if (normalElement.isJsonObject())
+            {
+                JsonObject normal = normalElement.getAsJsonObject();
+                Set<String> keysSet = normal.keySet();
+                for (String s : keysSet)
+                {
+                    JsonObject obj = normal.get(s).getAsJsonObject();
+
+                    String ModGenerationTypeID = obj.get("ModGenerationTypeID").getAsString();
+                    String CorrectGroup = obj.get("CorrectGroup").getAsString();
+                    String str = obj.get("str").getAsString();
+
+                    m = new Modifier(ModGenerationTypeID, CorrectGroup, str);
+                }
+            }
         }
+        
+        for (Modifier m : Modifier.all)
+        {
+            m.print();
+        }
+        
+        System.out.println("Done");
 
         return null;
     }

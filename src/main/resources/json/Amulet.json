@@ -75,7 +75,8 @@
         "1": "Prefix",
         "2": "Suffix"
     },
-    "normal": [{
+    "normal": [
+    {
         "ID": "0",
         "Name": "of the Brute",
         "Code": "Strength1",
