@@ -29,11 +29,10 @@ import craftingbot.modlist.FileScanner;
 import java.io.File;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 //import craftingbot.modlist.ModList;
-import craftingbot.modifiers.Converter;
-import craftingbot.modifiers.Modifier;
 
 public class Utility {
    
@@ -103,6 +102,7 @@ public class Utility {
                 numFiles--;
             }
         }
+        JsonParser parser = new JsonParser();
         
         Modifier[] modifiers = new Modifier[numFiles];
         for (int i=0; i<fileNames.length; i++)
@@ -113,26 +113,26 @@ public class Utility {
                 continue;
             }
             
-            String str = FileScanner.readFromFile(fileNames[i].getCanonicalPath());
-            System.out.println(fileNames[i].getCanonicalPath());
+            String string = FileScanner.readFromFile(fileNames[i].getCanonicalPath());
+            
+            JsonObject object = parser.parse(string).getAsJsonObject();
+            JsonArray normal = object.getAsJsonArray("normal");
+            
+            for (int j=0; j<normal.size(); j++)
+            {
+                JsonObject obj = normal.get(j).getAsJsonObject();
+            
+                String ModGenerationTypeID = obj.get("ModGenerationTypeID").getAsString();
+                String CorrectGroup = obj.get("CorrectGroup").getAsString();
+                String str = obj.get("str").getAsString();
+                
+                Modifier m = new Modifier(ModGenerationTypeID, CorrectGroup, str);
+//                m.print();
+            }
 
-            Modifier data = Converter.fromJsonString(str);
+            break;
             
-            System.out.println(data.getNormal());
         }
-            
-        
-        
-        
-        
-        
-        
-//        System.out.println(path);
-//        String modStr = FileScanner.readFromFile(path);
-//        System.out.println(modStr);
-//        ModList modlist = Converter.fromJsonString(modStr);
-        
-//        return modlist;
 
         return null;
     }

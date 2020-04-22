@@ -6,7 +6,6 @@
 package craftingbot;
 
 import craftingbot.UI.ComponentMover;
-import craftingbot.modifiers.Modifier;
 //import craftingbot.Modifier;
 //import craftingbot.modlist.ModList;
 import java.awt.AWTException;
@@ -550,7 +549,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         genv.registerFont(font);
         // makesure to derive the size
         font = font.deriveFont(size);
-        
         
         return this.font;
     }
