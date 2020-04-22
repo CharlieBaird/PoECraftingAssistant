@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -59,8 +60,8 @@ public class Filters implements Serializable {
         singleton.filters.clear();
         singleton.filters.add(f);
         
-        saveFilters("C:\\CB\\dev\\PoE\\CraftingBot\\filters\\" + name + ".txt");
-//        saveFilters("C:\\CB\\dev\\PoE\\CraftingBot\\filters\\" + name + ".txt");
+        URL url = this.getClass().getClassLoader().getResource("filters");
+        saveFilters(url.getPath() + "/" + name + ".txt");
     }
     
     public static void add(Filter f)
@@ -118,6 +119,7 @@ public class Filters implements Serializable {
     
     public static void saveFilters(String path) throws FileNotFoundException, IOException
     {
+        System.out.println(path);
         FileOutputStream f = new FileOutputStream(new File(path));
         ObjectOutputStream o = new ObjectOutputStream(f);
 
