@@ -3,21 +3,40 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modlist;
+package craftingbot.modlist;
 
 import java.io.*; 
+import java.util.Scanner;
 
 public class FileScanner {
     public static String readFromFile(String path) throws Exception 
     {
-        File file = new File(path);
-
-        BufferedReader br = new BufferedReader(new FileReader(file)); 
-
-        String st; 
-        while ((st = br.readLine()) != null) 
-          System.out.println(st); 
+        String str = "";
+        try {
+            File myObj = new File(path);
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+              String data = myReader.nextLine();
+              str += data;
+            }
+            myReader.close();
+        } 
+        catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
         
-        return st;
+        return str;
+    }
+    
+    public static void writeToFile(String path, String contents)
+    {
+        try {
+            FileWriter myWriter = new FileWriter(path);
+            myWriter.write(contents);
+            myWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

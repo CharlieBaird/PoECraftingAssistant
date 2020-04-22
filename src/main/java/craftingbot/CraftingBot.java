@@ -12,7 +12,7 @@ import java.awt.Robot;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import modlist.ModList;
+import craftingbot.modlist.ModList;
 import java.util.regex.*;  
 
 

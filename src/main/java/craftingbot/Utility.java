@@ -21,9 +21,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import modlist.Converter;
-import modlist.FileScanner;
-import modlist.ModList;
+import craftingbot.modlist.Converter;
+import craftingbot.modlist.FileScanner;
+import craftingbot.modlist.ModList;
 
 public class Utility {
    
@@ -81,8 +81,10 @@ public class Utility {
     
     public static ModList pullModsFromAPI() throws Exception
     {
-        String modStr = FileScanner.readFromFile("C:\\CB\\school\\10\\cs\\CraftingBot_0.1\\resources\\modlist.json");
-        
+        String path = System.getProperty("user.dir") + "\\src\\main\\resources\\modlist.json";
+        System.out.println(path);
+        String modStr = FileScanner.readFromFile(path);
+        System.out.println(modStr);
         ModList modlist = Converter.fromJsonString(modStr);
         
         return modlist;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modlist;
+package craftingbot.modlist;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,12 +15,11 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
 
-/**
- *
- * @author charl
- */
+
 public class ModList {
     private Result[] result;
 
@@ -81,6 +80,7 @@ class EntryOption {
     public void setOptions(OptionElement[] value) { this.options = value; }
 }
 
+
 class OptionElement {
     private ID id;
     private String text;
@@ -96,6 +96,8 @@ class OptionElement {
     public void setText(String value) { this.text = value; }
 }
 
+@JsonDeserialize(using = ID.Deserializer.class)
+@JsonSerialize(using = ID.Serializer.class)
 class ID {
     public Long integerValue;
     public String stringValue;
@@ -105,6 +107,8 @@ class ID {
         public ID deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
             ID value = new ID();
             switch (jsonParser.getCurrentToken()) {
+            case VALUE_NULL:
+                break;
             case VALUE_NUMBER_INT:
                 value.integerValue = jsonParser.readValueAs(Long.class);
                 break;
@@ -128,7 +132,7 @@ class ID {
                 jsonGenerator.writeObject(obj.stringValue);
                 return;
             }
-            throw new IOException("ID must not be null");
+            jsonGenerator.writeNull();
         }
     }
 }

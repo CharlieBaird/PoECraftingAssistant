@@ -6,6 +6,7 @@
 package craftingbot;
 
 import craftingbot.UI.ComponentMover;
+import craftingbot.modlist.ModList;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Font;
@@ -37,6 +38,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
      */
     
     Font font = null;   
+    public static ModList modList;
         
     public Main() {
         initComponents();
@@ -591,11 +593,20 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         
         GlobalScreen.addNativeKeyListener(this);
         ComponentMover cm = new ComponentMover(JFrame.class, this.jPanel1);
+        
+        try {
+            new Filters("TestNewMods");
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            modList = Utility.pullModsFromAPI();
+        } catch (Exception ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public static void main(String args[]) throws IOException, FontFormatException {
-        new Filters("TestNewMods");
-
+    public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Main main = new Main();                

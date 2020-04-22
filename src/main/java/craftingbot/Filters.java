@@ -91,11 +91,13 @@ public class Filters implements Serializable {
     
     private static String parseMods(String mods)
     {
-        String[] modLines = mods.split("\\R");
+        String[] arr = mods.split("\\R");
+        ArrayList<String> modLines = new ArrayList<String>();
+        for (String s : arr) modLines.add(s);
         
-        for (int i=0; i<modLines.length; i++)
+        for (int i=0; i<modLines.size(); i++)
         {
-            String str = modLines[i];
+            String str = modLines.get(i);
             
             Pattern p1a = Pattern.compile("^(\\D+)([0-9]+)(\\D+)$"); // 2
             Pattern p1b = Pattern.compile("^([0-9]+)(\\D+)$"); // 1
@@ -111,7 +113,18 @@ public class Filters implements Serializable {
             else if (m1c.find()) str = swapHash(str, m1c.group(2));
             else if (m2.find())  str = swapHash(str, m2.group(2), m2.group(4));
             
-            modLines[i] = str;
+            modLines.set(i,str);
+            
+            Pattern pAllWord = Pattern.compile("^([^0-9#%]*)$");
+            Matcher mAllWord = pAllWord.matcher(str);
+            if (mAllWord.find())
+            {
+                System.out.println("found " + str);
+                System.out.println("removing " + modLines.get(i));
+                System.out.println();
+                modLines.remove(i);
+                i--;
+            }
         }
         
         return String.join(String.valueOf(((char)10)), modLines);
