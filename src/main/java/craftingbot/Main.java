@@ -553,24 +553,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     
     public void setupFrame()
     {
-        try {
-            Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-            logger.setLevel(Level.OFF);
-            logger.setUseParentHandlers(false);
-            GlobalScreen.registerNativeHook();
-        }
-        catch (NativeHookException ex) {
-                System.err.println("There was a problem registering the native hook.");
-                System.err.println(ex.getMessage());
-
-                System.exit(1);
-        }
-        
-        GlobalScreen.addNativeKeyListener(this);
-        ComponentMover cm = new ComponentMover(JFrame.class, this.jPanel1);
-    }
-    
-    public static void main(String args[]) throws IOException, FontFormatException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -593,10 +575,26 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        try {
+            Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+            logger.setLevel(Level.OFF);
+            logger.setUseParentHandlers(false);
+            GlobalScreen.registerNativeHook();
+        }
+        catch (NativeHookException ex) {
+                System.err.println("There was a problem registering the native hook.");
+                System.err.println(ex.getMessage());
 
+                System.exit(1);
+        }
         
-        
-        new Filters("TestAltSpam");
+        GlobalScreen.addNativeKeyListener(this);
+        ComponentMover cm = new ComponentMover(JFrame.class, this.jPanel1);
+    }
+    
+    public static void main(String args[]) throws IOException, FontFormatException {
+        new Filters("TestNewMods");
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

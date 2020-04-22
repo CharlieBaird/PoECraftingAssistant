@@ -33,7 +33,7 @@ public class Filter implements Serializable
 //        boots
 //        name = "Count MS/ES/RES";
 //        filters.clear();
-        Mod ms = new Mod("% increased movement speed", 25, 35);        
+//        Mod ms = new Mod("% increased movement speed", 25, 35);        
 //        Mod totalES = new Mod("energy shield: ", 130, 1000);
 //        Mod maxES = new Mod("energy shield: ", 160, 1000);
 //        Mod fRes = new Mod("% to fire resistance", 30, 48);
@@ -50,8 +50,8 @@ public class Filter implements Serializable
 //        Mod cRes = new Mod("% to cold resistance", 30, 48);
 //        Mod maxMS = new Mod("% increased movement speed", 35, 35);
 //        filters.add(new Count(6, ms, ms, ms, totalES, totalES, totalES, fRes, fRes, lRes, lRes, cRes, cRes, maxMS, maxMS, maxMS, maxMS, maxMS, maxMS, maxES, maxES, maxES, maxES, maxES, maxES));
-        name = "TestAltSpam";
-        filters.add(new And(ms));
+//        name = "TestAltSpam";
+//        filters.add(new And(ms));
         
         /* EXPLODE MOD ON CHEST
         Mod explode = new Mod("enemies you kill explode, dealing 3% of their life as physical damage");
@@ -61,6 +61,11 @@ public class Filter implements Serializable
 //        FiltersParent.add(this);
         
 //        print();
+
+        name = "TestNewFilters";
+        Mod ms = new Mod("#% increased movement speed", 25, 35);
+        Mod totalES = new Mod("energy shield: #", 10,500);
+        filters.add(new And(ms,totalES));
     }
     
     public Filter(Filter old) // duplicates
