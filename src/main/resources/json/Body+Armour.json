@@ -1127,7 +1127,8 @@
         "mod_no": [],
         "mod_fossil_item": []
     }],
-    "master": [{
+    "master": [
+        {
         "NPCMasterID": "3",
         "ID": "14914",
         "ModGenerationTypeID": "1",
@@ -3144,7 +3145,8 @@
         "mod_no": ["<span class='badge' data-tooltip='Fossil'>caster</span>"],
         "mod_fossil_item": []
     }],
-    "essence": [{
+    "essence": [
+        {
         "Tier": "1",
         "BaseItemTypesID": "63",
         "BodyArmourModsID": "2759",
@@ -5017,7 +5019,8 @@
         "mod_no": ["<span class='badge' data-tooltip='Fossil'>chaos</span>"],
         "mod_fossil_item": []
     }],
-    "delve": [{
+    "delve": [
+        {
         "ID": "13637",
         "Name": "Subterranean",
         "Code": "DelveBodyArmourAvoidFire1_",
@@ -5488,7 +5491,8 @@
         "mod_no": ["<span class='badge' data-tooltip='Fossil'>minion</span>"],
         "mod_fossil_item": []
     }],
-    "incursion": [{
+    "incursion": [
+        {
         "ID": "15428",
         "Name": "of Tacati",
         "Code": "ChaosResistEnhancedLevel50Mod",

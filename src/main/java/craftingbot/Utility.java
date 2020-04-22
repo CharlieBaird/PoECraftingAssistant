@@ -108,43 +108,47 @@ public class Utility {
                 i--;
                 continue;
             }
-            
-//            System.out.println(fileNames[i].getCanonicalPath());
-            
+                        
             String string = FileScanner.readFromFile(fileNames[i].getCanonicalPath());
             
             JsonObject object = parser.parse(string).getAsJsonObject();
-            JsonElement normalElement = object.get("normal");
             
-            Modifier m = null;
+            String[] influences = new String[] {"normal", "elder", "shaper", "crusader", "redeemer", "hunter", "warlord"};
             
-            if (normalElement.isJsonArray())
+            for (String influence : influences)
             {
-                JsonArray normal = normalElement.getAsJsonArray();
-                for (int j=0; j<normal.size(); j++)
+                JsonElement normalElement = object.get(influence);
+            
+                Modifier m = null;
+
+                if (normalElement.isJsonArray())
                 {
-                    JsonObject obj = normal.get(j).getAsJsonObject();
+                    JsonArray normal = normalElement.getAsJsonArray();
+                    for (int j=0; j<normal.size(); j++)
+                    {
+                        JsonObject obj = normal.get(j).getAsJsonObject();
 
-                    String ModGenerationTypeID = obj.get("ModGenerationTypeID").getAsString();
-                    String CorrectGroup = obj.get("CorrectGroup").getAsString();
-                    String str = obj.get("str").getAsString();
+                        String ModGenerationTypeID = obj.get("ModGenerationTypeID").getAsString();
+                        String CorrectGroup = obj.get("CorrectGroup").getAsString();
+                        String str = obj.get("str").getAsString();
 
-                    m = new Modifier(ModGenerationTypeID, CorrectGroup, str);
+                        m = new Modifier(ModGenerationTypeID, CorrectGroup, str);
+                    }
                 }
-            }
-            else if (normalElement.isJsonObject())
-            {
-                JsonObject normal = normalElement.getAsJsonObject();
-                Set<String> keysSet = normal.keySet();
-                for (String s : keysSet)
+                else if (normalElement.isJsonObject())
                 {
-                    JsonObject obj = normal.get(s).getAsJsonObject();
+                    JsonObject normal = normalElement.getAsJsonObject();
+                    Set<String> keysSet = normal.keySet();
+                    for (String s : keysSet)
+                    {
+                        JsonObject obj = normal.get(s).getAsJsonObject();
 
-                    String ModGenerationTypeID = obj.get("ModGenerationTypeID").getAsString();
-                    String CorrectGroup = obj.get("CorrectGroup").getAsString();
-                    String str = obj.get("str").getAsString();
+                        String ModGenerationTypeID = obj.get("ModGenerationTypeID").getAsString();
+                        String CorrectGroup = obj.get("CorrectGroup").getAsString();
+                        String str = obj.get("str").getAsString();
 
-                    m = new Modifier(ModGenerationTypeID, CorrectGroup, str);
+                        m = new Modifier(ModGenerationTypeID, CorrectGroup, str);
+                    }
                 }
             }
         }

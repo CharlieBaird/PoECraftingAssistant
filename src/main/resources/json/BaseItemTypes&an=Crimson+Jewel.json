@@ -1464,7 +1464,8 @@
     },
     "master": [],
     "essence": [],
-    "delve": [{
+    "delve": [
+        {
         "ID": "13635",
         "Name": "Subterranean",
         "Code": "DelveJewelFirePenetration1",
