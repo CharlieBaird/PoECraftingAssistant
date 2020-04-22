@@ -5,6 +5,9 @@
  */
 package craftingbot;
 
+//import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -21,9 +24,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import craftingbot.modlist.Converter;
 import craftingbot.modlist.FileScanner;
-import craftingbot.modlist.ModList;
+//import craftingbot.Modifier;
+import java.io.File;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+//import craftingbot.modlist.ModList;
+import craftingbot.modifiers.Converter;
+import craftingbot.modifiers.Modifier;
 
 public class Utility {
    
@@ -79,15 +89,52 @@ public class Utility {
         return (String) c.getData(DataFlavor.stringFlavor);
     }
     
-    public static ModList pullModsFromAPI() throws Exception
-    {
-        String path = System.getProperty("user.dir") + "\\src\\main\\resources\\modlist.json";
-        System.out.println(path);
-        String modStr = FileScanner.readFromFile(path);
-        System.out.println(modStr);
-        ModList modlist = Converter.fromJsonString(modStr);
+    public static Modifier[] pullModsFromAPI() throws Exception
+    {        
+        String path = System.getProperty("user.dir") + "\\src\\main\\resources\\json";
+        File file = new File(path);
+        File[] fileNames = file.listFiles();
+        int numFiles = fileNames.length;
+        for (int i=0; i<fileNames.length; i++)
+        {
+            if (fileNames[i].getCanonicalPath().contains(".txt"))
+            {
+                fileNames[i] = null;
+                numFiles--;
+            }
+        }
         
-        return modlist;
+        Modifier[] modifiers = new Modifier[numFiles];
+        for (int i=0; i<fileNames.length; i++)
+        {
+            if (fileNames[i] == null)
+            {
+                i--;
+                continue;
+            }
+            
+            String str = FileScanner.readFromFile(fileNames[i].getCanonicalPath());
+            System.out.println(fileNames[i].getCanonicalPath());
+
+            Modifier data = Converter.fromJsonString(str);
+            
+            System.out.println(data.getNormal());
+        }
+            
+        
+        
+        
+        
+        
+        
+//        System.out.println(path);
+//        String modStr = FileScanner.readFromFile(path);
+//        System.out.println(modStr);
+//        ModList modlist = Converter.fromJsonString(modStr);
+        
+//        return modlist;
+
+        return null;
     }
     
     public static String[] getModFormat(String str)

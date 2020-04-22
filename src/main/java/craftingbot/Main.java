@@ -6,7 +6,9 @@
 package craftingbot;
 
 import craftingbot.UI.ComponentMover;
-import craftingbot.modlist.ModList;
+import craftingbot.modifiers.Modifier;
+//import craftingbot.Modifier;
+//import craftingbot.modlist.ModList;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Font;
@@ -38,7 +40,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
      */
     
     Font font = null;   
-    public static ModList modList;
+//    public static ModList modList;
         
     public Main() {
         initComponents();
@@ -600,7 +602,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            modList = Utility.pullModsFromAPI();
+            Modifier[] modifiers = Utility.pullModsFromAPI();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

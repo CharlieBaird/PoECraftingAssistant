@@ -12,13 +12,13 @@ import java.awt.Robot;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import craftingbot.modlist.ModList;
+//import craftingbot.modlist.ModList;
 import java.util.regex.*;  
 
 
 public class CraftingBot {
     
-    public static ModList modlist = null;
+//    public static ModList modlist = null;
     
     public static boolean run = true;
     
