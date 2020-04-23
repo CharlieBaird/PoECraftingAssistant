@@ -173,12 +173,10 @@ public class Utility {
                 }
         }
         
-        for (Modifier m : Modifier.all)
-        {
-            m.print();
-        }
-        
-        System.out.println("Done");
+//        for (Modifier m : Modifier.all)
+//        {
+//            m.print();
+//        }
     }
     
     private static String[] removeDuplicates(String[] input)
