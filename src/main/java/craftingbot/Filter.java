@@ -68,6 +68,11 @@ public class Filter implements Serializable
         filters.add(new And(ms,totalES));
     }
     
+    public Filter(boolean isNew)
+    {
+        name = "New Filter";
+    }
+    
     public Filter(Filter old) // duplicates
     {
         for (FilterBase fb : old.filters)

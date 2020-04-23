@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import craftingbot.Filter;
 
 /**
  *
@@ -26,11 +27,15 @@ import javax.swing.*;
 public class FilterPanel extends JPanel {
     String name = null;
     String savedname = null;
+    Filter filter;
     
-    public FilterPanel(Main frame, JPanel parent, String name)
+    public FilterPanel(Main frame, JPanel parent, String name, Filter filter)
     {
         this.name = name;
         this.savedname = name;
+        this.filter = filter;
+        if (filter != null)
+            Filters.singleton.filters.add(filter);
         
         KeyListener keyListener = null;
         ActionListener actionListener = null;
@@ -56,6 +61,7 @@ public class FilterPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
+                System.out.println("remove " + name);
                 Filters.singleton.remove(name);
                 try {
                     Filters.saveFilters();
@@ -102,6 +108,8 @@ public class FilterPanel extends JPanel {
         add(button);
         
         parent.add(this);
+        
+        Filters.print();
     }
     
 //    class DropdownElement extends JPanel implements MouseListener
