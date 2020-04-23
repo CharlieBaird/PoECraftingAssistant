@@ -19,12 +19,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import craftingbot.Filter;
+import java.util.ArrayList;
 
-/**
- *
- * @author charl
- */
 public class FilterPanel extends JPanel {
+    public static ArrayList<FilterPanel> filterpanels = new ArrayList<FilterPanel>();
     String name = null;
     String savedname = null;
     Filter filter;
@@ -60,14 +58,7 @@ public class FilterPanel extends JPanel {
         actionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                System.out.println("remove " + name);
-                Filters.singleton.remove(name);
-                try {
-                    Filters.saveFilters();
-                } catch (IOException ex) {
-                    Logger.getLogger(FilterPanel.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                remove();
             }
         };
         
@@ -108,8 +99,21 @@ public class FilterPanel extends JPanel {
         add(button);
         
         parent.add(this);
+        filterpanels.add(this);
         
         Filters.print();
+    }
+    
+    public void remove()
+    {
+        setVisible(false);
+        System.out.println("remove " + name);
+        Filters.singleton.remove(name);
+        try {
+            Filters.saveFilters();
+        } catch (IOException ex) {
+            Logger.getLogger(FilterPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 //    class DropdownElement extends JPanel implements MouseListener

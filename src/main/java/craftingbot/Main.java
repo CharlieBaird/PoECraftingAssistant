@@ -95,8 +95,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jButton7 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         SelectFilterPanel = new javax.swing.JPanel();
@@ -171,27 +169,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(20, 20, 20));
-        jButton4.setFont(getNewFont(12f));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Save");
-        jButton4.setMinimumSize(new java.awt.Dimension(90, 90));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        jButton5.setBackground(new java.awt.Color(20, 20, 20));
-        jButton5.setFont(getNewFont(12f));
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Clear");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
         jButton1.setBackground(new java.awt.Color(20, 20, 20));
         jButton1.setFont(getNewFont(12f));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -216,12 +193,8 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                 .addGap(18, 18, 18)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(406, Short.MAX_VALUE))
+                .addContainerGap(622, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,9 +202,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -532,11 +502,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        Filters.reset();
-        updateLeftTab();
-    }//GEN-LAST:event_jButton5ActionPerformed
-
     private void startChaosSpam(java.awt.event.ActionEvent evt)
     {
         try {
@@ -587,10 +552,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         changeComponentColor(jPanel4, new Color(20,20,20));
     }//GEN-LAST:event_jPanel4MouseExited
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-//        genPanel();
-    }//GEN-LAST:event_jButton4ActionPerformed
-
     private void runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runChaosSpam
         startChaosSpam(evt);
     }//GEN-LAST:event_runChaosSpam
@@ -612,6 +573,21 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
             String path = file.toPath().toString();
+            
+            try {
+                Filters.saveFilters();
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Filters.reset();
+            updateLeftTab();
+
+            for (int i=0; i<FilterPanel.filterpanels.size(); i++)
+            {
+                FilterPanel.filterpanels.get(i).remove();
+            }
+
+            FilterPanel.filterpanels.clear();
 
             try {
                 Filters.loadFilters(path);
@@ -659,8 +635,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -715,7 +689,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         try {
             Filters.saveFilters();
         } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.toString());
         }
         pack();
     }
@@ -761,11 +735,11 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         GlobalScreen.addNativeKeyListener(this);
         ComponentMover cm = new ComponentMover(JFrame.class, this.jPanel1);
         
-        try {
-            new Filters("TestNewMods");
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            new Filters("TestNewMods");
+//        } catch (IOException ex) {
+//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
     
     public void postload()
