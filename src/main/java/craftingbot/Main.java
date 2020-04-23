@@ -711,6 +711,12 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             Filter filter = createFilter ? new Filter(true) : null;
             new FilterPanel(this, jPanel6, name, filter);
         }
+        
+        try {
+            Filters.saveFilters();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         pack();
     }
     
