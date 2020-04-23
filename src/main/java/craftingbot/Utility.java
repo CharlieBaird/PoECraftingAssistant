@@ -155,28 +155,30 @@ public class Utility {
         
         String clustersPath = System.getProperty("user.dir") + "\\src\\main\\resources\\clusternotables.txt";
         String notables = FileScanner.readFromFile(clustersPath);
-        System.out.println(notables);
 
-        String[] specNotable = notables.split("\\R");
+        String[] specNotable = notables.split("[.]");
         specNotable = removeDuplicates(specNotable);
-//
-//        String updateStr = "";
+
         for (String s : specNotable)
-        {
-                System.out.println("'" + s + "'");
-//            updateStr += ("_" + s + System.getProperty("line.separator"));
+        {                
+                Pattern p = Pattern.compile("([PS]{1})([_]+)([a-zA-Z ]*)");
+                Matcher m = p.matcher(s);
+                
+                if (m.find())
+                {
+                    int ps = m.group(1).equals("P") ? 1 : 2;
+                    String mod = "1 Added Passive Skill is " + m.group(3);
+                    
+                    Modifier notable = new Modifier(String.valueOf(ps), "ClusterJewelNotable", mod);
+                }
         }
-//
-//        System.out.println(updateStr);
-//
-//        FileScanner.writeToFile(clustersPath, updateStr);
         
-//        for (Modifier m : Modifier.all)
-//        {
-//            m.print();
-//        }
-//        
-//        System.out.println("Done");
+        for (Modifier m : Modifier.all)
+        {
+            m.print();
+        }
+        
+        System.out.println("Done");
     }
     
     private static String[] removeDuplicates(String[] input)
