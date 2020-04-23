@@ -26,9 +26,9 @@ import java.util.regex.Matcher;
  */
 public class Filters implements Serializable {
     private String name = "";
-    private ArrayList<Filter> filters = new ArrayList<Filter>();
+    public ArrayList<Filter> filters = new ArrayList<Filter>();
     
-    private static Filters singleton = new Filters(false);
+    public static Filters singleton = new Filters(false);
     
     public static String getName()
     {
@@ -38,6 +38,29 @@ public class Filters implements Serializable {
     public Filters(boolean x)
     {
         filters.clear();
+    }
+    
+    public void remove(String name)
+    {
+        for (int i=0; i<filters.size(); i++)
+        {
+            if (filters.get(i).name.equals(name))
+            {
+                filters.remove(i);
+                break;
+            }
+        }
+    }
+    
+    public void rename(String oldname, String newname)
+    {
+        for (int i=0; i<filters.size(); i++)
+        {
+            if (filters.get(i).name.equals(oldname))
+            {
+                filters.get(i).name = newname;
+            }
+        }
     }
     
     public Filters(ArrayList<Filter> filters)
@@ -62,7 +85,7 @@ public class Filters implements Serializable {
         singleton.filters.clear();
         singleton.filters.add(f);
         
-        saveFilters(System.getProperty("user.dir") + "/src/main/resources/filters" + "/" + name + ".txt");
+//        saveFilters(System.getProperty("user.dir") + "/src/main/resources/filters" + "/" + name + ".txt");
     }
     
     public static void add(Filter f)
@@ -186,7 +209,6 @@ public class Filters implements Serializable {
     
     public static void saveFilters(String path) throws FileNotFoundException, IOException
     {
-        System.out.println(path);
         FileOutputStream f = new FileOutputStream(new File(path));
         ObjectOutputStream o = new ObjectOutputStream(f);
 
@@ -195,6 +217,24 @@ public class Filters implements Serializable {
 
         o.close();
         f.close();
+    }
+    
+    public static void saveFilters() throws FileNotFoundException, IOException
+    {
+        FileOutputStream f = new FileOutputStream(new File(System.getProperty("user.dir") + "/src/main/resources/filters" + "/" + singleton.name + ".txt"));
+        ObjectOutputStream o = new ObjectOutputStream(f);
+
+        // Write objects to file
+        o.writeObject(singleton);
+
+        o.close();
+        f.close();
+    }
+    
+    public static void deleteFilters(String name)
+    {
+        File f = new File(System.getProperty("user.dir") + "/src/main/resources/filters" + "/" + name + ".txt");
+        f.delete();
     }
 }
 

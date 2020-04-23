@@ -33,7 +33,7 @@ public class FilterBase implements IFilter, Serializable {
     
     public void print()
     {
-        System.out.println(this.getClass().getSimpleName());
+        System.out.println("        " + this.getClass().getSimpleName());
         for (Mod m : mods)
         {
             m.print();

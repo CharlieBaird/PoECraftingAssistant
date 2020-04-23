@@ -23,7 +23,7 @@ public class Filter implements Serializable
     
     public ArrayList<FilterBase> filters = new ArrayList<FilterBase>();
     
-    private String name;
+    public String name;
     
     public Filter()
     {
@@ -95,6 +95,7 @@ public class Filter implements Serializable
     
     public void print()
     {
+        System.out.println("    " + name);
         for (FilterBase f : filters)
         {
             f.print();

@@ -42,7 +42,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
      */
     
     Font font = null;   
-//    public static ModList modList;
         
     public Main() {
         initComponents();
@@ -102,6 +101,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jPanel8 = new javax.swing.JPanel();
         SelectFilterPanel = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
         ChangeFilterPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -244,19 +244,24 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jLabel5.setFont(getNewFont(18f));
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        jPanel6.setBackground(new java.awt.Color(30, 30, 30));
+        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         javax.swing.GroupLayout SelectFilterPanelLayout = new javax.swing.GroupLayout(SelectFilterPanel);
         SelectFilterPanel.setLayout(SelectFilterPanelLayout);
         SelectFilterPanelLayout.setHorizontalGroup(
             SelectFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         SelectFilterPanelLayout.setVerticalGroup(
             SelectFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SelectFilterPanelLayout.createSequentialGroup()
-                .addGap(4, 4, 4)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(471, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE))
         );
 
         ChangeFilterPanel.setBackground(new java.awt.Color(30, 30, 30));
@@ -544,7 +549,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     }//GEN-LAST:event_jPanel4MouseExited
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        genPanel();
+//        genPanel();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runChaosSpam
@@ -582,11 +587,14 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void updateLeftTab()
+    public void updateLeftTab()
     {
         jLabel5.setText(Filters.getName());
         
-//        jTextArea1.setText(Filters.view());
+        for (Filter f : Filters.singleton.filters)
+        {
+            genPanel(f.name);
+        }
     }
     
     /**
@@ -616,6 +624,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     // End of variables declaration//GEN-END:variables
@@ -641,7 +650,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         return this.font;
     }
     
-    private void genPanel()
+    private void genPanel(String name)
     {
 //        JPanel x = new JPanel();
 //        Dimension size = new Dimension(60,60);
@@ -652,7 +661,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 //        
 //        jPanel6.validate();
 //        this.pack();
-        new FilterPanel(SelectFilterPanel);
+        new FilterPanel(this, jPanel6, name);
         pack();
     }
     
