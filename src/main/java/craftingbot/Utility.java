@@ -34,6 +34,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 //import craftingbot.modlist.ModList;
@@ -92,7 +93,7 @@ public class Utility {
         return (String) c.getData(DataFlavor.stringFlavor);
     }
     
-    public static Modifier[] pullModsFromAPI() throws Exception
+    public static void pullModsFromAPI() throws Exception
     {        
         String path = System.getProperty("user.dir") + "\\src\\main\\resources\\json";
         File file = new File(path);
@@ -100,7 +101,6 @@ public class Utility {
         int numFiles = fileNames.length;
         JsonParser parser = new JsonParser();
         
-        Modifier[] modifiers = new Modifier[numFiles];
         for (int i=0; i<fileNames.length; i++)
         {
             if (fileNames[i] == null)
@@ -150,17 +150,49 @@ public class Utility {
                         m = new Modifier(ModGenerationTypeID, CorrectGroup, str);
                     }
                 }
-            }
+            } // done with json
         }
         
-        for (Modifier m : Modifier.all)
-        {
-            m.print();
-        }
-        
-        System.out.println("Done");
+        String clustersPath = System.getProperty("user.dir") + "\\src\\main\\resources\\clusternotables.txt";
+        String notables = FileScanner.readFromFile(clustersPath);
+        System.out.println(notables);
 
-        return null;
+        String[] specNotable = notables.split("[.]+");
+        specNotable = removeDuplicates(specNotable);
+//
+//        String updateStr = "";
+        for (String s : specNotable)
+        {
+                System.out.println("'" + s + "'");
+//            updateStr += ("_" + s + System.getProperty("line.separator"));
+        }
+//
+//        System.out.println(updateStr);
+//
+//        FileScanner.writeToFile(clustersPath, updateStr);
+        
+//        for (Modifier m : Modifier.all)
+//        {
+//            m.print();
+//        }
+//        
+//        System.out.println("Done");
+    }
+    
+    private static String[] removeDuplicates(String[] input)
+    {
+        ArrayList<String> arr = new ArrayList<String>();
+        for (String s : input)
+            if (!arr.contains(s))
+                arr.add(s);
+        
+        String[] output = new String[arr.size()];
+        for (int i=0; i<output.length; i++)
+        {
+            output[i] = arr.get(i);
+        }
+        
+        return output;
     }
     
     public static String[] getModFormat(String str)

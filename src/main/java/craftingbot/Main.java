@@ -553,7 +553,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         return this.font;
     }
     
-    public void setupFrame()
+    public void preload()
     {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -599,8 +599,12 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void postload()
+    {
         try {
-            Modifier[] modifiers = Utility.pullModsFromAPI();
+            Utility.pullModsFromAPI();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -610,8 +614,9 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Main main = new Main();                
-                main.setupFrame();
+                main.preload();
                 main.setVisible(true);
+                main.postload();
             }
         });
     }

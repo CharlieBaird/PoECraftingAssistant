@@ -20,6 +20,14 @@ public class Modifier {
     private String CorrectGroup;
     private String str;
 
+    public int getModGenerationTypeID() {
+        return ModGenerationTypeID;
+    }
+
+    public void setModGenerationTypeID(int ModGenerationTypeID) {
+        this.ModGenerationTypeID = ModGenerationTypeID;
+    }
+
     public String getCorrectGroup() {
         return CorrectGroup;
     }
@@ -36,6 +44,11 @@ public class Modifier {
         this.str = str;
     }
     
+    public void print()
+    {
+        System.out.printf("%-5s %-50s %-40s\n", ModGenerationTypeID, CorrectGroup, str);
+    }
+    
     public Modifier(String ModGenerationTypeID, String CorrectGroup, String str)
     {
         this.ModGenerationTypeID = Integer.valueOf(ModGenerationTypeID);
@@ -49,14 +62,16 @@ public class Modifier {
         if (str.contains("<br"))
             str = str.substring(0,str.indexOf("<br"));
         
-        str = removeRolls(str);
         str = str.toLowerCase();
         
+//        this.str = str;
+//        print();
+        str = removeRolls(str);
+//        this.str = str;
+//        print();
         this.str = str;
-        
-//        if (str.contains("explode")) System.out.println(str);
-        
-        if (!contains())
+                        
+        if (!all.contains(this))
             all.add(this);
     }
     
@@ -64,11 +79,21 @@ public class Modifier {
     {
         Pattern p = Pattern.compile("(\\d+(?:\\.\\d+)?)");
         Matcher m = p.matcher(str);
+        
+        ArrayList<String> toRep = new ArrayList<String>();
+        
         while(m.find())
         {
-            str = str.replace(m.group(1), "#");
+//            System.out.print(m.group(1) + ",");
+            toRep.add(m.group(1));
         }
         
+        for (String s : toRep)
+        {
+            str = str.replaceFirst(s, "#");
+        }
+        
+//        System.out.print("\n");
         str = str.replaceAll("#-#", "#");
         
         return str;
@@ -84,8 +109,16 @@ public class Modifier {
         return false;
     }
     
-    public void print()
+    @Override
+    public boolean equals(Object that)
     {
-        System.out.printf("%-5s %-50s %-40s\n", ModGenerationTypeID, CorrectGroup, str);
+        Modifier other = (Modifier) that;
+        
+        if (ModGenerationTypeID == other.getModGenerationTypeID() &&
+            CorrectGroup.equals(other.getCorrectGroup()) &&
+            str.equals(other.getStr()))
+            return true;
+        
+        return false;
     }
 }
