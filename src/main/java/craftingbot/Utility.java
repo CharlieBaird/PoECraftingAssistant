@@ -157,7 +157,7 @@ public class Utility {
         String notables = FileScanner.readFromFile(clustersPath);
         System.out.println(notables);
 
-        String[] specNotable = notables.split("[.]+");
+        String[] specNotable = notables.split("\\R");
         specNotable = removeDuplicates(specNotable);
 //
 //        String updateStr = "";
