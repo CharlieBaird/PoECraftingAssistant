@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
 import javax.swing.*;
 import java.io.File;
 
@@ -56,11 +58,36 @@ public class FilterTypePanel extends JPanel {
         dropdown = new DropdownButton(this);
         add(dropdown);
         
+        MouseListener mouseListener = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                selectLogicFilter();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+            
+        };
+        addMouseListener(mouseListener);
+        
         parent.add(this);
         frame.pack();
     }
     
-    public void showDropdown()
+    public void selectLogicFilter()
     {
         String selected = (String)JOptionPane.showInputDialog(
                             this,
@@ -71,7 +98,7 @@ public class FilterTypePanel extends JPanel {
                             types,
                             type);
         
-        if (!selected.equals(type))
+        if (!selected.equals(type) && selected != null)
         {
             type = selected;
             typelabel.setText(type);
@@ -95,6 +122,11 @@ public class FilterTypePanel extends JPanel {
             max.setText("");
             minMaxEnabled = false;
         }
+    }
+    
+    public void showDropdown()
+    {
+        
     }
 }
 
