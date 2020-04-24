@@ -52,7 +52,6 @@ public class FilterPanel extends JPanel {
         text.setForeground(new Color(255,255,255));
         text.setPreferredSize(d);
         text.setText(name);
-//        JScrollPane scrollPane = new JScrollPane(text);
         add(text);
         
         actionListener = new ActionListener() {

@@ -135,8 +135,10 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
         jButton2.setBackground(new java.awt.Color(20, 20, 20));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/chaos.png"))); // NOI18N
+        jButton2.setFocusable(false);
         jButton2.setMaximumSize(new java.awt.Dimension(80, 80));
         jButton2.setMinimumSize(new java.awt.Dimension(80, 80));
+        jButton2.setRequestFocusEnabled(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runChaosSpam(evt);
@@ -145,6 +147,8 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
         jButton7.setBackground(new java.awt.Color(20, 20, 20));
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/alchemy.png"))); // NOI18N
+        jButton7.setFocusable(false);
+        jButton7.setRequestFocusEnabled(false);
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7runChaosSpam(evt);
@@ -153,8 +157,10 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
         jButton3.setBackground(new java.awt.Color(20, 20, 20));
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/alteration.png"))); // NOI18N
+        jButton3.setFocusable(false);
         jButton3.setMaximumSize(new java.awt.Dimension(90, 90));
         jButton3.setMinimumSize(new java.awt.Dimension(90, 90));
+        jButton3.setRequestFocusEnabled(false);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3runChaosSpam(evt);
@@ -163,6 +169,8 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
         jButton6.setBackground(new java.awt.Color(20, 20, 20));
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/regal.png"))); // NOI18N
+        jButton6.setFocusable(false);
+        jButton6.setRequestFocusEnabled(false);
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6runChaosSpam(evt);
@@ -173,6 +181,8 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jButton1.setFont(getNewFont(12f));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Open Filter");
+        jButton1.setFocusable(false);
+        jButton1.setRequestFocusEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
