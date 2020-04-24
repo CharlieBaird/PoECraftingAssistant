@@ -31,8 +31,8 @@ public class FilterPanel extends JPanel {
     
     public FilterPanel(Main frame, JPanel parent, String name, Filter filter)
     {
-        System.out.println("----");
-        System.out.print(parent.getWidth());
+//        System.out.println("----");
+//        System.out.print(parent.getWidth());
         
         this.name = name;
         this.savedname = name;
@@ -59,10 +59,10 @@ public class FilterPanel extends JPanel {
         Dimension size2 = new Dimension(316,300);
         parent.setSize(size2);
         frame.pack();
-        System.out.print(" --> " + parent.getWidth() + "\n");
-        System.out.println(getWidth());
-        System.out.println(ftf.getWidth());
-        System.out.println(cb.getWidth());
+//        System.out.print(" --> " + parent.getWidth() + "\n");
+//        System.out.println(getWidth());
+//        System.out.println(ftf.getWidth());
+        System.out.println(cb.getSize());
 
     }
     

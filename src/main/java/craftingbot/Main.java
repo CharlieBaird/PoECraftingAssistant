@@ -250,7 +250,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jButton8.setBackground(new java.awt.Color(40, 40, 40));
         jButton8.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
-        jButton8.setText("+");
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/plusbuttontransparentsmall.png"))); // NOI18N
         jButton8.setContentAreaFilled(false);
         jButton8.setFocusable(false);
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -264,22 +264,22 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(267, Short.MAX_VALUE)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addContainerGap(271, Short.MAX_VALUE)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8))
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel9Layout.createSequentialGroup()
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 47, Short.MAX_VALUE)))
+                    .addGap(0, 55, Short.MAX_VALUE)))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 44, Short.MAX_VALUE)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
             .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
         );
 
         SelectFilterPanel.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
