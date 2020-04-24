@@ -640,13 +640,15 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
             updateLeftTab();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        genPanel("New Filter", false, true);
+        Filter filter = new Filter(true);
+        Filters.singleton.filters.add(filter);
+        genPanel(filter);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     public void updateLeftTab()
@@ -655,15 +657,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         
         for (Filter f : Filters.singleton.filters)
         {
-            genPanel(f.name, true, false);
-        }
-    }
-    
-    private void genPanelFromPreexisting()
-    {
-        for (Filter f : Filters.singleton.filters)
-        {
-            genPanel(f.name, true, false);
+            genPanel(f);
         }
     }
     
@@ -724,13 +718,11 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         return this.font;
     }
     
-    private void genPanel(String name, boolean override, boolean createFilter)
+    private void genPanel(Filter filter)
     {
-//        Filters.print();
-        if (override || Filters.singleton.filters.size() <= 10)
+        if (Filters.singleton.filters.size() <= 10)
         {
-            Filter filter = createFilter ? new Filter(true) : null;
-            new FilterPanel(this, jPanel6, name, filter);
+            new FilterPanel(this, jPanel6, filter);
         }
         
         try {
@@ -738,7 +730,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         } catch (IOException ex) {
             System.out.println(ex.toString());
         }
-//        SelectFilterPanel.setSize(size);
+        
         pack();
     }
     
@@ -783,11 +775,11 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         GlobalScreen.addNativeKeyListener(this);
         ComponentMover cm = new ComponentMover(JFrame.class, this.jPanel1);
         
-//        try {
-//            new Filters("TestNewMods");
-//        } catch (IOException ex) {
-//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            new Filters("TestNewMods");
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void postload()

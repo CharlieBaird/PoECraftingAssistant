@@ -29,40 +29,44 @@ public class FilterPanel extends JPanel {
     public Filter filter;
     public JPanel parent;
     
-    public FilterPanel(Main frame, JPanel parent, String name, Filter filter)
+    public FilterPanel(Main frame, JPanel parent, Filter filter)
     {
 //        System.out.println("----");
 //        System.out.print(parent.getWidth());
         
-        this.name = name;
-        this.savedname = name;
+        this.name = filter.name;
+        this.savedname = filter.name;
         this.filter = filter;
+        filter.print();
         this.parent = parent;
-        if (filter != null)
-            Filters.singleton.filters.add(filter);
+//        if (filter != null)
+//            Filters.singleton.filters.add(filter);
         
-        Dimension size = new Dimension((int)(306),40);
+        Dimension size = new Dimension((int)(parent.getWidth() * 0.97),40);
         setSize(size);
         setPreferredSize(size);
         setBackground(new Color(30,30,30));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         
-        FilterTextField ftf = new FilterTextField(this, size, name, savedname);
         CloseButton cb = new CloseButton(this, size);
+        FilterTextField ftf = new FilterTextField(this, size, name, savedname);
+        OpenButton ob = new OpenButton(this,size);
         
-        add(ftf);
         add(cb);
+        add(ftf);
+        add(ob);
+
         
         parent.add(this);
         filterpanels.add(this);
         
-        Dimension size2 = new Dimension(316,300);
-        parent.setSize(size2);
-        frame.pack();
+//        Dimension size2 = new Dimension(316,300);
+//        parent.setSize(size2);
+//        frame.pack();
 //        System.out.print(" --> " + parent.getWidth() + "\n");
 //        System.out.println(getWidth());
 //        System.out.println(ftf.getWidth());
-        System.out.println(cb.getSize());
+//        System.out.println(cb.getSize());
 
     }
     
@@ -137,7 +141,7 @@ class FilterTextField extends JTextField
 {
     public FilterTextField(FilterPanel parent, Dimension size, String name, String savedname)
     {
-        Dimension d = new Dimension((int)(size.width*0.7), size.height);
+        Dimension d = new Dimension((int)(size.width*0.6), size.height);
         setBackground(new Color(40,40,40));
         setForeground(new Color(255,255,255));
         setPreferredSize(d);
@@ -195,6 +199,32 @@ class CloseButton extends JButton
             public void actionPerformed(ActionEvent e)
             {
                 parent.remove();
+            }
+        };
+        addActionListener(actionListener);
+    }
+}
+
+class OpenButton extends JButton
+{
+    public OpenButton(FilterPanel parent, Dimension size)
+    {
+        Dimension d1 = new Dimension((int)(size.width * 0.15), size.height);
+        setBorderPainted(false);
+        setFocusPainted(false);
+        setContentAreaFilled(true);
+        setOpaque(true);
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        setPreferredSize(d1);
+        setBackground(new Color(0,0,0));
+        setIcon(new javax.swing.ImageIcon(getClass().getResource("/arrowbuttontransparentsmall.png"))); // NOI18N
+        addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
+        
+        ActionListener actionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                parent.filter.print();
             }
         };
         addActionListener(actionListener);

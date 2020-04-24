@@ -84,6 +84,7 @@ public class Filters implements Serializable {
         singleton.name = name;
         singleton.filters.clear();
         singleton.filters.add(f);
+        Filters.saveFilters();
         
 //        saveFilters(System.getProperty("user.dir") + "/src/main/resources/filters" + "/" + name + ".txt");
     }
