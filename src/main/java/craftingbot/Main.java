@@ -6,7 +6,7 @@
 package craftingbot;
 
 import craftingbot.UI.ComponentMover;
-import craftingbot.UI.FilterPanel;
+import craftingbot.FilterPanel;
 //import craftingbot.Modifier;
 //import craftingbot.modlist.ModList;
 import java.awt.AWTException;
@@ -689,7 +689,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     
     private void genPanel(String name, boolean override, boolean createFilter)
     {
-        Filters.print();
+//        Filters.print();
         if (override || Filters.singleton.filters.size() <= 5)
         {
             Filter filter = createFilter ? new Filter(true) : null;

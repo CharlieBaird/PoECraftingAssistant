@@ -1,10 +1,10 @@
-C:\CB\dev\PoE\CraftingBot\src\main\java\craftingbot\UI\FilterPanel.java
 C:\CB\dev\PoE\CraftingBot\src\main\java\craftingbot\filtertypes\logicgroups\And.java
 C:\CB\dev\PoE\CraftingBot\src\main\java\craftingbot\UI\ComponentMover.java
 C:\CB\dev\PoE\CraftingBot\src\main\java\craftingbot\filtertypes\logicgroups\Not.java
 C:\CB\dev\PoE\CraftingBot\src\main\java\craftingbot\filtertypes\Mod.java
 C:\CB\dev\PoE\CraftingBot\src\main\java\craftingbot\filtertypes\IFilter.java
 C:\CB\dev\PoE\CraftingBot\src\main\java\craftingbot\filtertypes\logicgroups\Count.java
+C:\CB\dev\PoE\CraftingBot\src\main\java\craftingbot\FilterPanel.java
 C:\CB\dev\PoE\CraftingBot\src\main\java\craftingbot\Filter.java
 C:\CB\dev\PoE\CraftingBot\src\main\java\craftingbot\Filters.java
 C:\CB\dev\PoE\CraftingBot\src\main\java\craftingbot\filtertypes\logicgroups\WeightedSum.java
