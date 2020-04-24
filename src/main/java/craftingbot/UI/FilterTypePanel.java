@@ -63,14 +63,17 @@ public class FilterTypePanel extends JPanel {
         setSize(size);
         setPreferredSize(size);
         setBackground(new Color(50,50,50));
-        setLayout(new FlowLayout(FlowLayout.RIGHT));
+        setLayout(new FlowLayout(FlowLayout.CENTER));
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
-        typelabel = new TypeLabel(this);
-        add(typelabel);
         min = new Min(this, " min");
-        add(min);
+        CloseFBButton closeButton = new CloseFBButton(this);
+        typelabel = new TypeLabel(this);
         dropdown = new DropdownButton(this);
+        
+        add(closeButton);
+        add(typelabel);
+        add(min);
         add(dropdown);
         
         MouseListener mouseListener = new MouseListener() {
@@ -144,13 +147,23 @@ public class FilterTypePanel extends JPanel {
         {
             min.setInView(true);
             minMaxEnabled = true;
+            typelabel.updateSize(min.isVisible());
         }
         else
         {
             min.setInView(false);
             min.setText("");
             minMaxEnabled = false;
+            typelabel.updateSize(min.isVisible());
         }
+    }
+    
+    public void remove()
+    {
+        Filters.print();
+        this.setVisible(false);
+        filter.filters.remove(filterbase);
+        Filters.print();
     }
     
     public void showDropdown()
@@ -159,13 +172,50 @@ public class FilterTypePanel extends JPanel {
     }
 }
 
+class CloseFBButton extends JButton {
+    public CloseFBButton(FilterTypePanel parent)
+    {
+        setBorderPainted(false);
+        setFocusPainted(false);
+        setContentAreaFilled(true);
+        setOpaque(true);
+        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.09),(int) ((32))));
+        setBackground(new Color(0,0,0));
+        setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/xbuttontransparentsmall.png")); // NOI18N
+        setToolTipText("Remove this logic filter");
+        addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
+        
+        ActionListener actionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                parent.remove();
+            }
+        };
+        addActionListener(actionListener);
+    }
+}
+
 class TypeLabel extends JLabel {
+    private FilterTypePanel parent;
+    
     public TypeLabel(FilterTypePanel parent)
     {
+        this.parent = parent;
+        
         setText(parent.type);
         setFont(parent.frame.getNewFont(14));
+        updateSize(parent.min.isVisible());
         setBackground(new Color(0,0,0));
         setForeground(new Color(255,255,255));
+    }
+    
+    public void updateSize(boolean isCountVisible)
+    {
+        if (isCountVisible)
+            setPreferredSize(new Dimension((int) (parent.getWidth() * 0.62),(int) ((32))));
+        else
+            setPreferredSize(new Dimension((int) (parent.getWidth() * 0.75),(int) ((32))));
     }
 }
 
