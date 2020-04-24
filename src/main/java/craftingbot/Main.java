@@ -87,6 +87,8 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     private void initComponents() {
 
         jFileChooser1 = new javax.swing.JFileChooser();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
         Window = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -111,6 +113,10 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jLabel4 = new javax.swing.JLabel();
         jLayeredPane2 = new javax.swing.JLayeredPane();
         jLabel2 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+
+        jScrollPane1.setViewportView(jEditorPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -135,6 +141,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
         jButton2.setBackground(new java.awt.Color(20, 20, 20));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/chaos.png"))); // NOI18N
+        jButton2.setContentAreaFilled(false);
         jButton2.setFocusable(false);
         jButton2.setMaximumSize(new java.awt.Dimension(80, 80));
         jButton2.setMinimumSize(new java.awt.Dimension(80, 80));
@@ -147,6 +154,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
         jButton7.setBackground(new java.awt.Color(20, 20, 20));
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/alchemy.png"))); // NOI18N
+        jButton7.setContentAreaFilled(false);
         jButton7.setFocusable(false);
         jButton7.setRequestFocusEnabled(false);
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -157,6 +165,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
         jButton3.setBackground(new java.awt.Color(20, 20, 20));
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/alteration.png"))); // NOI18N
+        jButton3.setContentAreaFilled(false);
         jButton3.setFocusable(false);
         jButton3.setMaximumSize(new java.awt.Dimension(90, 90));
         jButton3.setMinimumSize(new java.awt.Dimension(90, 90));
@@ -169,6 +178,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
         jButton6.setBackground(new java.awt.Color(20, 20, 20));
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/regal.png"))); // NOI18N
+        jButton6.setContentAreaFilled(false);
         jButton6.setFocusable(false);
         jButton6.setRequestFocusEnabled(false);
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -181,6 +191,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jButton1.setFont(getNewFont(12f));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Open Filter");
+        jButton1.setContentAreaFilled(false);
         jButton1.setFocusable(false);
         jButton1.setRequestFocusEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -240,6 +251,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jButton8.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("+");
+        jButton8.setContentAreaFilled(false);
         jButton8.setFocusable(false);
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -450,12 +462,44 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jLayeredPane2.setBackground(new java.awt.Color(0, 255, 0));
         jLayeredPane2.setPreferredSize(new java.awt.Dimension(1158, 44));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/angryimg (10).png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/angryimg (1).png"))); // NOI18N
         jLabel2.setText("null");
         jLabel2.setOpaque(true);
         jLayeredPane2.setLayer(jLabel2, -5);
         jLayeredPane2.add(jLabel2);
-        jLabel2.setBounds(-45, 0, 1240, 44);
+        jLabel2.setBounds(0, 0, 970, 44);
+
+        jPanel10.setBackground(new java.awt.Color(113, 10, 9));
+
+        jButton4.setBackground(new java.awt.Color(127, 3, 3));
+        jButton4.setFont(getNewFont(12f));
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("New Filter");
+        jButton4.setContentAreaFilled(false);
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton4.setFocusable(false);
+        jButton4.setPreferredSize(new java.awt.Dimension(78, 30));
+        jButton4.setRequestFocusEnabled(false);
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jLayeredPane2.add(jPanel10);
+        jPanel10.setBounds(970, -2, 190, 50);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -634,9 +678,11 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -645,6 +691,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -653,6 +700,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
     

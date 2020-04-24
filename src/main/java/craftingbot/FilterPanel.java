@@ -27,6 +27,7 @@ public class FilterPanel extends JPanel {
     public String name = null;
     public String savedname = null;
     public Filter filter;
+    public JPanel parent;
     
     public FilterPanel(Main frame, JPanel parent, String name, Filter filter)
     {
@@ -36,6 +37,7 @@ public class FilterPanel extends JPanel {
         this.name = name;
         this.savedname = name;
         this.filter = filter;
+        this.parent = parent;
         if (filter != null)
             Filters.singleton.filters.add(filter);
         
@@ -70,11 +72,13 @@ public class FilterPanel extends JPanel {
         setVisible(false);
 //        System.out.println("remove " + name);
         Filters.singleton.remove(name);
+        parent.requestFocus();
         try {
             Filters.saveFilters();
         } catch (IOException ex) {
             Logger.getLogger(FilterPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
     
 //    class DropdownElement extends JPanel implements MouseListener
