@@ -5,6 +5,8 @@
  */
 package craftingbot.UI;
 
+import craftingbot.Filter;
+import craftingbot.Filters;
 import craftingbot.Main;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,6 +17,13 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
 import java.io.File;
+import craftingbot.filtertypes.FilterBase;
+import craftingbot.filtertypes.logicgroups.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,7 +31,7 @@ import java.io.File;
  */
 public class FilterTypePanel extends JPanel {
     
-    public static String[] types = new String[] {"And", "Not", "Count", "Weighted Sum"};
+    public static String[] types = new String[] {"And", "Not", "Count"};
     
     public String type;
     public String resourcePath;
@@ -30,12 +39,20 @@ public class FilterTypePanel extends JPanel {
     public TypeLabel typelabel;
     public DropdownButton dropdown;
     public Min min;
-    public Max max;
     public boolean minMaxEnabled = false;
     
-    public FilterTypePanel(Main frame, JPanel parent)
+    public FilterBase filterbase;
+    public Filter filter;
+    public int index;
+    
+    public FilterTypePanel(Main frame, JPanel parent, FilterBase filterbase, Filter filter, int index)
     {
-        this.type = "And";
+        this.filterbase = filterbase;
+        this.filter = filter;
+        this.index = index;
+        
+        this.type = filterbase.getClass().getSimpleName();
+        
         String path = "src/main/resources";
         File file = new File(path);
         path = file.getAbsolutePath();
@@ -53,8 +70,6 @@ public class FilterTypePanel extends JPanel {
         add(typelabel);
         min = new Min(this, " min");
         add(min);
-        max = new Max(this, " max");
-        add(max);
         dropdown = new DropdownButton(this);
         add(dropdown);
         
@@ -98,12 +113,29 @@ public class FilterTypePanel extends JPanel {
                             types,
                             type);
         
-        if (!selected.equals(type) && selected != null)
+        if (selected != null && !selected.equals(type))
         {
             type = selected;
             typelabel.setText(type);
             addRemMinMax();
+            
+            switch (selected)
+            {
+                case "And":
+                    filterbase = new And(filterbase.mods);
+                    break;
+                case "Not":
+                    filterbase = new Not(filterbase.mods);
+                    break;
+                case "Count":
+                    filterbase = new Count(1, filterbase.mods);
+                    break;
+            }
+            
+            filter.filters.set(index, filterbase);
         }
+        
+        filterbase.print();
     }
     
     public void addRemMinMax()
@@ -111,15 +143,12 @@ public class FilterTypePanel extends JPanel {
         if (type.equals("Count") || type.equals("Weighted Sum"))
         {
             min.setInView(true);
-            max.setInView(true);
             minMaxEnabled = true;
         }
         else
         {
             min.setInView(false);
             min.setText("");
-            max.setInView(false);
-            max.setText("");
             minMaxEnabled = false;
         }
     }
@@ -164,10 +193,10 @@ class DropdownButton extends JButton {
     }
 }
 
-class MinMax extends JTextField {
+class Min extends JTextField {
     public String placeholder;
     
-    public MinMax(FilterTypePanel parent, String placeholder)
+    public Min(FilterTypePanel parent, String placeholder)
     {
         this.placeholder = placeholder;
         setText(placeholder);
@@ -192,6 +221,33 @@ class MinMax extends JTextField {
                 }
             }
         });
+        
+        KeyListener keyListener = new KeyListener()
+        {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == 10)
+                {
+                    parent.requestFocusInWindow();
+                    if (parent.filterbase.getClass().getSimpleName().equals("Count"))
+                    {
+                        Count c = (Count) parent.filterbase;
+                        c.needed = Integer.valueOf(getText());
+                        parent.filterbase = c;
+                    }
+                }
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+        };
+        
+        addKeyListener(keyListener);
     }
     
     public void setInView(boolean show)
@@ -199,19 +255,5 @@ class MinMax extends JTextField {
         setForeground(new Color(120,120,120));
         this.setText(placeholder);
         this.setVisible(show);
-    }
-}
-
-class Min extends MinMax {
-    public Min(FilterTypePanel parent, String placeholder)
-    {
-        super(parent, placeholder);
-    }
-}
-
-class Max extends MinMax {
-    public Max(FilterTypePanel parent, String placeholder)
-    {
-        super(parent, placeholder);
     }
 }

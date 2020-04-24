@@ -8,6 +8,7 @@ package craftingbot;
 import craftingbot.UI.ComponentMover;
 import craftingbot.UI.FilterNamePanel;
 import craftingbot.UI.FilterTypePanel;
+import craftingbot.filtertypes.FilterBase;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -895,8 +896,12 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     }
     
     public void genFilterPanel(Filter filter)
-    {
-        filter.print();
-        new FilterTypePanel(this, jPanel11);
+    {   
+        int index = 0;
+        for (FilterBase fb : filter.filters)
+        {
+            new FilterTypePanel(this, jPanel11, fb, filter, index);
+            index++;
+        }
     }
 }

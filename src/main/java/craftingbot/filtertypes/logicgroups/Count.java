@@ -4,7 +4,7 @@ import craftingbot.filtertypes.FilterBase;
 import craftingbot.filtertypes.Mod;
 
 public class Count extends FilterBase {
-    int needed;
+    public int needed;
     
     public Count(int needed, Mod... mods)
     {
@@ -35,5 +35,15 @@ public class Count extends FilterBase {
         }
         
         return str;
+    }
+    
+    @Override
+    public void print()
+    {
+        System.out.println("        " + this.getClass().getSimpleName() + " " + needed);
+        for (Mod m : mods)
+        {
+            m.print();
+        }
     }
 }
