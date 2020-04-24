@@ -194,6 +194,7 @@ class CloseButton extends JButton
         setPreferredSize(d1);
         setBackground(new Color(0,0,0));
         setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/xbuttontransparentsmall.png")); // NOI18N
+        setToolTipText("Delete this subfilter");
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
         
         ActionListener actionListener = new ActionListener() {
@@ -220,6 +221,7 @@ class OpenButton extends JButton
         setPreferredSize(d1);
         setBackground(new Color(0,0,0));
         setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/arrowbuttontransparentsmall.png")); // NOI18N
+        setToolTipText("Open this subfilter");
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
         
         ActionListener actionListener = new ActionListener() {
