@@ -9,6 +9,8 @@ import craftingbot.Main;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import javax.swing.*;
 import java.io.File;
 
@@ -23,6 +25,11 @@ public class FilterTypePanel extends JPanel {
     public String type;
     public String resourcePath;
     public Main frame;
+    public TypeLabel typelabel;
+    public DropdownButton dropdown;
+    public Min min;
+    public Max max;
+    public boolean minMaxEnabled = false;
     
     public FilterTypePanel(Main frame, JPanel parent)
     {
@@ -40,9 +47,13 @@ public class FilterTypePanel extends JPanel {
         setLayout(new FlowLayout(FlowLayout.RIGHT));
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
-        TypeLabel typelabel = new TypeLabel(this);
+        typelabel = new TypeLabel(this);
         add(typelabel);
-        DropdownButton dropdown = new DropdownButton(this);
+        min = new Min(this, " min");
+        add(min);
+        max = new Max(this, " max");
+        add(max);
+        dropdown = new DropdownButton(this);
         add(dropdown);
         
         parent.add(this);
@@ -51,7 +62,39 @@ public class FilterTypePanel extends JPanel {
     
     public void showDropdown()
     {
+        String selected = (String)JOptionPane.showInputDialog(
+                            this,
+                            "Select a logic type",
+                            "CraftingBot",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            types,
+                            type);
         
+        if (!selected.equals(type))
+        {
+            type = selected;
+            typelabel.setText(type);
+            addRemMinMax();
+        }
+    }
+    
+    public void addRemMinMax()
+    {
+        if (type.equals("Count") || type.equals("Weighted Sum"))
+        {
+            min.setInView(true);
+            max.setInView(true);
+            minMaxEnabled = true;
+        }
+        else
+        {
+            min.setInView(false);
+            min.setText("");
+            max.setInView(false);
+            max.setText("");
+            minMaxEnabled = false;
+        }
     }
 }
 
@@ -86,5 +129,57 @@ class DropdownButton extends JButton {
             }
         };
         addActionListener(actionListener);
+    }
+}
+
+class MinMax extends JTextField {
+    public String placeholder;
+    
+    public MinMax(FilterTypePanel parent, String placeholder)
+    {
+        this.placeholder = placeholder;
+        setText(placeholder);
+        setFont(parent.frame.getNewFont(14));
+        setBackground(new Color(0,0,0));
+        setForeground(new Color(120,120,120));
+        setVisible(false);
+        
+        addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (getText().equals(placeholder)) {
+                    setText("");
+                    setForeground(new Color(255,255,255));
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (getText().isEmpty()) {
+                    setText(placeholder);
+                    setForeground(new Color(120,120,120));
+                }
+            }
+        });
+    }
+    
+    public void setInView(boolean show)
+    {
+        setForeground(new Color(120,120,120));
+        this.setText(placeholder);
+        this.setVisible(show);
+    }
+}
+
+class Min extends MinMax {
+    public Min(FilterTypePanel parent, String placeholder)
+    {
+        super(parent, placeholder);
+    }
+}
+
+class Max extends MinMax {
+    public Max(FilterTypePanel parent, String placeholder)
+    {
+        super(parent, placeholder);
     }
 }
