@@ -236,6 +236,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
         jPanel9.setBackground(new java.awt.Color(30, 30, 30));
         jPanel9.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(70, 70, 70)));
+        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setBackground(new java.awt.Color(80, 80, 80));
         jLabel5.setFont(getNewFont(18f));
@@ -248,6 +249,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                 jLabel5MouseClicked(evt);
             }
         });
+        jPanel9.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 269, 40));
 
         jButton8.setBackground(new java.awt.Color(40, 40, 40));
         jButton8.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -262,29 +264,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                 jButton8ActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(271, Short.MAX_VALUE)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8))
-            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel9Layout.createSequentialGroup()
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 55, Short.MAX_VALUE)))
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
-            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
-        );
+        jPanel9.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(271, 0, 45, 40));
 
         SelectFilterPanel.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -692,7 +672,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                             possibilities,
                             "New Filter");
         
-        if (name != null)
+        if (name != null && !name.equals(""))
         {
             try {
             Filters.saveFilters();
@@ -717,6 +697,9 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            jLabel5.setVisible(true);
+            jButton8.setVisible(true);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -731,7 +714,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                             possibilities,
                             Filters.getName());
         
-        if (name != null)
+        if (name != null && !name.equals(""))
         {
             jLabel5.setText("   " + name);
             
@@ -758,6 +741,9 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     public void updateLeftTab()
     {
         jLabel5.setText("   " + Filters.getName());
+        
+        jLabel5.setVisible(true);
+        jButton8.setVisible(true);
         
         for (Filter f : Filters.singleton.filters)
         {
@@ -836,6 +822,9 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             System.out.println(ex.toString());
         }
         
+        jLabel5.setVisible(true);
+        jButton8.setVisible(true);
+        
         pack();
     }
     
@@ -894,7 +883,9 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        jLabel5.setText("     ");
+        
+        jLabel5.setVisible(false);
+        jButton8.setVisible(false);
     }
     
     public static void main(String args[]) {

@@ -48,7 +48,7 @@ public class FilterPanel extends JPanel {
         setSize(size);
         setPreferredSize(size);
         setBackground(new Color(30,30,30));
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        setLayout(new FlowLayout(FlowLayout.LEFT));
         
         CloseButton cb = new CloseButton(this, size);
         FilterTextField ftf = new FilterTextField(this, size, name, savedname);
@@ -143,7 +143,7 @@ class FilterTextField extends JTextField
 {
     public FilterTextField(FilterPanel parent, Dimension size, String name, String savedname)
     {
-        Dimension d = new Dimension((int)(size.width*0.6), size.height);
+        Dimension d = new Dimension((int)(size.width*0.6), (int)(size.height * 0.9));
         setBackground(new Color(40,40,40));
         setForeground(new Color(255,255,255));
         setPreferredSize(d);
@@ -185,7 +185,7 @@ class CloseButton extends JButton
 {
     public CloseButton(FilterPanel parent, Dimension size)
     {
-        Dimension d1 = new Dimension((int)(size.width * 0.15), size.height);
+        Dimension d1 = new Dimension((int)(size.width * 0.15), (int)(size.height * 0.9));
         setBorderPainted(false);
         setFocusPainted(false);
         setContentAreaFilled(true);
@@ -212,7 +212,7 @@ class OpenButton extends JButton
 {
     public OpenButton(FilterPanel parent, Dimension size)
     {
-        Dimension d1 = new Dimension((int)(size.width * 0.15), size.height);
+        Dimension d1 = new Dimension((int)(size.width * 0.15), (int)(size.height * 0.9));
         setBorderPainted(false);
         setFocusPainted(false);
         setContentAreaFilled(true);
