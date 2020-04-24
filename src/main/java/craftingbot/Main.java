@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
@@ -246,12 +247,20 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jLabel5.setFont(getNewFont(18f));
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel5.setToolTipText("Rename");
+        jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         jButton8.setBackground(new java.awt.Color(40, 40, 40));
         jButton8.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/plusbuttontransparentsmall.png"))); // NOI18N
         jButton8.setContentAreaFilled(false);
+        jButton8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton8.setFocusable(false);
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -480,6 +489,11 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jButton4.setFocusable(false);
         jButton4.setPreferredSize(new java.awt.Dimension(78, 30));
         jButton4.setRequestFocusEnabled(false);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -634,7 +648,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
             try {
                 Filters.loadFilters(path);
-                System.out.println(path);
+//                System.out.println(path);
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -650,6 +664,60 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         Filters.singleton.filters.add(filter);
         genPanel(filter);
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Object[] possibilities = null;
+        String name = (String)JOptionPane.showInputDialog(
+                            this,
+                            "Enter the New Filter's Name",
+                            "CraftingBot",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            possibilities,
+                            "New Filter");
+        
+        if (name != null)
+        {
+            try {
+            Filters.saveFilters();
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            Filters.reset();
+
+            for (int i=0; i<FilterPanel.filterpanels.size(); i++)
+            {
+                FilterPanel.filterpanels.get(i).remove();
+            }
+
+            FilterPanel.filterpanels.clear();
+        }
+        
+        jLabel5.setText("   " + name);
+        
+        Filters.singleton.setName(name);
+        try {
+            Filters.saveFilters();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        Object[] possibilities = null;
+        String name = (String)JOptionPane.showInputDialog(
+                            this,
+                            "Rename the Filter",
+                            "CraftingBot",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            possibilities,
+                            Filters.getName());
+        
+        jLabel5.setText("   " + name);
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     public void updateLeftTab()
     {

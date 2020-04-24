@@ -33,8 +33,6 @@ public class FilterPanel extends JPanel {
     
     public FilterPanel(Main frame, JPanel parent, Filter filter)
     {
-//        System.out.println("----");
-//        System.out.print(parent.getWidth());
         
         String path = "src/main/resources";
         File file = new File(path);
@@ -44,10 +42,7 @@ public class FilterPanel extends JPanel {
         this.name = filter.name;
         this.savedname = filter.name;
         this.filter = filter;
-        filter.print();
         this.parent = parent;
-//        if (filter != null)
-//            Filters.singleton.filters.add(filter);
         
         Dimension size = new Dimension((int)(parent.getWidth() * 0.97),40);
         setSize(size);

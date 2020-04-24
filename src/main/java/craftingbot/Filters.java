@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -26,6 +25,10 @@ import java.util.regex.Matcher;
  */
 public class Filters implements Serializable {
     private String name = "";
+
+    public void setName(String name) {
+        this.name = name;
+    }
     public ArrayList<Filter> filters = new ArrayList<Filter>();
     
     public static Filters singleton = new Filters(false);
