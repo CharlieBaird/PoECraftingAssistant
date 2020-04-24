@@ -222,14 +222,16 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jPanel8.setPreferredSize(new java.awt.Dimension(1152, 571));
 
         SelectFilterPanel.setBackground(new java.awt.Color(30, 30, 30));
+        SelectFilterPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel6.setBackground(new java.awt.Color(30, 30, 30));
-        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
+        SelectFilterPanel.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 46, 316, 464));
 
         jPanel9.setBackground(new java.awt.Color(30, 30, 30));
         jPanel9.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(70, 70, 70)));
 
-        jLabel5.setBackground(new java.awt.Color(40, 40, 40));
+        jLabel5.setBackground(new java.awt.Color(80, 80, 80));
         jLabel5.setFont(getNewFont(18f));
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -268,20 +270,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                 .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout SelectFilterPanelLayout = new javax.swing.GroupLayout(SelectFilterPanel);
-        SelectFilterPanel.setLayout(SelectFilterPanelLayout);
-        SelectFilterPanelLayout.setHorizontalGroup(
-            SelectFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
-            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        SelectFilterPanelLayout.setVerticalGroup(
-            SelectFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SelectFilterPanelLayout.createSequentialGroup()
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE))
-        );
+        SelectFilterPanel.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         ChangeFilterPanel.setBackground(new java.awt.Color(30, 30, 30));
 
@@ -690,7 +679,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     private void genPanel(String name, boolean override, boolean createFilter)
     {
 //        Filters.print();
-        if (override || Filters.singleton.filters.size() <= 5)
+        if (override || Filters.singleton.filters.size() <= 10)
         {
             Filter filter = createFilter ? new Filter(true) : null;
             new FilterPanel(this, jPanel6, name, filter);
@@ -701,6 +690,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         } catch (IOException ex) {
             System.out.println(ex.toString());
         }
+//        SelectFilterPanel.setSize(size);
         pack();
     }
     
