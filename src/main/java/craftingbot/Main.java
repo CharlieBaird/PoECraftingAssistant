@@ -6,7 +6,7 @@
 package craftingbot;
 
 import craftingbot.UI.ComponentMover;
-import craftingbot.FilterPanel;
+import craftingbot.UI.FilterPanel;
 //import craftingbot.Modifier;
 //import craftingbot.modlist.ModList;
 import java.awt.AWTException;

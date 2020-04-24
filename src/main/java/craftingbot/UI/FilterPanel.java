@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package craftingbot;
+package craftingbot.UI;
 
 import craftingbot.Filters;
 import craftingbot.Main;
@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import craftingbot.Filter;
 import java.util.ArrayList;
+import java.io.File;
 
 public class FilterPanel extends JPanel {
     
@@ -28,11 +29,17 @@ public class FilterPanel extends JPanel {
     public String savedname = null;
     public Filter filter;
     public JPanel parent;
+    public String resourcePath;
     
     public FilterPanel(Main frame, JPanel parent, Filter filter)
     {
 //        System.out.println("----");
 //        System.out.print(parent.getWidth());
+        
+        String path = "src/main/resources";
+        File file = new File(path);
+        path = file.getAbsolutePath();
+        this.resourcePath = path;
         
         this.name = filter.name;
         this.savedname = filter.name;
@@ -191,7 +198,7 @@ class CloseButton extends JButton
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setPreferredSize(d1);
         setBackground(new Color(0,0,0));
-        setIcon(new javax.swing.ImageIcon(getClass().getResource("/xbuttontransparentsmall.png"))); // NOI18N
+        setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/xbuttontransparentsmall.png")); // NOI18N
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
         
         ActionListener actionListener = new ActionListener() {
@@ -217,7 +224,7 @@ class OpenButton extends JButton
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setPreferredSize(d1);
         setBackground(new Color(0,0,0));
-        setIcon(new javax.swing.ImageIcon(getClass().getResource("/arrowbuttontransparentsmall.png"))); // NOI18N
+        setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/arrowbuttontransparentsmall.png")); // NOI18N
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
         
         ActionListener actionListener = new ActionListener() {
