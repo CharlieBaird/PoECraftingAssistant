@@ -6,7 +6,7 @@
 package craftingbot;
 
 import craftingbot.UI.ComponentMover;
-import craftingbot.UI.FilterPanel;
+import craftingbot.UI.FilterNamePanel;
 //import craftingbot.Modifier;
 //import craftingbot.modlist.ModList;
 import java.awt.AWTException;
@@ -635,12 +635,12 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             Filters.reset();
             updateLeftTab();
 
-            for (int i=0; i<FilterPanel.filterpanels.size(); i++)
+            for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
             {
-                FilterPanel.filterpanels.get(i).remove();
+                FilterNamePanel.filterpanels.get(i).remove();
             }
 
-            FilterPanel.filterpanels.clear();
+            FilterNamePanel.filterpanels.clear();
 
             try {
                 Filters.loadFilters(path);
@@ -682,12 +682,12 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
             Filters.reset();
 
-            for (int i=0; i<FilterPanel.filterpanels.size(); i++)
+            for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
             {
-                FilterPanel.filterpanels.get(i).remove();
+                FilterNamePanel.filterpanels.get(i).remove();
             }
 
-            FilterPanel.filterpanels.clear();
+            FilterNamePanel.filterpanels.clear();
             
             jLabel5.setText("   " + name);
         
@@ -813,7 +813,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     {
         if (Filters.singleton.filters.size() <= 10)
         {
-            new FilterPanel(this, jPanel6, filter);
+            new FilterNamePanel(this, jPanel6, filter);
         }
         
         try {

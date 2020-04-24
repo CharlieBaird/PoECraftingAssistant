@@ -22,16 +22,16 @@ import craftingbot.Filter;
 import java.util.ArrayList;
 import java.io.File;
 
-public class FilterPanel extends JPanel {
+public class FilterNamePanel extends JPanel {
     
-    public static ArrayList<FilterPanel> filterpanels = new ArrayList<FilterPanel>();
+    public static ArrayList<FilterNamePanel> filterpanels = new ArrayList<FilterNamePanel>();
     public String name = null;
     public String savedname = null;
     public Filter filter;
     public JPanel parent;
     public String resourcePath;
     
-    public FilterPanel(Main frame, JPanel parent, Filter filter)
+    public FilterNamePanel(Main frame, JPanel parent, Filter filter)
     {
         
         String path = "src/main/resources";
@@ -82,7 +82,7 @@ public class FilterPanel extends JPanel {
         try {
             Filters.saveFilters();
         } catch (IOException ex) {
-            Logger.getLogger(FilterPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FilterNamePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -141,7 +141,7 @@ class BackgroundListener implements MouseListener
 
 class FilterTextField extends JTextField
 {
-    public FilterTextField(FilterPanel parent, Dimension size, String name, String savedname)
+    public FilterTextField(FilterNamePanel parent, Dimension size, String name, String savedname)
     {
         Dimension d = new Dimension((int)(size.width*0.6), (int)(size.height * 0.9));
         setBackground(new Color(40,40,40));
@@ -161,7 +161,7 @@ class FilterTextField extends JTextField
                     try {
                         Filters.saveFilters();
                     } catch (IOException ex) {
-                        Logger.getLogger(FilterPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(FilterNamePanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
 //                    Filters.deleteFilters(savedname);
                     parent.savedname = getText();
@@ -183,7 +183,7 @@ class FilterTextField extends JTextField
 
 class CloseButton extends JButton
 {
-    public CloseButton(FilterPanel parent, Dimension size)
+    public CloseButton(FilterNamePanel parent, Dimension size)
     {
         Dimension d1 = new Dimension((int)(size.width * 0.15), (int)(size.height * 0.9));
         setBorderPainted(false);
@@ -210,7 +210,7 @@ class CloseButton extends JButton
 
 class OpenButton extends JButton
 {
-    public OpenButton(FilterPanel parent, Dimension size)
+    public OpenButton(FilterNamePanel parent, Dimension size)
     {
         Dimension d1 = new Dimension((int)(size.width * 0.15), (int)(size.height * 0.9));
         setBorderPainted(false);
