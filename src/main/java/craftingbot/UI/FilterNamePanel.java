@@ -30,6 +30,7 @@ public class FilterNamePanel extends JPanel {
     public Filter filter;
     public JPanel parent;
     public String resourcePath;
+    public Main frame;
     
     public FilterNamePanel(Main frame, JPanel parent, Filter filter)
     {
@@ -43,6 +44,7 @@ public class FilterNamePanel extends JPanel {
         this.savedname = filter.name;
         this.filter = filter;
         this.parent = parent;
+        this.frame = frame;
         
         Dimension size = new Dimension((int)(parent.getWidth() * 0.97),40);
         setSize(size);
@@ -228,7 +230,7 @@ class OpenButton extends JButton
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                parent.filter.print();
+                parent.frame.genFilterPanel(parent.filter);
             }
         };
         addActionListener(actionListener);

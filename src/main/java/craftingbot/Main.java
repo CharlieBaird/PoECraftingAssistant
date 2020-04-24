@@ -7,8 +7,7 @@ package craftingbot;
 
 import craftingbot.UI.ComponentMover;
 import craftingbot.UI.FilterNamePanel;
-//import craftingbot.Modifier;
-//import craftingbot.modlist.ModList;
+import craftingbot.UI.FilterTypePanel;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -106,6 +105,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jLabel5 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
         ChangeFilterPanel = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -269,26 +269,19 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         SelectFilterPanel.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         ChangeFilterPanel.setBackground(new java.awt.Color(30, 30, 30));
+        ChangeFilterPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout ChangeFilterPanelLayout = new javax.swing.GroupLayout(ChangeFilterPanel);
-        ChangeFilterPanel.setLayout(ChangeFilterPanelLayout);
-        ChangeFilterPanelLayout.setHorizontalGroup(
-            ChangeFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-        );
-        ChangeFilterPanelLayout.setVerticalGroup(
-            ChangeFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 510, Short.MAX_VALUE)
-        );
+        jPanel11.setBackground(new java.awt.Color(30, 30, 30));
+        ChangeFilterPanel.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 6, 395, 498));
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(SelectFilterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addContainerGap(9, Short.MAX_VALUE)
+                .addComponent(SelectFilterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(ChangeFilterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9))
         );
@@ -777,6 +770,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -898,5 +892,11 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                 main.pack();
             }
         });
+    }
+    
+    public void genFilterPanel(Filter filter)
+    {
+        filter.print();
+        new FilterTypePanel(this, jPanel11);
     }
 }

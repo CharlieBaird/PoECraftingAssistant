@@ -1,11 +1,14 @@
 craftingbot\UI\ComponentMover.class
 craftingbot\Main.class
 craftingbot\Main$7.class
+craftingbot\UI\Max.class
 craftingbot\modlist\FileScanner.class
+craftingbot\UI\TypeLabel.class
 craftingbot\filtertypes\logicgroups\And.class
 craftingbot\Main$2.class
 craftingbot\filtertypes\IFilter.class
 craftingbot\Utility.class
+craftingbot\UI\FilterTypePanel.class
 craftingbot\filtertypes\Mod.class
 craftingbot\Main$5.class
 craftingbot\filtertypes\Id.class
@@ -18,6 +21,7 @@ craftingbot\UI\BackgroundListener.class
 craftingbot\Main$3.class
 craftingbot\filtertypes\FilterBase.class
 craftingbot\filtertypes\logicgroups\Count.class
+craftingbot\UI\Min.class
 craftingbot\Main$9.class
 craftingbot\UI\FilterNamePanel.class
 craftingbot\Main$12.class
@@ -32,3 +36,4 @@ craftingbot\Modifier.class
 craftingbot\Main$10.class
 craftingbot\UI\OpenButton$1.class
 craftingbot\Main$1.class
+craftingbot\UI\Dropdown.class
