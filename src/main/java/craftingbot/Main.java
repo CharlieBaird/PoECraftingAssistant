@@ -108,6 +108,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jButton8 = new javax.swing.JButton();
         ChangeFilterPanel = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
+        jButton9 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -274,7 +275,22 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         ChangeFilterPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel11.setBackground(new java.awt.Color(30, 30, 30));
-        ChangeFilterPanel.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 6, 395, 498));
+        ChangeFilterPanel.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 6, 395, 460));
+
+        jButton9.setBackground(new java.awt.Color(40, 40, 40));
+        jButton9.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(255, 255, 255));
+        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/plusbuttontransparentsmall.png"))); // NOI18N
+        jButton9.setToolTipText("Create new subfilter");
+        jButton9.setContentAreaFilled(false);
+        jButton9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton9.setFocusable(false);
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+        ChangeFilterPanel.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 470, 45, 40));
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -336,6 +352,12 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jPanel3MouseExited(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel3MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jPanel3MouseReleased(evt);
+            }
         });
 
         jLabel1.setBackground(new java.awt.Color(200, 200, 200));
@@ -377,6 +399,12 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jPanel4MouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel4MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jPanel4MouseReleased(evt);
             }
         });
 
@@ -733,6 +761,31 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        if (FilterTypePanel.filtertypepanels.size() >= 1)
+        {
+            Filter f = FilterTypePanel.filtertypepanels.get(0).filter;
+            f.filters.add(new And());
+            genFilterPanel(f);
+        }
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jPanel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MousePressed
+        jPanel3.setBackground(new Color(160,0,0));
+    }//GEN-LAST:event_jPanel3MousePressed
+
+    private void jPanel3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseReleased
+        jPanel3.setBackground(new Color(20,20,20));
+    }//GEN-LAST:event_jPanel3MouseReleased
+
+    private void jPanel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MousePressed
+        jPanel4.setBackground(new Color(160,160,160));
+    }//GEN-LAST:event_jPanel4MousePressed
+
+    private void jPanel4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseReleased
+        jPanel4.setBackground(new Color(20,20,20));
+    }//GEN-LAST:event_jPanel4MouseReleased
+
     public void updateLeftTab()
     {
         jLabel5.setText("   " + Filters.getName());
@@ -762,6 +815,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
@@ -882,6 +936,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         
         jLabel5.setVisible(false);
         jButton8.setVisible(false);
+        jButton9.setVisible(false);
     }
     
     public static void main(String args[]) {
@@ -905,10 +960,15 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             filter.filters.add(new And());
         }
         
+        FilterTypePanel.clear();
+        
         for (FilterBase fb : filter.filters)
         {
             new FilterTypePanel(this, jPanel11, fb, filter, index);
             index++;
         }
+        
+        if (FilterTypePanel.filtertypepanels.size() >= 1)
+            jButton9.setVisible(true);
     }
 }

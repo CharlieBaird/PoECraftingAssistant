@@ -24,6 +24,7 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.ArrayList;
 
 /**
  *
@@ -32,6 +33,8 @@ import java.util.logging.Logger;
 public class FilterTypePanel extends JPanel {
     
     public static String[] types = new String[] {"And", "Not", "Count"};
+    
+    public static ArrayList<FilterTypePanel> filtertypepanels = new ArrayList<FilterTypePanel>();
     
     public String type;
     public String resourcePath;
@@ -104,6 +107,18 @@ public class FilterTypePanel extends JPanel {
         
         parent.add(this);
         frame.pack();
+        
+        filtertypepanels.add(this);
+    }
+    
+    public static void clear()
+    {
+        for (int i = 0; i < filtertypepanels.size(); i++)
+        {
+            filtertypepanels.get(i).setVisible(false);
+        }
+        
+        filtertypepanels.clear();
     }
     
     public void addRemMinMax()
