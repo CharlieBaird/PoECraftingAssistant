@@ -19,11 +19,9 @@ import java.util.ArrayList;
  */
 public class Filter implements Serializable
 {
-//    public static ArrayList<Filter> FiltersParent = new ArrayList<Filter>(); // deprecated
-    
     public ArrayList<FilterBase> filters = new ArrayList<FilterBase>();
-    
     public String name;
+    public boolean active = false;
     
     public Filter()
     {

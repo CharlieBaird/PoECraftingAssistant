@@ -76,9 +76,12 @@ public class FilterNamePanel extends JPanel {
     
     public void remove()
     {
-//        System.out.println("Clicked " + name);
+        if (filter.active)
+        {
+            FilterTypePanel.clear();
+            frame.hideAddButton();
+        }
         setVisible(false);
-//        System.out.println("remove " + name);
         Filters.singleton.remove(name);
         parent.requestFocus();
         try {

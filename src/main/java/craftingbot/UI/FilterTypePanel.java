@@ -53,6 +53,9 @@ public class FilterTypePanel extends JPanel {
         this.filterbase = filterbase;
         this.filter = filter;
         this.index = index;
+        this.filter.active = true;
+        
+        filterbase.print();
         
         this.type = filterbase.getClass().getSimpleName();
         
@@ -70,6 +73,12 @@ public class FilterTypePanel extends JPanel {
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
         min = new Min(this, " min");
+        if (type.equals("Count"))
+        {
+            Count c = (Count) this.filterbase;
+            min.setText(String.valueOf(c.needed));
+        }
+        
         CloseFBButton closeButton = new CloseFBButton(this);
         typelabel = new TypeLabel(this);
         dropdown = new DropdownButton(this);
@@ -106,7 +115,8 @@ public class FilterTypePanel extends JPanel {
         addMouseListener(mouseListener);
         
         parent.add(this);
-        frame.pack();
+//        frame.pack();
+//        frame.validate();
         
         filtertypepanels.add(this);
     }
@@ -283,9 +293,11 @@ class DropdownButton extends JButton {
 
 class Min extends JTextField {
     public String placeholder;
+//    public String actualText;
     
     public Min(FilterTypePanel parent, String placeholder)
     {
+//        this.setColumns(2);
         this.placeholder = placeholder;
         setText(placeholder);
         setFont(parent.frame.getNewFont(14));
@@ -314,9 +326,11 @@ class Min extends JTextField {
                     c.needed = Integer.valueOf(getText());
                     parent.filterbase = c;
                 }
+                
+//                setTextWidth();
             }
         });
-        
+                
         KeyListener keyListener = new KeyListener()
         {
             @Override
