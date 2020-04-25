@@ -9,7 +9,7 @@ import craftingbot.Filter;
 import craftingbot.Filters;
 import craftingbot.Main;
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -106,42 +106,6 @@ public class FilterTypePanel extends JPanel {
         frame.pack();
     }
     
-    public void selectLogicFilter()
-    {
-        String selected = (String)JOptionPane.showInputDialog(
-                            this,
-                            "Select a logic type",
-                            "CraftingBot",
-                            JOptionPane.PLAIN_MESSAGE,
-                            null,
-                            types,
-                            type);
-        
-        if (selected != null && !selected.equals(type))
-        {
-            type = selected;
-            typelabel.setText(type);
-            addRemMinMax();
-            
-            switch (selected)
-            {
-                case "And":
-                    filterbase = new And(filterbase.mods);
-                    break;
-                case "Not":
-                    filterbase = new Not(filterbase.mods);
-                    break;
-                case "Count":
-                    filterbase = new Count(1, filterbase.mods);
-                    break;
-            }
-            
-            filter.filters.set(index, filterbase);
-        }
-        
-        filterbase.print();
-    }
-    
     public void addRemMinMax()
     {
         if (type.equals("Count"))
@@ -170,6 +134,58 @@ public class FilterTypePanel extends JPanel {
     public void showDropdown()
     {
         
+    }
+    
+    private int getIndex()
+    {
+        switch (type)
+        {
+            case "And":
+                return 0;
+            case "Not":
+                return 1;
+            case "Count":
+                return 2;
+            default:
+                return -1;
+        }
+    }
+    
+    public void selectLogicFilter()
+    {
+        SearchBox sb = new SearchBox(types);
+        
+        JOptionPane jop = new JOptionPane();
+        sb.setSelectedIndex(getIndex());        
+        System.out.println(getIndex() + " is the getIndex()");
+
+        jop.showMessageDialog(this, sb, "CraftingBot", JOptionPane.PLAIN_MESSAGE, null);
+        
+        String selected = sb.getSelectedItem().toString();
+        
+        if (selected != null && !selected.equals(type))
+        {
+            type = selected;
+            typelabel.setText(type);
+            addRemMinMax();
+            
+            switch (selected)
+            {
+                case "And":
+                    filterbase = new And(filterbase.mods);
+                    break;
+                case "Not":
+                    filterbase = new Not(filterbase.mods);
+                    break;
+                case "Count":
+                    filterbase = new Count(1, filterbase.mods);
+                    break;
+            }
+            
+            filter.filters.set(index, filterbase);
+        }
+        
+        filterbase.print();
     }
 }
 
@@ -271,6 +287,13 @@ class Min extends JTextField {
                 if (getText().isEmpty()) {
                     setText(placeholder);
                     setForeground(new Color(120,120,120));
+                }
+                
+                if (parent.filterbase.getClass().getSimpleName().equals("Count"))
+                {
+                    Count c = (Count) parent.filterbase;
+                    c.needed = Integer.valueOf(getText());
+                    parent.filterbase = c;
                 }
             }
         });
