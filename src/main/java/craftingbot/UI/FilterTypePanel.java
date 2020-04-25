@@ -55,7 +55,7 @@ public class FilterTypePanel extends JPanel {
         this.index = index;
         this.filter.active = true;
         
-        filterbase.print();
+//        filterbase.print();
         
         this.type = filterbase.getClass().getSimpleName();
         
@@ -69,24 +69,21 @@ public class FilterTypePanel extends JPanel {
         setSize(size);
         setPreferredSize(size);
         setBackground(new Color(50,50,50));
-        setLayout(new FlowLayout(FlowLayout.CENTER));
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-        min = new Min(this, " min");
-        if (type.equals("Count"))
-        {
-            Count c = (Count) this.filterbase;
-            min.setText(String.valueOf(c.needed));
-        }
         
         CloseFBButton closeButton = new CloseFBButton(this);
         typelabel = new TypeLabel(this);
         dropdown = new DropdownButton(this);
+        min = new Min(this, " min");
         
-        add(closeButton);
-        add(typelabel);
-        add(min);
-        add(dropdown);
+        add(closeButton, Box.LEFT_ALIGNMENT);
+        add(Box.createRigidArea(new Dimension(15,0)), Box.LEFT_ALIGNMENT);
+        add(typelabel, Box.LEFT_ALIGNMENT);
+        add(Box.createHorizontalGlue());
+        add(min, Box.RIGHT_ALIGNMENT);
+        add(Box.createRigidArea(new Dimension(15,0)), Box.RIGHT_ALIGNMENT);
+        add(dropdown, Box.RIGHT_ALIGNMENT);
         addRemMinMax();
         
         MouseListener mouseListener = new MouseListener() {
@@ -115,10 +112,17 @@ public class FilterTypePanel extends JPanel {
         addMouseListener(mouseListener);
         
         parent.add(this);
-//        frame.pack();
-//        frame.validate();
         
         filtertypepanels.add(this);
+        
+        if (type.equals("Count"))
+        {
+            filterbase.print();
+            System.out.println("here");
+            Count c = (Count) this.filterbase;
+            min.setText(String.valueOf(c.needed));
+            min.setForeground(new Color(255,255,255));
+        }
     }
     
     public static void clear()
@@ -137,15 +141,14 @@ public class FilterTypePanel extends JPanel {
         {
             min.setInView(true);
             minMaxEnabled = true;
-            typelabel.updateSize(min.isVisible());
         }
         else
         {
             min.setInView(false);
             min.setText("");
             minMaxEnabled = false;
-            typelabel.updateSize(min.isVisible());
         }
+        typelabel.setPreferredSize(new Dimension((int) (getWidth() * 0.61),(int) ((32))));
     }
     
     public void remove()
@@ -251,17 +254,8 @@ class TypeLabel extends JLabel {
         
         setText(parent.type);
         setFont(parent.frame.getNewFont(14));
-        updateSize(parent.min.isVisible());
-        setBackground(new Color(0,0,0));
+        setBackground(new Color(255,0,0));
         setForeground(new Color(255,255,255));
-    }
-    
-    public void updateSize(boolean isCountVisible)
-    {
-        if (isCountVisible)
-            setPreferredSize(new Dimension((int) (parent.getWidth() * 0.62),(int) ((32))));
-        else
-            setPreferredSize(new Dimension((int) (parent.getWidth() * 0.75),(int) ((32))));
     }
 }
 
@@ -283,8 +277,8 @@ class DropdownButton extends JButton {
             public void actionPerformed(ActionEvent e)
             {
                 
-                parent.filterbase.print();
-                parent.showDropdown();
+//                parent.filterbase.print();
+//                parent.showDropdown();
             }
         };
         addActionListener(actionListener);
@@ -293,17 +287,16 @@ class DropdownButton extends JButton {
 
 class Min extends JTextField {
     public String placeholder;
-//    public String actualText;
     
     public Min(FilterTypePanel parent, String placeholder)
     {
-//        this.setColumns(2);
         this.placeholder = placeholder;
         setText(placeholder);
         setFont(parent.frame.getNewFont(14));
         setBackground(new Color(0,0,0));
         setForeground(new Color(120,120,120));
         setVisible(false);
+        setHorizontalAlignment(SwingConstants.CENTER);
         
         addFocusListener(new FocusListener() {
             @Override
@@ -326,8 +319,6 @@ class Min extends JTextField {
                     c.needed = Integer.valueOf(getText());
                     parent.filterbase = c;
                 }
-                
-//                setTextWidth();
             }
         });
                 
