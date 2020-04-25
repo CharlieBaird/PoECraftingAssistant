@@ -75,6 +75,7 @@ public class FilterTypePanel extends JPanel {
         add(typelabel);
         add(min);
         add(dropdown);
+        addRemMinMax();
         
         MouseListener mouseListener = new MouseListener() {
             @Override
@@ -143,7 +144,7 @@ public class FilterTypePanel extends JPanel {
     
     public void addRemMinMax()
     {
-        if (type.equals("Count") || type.equals("Weighted Sum"))
+        if (type.equals("Count"))
         {
             min.setInView(true);
             minMaxEnabled = true;
@@ -236,6 +237,8 @@ class DropdownButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                
+                parent.filterbase.print();
                 parent.showDropdown();
             }
         };

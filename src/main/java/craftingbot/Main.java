@@ -9,6 +9,7 @@ import craftingbot.UI.ComponentMover;
 import craftingbot.UI.FilterNamePanel;
 import craftingbot.UI.FilterTypePanel;
 import craftingbot.filtertypes.FilterBase;
+import craftingbot.filtertypes.logicgroups.And;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -898,6 +899,12 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     public void genFilterPanel(Filter filter)
     {   
         int index = 0;
+        
+        if (filter.filters.isEmpty())
+        {
+            filter.filters.add(new And());
+        }
+        
         for (FilterBase fb : filter.filters)
         {
             new FilterTypePanel(this, jPanel11, fb, filter, index);
