@@ -140,10 +140,14 @@ public class FilterTypePanel extends JPanel {
     
     public void remove()
     {
-        Filters.print();
-        this.setVisible(false);
-        filter.filters.remove(filterbase);
-        Filters.print();
+        if (filtertypepanels.size() >= 2)
+        {
+            filtertypepanels.remove(this);
+            Filters.print();
+            this.setVisible(false);
+            filter.filters.remove(filterbase);
+            Filters.print();
+        }
     }
     
     public void showDropdown()
