@@ -133,7 +133,7 @@ public class FilterTypePanel extends JPanel {
         
         for (Mod m: filterbase.mods)
         {
-            ModifierPanel mp = new ModifierPanel(frame, this, m);
+            ModifierPanel mp = new ModifierPanel(frame, this, filterbase, m);
             modifierpanels.add(mp);
             parent.add(mp);
         }
@@ -175,7 +175,7 @@ public class FilterTypePanel extends JPanel {
             min.setText("");
             minMaxEnabled = false;
         }
-        typelabel.setPreferredSize(new Dimension((int) (getWidth() * 0.5),(int) ((32))));
+        typelabel.setPreferredSize(new Dimension((int) (getWidth() * 0.74),(int) ((32))));
     }
     
     public void remove()
@@ -187,10 +187,10 @@ public class FilterTypePanel extends JPanel {
                 modifierpanels.get(i).setVisible(false);
             }
             modifierpanels.clear();
+            this.setVisible(false);
             
             filtertypepanels.remove(this);
             Filters.print();
-            this.setVisible(false);
             filter.filters.remove(filterbase);
             Filters.print();
         }

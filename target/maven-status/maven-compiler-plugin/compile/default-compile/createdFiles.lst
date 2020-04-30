@@ -1,3 +1,4 @@
+craftingbot\UI\CloseMPButton.class
 craftingbot\Main$13.class
 craftingbot\UI\ComponentMover.class
 craftingbot\UI\FilterTypePanel$1.class
@@ -29,8 +30,10 @@ craftingbot\Filters.class
 craftingbot\UI\OpenButton.class
 craftingbot\CraftingBot.class
 craftingbot\UI\BackgroundListener.class
+craftingbot\UI\CloseMPButton$1.class
 craftingbot\UI\DropdownButton.class
 craftingbot\Main$3.class
+craftingbot\UI\MPMinMax$1.class
 craftingbot\filtertypes\FilterBase.class
 craftingbot\filtertypes\logicgroups\Count.class
 craftingbot\UI\Min.class
@@ -42,6 +45,7 @@ craftingbot\UI\CloseButton.class
 craftingbot\Main$14.class
 craftingbot\Main$6.class
 craftingbot\UI\AddButton$1.class
+craftingbot\UI\ModLabel.class
 craftingbot\UI\AutoCompletion$2.class
 craftingbot\Main$11.class
 craftingbot\Main$8.class
@@ -49,9 +53,11 @@ craftingbot\UI\FilterTextField.class
 craftingbot\UI\FilterTextField$1.class
 craftingbot\Modifier.class
 craftingbot\UI\AutoCompletion$3.class
+craftingbot\UI\MPMinMax$2.class
 craftingbot\Main$10.class
 craftingbot\UI\AutoCompletion.class
 craftingbot\UI\OpenButton$1.class
 craftingbot\UI\AddButton.class
 craftingbot\UI\SearchBox.class
+craftingbot\UI\MPMinMax.class
 craftingbot\Main$1.class
