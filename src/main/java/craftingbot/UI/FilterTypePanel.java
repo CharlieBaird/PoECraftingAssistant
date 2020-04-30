@@ -39,9 +39,11 @@ public class FilterTypePanel extends JPanel {
     public String type;
     public String resourcePath;
     public Main frame;
+    
     public TypeLabel typelabel;
     public DropdownButton dropdown;
     public Min min;
+    public AddButton addbutton;
     public boolean minMaxEnabled = false;
     
     public FilterBase filterbase;
@@ -76,13 +78,16 @@ public class FilterTypePanel extends JPanel {
         typelabel = new TypeLabel(this);
         dropdown = new DropdownButton(this);
         min = new Min(this, " min");
+        addbutton = new AddButton(this);
         
         add(closeButton, Box.LEFT_ALIGNMENT);
         add(Box.createRigidArea(new Dimension(15,0)), Box.LEFT_ALIGNMENT);
         add(typelabel, Box.LEFT_ALIGNMENT);
         add(Box.createHorizontalGlue());
         add(min, Box.RIGHT_ALIGNMENT);
-        add(Box.createRigidArea(new Dimension(15,0)), Box.RIGHT_ALIGNMENT);
+        add(Box.createRigidArea(new Dimension(9,0)), Box.RIGHT_ALIGNMENT);
+        add(addbutton, Box.RIGHT_ALIGNMENT);
+        add(Box.createRigidArea(new Dimension(9,0)), Box.RIGHT_ALIGNMENT);
         add(dropdown, Box.RIGHT_ALIGNMENT);
         addRemMinMax();
         
@@ -148,7 +153,7 @@ public class FilterTypePanel extends JPanel {
             min.setText("");
             minMaxEnabled = false;
         }
-        typelabel.setPreferredSize(new Dimension((int) (getWidth() * 0.61),(int) ((32))));
+        typelabel.setPreferredSize(new Dimension((int) (getWidth() * 0.5),(int) ((32))));
     }
     
     public void remove()
@@ -218,6 +223,30 @@ public class FilterTypePanel extends JPanel {
         }
         
         filterbase.print();
+    }
+}
+
+class AddButton extends JButton {
+    public AddButton(FilterTypePanel parent)
+    {
+        setBorderPainted(false);
+        setFocusPainted(false);
+        setContentAreaFilled(true);
+        setOpaque(true);
+        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.09),(int) ((32))));
+        setBackground(new Color(0,0,0));
+        setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/plusbuttontransparentsmall.png")); // NOI18N
+        setToolTipText("New modifier");
+        addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
+        
+        ActionListener actionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                System.out.println("clicked");
+            }
+        };
+        addActionListener(actionListener);
     }
 }
 
