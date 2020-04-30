@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import craftingbot.filtertypes.Mod;
 
 /**
  *
@@ -114,19 +115,24 @@ public class FilterTypePanel extends JPanel {
             }
             
         };
-        addMouseListener(mouseListener);
-        
-        parent.add(this);
-        
-        filtertypepanels.add(this);
         
         if (type.equals("Count"))
         {
-            filterbase.print();
-            System.out.println("here");
             Count c = (Count) this.filterbase;
             min.setText(String.valueOf(c.needed));
             min.setForeground(new Color(255,255,255));
+        }
+        
+        addMouseListener(mouseListener);
+        
+        filtertypepanels.add(this);
+        
+        parent.add(this);
+        
+        for (Mod m: filterbase.mods)
+        {
+            ModifierPanel mp = new ModifierPanel(frame, this, m);
+            parent.add(mp);
         }
     }
     
@@ -222,7 +228,7 @@ public class FilterTypePanel extends JPanel {
             filter.filters.set(index, filterbase);
         }
         
-        filterbase.print();
+//        filterbase.print();
     }
 }
 
@@ -243,7 +249,7 @@ class AddButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                System.out.println("clicked");
+                parent.filterbase.print();
             }
         };
         addActionListener(actionListener);

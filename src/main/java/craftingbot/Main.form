@@ -487,7 +487,10 @@
                             </Constraint>
                           </Constraints>
 
-                          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+                          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+                            <Property name="alignment" type="int" value="2"/>
+                            <Property name="verticalGap" type="int" value="2"/>
+                          </Layout>
                         </Container>
                         <Component class="javax.swing.JButton" name="jButton9">
                           <Properties>

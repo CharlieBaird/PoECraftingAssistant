@@ -288,6 +288,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         ChangeFilterPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel11.setBackground(new java.awt.Color(30, 30, 30));
+        jPanel11.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 5, 2));
         ChangeFilterPanel.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 6, 395, 460));
 
         jButton9.setBackground(new java.awt.Color(40, 40, 40));

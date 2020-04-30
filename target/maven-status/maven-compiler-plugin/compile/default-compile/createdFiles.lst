@@ -6,6 +6,7 @@ craftingbot\UI\AutoCompletion$4.class
 craftingbot\Main$7.class
 craftingbot\UI\DropdownButton$1.class
 craftingbot\modlist\FileScanner.class
+craftingbot\UI\ModifierPanel.class
 craftingbot\UI\TypeLabel.class
 craftingbot\filtertypes\logicgroups\And.class
 craftingbot\Main$2.class
@@ -19,7 +20,6 @@ craftingbot\UI\AutoCompletion$5.class
 craftingbot\UI\CloseFBButton.class
 craftingbot\Main$5.class
 craftingbot\filtertypes\logicgroups\Not.class
-.netbeans_automatic_build
 craftingbot\filtertypes\Id.class
 craftingbot\Main$4.class
 craftingbot\UI\Min$1.class
@@ -39,7 +39,9 @@ craftingbot\UI\FilterNamePanel.class
 craftingbot\Main$12.class
 craftingbot\Filter.class
 craftingbot\UI\CloseButton.class
+craftingbot\Main$14.class
 craftingbot\Main$6.class
+craftingbot\UI\AddButton$1.class
 craftingbot\UI\AutoCompletion$2.class
 craftingbot\Main$11.class
 craftingbot\Main$8.class
@@ -50,5 +52,6 @@ craftingbot\UI\AutoCompletion$3.class
 craftingbot\Main$10.class
 craftingbot\UI\AutoCompletion.class
 craftingbot\UI\OpenButton$1.class
+craftingbot\UI\AddButton.class
 craftingbot\UI\SearchBox.class
 craftingbot\Main$1.class
