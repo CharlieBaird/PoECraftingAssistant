@@ -3,6 +3,7 @@ package craftingbot.UI;
 import craftingbot.Main;
 import craftingbot.filtertypes.FilterBase;
 import craftingbot.filtertypes.Mod;
+import craftingbot.filtertypes.Id;
 import craftingbot.filtertypes.logicgroups.Count;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +24,10 @@ public class ModifierPanel extends JPanel {
     public Mod mod;
     public FilterTypePanel parent;
     
+    public MPMinMax min;
+    public MPMinMax max;
+    
+    
     public ModifierPanel(Main frame, FilterTypePanel parent, FilterBase filterbase, Mod mod)
     {
         String path = "src/main/resources";
@@ -34,6 +39,14 @@ public class ModifierPanel extends JPanel {
         this.mod = mod;
         this.parent = parent;
         
+        if (mod == null)
+        {
+            mod = new Mod("New Modifier");
+            filterbase.mods.add(mod);
+            min = new MPMinMax(this, "min", true);
+            max = new MPMinMax(this, "max", false);
+        }
+        
         Dimension size = new Dimension((int) (parent.getWidth() * 0.912),(int) (40)); // 0.912
         setSize(size);
         setPreferredSize(size);
@@ -43,8 +56,9 @@ public class ModifierPanel extends JPanel {
         
         CloseMPButton cb = new CloseMPButton(this);
         ModLabel ml = new ModLabel(this, mod.name);
-        MPMinMax min = new MPMinMax(this, "min", true);
-        MPMinMax max = new MPMinMax(this, "max", false);
+        
+        min = new MPMinMax(this, String.valueOf(mod.ID.min), true);
+        max = new MPMinMax(this, String.valueOf(mod.ID.max), false);
         
         add(cb, Box.LEFT_ALIGNMENT);
         add(Box.createRigidArea(new Dimension(15,0)), Box.LEFT_ALIGNMENT);
@@ -101,36 +115,34 @@ class ModLabel extends JLabel {
 class MPMinMax extends JTextField {
     public String placeholder;
     public boolean isMin; // true = min, false = max;
+    public ModifierPanel parent;
     
     public MPMinMax(ModifierPanel parent, String placeholder, boolean isMin)
     {
+        if (placeholder.equals("-100000"))
+        {
+            if (isMin) placeholder = "min";
+            else placeholder = "max";
+        }
+        
         this.placeholder = placeholder;
         this.isMin = isMin;
+        this.parent = parent;
         
         setText(placeholder);
+        
         setFont(parent.frame.getNewFont(14));
         setBackground(new Color(0,0,0));
         setForeground(new Color(120,120,120));
+        
+        if (!placeholder.equals("min") && !placeholder.equals("max") && !placeholder.equals("-100000"))
+            setForeground(new Color(255,255,255));
+        
         setHorizontalAlignment(SwingConstants.CENTER);
         
-        addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (getText().equals(placeholder)) {
-                    setText("");
-                    setForeground(new Color(255,255,255));
-                }
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (getText().isEmpty()) {
-                    setText(placeholder);
-                    setForeground(new Color(120,120,120));
-                }
-            }
-        });
+        addFocusListener(new FListener(this, this.placeholder));
                 
-        KeyListener keyListener = new KeyListener()
+        addKeyListener(new KeyListener()
         {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -147,8 +159,48 @@ class MPMinMax extends JTextField {
             @Override
             public void keyPressed(KeyEvent e) {
             }
-        };
-        
-        addKeyListener(keyListener);
+        });
+    }
+    
+    public void focusGained()
+    {
+        if (getText().equals(placeholder)) {
+            setText("");
+            setForeground(new Color(255,255,255));
+        }
+    }
+    
+    public void focusLost()
+    {
+        if (getText().isEmpty()) {
+            setText(placeholder);
+            setForeground(new Color(120,120,120));
+        }
+
+        // save value
+
+        if (isMin) parent.mod.ID.min = Integer.valueOf(parent.min.getText());
+        else       parent.mod.ID.max = Integer.valueOf(parent.max.getText());
+    }
+}
+
+class FListener implements FocusListener
+{
+    String placeholder;
+    MPMinMax owner;
+    
+    public FListener(MPMinMax owner, String placeholder)
+    {
+        this.placeholder = placeholder;
+        this.owner = owner;
+    }
+    
+    @Override
+    public void focusGained(FocusEvent e) {
+        owner.focusGained();
+    }
+    @Override
+    public void focusLost(FocusEvent e) {
+        owner.focusLost();
     }
 }

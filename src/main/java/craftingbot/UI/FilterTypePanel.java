@@ -42,6 +42,7 @@ public class FilterTypePanel extends JPanel {
     public String type;
     public String resourcePath;
     public static Main frame;
+    public JPanel parent;
     
     public TypeLabel typelabel;
     public DropdownButton dropdown;
@@ -59,6 +60,7 @@ public class FilterTypePanel extends JPanel {
         this.filter = filter;
         this.index = index;
         this.filter.active = true;
+        this.parent = parent;
         
 //        filterbase.print();
         
@@ -287,7 +289,14 @@ class AddButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                ModifierPanel mp = new ModifierPanel(parent.frame, parent, parent.filterbase, null);
+                parent.modifierpanels.add(mp);
+                parent.parent.add(mp);
+                
+                FilterTypePanel.reshow();
+                
                 parent.filterbase.print();
+                parent.frame.pack();
             }
         };
         addActionListener(actionListener);
