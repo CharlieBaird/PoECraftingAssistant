@@ -37,6 +37,8 @@ public class FilterTypePanel extends JPanel {
     
     public static ArrayList<FilterTypePanel> filtertypepanels = new ArrayList<FilterTypePanel>();
     
+    public ArrayList<ModifierPanel> modifierpanels = new ArrayList<ModifierPanel>();
+    
     public String type;
     public String resourcePath;
     public Main frame;
@@ -132,6 +134,7 @@ public class FilterTypePanel extends JPanel {
         for (Mod m: filterbase.mods)
         {
             ModifierPanel mp = new ModifierPanel(frame, this, m);
+            modifierpanels.add(mp);
             parent.add(mp);
         }
     }
@@ -141,6 +144,19 @@ public class FilterTypePanel extends JPanel {
         for (int i = 0; i < filtertypepanels.size(); i++)
         {
             filtertypepanels.get(i).setVisible(false);
+            
+            for (int j = 0; j < filtertypepanels.get(i).modifierpanels.size(); j++)
+            {
+                filtertypepanels.get(i).modifierpanels.get(j).setVisible(false);
+            }
+        }
+        
+        for (int i = 0; i < filtertypepanels.size(); i++)
+        {            
+            for (int j = 0; j < filtertypepanels.get(i).modifierpanels.size(); j++)
+            {
+                filtertypepanels.get(i).modifierpanels.clear();
+            }
         }
         
         filtertypepanels.clear();
@@ -166,6 +182,12 @@ public class FilterTypePanel extends JPanel {
     {
         if (filtertypepanels.size() >= 2)
         {
+            for (int i=0; i<modifierpanels.size(); i++)
+            {
+                modifierpanels.get(i).setVisible(false);
+            }
+            modifierpanels.clear();
+            
             filtertypepanels.remove(this);
             Filters.print();
             this.setVisible(false);
@@ -239,7 +261,7 @@ class AddButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.09),(int) ((32))));
+        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
         setBackground(new Color(0,0,0));
         setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/plusbuttontransparentsmall.png")); // NOI18N
         setToolTipText("New modifier");
@@ -263,7 +285,7 @@ class CloseFBButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.09),(int) ((32))));
+        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
         setBackground(new Color(0,0,0));
         setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/xbuttontransparentsmall.png")); // NOI18N
         setToolTipText("Remove this logic filter");
@@ -301,7 +323,7 @@ class DropdownButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.09),(int) ((32))));
+        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
         setBackground(new Color(0,0,0));
         setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/opendropdowntransparentsmall.png")); // NOI18N
         setToolTipText("Select logic type");

@@ -13,8 +13,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.*;
 import java.io.File;
+import java.util.ArrayList;
 
 public class ModifierPanel extends JPanel {
+     
     public String resourcePath;
     public Main frame;
     
@@ -44,8 +46,8 @@ public class ModifierPanel extends JPanel {
         
         add(Box.createHorizontalGlue());
         
-        add(max, Box.RIGHT_ALIGNMENT);
         add(min, Box.RIGHT_ALIGNMENT);
+        add(max, Box.RIGHT_ALIGNMENT);
         
         parent.add(this);
     }
@@ -58,7 +60,7 @@ class CloseMPButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.09),(int) ((32))));
+        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.06),(int) ((32))));
         setBackground(new Color(0,0,0));
         setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/xbuttontransparentsmall.png")); // NOI18N
         setToolTipText("Remove this logic filter");
@@ -82,7 +84,7 @@ class ModLabel extends JLabel {
         setFont(parent.frame.getNewFont(14));
         setBackground(new Color(255,0,0));
         setForeground(new Color(255,255,255));
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.5),(int) ((32))));
+        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.74),(int) ((32))));
     }
 }
 
