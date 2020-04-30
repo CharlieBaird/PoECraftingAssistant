@@ -6,6 +6,7 @@
 package craftingbot.filtertypes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,16 +14,16 @@ import java.io.Serializable;
  */
 public class FilterBase implements IFilter, Serializable {
     
-    public Mod[] mods;
+    public ArrayList<Mod> mods = new ArrayList<Mod>();
     
     public FilterBase(Mod... newMods)
     {
-        mods = new Mod[newMods.length];
+        mods = new ArrayList<Mod>();
         
         for (int i=0; i<newMods.length; i++)
         {
             newMods[i].toLowerCase();
-            mods[i] = newMods[i];
+            mods.add(newMods[i]);
         }
     }
     

@@ -74,7 +74,7 @@ class CloseMPButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-//                parent.filterbase.remove(parent.mod);
+                parent.filterbase.mods.remove(parent.mod);
             }
         };
         addActionListener(actionListener);

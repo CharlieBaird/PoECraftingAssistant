@@ -234,16 +234,22 @@ public class FilterTypePanel extends JPanel {
             typelabel.setText(type);
             addRemMinMax();
             
+            Mod[] modsToAdd = new Mod[filterbase.mods.size()];
+            for (int i=0; i<modsToAdd.length; i++)
+            {
+                modsToAdd[i] = filterbase.mods.get(i);
+            }
+            
             switch (selected)
             {
                 case "And":
-                    filterbase = new And(filterbase.mods);
+                    filterbase = new And(modsToAdd);
                     break;
                 case "Not":
-                    filterbase = new Not(filterbase.mods);
+                    filterbase = new Not(modsToAdd);
                     break;
                 case "Count":
-                    filterbase = new Count(1, filterbase.mods);
+                    filterbase = new Count(1, modsToAdd);
                     break;
             }
             
