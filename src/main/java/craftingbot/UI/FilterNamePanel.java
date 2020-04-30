@@ -78,7 +78,7 @@ public class FilterNamePanel extends JPanel {
     {
         if (filter.active)
         {
-            FilterTypePanel.clear();
+            FilterTypePanel.clear(true);
             frame.hideAddButton();
         }
         setVisible(false);

@@ -41,7 +41,7 @@ public class FilterTypePanel extends JPanel {
     
     public String type;
     public String resourcePath;
-    public Main frame;
+    public static Main frame;
     
     public TypeLabel typelabel;
     public DropdownButton dropdown;
@@ -139,7 +139,7 @@ public class FilterTypePanel extends JPanel {
         }
     }
     
-    public static void clear()
+    public static void clear(boolean clearLists)
     {
         for (int i = 0; i < filtertypepanels.size(); i++)
         {
@@ -151,15 +151,18 @@ public class FilterTypePanel extends JPanel {
             }
         }
         
-        for (int i = 0; i < filtertypepanels.size(); i++)
-        {            
-            for (int j = 0; j < filtertypepanels.get(i).modifierpanels.size(); j++)
-            {
-                filtertypepanels.get(i).modifierpanels.clear();
+        if (clearLists)
+        {
+            for (int i = 0; i < filtertypepanels.size(); i++)
+            {            
+                for (int j = 0; j < filtertypepanels.get(i).modifierpanels.size(); j++)
+                {
+                    filtertypepanels.get(i).modifierpanels.clear();
+                }
             }
+            
+            filtertypepanels.clear();
         }
-        
-        filtertypepanels.clear();
     }
     
     public void addRemMinMax()
@@ -199,6 +202,13 @@ public class FilterTypePanel extends JPanel {
     public void showDropdown()
     {
         
+    }
+    
+    public static void reshow()
+    {
+        clear(false);
+        Filter f = FilterTypePanel.filtertypepanels.get(0).filter;
+        frame.genFilterPanel(f);
     }
     
     private int getIndex()

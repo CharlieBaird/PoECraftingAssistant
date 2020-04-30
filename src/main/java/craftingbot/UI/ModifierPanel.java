@@ -21,8 +21,9 @@ public class ModifierPanel extends JPanel {
     public Main frame;
     public FilterBase filterbase;
     public Mod mod;
+    public FilterTypePanel parent;
     
-    public ModifierPanel(Main frame, JPanel parent, FilterBase filterbase, Mod mod)
+    public ModifierPanel(Main frame, FilterTypePanel parent, FilterBase filterbase, Mod mod)
     {
         String path = "src/main/resources";
         File file = new File(path);
@@ -31,6 +32,7 @@ public class ModifierPanel extends JPanel {
         this.frame = frame;
         this.filterbase = filterbase;
         this.mod = mod;
+        this.parent = parent;
         
         Dimension size = new Dimension((int) (parent.getWidth() * 0.912),(int) (40)); // 0.912
         setSize(size);
@@ -74,7 +76,11 @@ class CloseMPButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                parent.filterbase.print();
+//                parent.parent.modifierpanels.remove(this);
                 parent.filterbase.mods.remove(parent.mod);
+                FilterTypePanel.reshow();
+                parent.filterbase.print();
             }
         };
         addActionListener(actionListener);

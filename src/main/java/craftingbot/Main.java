@@ -984,7 +984,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             filter.filters.add(new And());
         }
         
-        FilterTypePanel.clear();
+        FilterTypePanel.clear(true);
         
         for (FilterBase fb : filter.filters)
         {
