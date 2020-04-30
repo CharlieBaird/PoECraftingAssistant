@@ -35,7 +35,8 @@ public class ModifierPanel extends JPanel {
         
         CloseMPButton cb = new CloseMPButton(this);
         ModLabel ml = new ModLabel(this, mod.name);
-        
+        MPMinMax min = new MPMinMax(this, "min", true);
+        MPMinMax max = new MPMinMax(this, "max", false);
         
         add(cb, Box.LEFT_ALIGNMENT);
         add(Box.createRigidArea(new Dimension(15,0)), Box.LEFT_ALIGNMENT);
@@ -43,8 +44,8 @@ public class ModifierPanel extends JPanel {
         
         add(Box.createHorizontalGlue());
         
-        
-        
+        add(max, Box.RIGHT_ALIGNMENT);
+        add(min, Box.RIGHT_ALIGNMENT);
         
         parent.add(this);
     }
@@ -81,6 +82,7 @@ class ModLabel extends JLabel {
         setFont(parent.frame.getNewFont(14));
         setBackground(new Color(255,0,0));
         setForeground(new Color(255,255,255));
+        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.5),(int) ((32))));
     }
 }
 
@@ -88,14 +90,15 @@ class MPMinMax extends JTextField {
     public String placeholder;
     public boolean isMin; // true = min, false = max;
     
-    public MPMin(ModifierPanel parent, String placeholder)
+    public MPMinMax(ModifierPanel parent, String placeholder, boolean isMin)
     {
         this.placeholder = placeholder;
+        this.isMin = isMin;
+        
         setText(placeholder);
         setFont(parent.frame.getNewFont(14));
         setBackground(new Color(0,0,0));
         setForeground(new Color(120,120,120));
-        setVisible(false);
         setHorizontalAlignment(SwingConstants.CENTER);
         
         addFocusListener(new FocusListener() {
@@ -112,13 +115,6 @@ class MPMinMax extends JTextField {
                     setText(placeholder);
                     setForeground(new Color(120,120,120));
                 }
-                
-                if (parent.filterbase.getClass().getSimpleName().equals("Count"))
-                {
-                    Count c = (Count) parent.filterbase;
-                    c.needed = Integer.valueOf(getText());
-                    parent.filterbase = c;
-                }
             }
         });
                 
@@ -129,12 +125,6 @@ class MPMinMax extends JTextField {
                 if (e.getKeyCode() == 10)
                 {
                     parent.requestFocusInWindow();
-                    if (parent.filterbase.getClass().getSimpleName().equals("Count"))
-                    {
-                        Count c = (Count) parent.filterbase;
-                        c.needed = Integer.valueOf(getText());
-                        parent.filterbase = c;
-                    }
                 }
             }
 
@@ -149,3 +139,4 @@ class MPMinMax extends JTextField {
         
         addKeyListener(keyListener);
     }
+}
