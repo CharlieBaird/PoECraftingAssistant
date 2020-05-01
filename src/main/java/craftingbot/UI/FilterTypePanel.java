@@ -234,7 +234,6 @@ public class FilterTypePanel extends JPanel {
         
         JOptionPane jop = new JOptionPane();
         sb.setSelectedIndex(getIndex());        
-        System.out.println(getIndex() + " is the getIndex()");
 
         jop.showMessageDialog(this, sb, "CraftingBot", JOptionPane.PLAIN_MESSAGE, null);
         
@@ -266,9 +265,7 @@ public class FilterTypePanel extends JPanel {
             }
             
             filter.filters.set(index, filterbase);
-        }
-        
-//        filterbase.print();
+        }        
     }
 }
 

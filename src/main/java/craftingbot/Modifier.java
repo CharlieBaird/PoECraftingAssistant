@@ -49,6 +49,15 @@ public class Modifier {
         System.out.printf("%-5s %-50s %-40s\n", ModGenerationTypeID, CorrectGroup, str);
     }
     
+    public static Modifier getFromStr(String str)
+    {
+        for (Modifier m : all)
+            if (m.getStr().equals(str))
+                return m;
+        
+        return null;
+    }
+    
     public Modifier(String ModGenerationTypeID, String CorrectGroup, String str)
     {
         this.ModGenerationTypeID = Integer.valueOf(ModGenerationTypeID);
@@ -64,11 +73,7 @@ public class Modifier {
         
         str = str.toLowerCase();
         
-//        this.str = str;
-//        print();
         str = removeRolls(str);
-//        this.str = str;
-//        print();
         this.str = str;
                         
         if (!all.contains(this))

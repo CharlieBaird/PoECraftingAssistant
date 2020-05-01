@@ -1,6 +1,7 @@
 package craftingbot.UI;
 
 import craftingbot.Main;
+import craftingbot.Modifier;
 import craftingbot.filtertypes.FilterBase;
 import craftingbot.filtertypes.Mod;
 import craftingbot.filtertypes.Id;
@@ -12,6 +13,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -69,7 +72,59 @@ public class ModifierPanel extends JPanel {
         add(min, Box.RIGHT_ALIGNMENT);
         add(max, Box.RIGHT_ALIGNMENT);
         
+        addMouseListener(new ModMouseListener(this));
+        
         parent.add(this);
+    }
+    
+    public void showSearchBox()
+    {
+        String[] types = SearchBox.toArr(Modifier.all);
+        SearchBox sb = new SearchBox(types);
+        
+        JOptionPane jop = new JOptionPane();
+        sb.setSelectedIndex(0);        
+
+        jop.showMessageDialog(this, sb, "CraftingBot", JOptionPane.PLAIN_MESSAGE, null);
+        
+        String selected = sb.getSelectedItem().toString();
+        
+        if (selected != null && !selected.equals(""))
+        {
+            Modifier m = Modifier.getFromStr(selected);
+            m.print();
+        }
+    }
+}
+
+class ModMouseListener implements MouseListener {
+    
+    ModifierPanel owner;
+    
+    public ModMouseListener(ModifierPanel owner)
+    {
+        this.owner = owner;
+    }
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        owner.showSearchBox();
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }
 
