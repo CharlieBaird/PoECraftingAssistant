@@ -19,7 +19,6 @@ craftingbot\UI\CloseFBButton.class
 craftingbot\UI\ModMouseListener.class
 craftingbot\Main$5.class
 craftingbot\filtertypes\logicgroups\Not.class
-craftingbot\UI\ToolkitOverride.class
 craftingbot\filtertypes\Id.class
 craftingbot\Main$4.class
 craftingbot\UI\Min$1.class

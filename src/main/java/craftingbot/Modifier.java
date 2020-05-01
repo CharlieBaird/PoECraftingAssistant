@@ -126,4 +126,11 @@ public class Modifier {
         
         return false;
     }
+    
+    public static void genOther()
+    {
+        new Modifier("0", "TotalFromItem", "energy shield: #");
+        new Modifier("0", "TotalFromItem", "evasion: #");
+        new Modifier("0", "TotalFromItem", "armour: #");
+    }
 }

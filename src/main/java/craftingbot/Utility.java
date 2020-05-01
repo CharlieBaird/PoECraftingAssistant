@@ -161,22 +161,19 @@ public class Utility {
 
         for (String s : specNotable)
         {                
-                Pattern p = Pattern.compile("([PS]{1})([_]+)([a-zA-Z ]*)");
-                Matcher m = p.matcher(s);
-                
-                if (m.find())
-                {
-                    int ps = m.group(1).equals("P") ? 1 : 2;
-                    String mod = "1 Added Passive Skill is " + m.group(3);
-                    
-                    Modifier notable = new Modifier(String.valueOf(ps), "ClusterJewelNotable", mod);
-                }
+            Pattern p = Pattern.compile("([PS]{1})([_]+)([a-zA-Z ]*)");
+            Matcher m = p.matcher(s);
+
+            if (m.find())
+            {
+                int ps = m.group(1).equals("P") ? 1 : 2;
+                String mod = "1 Added Passive Skill is " + m.group(3);
+
+                Modifier notable = new Modifier(String.valueOf(ps), "ClusterJewelNotable", mod);
+            }
         }
-        
-//        for (Modifier m : Modifier.all)
-//        {
-//            m.print();
-//        }
+
+        Modifier.genOther();
     }
     
     private static String[] removeDuplicates(String[] input)

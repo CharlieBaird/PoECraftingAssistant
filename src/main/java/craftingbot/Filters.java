@@ -16,6 +16,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -223,16 +225,41 @@ public class Filters implements Serializable {
         f.close();
     }
     
-    public static void saveFilters() throws FileNotFoundException, IOException
+    public static void saveFilters()
     {
-        FileOutputStream f = new FileOutputStream(new File(System.getProperty("user.dir") + "/src/main/resources/filters" + "/" + singleton.name + ".txt"));
-        ObjectOutputStream o = new ObjectOutputStream(f);
+        if (singleton.name.equals("") || singleton.name == null)
+            return;
+        
+        FileOutputStream f = null;
+        try {
+            f = new FileOutputStream(new File(System.getProperty("user.dir") + "/src/main/resources/filters" + "/" + singleton.name + ".txt"));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ObjectOutputStream o = null;
+        try {
+            o = new ObjectOutputStream(f);
+        } catch (IOException ex) {
+            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        // Write objects to file
-        o.writeObject(singleton);
+        try {
+            // Write objects to file
+            o.writeObject(singleton);
+        } catch (IOException ex) {
+            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        o.close();
-        f.close();
+        try {
+            o.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            f.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public static void deleteFilters(String name)

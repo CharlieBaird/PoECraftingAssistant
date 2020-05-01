@@ -5,6 +5,7 @@
  */
 package craftingbot;
 
+import static craftingbot.Filters.singleton;
 import craftingbot.UI.ComponentMover;
 import craftingbot.UI.FilterNamePanel;
 import craftingbot.UI.FilterTypePanel;
@@ -669,11 +670,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             File file = chooser.getSelectedFile();
             String path = file.toPath().toString();
             
-            try {
-                Filters.saveFilters();
-            } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Filters.saveFilters();
             Filters.reset();
             updateLeftTab();
 
@@ -716,11 +713,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         
         if (name != null && !name.equals(""))
         {
-            try {
             Filters.saveFilters();
-            } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
 
             Filters.reset();
 
@@ -734,11 +727,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             jLabel5.setText("   " + name);
         
             Filters.singleton.setName(name);
-            try {
-                Filters.saveFilters();
-            } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Filters.saveFilters();
             
             jLabel5.setVisible(true);
             jButton8.setVisible(true);
@@ -758,14 +747,17 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         
         if (name != null && !name.equals(""))
         {
+            // delete old
+            
+            File old = new File(System.getProperty("user.dir") + "/src/main/resources/filters" + "/" + Filters.getName() + ".txt");
+            old.delete();
+            
+            // save
+            
             jLabel5.setText("   " + name);
             
             Filters.singleton.setName(name);
-            try {
-                Filters.saveFilters();
-            } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Filters.saveFilters();
         }
     }//GEN-LAST:event_jLabel5MouseClicked
 
@@ -806,7 +798,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     }//GEN-LAST:event_jPanel4MouseReleased
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        pack();
+        Filters.print();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     public void updateLeftTab()
@@ -890,11 +882,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             new FilterNamePanel(this, jPanel6, filter);
         }
         
-        try {
-            Filters.saveFilters();
-        } catch (IOException ex) {
-            System.out.println(ex.toString());
-        }
+        Filters.saveFilters();
         
         jLabel5.setVisible(true);
         jButton8.setVisible(true);

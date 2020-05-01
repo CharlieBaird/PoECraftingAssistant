@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package craftingbot.UI;
 
 import craftingbot.Filters;
@@ -14,9 +9,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import craftingbot.Filter;
 import java.util.ArrayList;
@@ -63,15 +55,6 @@ public class FilterNamePanel extends JPanel {
         
         parent.add(this);
         filterpanels.add(this);
-        
-//        Dimension size2 = new Dimension(316,300);
-//        parent.setSize(size2);
-//        frame.pack();
-//        System.out.print(" --> " + parent.getWidth() + "\n");
-//        System.out.println(getWidth());
-//        System.out.println(ftf.getWidth());
-//        System.out.println(cb.getSize());
-
     }
     
     public void remove()
@@ -84,28 +67,9 @@ public class FilterNamePanel extends JPanel {
         setVisible(false);
         Filters.singleton.remove(name);
         parent.requestFocus();
-        try {
-            Filters.saveFilters();
-        } catch (IOException ex) {
-            Logger.getLogger(FilterNamePanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Filters.saveFilters();
         
     }
-    
-//    class DropdownElement extends JPanel implements MouseListener
-//    {
-//        public DropdownElement(JPanel parent)
-//        {
-//            Dimension size = new Dimension(parent.getSize());
-//            
-//            setSize(size);
-//            setPreferredSize(size);
-//            setBackground(new Color(40,40,40));
-//            this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-//            
-//            JLabel label
-//        }
-//    }
 }
 
 class BackgroundListener implements MouseListener
@@ -163,11 +127,7 @@ class FilterTextField extends JTextField
                 {
                     parent.requestFocusInWindow();
                     Filters.singleton.rename(savedname, getText());
-                    try {
-                        Filters.saveFilters();
-                    } catch (IOException ex) {
-                        Logger.getLogger(FilterNamePanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    Filters.saveFilters();
 //                    Filters.deleteFilters(savedname);
                     parent.savedname = getText();
                 }

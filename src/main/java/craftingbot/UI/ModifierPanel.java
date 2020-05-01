@@ -1,6 +1,7 @@
 package craftingbot.UI;
 
 import craftingbot.Main;
+import craftingbot.Filters;
 import craftingbot.Modifier;
 import craftingbot.filtertypes.FilterBase;
 import craftingbot.filtertypes.Mod;
@@ -26,7 +27,9 @@ public class ModifierPanel extends JPanel {
     
     public MPMinMax min;
     public MPMinMax max;
+    public ModLabel ml;
     
+    public Modifier assocMod;
     
     public ModifierPanel(Main frame, FilterTypePanel parent, FilterBase filterbase, Mod mod)
     {
@@ -55,7 +58,7 @@ public class ModifierPanel extends JPanel {
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
         CloseMPButton cb = new CloseMPButton(this);
-        ModLabel ml = new ModLabel(this, mod.name);
+        ml = new ModLabel(this, mod.name);
         
         min = new MPMinMax(this, String.valueOf(mod.ID.min), true);
         max = new MPMinMax(this, String.valueOf(mod.ID.max), false);
@@ -72,6 +75,8 @@ public class ModifierPanel extends JPanel {
         addMouseListener(new ModMouseListener(this));
         
         parent.add(this);
+        
+        Filters.saveFilters();
     }
     
     public void showSearchBox()
@@ -84,12 +89,20 @@ public class ModifierPanel extends JPanel {
 
         jop.showMessageDialog(this, sb, "CraftingBot", JOptionPane.PLAIN_MESSAGE, null);
         
-        String selected = sb.getSelectedItem().toString();
+        Object selected = sb.getSelectedItem();
         
-        if (selected != null && !selected.equals(""))
+        if (selected != null && !selected.toString().equals(""))
         {
-            Modifier m = Modifier.getFromStr(selected);
+            Modifier m = Modifier.getFromStr(selected.toString());
             m.print();
+            
+            assocMod = m;
+            
+            mod.name = m.getStr();
+            
+            ml.setText(m.getStr());
+            
+            Filters.saveFilters();
         }
     }
 }
@@ -147,6 +160,8 @@ class CloseMPButton extends JButton {
                 parent.filterbase.mods.remove(parent.mod);
                 FilterTypePanel.reshow();
                 parent.filterbase.print();
+        
+                Filters.saveFilters();
             }
         };
         addActionListener(actionListener);
@@ -233,6 +248,8 @@ class MPMinMax extends JTextField {
 
         if (isMin) parent.mod.ID.min = Integer.valueOf(parent.min.getText());
         else       parent.mod.ID.max = Integer.valueOf(parent.max.getText());
+        
+        Filters.saveFilters();
     }
 }
 
