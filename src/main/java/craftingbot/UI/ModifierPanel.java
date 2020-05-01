@@ -83,7 +83,7 @@ public class ModifierPanel extends JPanel {
         SearchBox sb = new SearchBox(types);
         
         JOptionPane jop = new JOptionPane();
-        sb.setSelectedIndex(0);        
+        sb.setSelectedIndex(-1);        
 
         jop.showMessageDialog(this, sb, "CraftingBot", JOptionPane.PLAIN_MESSAGE, null);
         

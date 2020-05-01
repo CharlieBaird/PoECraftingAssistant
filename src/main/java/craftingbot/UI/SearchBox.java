@@ -6,6 +6,8 @@
 package craftingbot.UI;
 
 import craftingbot.Modifier;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -37,6 +39,9 @@ public class SearchBox extends JComboBox
         this.setSelectedIndex(-1);
         
         this.getEditor().getEditorComponent().addKeyListener(new KeyTypedListener(this));
+        this.getEditor().getEditorComponent().addFocusListener(new ClickListener(this));
+        
+        
         this.setSelectedIndex(-1);
 //        showPopup();
     }
@@ -70,8 +75,6 @@ public class SearchBox extends JComboBox
         return objects;
     }
     
-            
-    // checks if str1 starts with str2 - ignores case
     private boolean containsIgnoreCase(String str1, String str2) {
         return str1.toUpperCase().contains(str2.toUpperCase());
     }
@@ -86,8 +89,6 @@ public class SearchBox extends JComboBox
         return types;
     }
 }
-
-
 
 
 class KeyTypedListener implements KeyListener
@@ -105,14 +106,6 @@ class KeyTypedListener implements KeyListener
 
     @Override
     public void keyPressed(KeyEvent e) {
-        
-//            if (owner.entry.length() >= 1)
-//            {
-//                owner.entry = owner.entry.substring(0,owner.entry.length() - 1);
-//                
-//            }
-        
-//        owner.updateList();
     }
 
     @Override
@@ -120,5 +113,23 @@ class KeyTypedListener implements KeyListener
         owner.entry = owner.getEditor().getItem().toString();    
         owner.updateList();
     }
+}
 
+class ClickListener implements FocusListener
+{
+    SearchBox owner;
+    
+    public ClickListener(SearchBox owner)
+    {
+        this.owner = owner;
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        owner.showPopup();
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+    }
 }
