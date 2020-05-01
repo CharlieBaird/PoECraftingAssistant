@@ -19,6 +19,7 @@ craftingbot\UI\CloseFBButton.class
 craftingbot\UI\ModMouseListener.class
 craftingbot\Main$5.class
 craftingbot\filtertypes\logicgroups\Not.class
+craftingbot\UI\ToolkitOverride.class
 craftingbot\filtertypes\Id.class
 craftingbot\Main$4.class
 craftingbot\UI\Min$1.class
@@ -26,6 +27,7 @@ craftingbot\UI\KeyTypedListener.class
 craftingbot\UI\CloseButton$1.class
 craftingbot\UI\CloseFBButton$1.class
 craftingbot\Filters.class
+craftingbot\UI\ClickListener.class
 craftingbot\UI\OpenButton.class
 craftingbot\CraftingBot.class
 craftingbot\UI\BackgroundListener.class
@@ -47,6 +49,7 @@ craftingbot\UI\AddButton$1.class
 craftingbot\UI\ModLabel.class
 craftingbot\Main$11.class
 craftingbot\Main$8.class
+craftingbot\Main$15.class
 craftingbot\UI\FListener.class
 craftingbot\UI\FilterTextField.class
 craftingbot\UI\FilterTextField$1.class

@@ -14,10 +14,6 @@ import java.util.ArrayList;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.SwingUtilities;
-import javax.swing.plaf.basic.BasicComboBoxEditor;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
 
 /**
  *

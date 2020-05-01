@@ -4,8 +4,6 @@ import craftingbot.Main;
 import craftingbot.Modifier;
 import craftingbot.filtertypes.FilterBase;
 import craftingbot.filtertypes.Mod;
-import craftingbot.filtertypes.Id;
-import craftingbot.filtertypes.logicgroups.Count;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +15,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 import java.io.File;
-import java.util.ArrayList;
 
 public class ModifierPanel extends JPanel {
      

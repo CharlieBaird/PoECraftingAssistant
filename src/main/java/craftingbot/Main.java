@@ -12,11 +12,13 @@ import craftingbot.filtertypes.FilterBase;
 import craftingbot.filtertypes.logicgroups.And;
 import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -29,6 +31,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
@@ -950,6 +955,15 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         try {
             Utility.pullModsFromAPI();
         } catch (Exception ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            UIManager.setLookAndFeel(new NimbusLookAndFeel() {
+                @Override
+                public void provideErrorFeedback(Component component) {}
+            });
+        } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         
