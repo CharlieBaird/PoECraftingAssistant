@@ -87,6 +87,8 @@ public class Filter implements Serializable
     {
         int goal = filters.size();
         int numhit = 0;
+        
+//        System.out.println(mods);
             
         for (FilterBase fb : filters)
         {

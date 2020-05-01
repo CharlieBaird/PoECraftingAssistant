@@ -45,21 +45,23 @@ public class Mod implements Serializable {
         for (String s : inputLines)
         {
 //            System.out.println(s);
+            System.out.println("'" + s + "' - '" + name + "'");
+            
             if (s.contains(name))
             {
-                String[] rolls = Utility.getModFormat(s);
-                
-                if (rolls.length != 3)
-                {
-                    boolean valid = true;
-                    for (int i=0; i<rolls.length; i++)
-                    {
-                        if (!ID.valid(Integer.valueOf(rolls[i]))) valid = false;
-                    }
-
-                    return valid;
-                }
-                else return true;
+//                String[] rolls = Utility.getModFormat(s);
+//                
+//                if (rolls.length != 3)
+//                {
+//                    boolean valid = true;
+//                    for (int i=0; i<rolls.length; i++)
+//                    {
+//                        if (!ID.valid(Integer.valueOf(rolls[i]))) valid = false;
+//                    }
+//
+//                    return valid;
+//                }
+                return true;
             }
         }
         

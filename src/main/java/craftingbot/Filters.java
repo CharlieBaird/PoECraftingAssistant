@@ -21,10 +21,6 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-/**
- *
- * @author charl
- */
 public class Filters implements Serializable {
     private String name = "";
 
@@ -108,13 +104,19 @@ public class Filters implements Serializable {
         String modsRaw = parseMods(mods);
         System.out.println(modsRaw);
         
-//        for (Filter f : singleton.filters)
-//        {
-//            if (f.checkIfHit(mods)) return true;
-//        }
-//        
-//        return false;
+        for (Filter f : singleton.filters)
+        {
+            if (f.checkIfHit(modsRaw))
+            {
+                System.out.println("valid");
+                return true;
+            }
+        }
 
+//        Filters.print();
+
+        System.out.println("invalid");
+        
         return true;
     }
     
@@ -128,10 +130,10 @@ public class Filters implements Serializable {
         {
             String str = modLines.get(i);
             
-            Pattern p1a = Pattern.compile("^(\\D+)([0-9]+)(\\D+)$"); // 2
-            Pattern p1b = Pattern.compile("^([0-9]+)(\\D+)$"); // 1
-            Pattern p1c = Pattern.compile("^(\\D+)([0-9]+)$"); // 2
-            Pattern p2  = Pattern.compile("^(\\D+)([0-9]+)(\\D+)([0-9+])(\\D+)$"); // 2, 4
+            Pattern p1a = Pattern.compile("^(\\D+)(\\d+(?:\\.\\d+)?)(\\D+)$"); // 2
+            Pattern p1b = Pattern.compile("^(\\d+(?:\\.\\d+)?)(\\D+)$"); // 1
+            Pattern p1c = Pattern.compile("^(\\D+)(\\d+(?:\\.\\d+)?)$"); // 2
+            Pattern p2  = Pattern.compile("^(\\D+)(\\d+(?:\\.\\d+)?)(\\D+)(\\d+(?:\\.\\d+)?)(\\D+)$"); // 2, 4
             Matcher m1a = p1a.matcher(str);
             Matcher m1b = p1b.matcher(str);
             Matcher m1c = p1c.matcher(str);
@@ -148,9 +150,9 @@ public class Filters implements Serializable {
             Matcher mAllWord = pAllWord.matcher(str);
             if (mAllWord.find())
             {
-                System.out.println("found " + str);
-                System.out.println("removing " + modLines.get(i));
-                System.out.println();
+//                System.out.println("found " + str);
+//                System.out.println("removing " + modLines.get(i));
+//                System.out.println();
                 modLines.remove(i);
                 i--;
             }

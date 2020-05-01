@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Id implements Serializable
 {
     public int min = -100000;
-    public int max = -100000;
+    public int max = 100000;
     
     public Id(int min, int max)
     {
@@ -29,7 +29,7 @@ public class Id implements Serializable
     
     public boolean valid(int roll)
     {
-        if (min == -100000 || max == -100000) return true;
+        if (min == -100000 || max == 100000) return true;
         return (roll <= max && roll >= min);
     }
     
