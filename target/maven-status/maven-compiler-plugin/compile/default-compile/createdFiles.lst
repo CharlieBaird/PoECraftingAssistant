@@ -11,10 +11,8 @@ craftingbot\UI\TypeLabel.class
 craftingbot\filtertypes\logicgroups\And.class
 craftingbot\Main$2.class
 craftingbot\filtertypes\IFilter.class
-craftingbot\UI\AutoComplete$4.class
 craftingbot\Utility.class
 craftingbot\UI\FilterTypePanel.class
-craftingbot\UI\AutoComplete$1.class
 craftingbot\filtertypes\Mod.class
 craftingbot\UI\Min$2.class
 craftingbot\UI\CloseFBButton.class
@@ -25,13 +23,11 @@ craftingbot\filtertypes\Id.class
 craftingbot\Main$4.class
 craftingbot\UI\Min$1.class
 craftingbot\UI\KeyTypedListener.class
-craftingbot\UI\AutoComplete$3.class
 craftingbot\UI\CloseButton$1.class
 craftingbot\UI\CloseFBButton$1.class
 craftingbot\Filters.class
 craftingbot\UI\OpenButton.class
 craftingbot\CraftingBot.class
-craftingbot\UI\AutoComplete$2.class
 craftingbot\UI\BackgroundListener.class
 craftingbot\UI\CloseMPButton$1.class
 craftingbot\UI\DropdownButton.class
@@ -51,7 +47,6 @@ craftingbot\UI\AddButton$1.class
 craftingbot\UI\ModLabel.class
 craftingbot\Main$11.class
 craftingbot\Main$8.class
-craftingbot\UI\AutoComplete.class
 craftingbot\UI\FListener.class
 craftingbot\UI\FilterTextField.class
 craftingbot\UI\FilterTextField$1.class
