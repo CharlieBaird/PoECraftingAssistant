@@ -21,16 +21,9 @@ import craftingbot.filtertypes.FilterBase;
 import craftingbot.filtertypes.logicgroups.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.ArrayList;
 import craftingbot.filtertypes.Mod;
 
-/**
- *
- * @author charl
- */
 public class FilterTypePanel extends JPanel {
     
     public static String[] types = new String[] {"And", "Not", "Count"};
@@ -195,9 +188,11 @@ public class FilterTypePanel extends JPanel {
             this.setVisible(false);
             
             filtertypepanels.remove(this);
-            Filters.print();
+//            Filters.print();
             filter.filters.remove(filterbase);
-            Filters.print();
+//            Filters.print();
+
+            Filters.saveFilters();
         }
     }
     
