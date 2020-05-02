@@ -10,4 +10,7 @@ public interface IFilter {
     public boolean hit(String input);
     
     public void print();
+    
+    public String view();
+//    public FilterBase dupe();
 }

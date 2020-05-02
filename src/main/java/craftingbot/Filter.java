@@ -6,85 +6,115 @@
 package craftingbot;
 
 import craftingbot.filtertypes.*;
+import craftingbot.filtertypes.logicgroups.*;
 import java.awt.AWTException;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author charl
  */
-public class Filter
+public class Filter implements Serializable
 {
-    public static ArrayList<Filter> FiltersParent = new ArrayList<Filter>();
-    
     public ArrayList<FilterBase> filters = new ArrayList<FilterBase>();
+    public String name;
+    public boolean active = false;
     
     public Filter()
     {
-//        /*
-        Mod ms = new Mod("% increased movement speed", 25, 35);        
-        Mod totalES = new Mod("energy shield: ", 130, 1000);
-        Mod fRes = new Mod("% to fire resistance", 30, 48);
-        Mod lRes = new Mod("% to lightning resistance", 30, 48);
-        Mod cRes = new Mod("% to cold resistance", 30, 48);
-        filters.add(new Count(6, ms, ms, ms, totalES, totalES, totalES, fRes, fRes, lRes, lRes, cRes, cRes));
-//        */
+//        boots
+//        name = "Count MS/ES/RES";
+        filters.clear();
+//        boots
+//        name = "Count MS/ES/RES";
+//        filters.clear();
+//        Mod ms = new Mod("% increased movement speed", 25, 35);        
+//        Mod totalES = new Mod("energy shield: ", 130, 1000);
+//        Mod maxES = new Mod("energy shield: ", 160, 1000);
+//        Mod fRes = new Mod("% to fire resistance", 30, 48);
+//        Mod lRes = new Mod("% to lightning resistance", 30, 48);
+//        Mod cRes = new Mod("% to cold resistance", 30, 48);
+//        Mod maxMS = new Mod("% increased movement speed", 35, 35);
+//        filters.add(new Count(6, ms, ms, ms, totalES, totalES, totalES, fRes, fRes, lRes, lRes, cRes, cRes, maxMS, maxMS, maxMS, maxMS, maxMS, maxMS, maxES, maxES, maxES, maxES, maxES, maxES));
         
-//        Mod life = new Mod(" to maximum life", 80, 89);
         
-        /* HERALD ABUSE JEWELS
-        Mod ph = new Mod(" added passive skill is purposeful harbinger", 1, 2);
-        Mod end = new Mod(" added passive skill is endbringer", 1, 1);
-        Mod her = new Mod(" added passive skill is heraldry", 1, 1);
-        filters.add(new And(ph));
-        filters.add(new Count(1, end, her));
-        */
+//        Mod totalES = new Mod("energy shield: ", 130, 1000);
+//        Mod maxES = new Mod("energy shield: ", 160, 1000);
+//        Mod fRes = new Mod("% to fire resistance", 30, 48);
+//        Mod lRes = new Mod("% to lightning resistance", 30, 48);
+//        Mod cRes = new Mod("% to cold resistance", 30, 48);
+//        Mod maxMS = new Mod("% increased movement speed", 35, 35);
+//        filters.add(new Count(6, ms, ms, ms, totalES, totalES, totalES, fRes, fRes, lRes, lRes, cRes, cRes, maxMS, maxMS, maxMS, maxMS, maxMS, maxMS, maxES, maxES, maxES, maxES, maxES, maxES));
+//        name = "TestAltSpam";
+//        filters.add(new And(ms));
         
         /* EXPLODE MOD ON CHEST
         Mod explode = new Mod("enemies you kill explode, dealing 3% of their life as physical damage");
         filters.add(new Count(1, explode));
         */
         
-        FiltersParent.add(this);
+//        FiltersParent.add(this);
         
-        print();
+//        print();
+
+        name = "TestNewFilters";
+        Mod ms = new Mod("#% increased movement speed", 25, 35);
+        Mod totalES = new Mod("energy shield: #", 10,500);
+        filters.add(new And(ms,totalES));
+        filters.add(new Count(1, ms));
     }
     
-    public static boolean checkIfHit() throws AWTException, UnsupportedFlavorException, IOException
+    public Filter(boolean isNew)
     {
-        for (Filter f : FiltersParent)
+        name = "New Filter";
+    }
+    
+    public Filter(Filter old) // duplicates
+    {
+        for (FilterBase fb : old.filters)
         {
-            String mods = Utility.copy();
-            Utility.delay(40);
-
-            mods = mods.toLowerCase();
-            
-            int goal = f.filters.size();
-            int numhit = 0;
-            
-            for (FilterBase fb : f.filters)
+            for (Mod mod : fb.mods)
             {
-                if (fb.hit(mods)) numhit++;
+                Mod dupe = mod.dupe();
             }
-            
-            if (numhit >= goal) return true;
         }
+    }
+    
+    public boolean checkIfHit(String mods)
+    {
+        int goal = filters.size();
+        int numhit = 0;
+        
+//        System.out.println(mods);
+            
+        for (FilterBase fb : filters)
+        {
+            if (fb.hit(mods)) numhit++;
+        }
+        
+        if (numhit >= goal) return true;
         return false;
     }
     
-    public static void print()
+    public void print()
     {
-        int i = 1;
-        for (Filter f : FiltersParent)
+        System.out.println("    " + name);
+        for (FilterBase f : filters)
         {
-            System.out.println(i + ")");
-            i++;
-            for (FilterBase fb : f.filters)
-            {
-                fb.print();
-            }
+            f.print();
         }
+    }
+    
+    public String view()
+    {
+        String str = name + "\n";
+        for (FilterBase f : filters)
+        {
+            str += f.view() + "\n";
+        }
+        return str;
     }
 }

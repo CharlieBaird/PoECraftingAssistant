@@ -6,24 +6,25 @@
 package craftingbot.filtertypes;
 
 import craftingbot.Utility;
+import java.io.Serializable;
 
 /**
  *
  * @author charl
  */
-public class Mod {
+public class Mod implements Serializable {
     public String name; // Form of: #% increased movement speed
-    public Id[] ids; // Form of: min 25, max 35
+    public Id ID = new Id(); // Form of: min 25, max 35
     
 //    public String converged;
     
     public Mod(String name, int... id)
     {
         this.name = name.toLowerCase();
-        this.ids = new Id[id.length / 2];
+//        this.ids = new Id[id.length / 2];
                
         for (int i=0; i<id.length; i+=2)
-            ids[i/2] = new Id(id[i/2], id[i/2+1]);
+            ID = new Id(id[i/2], id[i/2+1]);
     }
     
     public void toLowerCase()
@@ -31,28 +32,34 @@ public class Mod {
         name = name.toLowerCase();
     }
     
+    public Mod dupe()
+    {   
+        return new Mod(this.name, ID.toArr());
+    }
+    
+    
     public boolean hit(String input)
     {
         String[] inputLines = input.split("\\R");
         
         for (String s : inputLines)
         {
-//            System.out.println(s);
             if (s.contains(name))
-            {
-                String[] rolls = Utility.getModFormat(s);
+            {                
                 
-                if (rolls.length != 3)
-                {
-                    boolean valid = true;
-                    for (int i=0; i<rolls.length; i++)
-                    {
-                        if (!ids[i].valid(Integer.valueOf(rolls[i]))) valid = false;
-                    }
+                String[] inputLinesSep = s.split("[*]{1}");
 
-                    return valid;
+                s = inputLinesSep[0];
+                double[] ids = new double[inputLinesSep.length-1];
+                for (int i=1; i<inputLinesSep.length; i++)
+                {
+                    ids[i-1] = Double.valueOf(inputLinesSep[i]);
                 }
-                else return true;
+                
+                if (ID.valid(ids))
+                    return true;
+                else
+                    return false;
             }
         }
         
@@ -61,26 +68,15 @@ public class Mod {
     
     public void print()
     {
-        System.out.println("    \"" + name + "\"");
-        for (int i=0; i<ids.length; i++)
-            System.out.println("        ids: " + ids[i].min + ", " + ids[i].max);
-    }
-}
-
-class Id
-{
-    int min = -100000;
-    int max = -100000;
-    
-    public Id(int min, int max)
-    {
-        this.min = min;
-        this.max = max;
+        System.out.println("        \"" + name + "\"");
+        System.out.println("            ids: " + ID.min + ", " + ID.max);
     }
     
-    public boolean valid(int roll)
+    public String view()
     {
-        if (min == -100000 || max == -100000) return true;
-        return (roll <= max && roll >= min);
+        String str = name + "\n";
+        str += ("               min: " + ID.min + ", max: " + ID.max);
+        
+        return str;
     }
 }

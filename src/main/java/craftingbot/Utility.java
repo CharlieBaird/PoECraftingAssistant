@@ -5,6 +5,9 @@
  */
 package craftingbot;
 
+//import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -21,9 +24,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import modlist.Converter;
-import modlist.FileScanner;
-import modlist.ModList;
+import craftingbot.modlist.FileScanner;
+//import craftingbot.Modifier;
+import java.io.File;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
+//import craftingbot.modlist.ModList;
 
 public class Utility {
    
@@ -79,13 +93,103 @@ public class Utility {
         return (String) c.getData(DataFlavor.stringFlavor);
     }
     
-    public static ModList pullModsFromAPI() throws Exception
+    public static void pullModsFromAPI() throws Exception
+    {        
+        String path = System.getProperty("user.dir") + "\\src\\main\\resources\\json";
+        File file = new File(path);
+        File[] fileNames = file.listFiles();
+        int numFiles = fileNames.length;
+        JsonParser parser = new JsonParser();
+        
+        for (int i=0; i<fileNames.length; i++)
+        {
+            if (fileNames[i] == null)
+            {
+                i--;
+                continue;
+            }
+                        
+            String string = FileScanner.readFromFile(fileNames[i].getCanonicalPath());
+            
+            JsonObject object = parser.parse(string).getAsJsonObject();
+            
+            String[] influences = new String[] {"normal", "elder", "shaper", "crusader", "redeemer", "hunter", "warlord"};
+            
+            for (String influence : influences)
+            {
+                JsonElement normalElement = object.get(influence);
+            
+                Modifier m = null;
+
+                if (normalElement.isJsonArray())
+                {
+                    JsonArray normal = normalElement.getAsJsonArray();
+                    for (int j=0; j<normal.size(); j++)
+                    {
+                        JsonObject obj = normal.get(j).getAsJsonObject();
+
+                        String ModGenerationTypeID = obj.get("ModGenerationTypeID").getAsString();
+                        String CorrectGroup = obj.get("CorrectGroup").getAsString();
+                        String str = obj.get("str").getAsString();
+
+                        m = new Modifier(ModGenerationTypeID, CorrectGroup, str);
+                    }
+                }
+                else if (normalElement.isJsonObject())
+                {
+                    JsonObject normal = normalElement.getAsJsonObject();
+                    Set<String> keysSet = normal.keySet();
+                    for (String s : keysSet)
+                    {
+                        JsonObject obj = normal.get(s).getAsJsonObject();
+
+                        String ModGenerationTypeID = obj.get("ModGenerationTypeID").getAsString();
+                        String CorrectGroup = obj.get("CorrectGroup").getAsString();
+                        String str = obj.get("str").getAsString();
+
+                        m = new Modifier(ModGenerationTypeID, CorrectGroup, str);
+                    }
+                }
+            } // done with json
+        }
+        
+        String clustersPath = System.getProperty("user.dir") + "\\src\\main\\resources\\clusternotables.txt";
+        String notables = FileScanner.readFromFile(clustersPath);
+
+        String[] specNotable = notables.split("[.]");
+        specNotable = removeDuplicates(specNotable);
+
+        for (String s : specNotable)
+        {                
+            Pattern p = Pattern.compile("([PS]{1})([_]+)([a-zA-Z ]*)");
+            Matcher m = p.matcher(s);
+
+            if (m.find())
+            {
+                int ps = m.group(1).equals("P") ? 1 : 2;
+                String mod = "1 Added Passive Skill is " + m.group(3);
+
+                Modifier notable = new Modifier(String.valueOf(ps), "ClusterJewelNotable", mod);
+            }
+        }
+
+        Modifier.genOther();
+    }
+    
+    private static String[] removeDuplicates(String[] input)
     {
-        String modStr = FileScanner.readFromFile("C:\\CB\\school\\10\\cs\\CraftingBot_0.1\\resources\\modlist.json");
+        ArrayList<String> arr = new ArrayList<String>();
+        for (String s : input)
+            if (!arr.contains(s))
+                arr.add(s);
         
-        ModList modlist = Converter.fromJsonString(modStr);
+        String[] output = new String[arr.size()];
+        for (int i=0; i<output.length; i++)
+        {
+            output[i] = arr.get(i);
+        }
         
-        return modlist;
+        return output;
     }
     
     public static String[] getModFormat(String str)

@@ -12,18 +12,20 @@ import java.awt.Robot;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import modlist.ModList;
+//import craftingbot.modlist.ModList;
 import java.util.regex.*;  
 
 
 public class CraftingBot {
     
-    public static ModList modlist = null;
+//    public static ModList modlist = null;
     
-    public static void main(String[] args) throws AWTException, UnsupportedFlavorException, IOException, Exception {
+    public static boolean run = true;
+    
+    public static void runBot(String[] args) throws AWTException, UnsupportedFlavorException, IOException, Exception {
 //        modlist = Utility.pullModsFromAPI();
         
-        runChaosSpam();
+//        runChaosSpam();
 
 //        Filter filter = new Filter();
 //        filter.print();
@@ -68,7 +70,8 @@ public class CraftingBot {
         Point modCheckLoc = new Point(331,559); // Point to check if the item has the correct mod (orange outline)
         Point getChaosLoc = new Point(547, 289); // Point to get chaos from
         
-        Filter filter = new Filter();
+        run = true;
+        
         Robot r = new Robot();
         
         r.keyPress(KeyEvent.VK_SHIFT);
@@ -77,11 +80,42 @@ public class CraftingBot {
         r.mouseMove(modCheckLoc.x, modCheckLoc.y-40);
         delay(50);
         
-        while (true)
+        while (run)
         {
             lclick();
             delay(50);
-            if (Filter.checkIfHit())
+            if (Filters.checkIfHitOne())
+                break;
+        }
+        
+        r.keyRelease(KeyEvent.VK_SHIFT);
+    }
+    
+        
+    public static void runAltSpam() throws AWTException, UnsupportedFlavorException, IOException
+    {
+        Point modCheckLoc = new Point(331,559);
+        Point getAltLoc = new Point(115, 290);
+        Point getAugLoc = new Point(230, 350);
+        
+        Robot r = new Robot();
+                
+        run = true;
+        while (run)
+        {
+            rclick(getAltLoc.x, getAltLoc.y);
+            delay(50);
+            r.mouseMove(modCheckLoc.x, modCheckLoc.y-40);
+            delay(50);
+            lclick();
+            delay(50);
+            rclick(getAugLoc.x, getAugLoc.y);
+            delay(50);
+            r.mouseMove(modCheckLoc.x, modCheckLoc.y-40);
+            delay(50);
+            lclick();
+            delay(50);
+            if (Filters.checkIfHitOne())
                 break;
         }
         
