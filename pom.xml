@@ -75,12 +75,13 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.5</version>
+                <version>3.1.0</version>
                 <configuration>
-                  <encoding>UTF-8</encoding>
                   <nonFilteredFileExtensions>
                     <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                    <nonFilteredFileExtension>json</nonFilteredFileExtension>
                   </nonFilteredFileExtensions>
                 </configuration>
             </plugin>
@@ -89,8 +90,6 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
-<!--                    <include>**/*.png</include>
-                    <include>**/*.ttf</include>-->
                     <include>**/*</include>
                 </includes>
             </resource>

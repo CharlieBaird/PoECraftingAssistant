@@ -158,7 +158,8 @@ class CloseButton extends JButton
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setPreferredSize(d1);
         setBackground(new Color(0,0,0));
-        setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/xbuttontransparentsmall.png")); // NOI18N
+//        setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/xbuttontransparentsmall.png")); // NOI18N
+        setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/xbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Delete this subfilter");
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
         
@@ -185,7 +186,8 @@ class OpenButton extends JButton
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setPreferredSize(d1);
         setBackground(new Color(0,0,0));
-        setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/arrowbuttontransparentsmall.png")); // NOI18N
+//        setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/arrowbuttontransparentsmall.png")); // NOI18N
+        setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/arrowbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Open this subfilter");
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
         

@@ -91,12 +91,11 @@ public class Utility {
     
     public static void pullModsFromAPI() throws Exception
     {        
-        System.out.println(getResourcesPath());
+//        if (true) return;
         
         String path = getResourcesPath() + "\\src\\main\\resources\\json";
         File file = new File(path);
         File[] fileNames = file.listFiles();
-        int numFiles = fileNames.length;
         JsonParser parser = new JsonParser();
         
         for (int i=0; i<fileNames.length; i++)

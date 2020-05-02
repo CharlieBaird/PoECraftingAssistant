@@ -846,27 +846,20 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     }
 
     public Font getNewFont(float size)
-    {
-//        System.out.println("Here");
-//        
-//        String str = this.getClass().getCanonicalName();
-//        System.out.println(str);
-//        
-//        try {
+    {        
+        try {
 //            InputStream fontStream = Main.class.getResourceAsStream("/Volkhov-Regular.TTF");
-//            font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-//        } catch (FontFormatException | IOException ex) {
-//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//        genv.registerFont(font);
-//        font = font.deriveFont(size);
-//        
-//        System.out.println(font);
+            InputStream fontStream = getClass().getResourceAsStream("/Volkhov-Regular.ttf");
+//            InputStream fontStream = new File(Utility.getResourcesPath() + "\\")
+            font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
+        } catch (FontFormatException | IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        genv.registerFont(font);
+        font = font.deriveFont(size);
         
-//        return this.font;
-        
-        return this.getFont();
+        return this.font;
     }
     
     private void genPanel(Filter filter)
@@ -934,11 +927,17 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     
     public void postload()
     {
+        
+        long startTime = System.nanoTime();
+        
         try {
             Utility.pullModsFromAPI();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        long endTime = System.nanoTime();
+        System.out.println("Time Elapsed: " + (endTime - startTime) / 1000000);
         
         try {
             UIManager.setLookAndFeel(new NimbusLookAndFeel() {
