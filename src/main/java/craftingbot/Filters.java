@@ -236,7 +236,7 @@ public class Filters implements Serializable {
         
         FileOutputStream f = null;
         try {
-            f = new FileOutputStream(new File(System.getProperty("user.dir") + "/src/main/resources/filters" + "/" + singleton.name + ".txt"));
+            f = new FileOutputStream(new File(System.getProperty("user.dir") + "/src/main/resources/filters" + "/" + singleton.name + ".cbfilter"));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -268,7 +268,7 @@ public class Filters implements Serializable {
     
     public static void deleteFilters(String name)
     {
-        File f = new File(System.getProperty("user.dir") + "/src/main/resources/filters" + "/" + name + ".txt");
+        File f = new File(System.getProperty("user.dir") + "/src/main/resources/filters" + "/" + name + ".cbfilter");
         f.delete();
     }
 }

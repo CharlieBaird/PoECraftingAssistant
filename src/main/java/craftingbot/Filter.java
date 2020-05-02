@@ -60,11 +60,11 @@ public class Filter implements Serializable
         
 //        print();
 
-        name = "TestNewFilters";
-        Mod ms = new Mod("#% increased movement speed", 25, 35);
-        Mod totalES = new Mod("energy shield: #", 10,500);
-        filters.add(new And(ms,totalES));
-        filters.add(new Count(1, ms));
+//        name = "TestNewFilters";
+//        Mod ms = new Mod("#% increased movement speed", 25, 35);
+//        Mod totalES = new Mod("energy shield: #", 10,500);
+//        filters.add(new And(ms,totalES));
+//        filters.add(new Count(1, ms));
     }
     
     public Filter(boolean isNew)

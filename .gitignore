@@ -24,4 +24,4 @@ hs_err_pid*
 *.netbeans_automatic_build
 
 # Other
-*.txt
+*.cbfilter

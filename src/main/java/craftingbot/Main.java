@@ -914,11 +914,11 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         GlobalScreen.addNativeKeyListener(this);
         ComponentMover cm = new ComponentMover(JFrame.class, this.jPanel1);
         
-        try {
-            new Filters("TestNewMods");
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            new Filters("TestNewMods");
+//        } catch (IOException ex) {
+//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
     
     public void postload()
