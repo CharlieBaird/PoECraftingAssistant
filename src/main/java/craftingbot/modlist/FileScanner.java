@@ -6,27 +6,22 @@
 package craftingbot.modlist;
 
 import java.io.*; 
-import java.util.Scanner;
+import java.nio.charset.StandardCharsets;
 
 public class FileScanner {
     public static String readFromFile(String path) throws Exception 
-    {
-        String str = "";
-        try {
-            File myObj = new File(path);
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-              String data = myReader.nextLine();
-              str += data;
-            }
-            myReader.close();
-        } 
-        catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+    {        
+        final BufferedReader buff = new BufferedReader(
+                new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
+
+        StringBuilder builder = new StringBuilder();
+        String aux = "";
+
+        while ((aux = buff.readLine()) != null) {
+            builder.append(aux);
         }
         
-        return str;
+        return builder.toString();
     }
     
     public static void writeToFile(String path, String contents)
@@ -36,7 +31,6 @@ public class FileScanner {
             myWriter.write(contents);
             myWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }
