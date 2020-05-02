@@ -25,6 +25,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
@@ -845,8 +846,14 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
     public Font getNewFont(float size)
     {
+        System.out.println("Here");
+        
+        String str = this.getClass().getCanonicalName();
+        System.out.println(str);
+        
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("/Volkhov-Regular.TTF").openStream());
+//            font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("/Volkhov-Regular.TTF").openStream());
+            font = Font.createFont(Font.TRUETYPE_FONT, getClass().getClassLoader().getResource("/Volkhov-Regular.TTF").openStream());
         } catch (FontFormatException | IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -943,7 +950,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jButton9.setVisible(false);
     }
     
-    public static void main(String args[]) {
+    public static void main() {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Main main = new Main();                
