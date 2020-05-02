@@ -752,7 +752,8 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        String path = "src/main/resources/filters";
+//        String path = "src/main/resources/filters";
+        String path = Utility.getResourcesPath() + "\\src\\main\\resources\\filters";
         File file = new File(path);
         try {
             Desktop.getDesktop().open(file);
@@ -927,17 +928,11 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     
     public void postload()
     {
-        
-        long startTime = System.nanoTime();
-        
         try {
             Utility.pullModsFromAPI();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        long endTime = System.nanoTime();
-        System.out.println("Time Elapsed: " + (endTime - startTime) / 1000000);
         
         try {
             UIManager.setLookAndFeel(new NimbusLookAndFeel() {
