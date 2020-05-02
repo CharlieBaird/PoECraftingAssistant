@@ -102,22 +102,19 @@ public class Filters implements Serializable {
 
         mods = mods.toLowerCase();
         String modsRaw = parseMods(mods);
-        System.out.println(modsRaw);
+//        System.out.println(modsRaw);
         
         for (Filter f : singleton.filters)
         {
             if (f.checkIfHit(modsRaw))
             {
-                System.out.println("valid");
                 return true;
             }
         }
 
 //        Filters.print();
-
-        System.out.println("invalid");
         
-        return true;
+        return false;
     }
     
     private static String parseMods(String mods)
@@ -167,7 +164,7 @@ public class Filters implements Serializable {
         {
             int len = keys[i].length();
             int index = mod.indexOf(keys[i]);
-            
+                        
             mod = mod.substring(0, index) + "#" + mod.substring(index+len, mod.length());
             
             // Check for other weird things
@@ -177,6 +174,11 @@ public class Filters implements Serializable {
             {
                 mod = mod.substring(0, index);
             }
+        }
+        
+        for (String s : keys)
+        {
+            mod += "*" + s;
         }
         
         return mod;

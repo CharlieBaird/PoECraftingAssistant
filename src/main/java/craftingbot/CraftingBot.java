@@ -82,7 +82,7 @@ public class CraftingBot {
         
         while (run)
         {
-//            lclick();
+            lclick();
             delay(50);
             if (Filters.checkIfHitOne())
                 break;

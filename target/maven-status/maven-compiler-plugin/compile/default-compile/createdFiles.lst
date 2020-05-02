@@ -53,6 +53,7 @@ craftingbot\UI\FListener.class
 craftingbot\UI\FilterTextField.class
 craftingbot\UI\FilterTextField$1.class
 craftingbot\Modifier.class
+craftingbot\UI\MPMinMax$2.class
 craftingbot\Main$10.class
 craftingbot\UI\OpenButton$1.class
 craftingbot\UI\AddButton.class

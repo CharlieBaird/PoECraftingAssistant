@@ -27,10 +27,28 @@ public class Id implements Serializable
         
     }
     
-    public boolean valid(int roll)
+    public boolean valid(double roll)
     {
-        if (min == -100000 || max == 100000) return true;
+//        if (min == -100000 || max == 100000) return true;
         return (roll <= max && roll >= min);
+    }
+    
+    public boolean valid (double[] rolls)
+    {
+        if (rolls.length == 1)
+        {
+            return valid(rolls[0]);
+        }
+        if (rolls.length == 2)
+        {
+            return valid( (rolls[0] + rolls[1]) / 2 );
+        }
+        if (rolls.length == 4)
+        {
+            return valid((((rolls[0] + rolls[1]) / 2) + ((rolls[2] + rolls[3]) / 2)) / 2 );
+        }
+        System.exit(0);
+        return true;
     }
     
     public int[] toArr()

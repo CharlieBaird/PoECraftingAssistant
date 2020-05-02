@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.KeyAdapter;
 import javax.swing.*;
 import java.io.File;
 
@@ -186,24 +187,28 @@ class MPMinMax extends JTextField {
     
     public MPMinMax(ModifierPanel parent, String placeholder, boolean isMin)
     {
-        if (placeholder.equals("-100000"))
+        if (placeholder.contains("100000"))
         {
             if (isMin) placeholder = "min";
             else placeholder = "max";
         }
         
-        this.placeholder = placeholder;
+        setText(placeholder);
+        
         this.isMin = isMin;
         this.parent = parent;
-        
-        setText(placeholder);
         
         setFont(parent.frame.getNewFont(14));
         setBackground(new Color(0,0,0));
         setForeground(new Color(120,120,120));
         
-        if (!placeholder.equals("min") && !placeholder.equals("max") && !placeholder.equals("-100000"))
+        if (!placeholder.equals("min") && !placeholder.equals("max"))
             setForeground(new Color(255,255,255));
+        
+        if (!placeholder.equals("min") && !placeholder.equals("max"))
+            placeholder = isMin ? "min" : "max";
+        
+        this.placeholder = placeholder;
         
         setHorizontalAlignment(SwingConstants.CENTER);
         
@@ -227,6 +232,16 @@ class MPMinMax extends JTextField {
             public void keyPressed(KeyEvent e) {
             }
         });
+        
+        addKeyListener(new KeyAdapter() {
+         public void keyPressed(KeyEvent ke) {
+            if (ke.getKeyChar() == 8 || (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')) {
+               setEditable(true);
+            } else {
+               setEditable(false);
+            }
+         }
+      });
     }
     
     public void focusGained()
@@ -242,15 +257,23 @@ class MPMinMax extends JTextField {
         if (getText().isEmpty()) {
             setText(placeholder);
             setForeground(new Color(120,120,120));
+            if (isMin) parent.mod.ID.min = -100000;
+            else       parent.mod.ID.max =  100000;
         }
 
         // save value
-
-        if (isMin) parent.mod.ID.min = Integer.valueOf(parent.min.getText());
-        else       parent.mod.ID.max = Integer.valueOf(parent.max.getText());
+        else 
+            try {
+                if (isMin) parent.mod.ID.min = Integer.valueOf(parent.min.getText());
+                else       parent.mod.ID.max = Integer.valueOf(parent.max.getText());
+            } catch (NumberFormatException e) {
+                System.out.println(e);
+            }
         
         Filters.saveFilters();
     }
+    
+    
 }
 
 class FListener implements FocusListener
