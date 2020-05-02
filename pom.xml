@@ -34,7 +34,7 @@
             <groupId>com.1stleg</groupId>
             <artifactId>jnativehook</artifactId>
             <version>2.1.0</version>
-            <type>jar</type>
+            <!--<type>jar</type>-->
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -44,7 +44,55 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>12</maven.compiler.source>
-        <maven.compiler.target>12</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
+    <name>CraftingBot</name>
+    <description>Executable java .jar file for the PoE CraftingBot</description>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <descriptorRefs>
+                      <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                          <mainClass>craftingbot.CraftingBot</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                      <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                      <phase>package</phase> <!-- bind to the packaging phase -->
+                      <goals>
+                        <goal>single</goal>
+                      </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                  <nonFilteredFileExtensions>
+                    <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                    <nonFilteredFileExtension>json</nonFilteredFileExtension>
+                  </nonFilteredFileExtensions>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+         </resources>
+    </build>
 </project>

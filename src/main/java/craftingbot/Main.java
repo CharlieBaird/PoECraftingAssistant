@@ -25,6 +25,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
@@ -653,7 +655,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     }//GEN-LAST:event_jButton7runChaosSpam
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFileChooser chooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/resources/filters");
+        JFileChooser chooser = new JFileChooser(Utility.getResourcesPath() + "/src/main/resources/filters");
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
             String path = file.toPath().toString();
@@ -737,7 +739,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         {
             // delete old
             
-            File old = new File(System.getProperty("user.dir") + "/src/main/resources/filters" + "/" + Filters.getName() + ".txt");
+            File old = new File(Utility.getResourcesPath() + "/src/main/resources/filters" + "/" + Filters.getName() + ".txt");
             old.delete();
             
             // save
@@ -750,7 +752,8 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        String path = "src/main/resources/filters";
+//        String path = "src/main/resources/filters";
+        String path = Utility.getResourcesPath() + "\\src\\main\\resources\\filters";
         File file = new File(path);
         try {
             Desktop.getDesktop().open(file);
@@ -844,15 +847,17 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     }
 
     public Font getNewFont(float size)
-    {
+    {        
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("/Volkhov-Regular.TTF").openStream());
+//            InputStream fontStream = Main.class.getResourceAsStream("/Volkhov-Regular.TTF");
+            InputStream fontStream = getClass().getResourceAsStream("/Volkhov-Regular.ttf");
+//            InputStream fontStream = new File(Utility.getResourcesPath() + "\\")
+            font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
         } catch (FontFormatException | IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
         genv.registerFont(font);
-        // makesure to derive the size
         font = font.deriveFont(size);
         
         return this.font;
@@ -943,7 +948,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jButton9.setVisible(false);
     }
     
-    public static void main(String args[]) {
+    public static void main() {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Main main = new Main();                

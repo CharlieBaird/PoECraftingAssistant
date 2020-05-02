@@ -20,6 +20,11 @@ public class CraftingBot {
     
 //    public static ModList modlist = null;
     
+    public static void main(String[] args)
+    {
+        Main.main();
+    }
+    
     public static boolean run = true;
     
     public static void runBot(String[] args) throws AWTException, UnsupportedFlavorException, IOException, Exception {

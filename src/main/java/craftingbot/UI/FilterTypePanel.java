@@ -273,7 +273,8 @@ class AddButton extends JButton {
         setOpaque(true);
         setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
         setBackground(new Color(0,0,0));
-        setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/plusbuttontransparentsmall.png")); // NOI18N
+//        setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/plusbuttontransparentsmall.png")); // NOI18N
+        setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/plusbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("New modifier");
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
         
@@ -304,7 +305,8 @@ class CloseFBButton extends JButton {
         setOpaque(true);
         setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
         setBackground(new Color(0,0,0));
-        setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/xbuttontransparentsmall.png")); // NOI18N
+//        setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/xbuttontransparentsmall.png")); // NOI18N
+        setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/xbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Remove this logic filter");
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
         
@@ -342,7 +344,8 @@ class DropdownButton extends JButton {
         setOpaque(true);
         setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
         setBackground(new Color(0,0,0));
-        setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/opendropdowntransparentsmall.png")); // NOI18N
+//        setIcon(new javax.swing.ImageIcon(parent.resourcePath + "/opendropdowntransparentsmall.png")); // NOI18N
+        setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/opendropdowntransparentsmall.png"))); // NOI18N
         setToolTipText("Select logic type");
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
         
