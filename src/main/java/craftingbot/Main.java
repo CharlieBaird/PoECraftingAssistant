@@ -133,7 +133,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jScrollPane1.setViewportView(jEditorPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setAlwaysOnTop(true);
         setBackground(new java.awt.Color(20, 20, 20));
         setMinimumSize(new java.awt.Dimension(1152, 768));
         setUndecorated(true);
