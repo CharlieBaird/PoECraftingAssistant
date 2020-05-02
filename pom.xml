@@ -74,11 +74,23 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                  <encoding>UTF-8</encoding>
+                  <nonFilteredFileExtensions>
+                    <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                  </nonFilteredFileExtensions>
+                </configuration>
+            </plugin>
         </plugins>
         <resources>
-        <resource>
-                <directory>${basedir}/target/classes</directory>
+            <resource>
+                <directory>src/main/resources</directory>
                 <includes>
+<!--                    <include>**/*.png</include>
+                    <include>**/*.ttf</include>-->
                     <include>**/*</include>
                 </includes>
             </resource>

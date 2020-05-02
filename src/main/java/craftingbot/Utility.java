@@ -5,12 +5,8 @@
  */
 package craftingbot;
 
-//import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.AWTException;
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -18,26 +14,19 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import craftingbot.modlist.FileScanner;
-//import craftingbot.Modifier;
 import java.io.File;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Set;
-//import craftingbot.modlist.ModList;
 
 public class Utility {
    
@@ -93,9 +82,18 @@ public class Utility {
         return (String) c.getData(DataFlavor.stringFlavor);
     }
     
+    public static String getResourcesPath()
+    {
+        String path = System.getProperty("user.dir");
+        path = path.replace("\\target", "");
+        return path;
+    }
+    
     public static void pullModsFromAPI() throws Exception
     {        
-        String path = System.getProperty("user.dir") + "\\src\\main\\resources\\json";
+        System.out.println(getResourcesPath());
+        
+        String path = getResourcesPath() + "\\src\\main\\resources\\json";
         File file = new File(path);
         File[] fileNames = file.listFiles();
         int numFiles = fileNames.length;
@@ -153,7 +151,7 @@ public class Utility {
             } // done with json
         }
         
-        String clustersPath = System.getProperty("user.dir") + "\\src\\main\\resources\\clusternotables.txt";
+        String clustersPath = getResourcesPath() + "\\src\\main\\resources\\clusternotables.txt";
         String notables = FileScanner.readFromFile(clustersPath);
 
         String[] specNotable = notables.split("[.]");
@@ -178,7 +176,7 @@ public class Utility {
     
     private static String[] removeDuplicates(String[] input)
     {
-        ArrayList<String> arr = new ArrayList<String>();
+        ArrayList<String> arr = new ArrayList<>();
         for (String s : input)
             if (!arr.contains(s))
                 arr.add(s);
@@ -190,69 +188,5 @@ public class Utility {
         }
         
         return output;
-    }
-    
-    public static String[] getModFormat(String str)
-    {
-        Pattern p;
-        Matcher m;
-        
-        p = Pattern.compile("^([+])([0-9]+)([ to ][a-zA-Z ]+)$");
-        m = p.matcher(str);
-        if      (m.find())
-        {
-            String[] r = new String[] {m.group(2)};
-            return r;
-        }
-        p = Pattern.compile("^([0-9]+)([%][ increased ][a-zA-Z ]+)$");
-        m = p.matcher(str);
-        if (m.find())
-        {
-            String[] r = new String[] {m.group(1)};
-            return r;
-        }
-        p = Pattern.compile("^([+])([0-9]+)([%][ to ].+)$");
-        m = p.matcher(str);
-        if (m.find())
-        {
-            String[] r = new String[] {m.group(2)};
-            return r;
-        }
-        p = Pattern.compile("^([a-zA-Z ]+)([:])([ ])([0-9]+)([^%]+)$");
-        m = p.matcher(str);
-        if (m.find())
-        {
-            String[] r = new String[] {m.group(4)};
-            return r;
-        }
-        p = Pattern.compile("^([a-zA-Z ]+)([:])([ ])([+])([0-9]+)(.*)$");
-        m = p.matcher(str);
-        if (m.find())
-        {
-            String[] r = new String[] {m.group(5)};
-            return r;
-        }
-        p = Pattern.compile("^([a-zA-Z ]+)([0-9]+)([ ][t][o][ ])([0-9]+)([a-zA-Z ]+)$");
-        m = p.matcher(str);
-        if (m.find())
-        {
-            String[] r = new String[] {m.group(2), m.group(4)};
-            return r;
-        }
-        p = Pattern.compile("^([0-9]+)([ ])(added passive skill is )([a-zA-Z ]*)$");
-        m = p.matcher(str);
-        if (m.find())
-        {
-            String[] r = new String[] {m.group(1)};
-            return r;
-        }
-        p = Pattern.compile("^.*$");
-        m = p.matcher(str);
-        if (m.find())
-        {
-            String[] r = new String[] {m.group(0), "", ""};
-            return r;
-        }
-        return null;
     }
 }

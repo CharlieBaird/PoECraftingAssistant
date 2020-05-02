@@ -25,6 +25,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -654,7 +655,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     }//GEN-LAST:event_jButton7runChaosSpam
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFileChooser chooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/resources/filters");
+        JFileChooser chooser = new JFileChooser(Utility.getResourcesPath() + "/src/main/resources/filters");
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
             String path = file.toPath().toString();
@@ -738,7 +739,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         {
             // delete old
             
-            File old = new File(System.getProperty("user.dir") + "/src/main/resources/filters" + "/" + Filters.getName() + ".txt");
+            File old = new File(Utility.getResourcesPath() + "/src/main/resources/filters" + "/" + Filters.getName() + ".txt");
             old.delete();
             
             // save
@@ -846,23 +847,26 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
     public Font getNewFont(float size)
     {
-        System.out.println("Here");
+//        System.out.println("Here");
+//        
+//        String str = this.getClass().getCanonicalName();
+//        System.out.println(str);
+//        
+//        try {
+//            InputStream fontStream = Main.class.getResourceAsStream("/Volkhov-Regular.TTF");
+//            font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
+//        } catch (FontFormatException | IOException ex) {
+//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//        genv.registerFont(font);
+//        font = font.deriveFont(size);
+//        
+//        System.out.println(font);
         
-        String str = this.getClass().getCanonicalName();
-        System.out.println(str);
+//        return this.font;
         
-        try {
-//            font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("/Volkhov-Regular.TTF").openStream());
-            font = Font.createFont(Font.TRUETYPE_FONT, getClass().getClassLoader().getResource("/Volkhov-Regular.TTF").openStream());
-        } catch (FontFormatException | IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        genv.registerFont(font);
-        // makesure to derive the size
-        font = font.deriveFont(size);
-        
-        return this.font;
+        return this.getFont();
     }
     
     private void genPanel(Filter filter)
