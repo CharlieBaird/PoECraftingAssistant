@@ -146,17 +146,18 @@ public class Filters implements Serializable {
             
             Pattern pAllWord = Pattern.compile("^([^0-9#%]*)$");
             Matcher mAllWord = pAllWord.matcher(str);
+            
+            modLines.set(i, modLines.get(i).replace("# added passive skill is a jewel socket", "# added passive skills are jewel sockets"));
+            
             if (mAllWord.find())
             {
-//                System.out.println("found " + str);
-//                System.out.println("removing " + modLines.get(i));
-//                System.out.println();
                 modLines.remove(i);
                 i--;
             }
         }
-        
-        return String.join(String.valueOf(((char)10)), modLines);
+        String joined = String.join(String.valueOf(((char)10)), modLines);
+        System.out.println(joined);
+        return joined;
     }
     
     private static String swapHash(String mod, String... keys)

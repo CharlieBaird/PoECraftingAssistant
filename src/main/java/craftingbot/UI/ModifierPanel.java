@@ -95,15 +95,18 @@ public class ModifierPanel extends JPanel {
         if (selected != null && !selected.toString().equals(""))
         {
             Modifier m = Modifier.getFromStr(selected.toString());
-            m.print();
+            if (m != null)
+            {
+//                m.print();
             
-            assocMod = m;
-            
-            mod.name = m.getStr();
-            
-            ml.setText(m.getStr());
-            
-            Filters.saveFilters();
+                assocMod = m;
+
+                mod.name = m.getStr();
+
+                ml.setText(m.getStr());
+
+                Filters.saveFilters();
+            }
         }
     }
 }

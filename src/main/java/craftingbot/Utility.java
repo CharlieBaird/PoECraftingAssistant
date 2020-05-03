@@ -98,7 +98,7 @@ public class Utility {
     
     public static void pullModsFromAPI() throws Exception
     {        
-//        if (true) return;
+        Modifier.genOther();
         
         String path = getResourcesPath() + "\\src\\main\\resources\\json";
         File file = new File(path);
@@ -150,6 +150,10 @@ public class Utility {
                         String ModGenerationTypeID = obj.get("ModGenerationTypeID").getAsString();
                         String CorrectGroup = obj.get("CorrectGroup").getAsString();
                         String str = obj.get("str").getAsString();
+                        
+                        // ignore:
+                        if (str != null && str.equals("1 Added Passive Skill is a Jewel Socket")) continue;
+//                        System.out.println(obj.get("id").getAsString());
 
                         m = new Modifier(ModGenerationTypeID, CorrectGroup, str);
                     }
@@ -176,8 +180,6 @@ public class Utility {
                 Modifier notable = new Modifier(String.valueOf(ps), "ClusterJewelNotable", mod);
             }
         }
-
-        Modifier.genOther();
     }
     
     private static String[] removeDuplicates(String[] input)
