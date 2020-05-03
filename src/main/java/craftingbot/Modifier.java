@@ -5,6 +5,7 @@
  */
 package craftingbot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,7 +14,7 @@ import java.util.regex.Pattern;
  *
  * @author charl
  */
-public class Modifier {
+public class Modifier implements Serializable {
     public static ArrayList<Modifier> all = new ArrayList<Modifier>();
     
     private int ModGenerationTypeID; // 1 = prefix, 2 = suffix
@@ -127,10 +128,17 @@ public class Modifier {
         return false;
     }
     
-    public static void genOther()
+    public static void genPseudo()
     {
+        new Modifier("-1", "Pseudo", "+#% total Elemental Resistance");
+        new Modifier("-1", "Pseudo", "+#% total Resistance");
+        
         new Modifier("0", "TotalFromItem", "energy shield: #");
         new Modifier("0", "TotalFromItem", "evasion: #");
         new Modifier("0", "TotalFromItem", "armour: #");
+        
+        new Modifier("-1", "Pseudo", "# Empty Suffix Modifiers");
+        new Modifier("-1", "Pseudo", "# Empty Prefix Modifiers");
+        
     }
 }

@@ -95,7 +95,12 @@ public class CraftingBot {
             lclick();
             delay(50);
             if (Filters.checkIfHitOne())
+            {
+//                System.out.println("valid");
                 break;
+            }
+            
+//            break;
         }
         
         r.keyRelease(KeyEvent.VK_SHIFT);

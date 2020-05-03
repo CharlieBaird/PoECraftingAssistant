@@ -45,7 +45,7 @@ public class ModifierPanel extends JPanel {
         
         if (mod == null)
         {
-            mod = new Mod("New Modifier");
+            mod = new Mod(null, "New Modifier");
             filterbase.mods.add(mod);
             min = new MPMinMax(this, "min", true);
             max = new MPMinMax(this, "max", false);
@@ -95,15 +95,19 @@ public class ModifierPanel extends JPanel {
         if (selected != null && !selected.toString().equals(""))
         {
             Modifier m = Modifier.getFromStr(selected.toString());
-            m.print();
+            if (m != null)
+            {
+//                m.print();
             
-            assocMod = m;
-            
-            mod.name = m.getStr();
-            
-            ml.setText(m.getStr());
-            
-            Filters.saveFilters();
+                assocMod = m;
+
+                mod.name = m.getStr();
+                mod.assocModifier = assocMod;
+
+                ml.setText(m.getStr());
+
+                Filters.saveFilters();
+            }
         }
     }
 }
