@@ -79,7 +79,14 @@ public class Utility {
         bot.keyRelease(KeyEvent.VK_CONTROL); 
         delay(50);
         Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-        return (String) c.getData(DataFlavor.stringFlavor);
+        
+        String cc = null;
+        try {
+            cc = (String) c.getData(DataFlavor.stringFlavor);
+        } catch (UnsupportedFlavorException | IOException e) {
+            CraftingBot.run = false;
+        }
+        return cc;
     }
     
     public static String getResourcesPath()

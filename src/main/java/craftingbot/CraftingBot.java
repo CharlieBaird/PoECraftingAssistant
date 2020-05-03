@@ -7,6 +7,7 @@ package craftingbot;
 
 import static craftingbot.Utility.*;
 import java.awt.AWTException;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -87,6 +88,10 @@ public class CraftingBot {
         
         while (run)
         {
+            Point mp = MouseInfo.getPointerInfo().getLocation();
+            if (!mp.equals(new Point(modCheckLoc.x, modCheckLoc.y-40)))
+                break;
+            
             lclick();
             delay(50);
             if (Filters.checkIfHitOne())
@@ -99,6 +104,8 @@ public class CraftingBot {
         
     public static void runAltSpam() throws AWTException, UnsupportedFlavorException, IOException
     {
+        if (true) return;
+        
         Point modCheckLoc = new Point(331,559);
         Point getAltLoc = new Point(115, 290);
         Point getAugLoc = new Point(230, 350);

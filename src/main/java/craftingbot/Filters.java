@@ -98,6 +98,7 @@ public class Filters implements Serializable {
     public static boolean checkIfHitOne() throws AWTException, UnsupportedFlavorException, IOException
     {
         String mods = Utility.copy();
+        if (mods == null) return false;
         Utility.delay(40);
 
         mods = mods.toLowerCase();
