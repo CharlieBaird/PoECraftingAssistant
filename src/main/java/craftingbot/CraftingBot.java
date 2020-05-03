@@ -92,15 +92,15 @@ public class CraftingBot {
             if (!mp.equals(new Point(modCheckLoc.x, modCheckLoc.y-40)))
                 break;
             
-            lclick();
+//            lclick();
             delay(50);
             if (Filters.checkIfHitOne())
             {
-//                System.out.println("valid");
+                System.out.println("valid");
                 break;
             }
             
-//            break;
+            break;
         }
         
         r.keyRelease(KeyEvent.VK_SHIFT);

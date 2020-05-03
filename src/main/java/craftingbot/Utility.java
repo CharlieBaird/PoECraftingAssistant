@@ -98,7 +98,7 @@ public class Utility {
     
     public static void pullModsFromAPI() throws Exception
     {        
-        Modifier.genOther();
+        Modifier.genPseudo();
         
         String path = getResourcesPath() + "\\src\\main\\resources\\json";
         File file = new File(path);
