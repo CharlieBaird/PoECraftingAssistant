@@ -45,7 +45,7 @@ public class Mod implements Serializable {
     {
         String[] inputLines = input.split("\\R");
         
-        System.out.println(name);
+//        System.out.println(name);
         
         if (input.contains(name))
         {
@@ -76,19 +76,60 @@ public class Mod implements Serializable {
             if (name.equals("+#% total elemental resistance"))
             {
                 double total = total(input, inputLines, "+#% to cold resistance", "+#% to fire resistance", "+#% to lightning resistance");
-                System.out.println("total: " + total);
-                if (ID.valid(total)) return true;
+                return ID.valid(total);
             }
             
             else if (name.equals("+#% total resistance"))
             {
                 double total = total(input, inputLines, "+#% to cold resistance", "+#% to fire resistance", "+#% to lightning resistance", "+#% to chaos resistance");
-                System.out.println("total: " + total);
-                if (ID.valid(total)) return true;
+                return ID.valid(total);
+            }
+            
+            else if (name.equals("# empty suffix modifiers"))
+            {
+                int[] num = numPrefixSuffix(input);
+//                printArr(num);
+                return ID.valid(3 - num[1]);
+            }
+            
+            else if (name.equals("# empty prefix modifiers"))
+            {
+                int[] num = numPrefixSuffix(input);
+//                printArr(num);
+                return ID.valid(3 - num[0]);
             }
         }
         
         return false;
+    }
+    
+    private void printArr(int[] arr)
+    {
+        System.out.println("# empty prefix: " + (3 - arr[0]));
+        System.out.println("# empty suffix: " + (3 - arr[1]));
+    }
+    
+    private int[] numPrefixSuffix(String input)
+    {
+        String[] inputLines = input.split("\\R");
+        
+        int[] totalPrefixSuffix = new int[2];
+        
+        for (String s : inputLines)
+        {
+            String real = s.split("[*]{1}")[0];
+            
+            int type;
+            try {
+                type = Modifier.getFromStr(real).getModGenerationTypeID();
+            } catch (NullPointerException e) {
+                continue;
+            }
+            if (type == 1) totalPrefixSuffix[0]++;
+            else if (type == 2) totalPrefixSuffix[1]++;
+        }
+        
+        return totalPrefixSuffix;
     }
     
     private double total(String input, String[] inputLines, String... mods)

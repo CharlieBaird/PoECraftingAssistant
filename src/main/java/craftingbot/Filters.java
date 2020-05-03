@@ -156,7 +156,7 @@ public class Filters implements Serializable {
             }
         }
         String joined = String.join(String.valueOf(((char)10)), modLines);
-        System.out.println(joined);
+//        System.out.println(joined);
         return joined;
     }
     
