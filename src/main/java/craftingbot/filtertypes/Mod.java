@@ -79,6 +79,13 @@ public class Mod implements Serializable {
                 System.out.println("total: " + total);
                 if (ID.valid(total)) return true;
             }
+            
+            else if (name.equals("+#% total resistance"))
+            {
+                double total = total(input, inputLines, "+#% to cold resistance", "+#% to fire resistance", "+#% to lightning resistance", "+#% to chaos resistance");
+                System.out.println("total: " + total);
+                if (ID.valid(total)) return true;
+            }
         }
         
         return false;
