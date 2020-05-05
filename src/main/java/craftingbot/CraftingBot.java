@@ -7,19 +7,24 @@ package craftingbot;
 
 import static craftingbot.Utility.*;
 import java.awt.AWTException;
+import java.awt.Dimension;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 //import craftingbot.modlist.ModList;
 import java.util.regex.*;  
+import lc.kra.system.mouse.GlobalMouseHook;
+import lc.kra.system.mouse.event.GlobalMouseAdapter;
+import lc.kra.system.mouse.event.GlobalMouseEvent;
 
 
 public class CraftingBot {
-    
-//    public static ModList modlist = null;
     
     public static void main(String[] args)
     {
@@ -28,114 +33,88 @@ public class CraftingBot {
     
     public static boolean run = true;
     
-    public static void runBot(String[] args) throws AWTException, UnsupportedFlavorException, IOException, Exception {
-//        modlist = Utility.pullModsFromAPI();
-        
-//        runChaosSpam();
-
-//        Filter filter = new Filter();
-//        filter.print();
-
-//        testRegex();
-    }
+    public static GlobalMouseHook mouseHook = null;
     
-    public static void testRegex()
+    public static boolean establishHook()
     {
-//        System.out.println(Pattern.matches("^([+])([0-9]+)([ to ][a-zA-Z ]+)$", "+4 to dexterity")); // +# to ""
-        
-//        Pattern p = Pattern.compile("^([+])([0-9]+)([ to ][a-zA-Z ]+)$");
-//        Matcher m = p.matcher("+4 to dexterity");
-//        System.out.println(m.find());
-        
-//        if (m.find())
-//            System.out.println(m.group(2));
-        
-//        Pattern p = Pattern.compile("^([a-zA-Z ]+)([:])([ ])([0-9]+)([^%]+)$");
-//        Matcher m = p.matcher("energy shield: 59 (augmented)");
-        
-//        Pattern p = Pattern.compile("^([0-9]+)([ ])(added passive skill is )([a-zA-Z ]*)$");
-//        Matcher m = p.matcher("1 added passive skill is heraldry");
-//        
-//        if (m.find())
-//        {
-//            System.out.println(m.group(1));
-//        }
+        boolean success = true;
+        try {
+            if (mouseHook != null) mouseHook.shutdownHook();
             
+            mouseHook = new GlobalMouseHook();
+            
+            mouseHook.addMouseListener(new GlobalMouseAdapter() {
+                @Override 
+                public void mouseReleased(GlobalMouseEvent event)  {
+                        if (event.getButton() == 1) {
+//                            System.out.println("clicked");
+                            delay(85);
+                            try {
+                                if (Filters.checkIfHitOne()) {
+                                    System.out.println("hit");
+                                    Utility.playHitSound();
+                                    moveMouseAway();
+                                    mouseHook.shutdownHook();
+                                }
+                            } catch (AWTException | UnsupportedFlavorException | IOException ex) {
+                            Logger.getLogger(CraftingBot.class.getName()).log(Level.SEVERE, null, ex);
+                        } 
+                    }
+                }
+            });
+        } catch (RuntimeException | UnsatisfiedLinkError e) {
+            System.out.println("Failed");
+            success = false;
+        }
         
-        
-//        System.out.println(Pattern.matches("^[0-9]{1,5}[%][ increased ][a-zA-Z ]{1,30}$", "743% increased energy shield")); // #% increased ""
-//        System.out.println(Pattern.matches("^[+][0-9]{1,5}[%][ to ].{1,30}$", "+34% to fire resistance")); // +#% to ""
-//        System.out.println(Pattern.matches("^[a-zA-Z ]{1,30}[:][ ][0-9]{1,5}$", "Energy Shield: 32")); // "": #
-//        System.out.println(Pattern.matches("^[a-zA-Z ]{1,30}[:][ ][0-9]{1,5}[%]$", "Quality: 32%")); // "": #%
-//        System.out.println(Pattern.matches("^[a-zA-Z ]{1,40}[0-9]{1,5}[ ][t][o][ ][0-9]{1,5}[a-zA-Z ]{1,40}", "Adds 5 to 10 lightning damage to spells")); // "" # to # ""
-//        System.out.println(Pattern.matches("^.*$", "adds purposeful harbinger")); // words
+        return success;
     }
     
+    private static void moveMouseAway()
+    {
+        Robot r = null;
+        try {
+            r = new Robot();
+        } catch (AWTException ex) {
+            Logger.getLogger(CraftingBot.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        double xMult = 0.30885416;
+        double yMult = 0.64537037;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        r.mouseMove((int) (xMult * screenSize.width), (int) (yMult * screenSize.height));
+    }
+        
     public static void runChaosSpam() throws AWTException, UnsupportedFlavorException, IOException
     {
-        Point modCheckLoc = new Point(331,559); // Point to check if the item has the correct mod (orange outline)
-        Point getChaosLoc = new Point(547, 289); // Point to get chaos from
+        while (!establishHook());
         
-        run = true;
+//        Point modCheckLoc = new Point(331,559); // Point to check if the item has the correct mod (orange outline)
+//        Point getChaosLoc = new Point(547, 289); // Point to get chaos from
         
-        Robot r = new Robot();
+//        run = true;
         
-        r.keyPress(KeyEvent.VK_SHIFT);
-        rclick(getChaosLoc.x, getChaosLoc.y);
-        delay(50);
-        r.mouseMove(modCheckLoc.x, modCheckLoc.y-40);
-        delay(50);
+//        Robot r = new Robot();
         
-        while (run)
-        {
-            Point mp = MouseInfo.getPointerInfo().getLocation();
-            if (!mp.equals(new Point(modCheckLoc.x, modCheckLoc.y-40)))
-                break;
+//        r.keyPress(KeyEvent.VK_SHIFT);
+//        rclick(getChaosLoc.x, getChaosLoc.y);
+//        delay(50);
+//        r.mouseMove(modCheckLoc.x, modCheckLoc.y-40);
+//        delay(50);
+        
+//        while (run)
+//        {
+//            Point mp = MouseInfo.getPointerInfo().getLocation();
+//            if (!mp.equals(new Point(modCheckLoc.x, modCheckLoc.y-40)))
+//                break;
             
-            lclick();
-            delay(50);
-            if (Filters.checkIfHitOne())
-            {
-//                System.out.println("valid");
-                break;
-            }
-            
-//            break;
-        }
+//            lclick();
+//            delay(50);
+//            if (Filters.checkIfHitOne() || true)
+//            {
+//                break;
+//            }
+//        }
         
-        r.keyRelease(KeyEvent.VK_SHIFT);
-    }
-    
-        
-    public static void runAltSpam() throws AWTException, UnsupportedFlavorException, IOException
-    {
-        if (true) return;
-        
-        Point modCheckLoc = new Point(331,559);
-        Point getAltLoc = new Point(115, 290);
-        Point getAugLoc = new Point(230, 350);
-        
-        Robot r = new Robot();
-                
-        run = true;
-        while (run)
-        {
-            rclick(getAltLoc.x, getAltLoc.y);
-            delay(50);
-            r.mouseMove(modCheckLoc.x, modCheckLoc.y-40);
-            delay(50);
-            lclick();
-            delay(50);
-            rclick(getAugLoc.x, getAugLoc.y);
-            delay(50);
-            r.mouseMove(modCheckLoc.x, modCheckLoc.y-40);
-            delay(50);
-            lclick();
-            delay(50);
-            if (Filters.checkIfHitOne())
-                break;
-        }
-        
-        r.keyRelease(KeyEvent.VK_SHIFT);
+//        r.keyRelease(KeyEvent.VK_SHIFT);
     }
 }

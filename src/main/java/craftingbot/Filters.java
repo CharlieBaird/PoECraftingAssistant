@@ -95,15 +95,19 @@ public class Filters implements Serializable {
         singleton.filters.add(f);
     }
     
+    static String savedModsRaw = "";
+    
     public static boolean checkIfHitOne() throws AWTException, UnsupportedFlavorException, IOException
     {
         String mods = Utility.copy();
         if (mods == null) return false;
-        Utility.delay(40);
 
         mods = mods.toLowerCase();
         String modsRaw = parseMods(mods);
 //        System.out.println(modsRaw);
+
+        if (savedModsRaw.equals(modsRaw)) System.out.println("too fast");
+        savedModsRaw = modsRaw;
         
         for (Filter f : singleton.filters)
         {

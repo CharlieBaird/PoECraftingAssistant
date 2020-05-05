@@ -5,7 +5,6 @@
  */
 package craftingbot;
 
-import static craftingbot.Filters.singleton;
 import craftingbot.UI.ComponentMover;
 import craftingbot.UI.FilterNamePanel;
 import craftingbot.UI.FilterTypePanel;
@@ -15,38 +14,34 @@ import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-import org.jnativehook.GlobalScreen;
-import org.jnativehook.NativeHookException;
-import org.jnativehook.keyboard.NativeKeyEvent;
-import org.jnativehook.keyboard.NativeKeyListener;
+import lc.kra.system.mouse.GlobalMouseHook;
+import lc.kra.system.mouse.event.GlobalMouseAdapter;
+import lc.kra.system.mouse.event.GlobalMouseEvent;
 
 /**
  *
  * @author charl
  */
-public class Main extends javax.swing.JFrame implements NativeKeyListener, WindowListener {
+public class Main extends javax.swing.JFrame implements FocusListener {
 
     /**
      * Creates new form Main
@@ -57,36 +52,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     public Main() {
         initComponents();
     }
-    
-        public void windowOpened(WindowEvent e) { /* Unimplemented */ }
-
-	public void windowClosed(WindowEvent e) {
-        try {
-            //Clean up the native hook.
-            GlobalScreen.unregisterNativeHook();
-        } catch (NativeHookException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-		System.runFinalization();
-		System.exit(0);
-	}
-
-	public void windowClosing(WindowEvent e) { /* Unimplemented */ }
-	public void windowIconified(WindowEvent e) { /* Unimplemented */ }
-	public void windowDeiconified(WindowEvent e) { /* Unimplemented */ }
-	public void windowActivated(WindowEvent e) { /* Unimplemented */ }
-	public void windowDeactivated(WindowEvent e) { /* Unimplemented */ }
-        public void nativeKeyReleased(NativeKeyEvent e) { /* Unimplemented */ }
-
-	public void nativeKeyPressed(NativeKeyEvent e)
-        {
-//            System.out.println("'" + NativeKeyEvent.getKeyText(e.getKeyCode()) + "'");
-            if (NativeKeyEvent.getKeyText(e.getKeyCode()).equals("Enter"))
-            {
-                CraftingBot.run = false;
-            }
-        }
-	public void nativeKeyTyped(NativeKeyEvent e) { /* Unimplemented */ }
         
     /**
      * This method is called from within the constructor to initialize the form.
@@ -105,9 +70,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jPanel7 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         SelectFilterPanel = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -167,47 +129,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             }
         });
 
-        jButton7.setBackground(new java.awt.Color(20, 20, 20));
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/alchemy.png"))); // NOI18N
-        jButton7.setToolTipText("Run alch/scour spam");
-        jButton7.setContentAreaFilled(false);
-        jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton7.setFocusable(false);
-        jButton7.setRequestFocusEnabled(false);
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7runChaosSpam(evt);
-            }
-        });
-
-        jButton3.setBackground(new java.awt.Color(20, 20, 20));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/alteration.png"))); // NOI18N
-        jButton3.setToolTipText("Run alt/aug spam");
-        jButton3.setContentAreaFilled(false);
-        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton3.setFocusable(false);
-        jButton3.setMaximumSize(new java.awt.Dimension(90, 90));
-        jButton3.setMinimumSize(new java.awt.Dimension(90, 90));
-        jButton3.setRequestFocusEnabled(false);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3runChaosSpam(evt);
-            }
-        });
-
-        jButton6.setBackground(new java.awt.Color(20, 20, 20));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/regal.png"))); // NOI18N
-        jButton6.setToolTipText("Run alt/aug/regal/scour spam");
-        jButton6.setContentAreaFilled(false);
-        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton6.setFocusable(false);
-        jButton6.setRequestFocusEnabled(false);
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6runChaosSpam(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -215,23 +136,13 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(732, Short.MAX_VALUE))
+                .addContainerGap(1056, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
         );
 
@@ -600,19 +511,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         }
     }
     
-    private void startAltSpam(java.awt.event.ActionEvent evt)
-    {
-        try {
-            CraftingBot.runAltSpam();
-        } catch (AWTException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedFlavorException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_jPanel3MouseClicked
@@ -640,18 +538,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     private void runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runChaosSpam
         startChaosSpam(evt);
     }//GEN-LAST:event_runChaosSpam
-
-    private void jButton3runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3runChaosSpam
-        startAltSpam(evt);
-    }//GEN-LAST:event_jButton3runChaosSpam
-
-    private void jButton6runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6runChaosSpam
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6runChaosSpam
-
-    private void jButton7runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7runChaosSpam
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7runChaosSpam
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser chooser = new JFileChooser(Utility.getResourcesPath() + "/src/main/resources/filters");
@@ -810,11 +696,8 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     private javax.swing.JPanel Window;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JEditorPane jEditorPane1;
@@ -902,20 +785,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         }
         //</editor-fold>
         
-        try {
-            Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-            logger.setLevel(Level.OFF);
-            logger.setUseParentHandlers(false);
-            GlobalScreen.registerNativeHook();
-        }
-        catch (NativeHookException ex) {
-                System.err.println("There was a problem registering the native hook.");
-                System.err.println(ex.getMessage());
-
-                System.exit(1);
-        }
-        
-        GlobalScreen.addNativeKeyListener(this);
         ComponentMover cm = new ComponentMover(JFrame.class, this.jPanel1);
         
 //        try {
@@ -983,5 +852,14 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         
         if (FilterTypePanel.filtertypepanels.size() >= 1)
             jButton9.setVisible(true);
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        CraftingBot.mouseHook.shutdownHook();
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
     }
 }

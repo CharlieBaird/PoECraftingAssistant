@@ -27,6 +27,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.ArrayList;
 import java.util.Set;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.SwingUtilities;
 
 public class Utility {
    
@@ -67,17 +73,17 @@ public class Utility {
         bot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
     }
     
-    public static String copy() throws AWTException, UnsupportedFlavorException, IOException
+    public static synchronized String copy() throws AWTException, UnsupportedFlavorException, IOException
     {
         Robot bot = new Robot();
         bot.keyPress(KeyEvent.VK_CONTROL);
-        delay(50);
+        delay(10);
         bot.keyPress(KeyEvent.VK_C); 
-        delay(50);
+        delay(5);
         bot.keyRelease(KeyEvent.VK_C); 
-        delay(50);
+        delay(5);
         bot.keyRelease(KeyEvent.VK_CONTROL); 
-        delay(50);
+        delay(5);
         Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
         
         String cc = null;
@@ -196,5 +202,35 @@ public class Utility {
         }
         
         return output;
+    }
+    
+    public static void playHitSound()
+    {
+        String path = getResourcesPath() + "\\src\\main\\resources\\HitSFX.wav";
+        File clipFile = new File(path);
+        
+        System.out.println(clipFile.getAbsolutePath());
+        
+        Clip clip = null;
+        try {
+            clip = AudioSystem.getClip();
+        } catch (LineUnavailableException ex) {
+            System.out.println(ex);
+        }
+        AudioInputStream ais = null;
+        try {
+            ais = AudioSystem.getAudioInputStream(clipFile);
+        } catch (UnsupportedAudioFileException | IOException ex) {
+            System.out.println(ex);
+        }
+        try {
+            clip.open(ais);
+            clip.loop(0);
+//            clip.start();
+        } catch (LineUnavailableException | IOException ex) {
+            System.out.println(ex);
+        }
+        
+        System.out.println("finished");
     }
 }

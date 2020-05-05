@@ -1,5 +1,4 @@
 craftingbot\UI\CloseMPButton.class
-craftingbot\Main$13.class
 craftingbot\UI\ComponentMover.class
 craftingbot\UI\FilterTypePanel$1.class
 craftingbot\Main.class
@@ -39,13 +38,12 @@ craftingbot\filtertypes\logicgroups\Count.class
 craftingbot\UI\Min.class
 craftingbot\Main$9.class
 craftingbot\UI\FilterNamePanel.class
-craftingbot\Main$12.class
 craftingbot\Filter.class
 craftingbot\UI\CloseButton.class
-craftingbot\Main$14.class
 craftingbot\Main$6.class
 craftingbot\UI\AddButton$1.class
 craftingbot\UI\ModLabel.class
+craftingbot\CraftingBot$1.class
 craftingbot\Main$11.class
 craftingbot\Main$8.class
 craftingbot\UI\FListener.class
