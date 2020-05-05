@@ -8,6 +8,8 @@ package craftingbot;
 import static craftingbot.Utility.*;
 import java.awt.AWTException;
 import java.awt.Dimension;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -43,15 +45,16 @@ public class CraftingBot {
                 public void mouseReleased(GlobalMouseEvent event)  {
                         if (event.getButton() == 1) {
 //                            System.out.println("clicked");
+                            if (onSwingWindow()) return;
                             delay(85);
                             try {
                                 if (Filters.checkIfHitOne()) {
                                     moveMouseAway();
                                     System.out.println("hit");
                                     Utility.playHitSound();
-                                    mouseHook.shutdownHook();
-                                    mouseHook = null;
-                                    Main.setChaosIcon(Main.mainFrame.getClass().getResource("/chaos.png"));
+//                                    mouseHook.shutdownHook();
+//                                    mouseHook = null;
+//                                    Main.setChaosIcon(Main.mainFrame.getClass().getResource("/chaos.png"));
                                 }
                             } catch (AWTException | UnsupportedFlavorException | IOException ex) {
                             Logger.getLogger(CraftingBot.class.getName()).log(Level.SEVERE, null, ex);
@@ -65,6 +68,22 @@ public class CraftingBot {
         }
         
         return success;
+    }
+    
+    private static boolean onSwingWindow()
+    {
+        Point topLeft  = Main.mainFrame.getLocation();
+        Point botRight = new Point(topLeft.x + Main.mainFrame.getWidth(), topLeft.y + Main.mainFrame.getHeight());
+        Point mouseLoc = MouseInfo.getPointerInfo().getLocation();
+        
+        boolean b = mouseLoc.x <= botRight.x &&
+               mouseLoc.x >= topLeft.x &&
+               mouseLoc.y <= botRight.y &&
+               mouseLoc.y >= topLeft.y;
+        
+        System.out.println(b);
+        
+        return b;
     }
     
     public static void stop()

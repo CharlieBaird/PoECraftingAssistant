@@ -504,15 +504,20 @@ public class Main extends javax.swing.JFrame {
 
     private void startChaosSpam(java.awt.event.ActionEvent evt)
     {
-        try {
-            CraftingBot.runChaosSpam(mainFrame);
-        } catch (AWTException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedFlavorException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        if (CraftingBot.mouseHook != null)
+            CraftingBot.stop();
+        else
+            try {
+                CraftingBot.runChaosSpam(mainFrame);
+            } catch (AWTException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnsupportedFlavorException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        
     }
     
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
