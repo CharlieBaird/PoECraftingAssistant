@@ -8,17 +8,12 @@ package craftingbot;
 import static craftingbot.Utility.*;
 import java.awt.AWTException;
 import java.awt.Dimension;
-import java.awt.MouseInfo;
-import java.awt.Point;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//import craftingbot.modlist.ModList;
-import java.util.regex.*;  
 import lc.kra.system.mouse.GlobalMouseHook;
 import lc.kra.system.mouse.event.GlobalMouseAdapter;
 import lc.kra.system.mouse.event.GlobalMouseEvent;
@@ -31,7 +26,7 @@ public class CraftingBot {
         Main.main();
     }
     
-    public static boolean run = true;
+//    public static boolean run = true;
     
     public static GlobalMouseHook mouseHook = null;
     
@@ -51,10 +46,12 @@ public class CraftingBot {
                             delay(85);
                             try {
                                 if (Filters.checkIfHitOne()) {
+                                    moveMouseAway();
                                     System.out.println("hit");
                                     Utility.playHitSound();
-                                    moveMouseAway();
                                     mouseHook.shutdownHook();
+                                    mouseHook = null;
+                                    Main.setChaosIcon(Main.mainFrame.getClass().getResource("/chaos.png"));
                                 }
                             } catch (AWTException | UnsupportedFlavorException | IOException ex) {
                             Logger.getLogger(CraftingBot.class.getName()).log(Level.SEVERE, null, ex);
@@ -68,6 +65,14 @@ public class CraftingBot {
         }
         
         return success;
+    }
+    
+    public static void stop()
+    {
+        mouseHook.shutdownHook();
+        mouseHook = null;
+        System.out.println("stopped");
+        Main.setChaosIcon(Main.mainFrame.getClass().getResource("/chaos.png"));
     }
     
     private static void moveMouseAway()
@@ -84,9 +89,10 @@ public class CraftingBot {
         r.mouseMove((int) (xMult * screenSize.width), (int) (yMult * screenSize.height));
     }
         
-    public static void runChaosSpam() throws AWTException, UnsupportedFlavorException, IOException
+    public static void runChaosSpam(Main main) throws AWTException, UnsupportedFlavorException, IOException
     {
         while (!establishHook());
+        Main.setChaosIcon(main.getClass().getResource("/chaosrun.png"));
         
 //        Point modCheckLoc = new Point(331,559); // Point to check if the item has the correct mod (orange outline)
 //        Point getChaosLoc = new Point(547, 289); // Point to get chaos from

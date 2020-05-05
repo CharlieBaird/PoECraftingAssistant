@@ -181,9 +181,9 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                               <Component id="jButton2" min="-2" pref="90" max="-2" attributes="0"/>
-                              <EmptySpace pref="1056" max="32767" attributes="0"/>
+                              <EmptySpace pref="1047" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>

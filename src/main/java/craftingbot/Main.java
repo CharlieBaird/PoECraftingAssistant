@@ -13,6 +13,7 @@ import craftingbot.filtertypes.logicgroups.And;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -24,6 +25,9 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
@@ -41,7 +45,7 @@ import lc.kra.system.mouse.event.GlobalMouseEvent;
  *
  * @author charl
  */
-public class Main extends javax.swing.JFrame implements FocusListener {
+public class Main extends javax.swing.JFrame {
 
     /**
      * Creates new form Main
@@ -134,9 +138,9 @@ public class Main extends javax.swing.JFrame implements FocusListener {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(15, 15, 15)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1056, Short.MAX_VALUE))
+                .addContainerGap(1047, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -501,7 +505,7 @@ public class Main extends javax.swing.JFrame implements FocusListener {
     private void startChaosSpam(java.awt.event.ActionEvent evt)
     {
         try {
-            CraftingBot.runChaosSpam();
+            CraftingBot.runChaosSpam(mainFrame);
         } catch (AWTException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedFlavorException ex) {
@@ -566,6 +570,8 @@ public class Main extends javax.swing.JFrame implements FocusListener {
             }
             
             updateLeftTab();
+            
+            jButton2.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -606,6 +612,7 @@ public class Main extends javax.swing.JFrame implements FocusListener {
             
             jLabel5.setVisible(true);
             jButton8.setVisible(true);
+            jButton2.setVisible(true);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -814,16 +821,20 @@ public class Main extends javax.swing.JFrame implements FocusListener {
         jLabel5.setVisible(false);
         jButton8.setVisible(false);
         jButton9.setVisible(false);
+        jButton2.setVisible(false);
+        
     }
+    
+    public static Main mainFrame = null;
     
     public static void main() {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Main main = new Main();                
-                main.preload();
-                main.setVisible(true);
-                main.postload();
-                main.pack();
+                mainFrame = new Main();                
+                mainFrame.preload();
+                mainFrame.setVisible(true);
+                mainFrame.postload();
+                mainFrame.pack();
             }
         });
     }
@@ -853,13 +864,9 @@ public class Main extends javax.swing.JFrame implements FocusListener {
         if (FilterTypePanel.filtertypepanels.size() >= 1)
             jButton9.setVisible(true);
     }
-
-    @Override
-    public void focusGained(FocusEvent e) {
-        CraftingBot.mouseHook.shutdownHook();
-    }
-
-    @Override
-    public void focusLost(FocusEvent e) {
+    
+    public static void setChaosIcon(URL path)
+    {
+        mainFrame.jButton2.setIcon(new javax.swing.ImageIcon(path)); // NOI18N
     }
 }

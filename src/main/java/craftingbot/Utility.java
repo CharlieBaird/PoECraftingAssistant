@@ -90,7 +90,7 @@ public class Utility {
         try {
             cc = (String) c.getData(DataFlavor.stringFlavor);
         } catch (UnsupportedFlavorException | IOException e) {
-            CraftingBot.run = false;
+//            CraftingBot.run = false;
         }
         return cc;
     }
