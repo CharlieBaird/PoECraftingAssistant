@@ -89,8 +89,8 @@ public class Utility {
         String cc = null;
         try {
             cc = (String) c.getData(DataFlavor.stringFlavor);
-        } catch (UnsupportedFlavorException | IOException e) {
-//            CraftingBot.run = false;
+        } catch (UnsupportedFlavorException | IOException | IllegalStateException e) {
+            System.out.println(e);
         }
         return cc;
     }

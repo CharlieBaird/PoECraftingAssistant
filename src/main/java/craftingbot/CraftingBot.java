@@ -16,6 +16,9 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lc.kra.system.keyboard.GlobalKeyboardHook;
+import lc.kra.system.keyboard.event.GlobalKeyAdapter;
+import lc.kra.system.keyboard.event.GlobalKeyEvent;
 import lc.kra.system.mouse.GlobalMouseHook;
 import lc.kra.system.mouse.event.GlobalMouseAdapter;
 import lc.kra.system.mouse.event.GlobalMouseEvent;
@@ -28,11 +31,12 @@ public class CraftingBot {
         Main.main();
     }
     
-//    public static boolean run = true;
-    
     public static GlobalMouseHook mouseHook = null;
+    public static GlobalKeyboardHook keyHook = null;
     
-    public static boolean establishHook()
+    private static boolean ignore = false;
+    
+    public static boolean establishMouseHook()
     {
         boolean success = true;
         try {
@@ -45,7 +49,7 @@ public class CraftingBot {
                 public void mouseReleased(GlobalMouseEvent event)  {
                         if (event.getButton() == 1) {
 //                            System.out.println("clicked");
-                            if (onSwingWindow()) return;
+                            if (onSwingWindow() || ignore) return;
                             delay(85);
                             try {
                                 if (Filters.checkIfHitOne()) {
@@ -59,6 +63,39 @@ public class CraftingBot {
                             } catch (AWTException | UnsupportedFlavorException | IOException ex) {
                             Logger.getLogger(CraftingBot.class.getName()).log(Level.SEVERE, null, ex);
                         } 
+                    }
+                }
+            });
+        } catch (RuntimeException | UnsatisfiedLinkError e) {
+            System.out.println("Failed");
+            success = false;
+        }
+        
+        return success;
+    }
+    
+    
+    
+    public static boolean establishKeyboardHook()
+    {
+        boolean success = true;
+        try {
+            if (keyHook != null) keyHook.shutdownHook();
+            
+            keyHook = new GlobalKeyboardHook();
+            
+            keyHook.addKeyListener(new GlobalKeyAdapter() {
+                @Override 
+                public void keyPressed(GlobalKeyEvent event) {
+                    if (event.getVirtualKeyCode() == 192) {
+                        ignore = true;
+                    }
+                }
+			
+                @Override 
+                public void keyReleased(GlobalKeyEvent event) {
+                    if (event.getVirtualKeyCode() == 192) {
+                        ignore = false;
                     }
                 }
             });
@@ -90,6 +127,8 @@ public class CraftingBot {
     {
         mouseHook.shutdownHook();
         mouseHook = null;
+        keyHook.shutdownHook();
+        keyHook = null;
         System.out.println("stopped");
         Main.setChaosIcon(Main.mainFrame.getClass().getResource("/chaos.png"));
     }
@@ -110,36 +149,8 @@ public class CraftingBot {
         
     public static void runChaosSpam(Main main) throws AWTException, UnsupportedFlavorException, IOException
     {
-        while (!establishHook());
+        while (!establishMouseHook());
+        while (!establishKeyboardHook());
         Main.setChaosIcon(main.getClass().getResource("/chaosrun.png"));
-        
-//        Point modCheckLoc = new Point(331,559); // Point to check if the item has the correct mod (orange outline)
-//        Point getChaosLoc = new Point(547, 289); // Point to get chaos from
-        
-//        run = true;
-        
-//        Robot r = new Robot();
-        
-//        r.keyPress(KeyEvent.VK_SHIFT);
-//        rclick(getChaosLoc.x, getChaosLoc.y);
-//        delay(50);
-//        r.mouseMove(modCheckLoc.x, modCheckLoc.y-40);
-//        delay(50);
-        
-//        while (run)
-//        {
-//            Point mp = MouseInfo.getPointerInfo().getLocation();
-//            if (!mp.equals(new Point(modCheckLoc.x, modCheckLoc.y-40)))
-//                break;
-            
-//            lclick();
-//            delay(50);
-//            if (Filters.checkIfHitOne() || true)
-//            {
-//                break;
-//            }
-//        }
-        
-//        r.keyRelease(KeyEvent.VK_SHIFT);
     }
 }
