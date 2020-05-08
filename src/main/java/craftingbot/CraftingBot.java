@@ -52,7 +52,11 @@ public class CraftingBot {
                             if (onSwingWindow() || ignore) return;
                             delay(85);
                             try {
-                                if (Filters.checkIfHitOne()) {
+//                                long start = System.nanoTime();
+                                boolean b = Filters.checkIfHitOne();
+//                                long end = System.nanoTime();
+//                                System.out.println((end-start)/1000000);
+                                if (b) {
                                     moveMouseAway();
                                     System.out.println("hit");
                                     Utility.playHitSound();

@@ -99,8 +99,11 @@ public class Filters implements Serializable {
     
     public static boolean checkIfHitOne() throws AWTException, UnsupportedFlavorException, IOException
     {
+//        long start = System.nanoTime();
         String mods = Utility.copy();
         if (mods == null) return false;
+//        long end = System.nanoTime();
+//        System.out.println((end-start)/1000000);
 
         mods = mods.toLowerCase();
         String modsRaw = parseMods(mods);

@@ -73,7 +73,7 @@ public class Utility {
         bot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
     }
     
-    public static synchronized String copy() throws AWTException, UnsupportedFlavorException, IOException
+    public static String copy() throws AWTException, UnsupportedFlavorException, IOException
     {
         Robot bot = new Robot();
         bot.keyPress(KeyEvent.VK_CONTROL);
@@ -81,11 +81,11 @@ public class Utility {
         bot.keyPress(KeyEvent.VK_C); 
         delay(5);
         bot.keyRelease(KeyEvent.VK_C); 
-        delay(5);
+//        delay(5);
         bot.keyRelease(KeyEvent.VK_CONTROL); 
         delay(5);
         Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-        
+
         String cc = null;
         try {
             cc = (String) c.getData(DataFlavor.stringFlavor);
@@ -209,7 +209,7 @@ public class Utility {
         String path = getResourcesPath() + "\\src\\main\\resources\\HitSFX.wav";
         File clipFile = new File(path);
         
-        System.out.println(clipFile.getAbsolutePath());
+//        System.out.println(clipFile.getAbsolutePath());
         
         Clip clip = null;
         try {
@@ -231,6 +231,6 @@ public class Utility {
             System.out.println(ex);
         }
         
-        System.out.println("finished");
+//        System.out.println("finished");
     }
 }
