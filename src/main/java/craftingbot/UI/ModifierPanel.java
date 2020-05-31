@@ -215,6 +215,10 @@ class MPMinMax extends JTextField {
         
         this.placeholder = placeholder;
         
+        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.09),(int) (parent.getHeight())));
+        setMinimumSize(new Dimension((int) (parent.getWidth() * 0.09),(int) (parent.getHeight())));
+        setMaximumSize(new Dimension((int) (parent.getWidth() * 0.09),(int) (parent.getHeight())));
+        
         setHorizontalAlignment(SwingConstants.CENTER);
         
         addFocusListener(new FListener(this, this.placeholder));

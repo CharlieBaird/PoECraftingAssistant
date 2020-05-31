@@ -118,6 +118,8 @@ class FilterTextField extends JTextField
         setPreferredSize(d);
         setText(name);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
+
         
         KeyListener keyListener = new KeyListener()
         {

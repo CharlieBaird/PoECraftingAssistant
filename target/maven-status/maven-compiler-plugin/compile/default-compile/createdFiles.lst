@@ -12,6 +12,7 @@ craftingbot\Main$2.class
 craftingbot\filtertypes\IFilter.class
 craftingbot\Utility.class
 craftingbot\UI\FilterTypePanel.class
+craftingbot\UI\ComponentResizer.class
 craftingbot\filtertypes\Mod.class
 craftingbot\UI\Min$2.class
 craftingbot\UI\CloseFBButton.class
