@@ -105,8 +105,7 @@ public class Main extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(1158, 768));
         setMinimumSize(new java.awt.Dimension(1158, 768));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1158, 768));
-        getContentPane().setLayout(new java.awt.GridLayout());
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         Window.setBackground(new java.awt.Color(20, 20, 20));
         Window.setForeground(new java.awt.Color(255, 255, 255));
@@ -280,7 +279,6 @@ public class Main extends javax.swing.JFrame {
         jLayeredPane2.setMaximumSize(new java.awt.Dimension(1158, 44));
         jLayeredPane2.setMinimumSize(new java.awt.Dimension(1158, 44));
         jLayeredPane2.setOpaque(true);
-        jLayeredPane2.setPreferredSize(new java.awt.Dimension(1158, 44));
         jLayeredPane2.setLayout(new javax.swing.BoxLayout(jLayeredPane2, javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel10.setBackground(new java.awt.Color(113, 10, 9));
@@ -297,7 +295,6 @@ public class Main extends javax.swing.JFrame {
         jButton5.setFocusable(false);
         jButton5.setMaximumSize(new java.awt.Dimension(100, 32));
         jButton5.setMinimumSize(new java.awt.Dimension(100, 32));
-        jButton5.setOpaque(false);
         jButton5.setPreferredSize(new java.awt.Dimension(100, 32));
         jButton5.setRequestFocusEnabled(false);
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -507,9 +504,7 @@ public class Main extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLayeredPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jLayeredPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1158, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -525,7 +520,7 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 2, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout WindowLayout = new javax.swing.GroupLayout(Window);
@@ -842,6 +837,7 @@ public class Main extends javax.swing.JFrame {
         
         ComponentMover cm = new ComponentMover(JFrame.class, this.jPanel1);
 //        ComponentResizer cr = new ComponentResizer(this);
+//        todo come back to this line
 //        try {
 //            new Filters("TestNewMods");
 //        } catch (IOException ex) {
