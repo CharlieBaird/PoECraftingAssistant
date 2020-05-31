@@ -52,17 +52,11 @@ public class CraftingBot {
                             if (onSwingWindow() || ignore) return;
                             delay(85);
                             try {
-//                                long start = System.nanoTime();
                                 boolean b = Filters.checkIfHitOne();
-//                                long end = System.nanoTime();
-//                                System.out.println((end-start)/1000000);
                                 if (b) {
                                     moveMouseAway();
                                     System.out.println("hit");
                                     Utility.playHitSound();
-//                                    mouseHook.shutdownHook();
-//                                    mouseHook = null;
-//                                    Main.setChaosIcon(Main.mainFrame.getClass().getResource("/chaos.png"));
                                 }
                             } catch (AWTException | UnsupportedFlavorException | IOException ex) {
                             Logger.getLogger(CraftingBot.class.getName()).log(Level.SEVERE, null, ex);
