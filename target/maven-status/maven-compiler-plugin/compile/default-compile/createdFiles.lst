@@ -1,5 +1,4 @@
 craftingbot\UI\CloseMPButton.class
-craftingbot\Main$13.class
 craftingbot\UI\ComponentMover.class
 craftingbot\UI\FilterTypePanel$1.class
 craftingbot\Main.class
@@ -13,6 +12,7 @@ craftingbot\Main$2.class
 craftingbot\filtertypes\IFilter.class
 craftingbot\Utility.class
 craftingbot\UI\FilterTypePanel.class
+craftingbot\UI\ComponentResizer.class
 craftingbot\filtertypes\Mod.class
 craftingbot\UI\Min$2.class
 craftingbot\UI\CloseFBButton.class
@@ -39,13 +39,12 @@ craftingbot\filtertypes\logicgroups\Count.class
 craftingbot\UI\Min.class
 craftingbot\Main$9.class
 craftingbot\UI\FilterNamePanel.class
-craftingbot\Main$12.class
 craftingbot\Filter.class
 craftingbot\UI\CloseButton.class
-craftingbot\Main$14.class
 craftingbot\Main$6.class
 craftingbot\UI\AddButton$1.class
 craftingbot\UI\ModLabel.class
+craftingbot\CraftingBot$1.class
 craftingbot\Main$11.class
 craftingbot\Main$8.class
 craftingbot\UI\FListener.class
@@ -53,6 +52,7 @@ craftingbot\UI\FilterTextField.class
 craftingbot\UI\FilterTextField$1.class
 craftingbot\Modifier.class
 craftingbot\UI\MPMinMax$2.class
+craftingbot\CraftingBot$2.class
 craftingbot\Main$10.class
 craftingbot\UI\OpenButton$1.class
 craftingbot\UI\AddButton.class
