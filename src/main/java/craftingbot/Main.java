@@ -136,8 +136,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         setBackground(new java.awt.Color(20, 20, 20));
         setMinimumSize(new java.awt.Dimension(1152, 768));
         setUndecorated(true);
-        setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         Window.setBackground(new java.awt.Color(20, 20, 20));
         Window.setForeground(new java.awt.Color(255, 255, 255));
@@ -167,14 +166,60 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             }
         });
 
-        jButton7.setBackground(new java.awt.Color(20, 20, 20));
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/alchemy.png"))); // NOI18N
-        jButton7.setToolTipText("Run alch/scour spam");
-        jButton7.setContentAreaFilled(false);
-        jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton7.setFocusable(false);
-        jButton7.setRequestFocusEnabled(false);
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setBackground(new java.awt.Color(200, 200, 200));
+        jLabel1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("X");
+        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLabel1.setMaximumSize(new java.awt.Dimension(12, 16));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 64, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        jPanel1.add(jPanel3);
+
+        jLayeredPane2.setBackground(new java.awt.Color(117, 0, 0));
+        jLayeredPane2.setMaximumSize(new java.awt.Dimension(1158, 44));
+        jLayeredPane2.setMinimumSize(new java.awt.Dimension(1158, 44));
+        jLayeredPane2.setOpaque(true);
+        jLayeredPane2.setLayout(new javax.swing.BoxLayout(jLayeredPane2, javax.swing.BoxLayout.LINE_AXIS));
+
+        jPanel10.setBackground(new java.awt.Color(113, 10, 9));
+        jPanel10.setOpaque(false);
+        jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        jButton5.setBackground(new java.awt.Color(127, 3, 3));
+        jButton5.setFont(getNewFont(12f));
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("Folder");
+        jButton5.setToolTipText("Open saved folder");
+        jButton5.setContentAreaFilled(false);
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton5.setFocusable(false);
+        jButton5.setMaximumSize(new java.awt.Dimension(100, 32));
+        jButton5.setMinimumSize(new java.awt.Dimension(100, 32));
+        jButton5.setPreferredSize(new java.awt.Dimension(100, 32));
+        jButton5.setRequestFocusEnabled(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7runChaosSpam(evt);
             }
@@ -547,7 +592,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1191, Short.MAX_VALUE)
+            .addComponent(jLayeredPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -564,7 +609,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                 .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(0, 2, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout WindowLayout = new javax.swing.GroupLayout(Window);
@@ -916,8 +961,9 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         }
         
         GlobalScreen.addNativeKeyListener(this);
-        ComponentMover cm = new ComponentMover(JFrame.class, this.jPanel1);
-        
+        ComponentMover cm = new ComponentMover(JFrame.class, this.jPanel1);        
+//        ComponentResizer cr = new ComponentResizer(this);
+//        todo come back to this line
 //        try {
 //            new Filters("TestNewMods");
 //        } catch (IOException ex) {
