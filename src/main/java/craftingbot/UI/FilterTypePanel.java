@@ -65,13 +65,13 @@ public class FilterTypePanel extends JPanel {
         this.resourcePath = path;
         this.frame = frame;
         
-        Dimension size = new Dimension((int) (parent.getWidth() * 0.95),(int) (40));
+        Dimension size = new Dimension((int) (parent.getWidth() * 0.98),(int) (40));
         setSize(size);
         setPreferredSize(size);
         setBackground(new Color(50,50,50));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
+                
         CloseFBButton closeButton = new CloseFBButton(this);
         typelabel = new TypeLabel(this);
         dropdown = new DropdownButton(this);

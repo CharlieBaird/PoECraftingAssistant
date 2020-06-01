@@ -51,7 +51,7 @@ public class ModifierPanel extends JPanel {
             max = new MPMinMax(this, "max", false);
         }
         
-        Dimension size = new Dimension((int) (parent.getWidth() * 0.912),(int) (40)); // 0.912
+        Dimension size = new Dimension((int) (parent.getWidth() * 0.95),(int) (40)); // 0.912
         setSize(size);
         setPreferredSize(size);
         setBackground(new Color(60,60,60));
