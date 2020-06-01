@@ -742,6 +742,8 @@ public class Main extends javax.swing.JFrame {
         
         Settings.singleton.delay = Integer.valueOf(delay.getText());
         Settings.singleton.runAuto = runAuto.isSelected();
+        
+        Settings.save();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void startChaosSpam(java.awt.event.ActionEvent evt)

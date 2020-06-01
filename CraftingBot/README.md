@@ -1,6 +1,6 @@
 # CraftingBot
 A lightweight and intuitive crafting bot for Path of Exile. To run, simply open the .jar file in the following directory after unzipping the downloaded folder:
-Download: https://www.dropbox.com/sh/097x4ics3545g16/AAAqe-D01ZdO2J3mxXgs5S8Va?dl=1
+Download: https://www.dropbox.com/s/4suq9qa293prcis/CraftingBot.zip?dl=0
 
 ### Getting Started: Creating Filters
 Once the program is opened, you are presented with the GUI that all the filter creation and crafting is done in. To start, create a new filter by clicking the "New" folder in the top right. You will be prompted to name your new filter. After clicking "ok," you can rename this at any time by simply clicking the name of your filter in the top left. To create a new subfilter for this filter, click the white "+" button to the right of your new filter. A new subfilter appears. To edit this subfilter, click the white arrow to the right of the subfilter. By doing so, a new "And" filter appears on the right side of the screen.

@@ -30,7 +30,7 @@ public class CraftingBot {
     public static void main(String[] args)
     {
         Main.main();
-        Settings.save();
+        Settings.load();
     }
     
     public static boolean runAuto = false;

@@ -25,7 +25,10 @@ public class Settings implements Serializable {
     
     public static Settings singleton = new Settings();
     
-    private Settings() {}
+    private Settings()
+    {
+        
+    }
     
     public static void load()
     {
@@ -35,7 +38,9 @@ public class Settings implements Serializable {
         try {
             fi = new FileInputStream(new File(Utility.getResourcesPath() + "/src/main/resources/settings.cbsettings"));
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Settings.class.getName()).log(Level.SEVERE, null, ex);
+            save();
+            load();
+            return;
         }
         ObjectInputStream oi = null;
         try {
