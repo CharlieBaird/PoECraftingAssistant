@@ -196,11 +196,6 @@ public class FilterTypePanel extends JPanel {
         }
     }
     
-    public void showDropdown()
-    {
-        
-    }
-    
     public static void reshow()
     {
         clear(false);

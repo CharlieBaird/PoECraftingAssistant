@@ -5,8 +5,8 @@
  */
 package craftingbot;
 
-import static craftingbot.Filters.singleton;
 import craftingbot.UI.ComponentMover;
+import craftingbot.UI.ComponentResizer;
 import craftingbot.UI.FilterNamePanel;
 import craftingbot.UI.FilterTypePanel;
 import craftingbot.filtertypes.FilterBase;
@@ -14,39 +14,39 @@ import craftingbot.filtertypes.logicgroups.And;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Desktop;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-import org.jnativehook.GlobalScreen;
-import org.jnativehook.NativeHookException;
-import org.jnativehook.keyboard.NativeKeyEvent;
-import org.jnativehook.keyboard.NativeKeyListener;
+import lc.kra.system.mouse.GlobalMouseHook;
+import lc.kra.system.mouse.event.GlobalMouseAdapter;
+import lc.kra.system.mouse.event.GlobalMouseEvent;
 
 /**
  *
  * @author charl
  */
-public class Main extends javax.swing.JFrame implements NativeKeyListener, WindowListener {
+public class Main extends javax.swing.JFrame {
 
     /**
      * Creates new form Main
@@ -57,36 +57,6 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     public Main() {
         initComponents();
     }
-    
-        public void windowOpened(WindowEvent e) { /* Unimplemented */ }
-
-	public void windowClosed(WindowEvent e) {
-        try {
-            //Clean up the native hook.
-            GlobalScreen.unregisterNativeHook();
-        } catch (NativeHookException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-		System.runFinalization();
-		System.exit(0);
-	}
-
-	public void windowClosing(WindowEvent e) { /* Unimplemented */ }
-	public void windowIconified(WindowEvent e) { /* Unimplemented */ }
-	public void windowDeiconified(WindowEvent e) { /* Unimplemented */ }
-	public void windowActivated(WindowEvent e) { /* Unimplemented */ }
-	public void windowDeactivated(WindowEvent e) { /* Unimplemented */ }
-        public void nativeKeyReleased(NativeKeyEvent e) { /* Unimplemented */ }
-
-	public void nativeKeyPressed(NativeKeyEvent e)
-        {
-//            System.out.println("'" + NativeKeyEvent.getKeyText(e.getKeyCode()) + "'");
-            if (NativeKeyEvent.getKeyText(e.getKeyCode()).equals("Enter"))
-            {
-                CraftingBot.run = false;
-            }
-        }
-	public void nativeKeyTyped(NativeKeyEvent e) { /* Unimplemented */ }
         
     /**
      * This method is called from within the constructor to initialize the form.
@@ -102,12 +72,20 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jEditorPane1 = new javax.swing.JEditorPane();
         Window = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLayeredPane2 = new javax.swing.JLayeredPane();
+        jPanel10 = new javax.swing.JPanel();
+        jButton5 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         SelectFilterPanel = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -117,52 +95,152 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         ChangeFilterPanel = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jButton9 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLayeredPane2 = new javax.swing.JLayeredPane();
-        jLabel2 = new javax.swing.JLabel();
-        jPanel10 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
 
         jScrollPane1.setViewportView(jEditorPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(20, 20, 20));
-        setMinimumSize(new java.awt.Dimension(1152, 768));
+        setMaximumSize(new java.awt.Dimension(1158, 768));
+        setMinimumSize(new java.awt.Dimension(1158, 768));
         setUndecorated(true);
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         Window.setBackground(new java.awt.Color(20, 20, 20));
         Window.setForeground(new java.awt.Color(255, 255, 255));
-        Window.setPreferredSize(new java.awt.Dimension(1152, 768));
+        Window.setMaximumSize(new java.awt.Dimension(1158, 768));
+        Window.setMinimumSize(new java.awt.Dimension(1158, 768));
+        Window.setPreferredSize(new java.awt.Dimension(1158, 768));
 
         jPanel2.setBackground(new java.awt.Color(30, 30, 30));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel2.setMaximumSize(new java.awt.Dimension(1158, 764));
+        jPanel2.setMinimumSize(new java.awt.Dimension(1158, 764));
+        jPanel2.setPreferredSize(new java.awt.Dimension(1158, 764));
 
-        jPanel7.setBackground(new java.awt.Color(20, 20, 20));
-        jPanel7.setPreferredSize(new java.awt.Dimension(1152, 500));
+        jPanel1.setBackground(new java.awt.Color(20, 20, 20));
+        jPanel1.setMaximumSize(new java.awt.Dimension(1158, 32));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1158, 32));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1158, 32));
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel5.setBackground(new java.awt.Color(30, 30, 30));
-        jPanel5.setPreferredSize(new java.awt.Dimension(1152, 102));
+        jPanel12.setBackground(new java.awt.Color(20, 20, 20));
+        jPanel12.setMaximumSize(new java.awt.Dimension(20, 32));
+        jPanel12.setMinimumSize(new java.awt.Dimension(20, 32));
+        jPanel12.setPreferredSize(new java.awt.Dimension(20, 32));
 
-        jButton2.setBackground(new java.awt.Color(20, 20, 20));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/chaos.png"))); // NOI18N
-        jButton2.setToolTipText("Run chaos spam");
-        jButton2.setContentAreaFilled(false);
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.setFocusable(false);
-        jButton2.setMaximumSize(new java.awt.Dimension(80, 80));
-        jButton2.setMinimumSize(new java.awt.Dimension(80, 80));
-        jButton2.setRequestFocusEnabled(false);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runChaosSpam(evt);
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 32, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel12);
+
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(getNewFont(12f));
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("PoE CraftBot 1.0");
+        jLabel4.setMaximumSize(new java.awt.Dimension(95, 32));
+        jLabel4.setMinimumSize(new java.awt.Dimension(95, 32));
+        jLabel4.setPreferredSize(new java.awt.Dimension(95, 32));
+        jPanel1.add(jLabel4);
+
+        jPanel13.setBackground(new java.awt.Color(20, 20, 20));
+        jPanel13.setMaximumSize(new java.awt.Dimension(1250, 32));
+        jPanel13.setPreferredSize(new java.awt.Dimension(300, 32));
+        jPanel13.setRequestFocusEnabled(false);
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 915, Short.MAX_VALUE)
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 32, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel13);
+
+        jPanel4.setBackground(new java.awt.Color(20, 20, 20));
+        jPanel4.setMaximumSize(new java.awt.Dimension(64, 32));
+        jPanel4.setMinimumSize(new java.awt.Dimension(64, 32));
+        jPanel4.setPreferredSize(new java.awt.Dimension(64, 32));
+        jPanel4.setRequestFocusEnabled(false);
+        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel4MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel4MouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel4MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jPanel4MouseReleased(evt);
+            }
+        });
+
+        jLabel3.setBackground(new java.awt.Color(200, 200, 200));
+        jLabel3.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("-");
+        jLabel3.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLabel3.setMaximumSize(new java.awt.Dimension(12, 16));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 64, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        jPanel1.add(jPanel4);
+
+        jPanel3.setBackground(new java.awt.Color(20, 20, 20));
+        jPanel3.setMaximumSize(new java.awt.Dimension(64, 32));
+        jPanel3.setMinimumSize(new java.awt.Dimension(64, 32));
+        jPanel3.setPreferredSize(new java.awt.Dimension(64, 32));
+        jPanel3.setRequestFocusEnabled(false);
+        jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel3MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel3MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel3MouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel3MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jPanel3MouseReleased(evt);
             }
         });
 
@@ -221,67 +299,61 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jButton5.setRequestFocusEnabled(false);
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7runChaosSpam(evt);
+                jButton5ActionPerformed(evt);
             }
         });
+        jPanel10.add(jButton5);
 
-        jButton3.setBackground(new java.awt.Color(20, 20, 20));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/alteration.png"))); // NOI18N
-        jButton3.setToolTipText("Run alt/aug spam");
-        jButton3.setContentAreaFilled(false);
-        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton3.setFocusable(false);
-        jButton3.setMaximumSize(new java.awt.Dimension(90, 90));
-        jButton3.setMinimumSize(new java.awt.Dimension(90, 90));
-        jButton3.setRequestFocusEnabled(false);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButton4.setBackground(new java.awt.Color(127, 3, 3));
+        jButton4.setFont(getNewFont(12f));
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("New");
+        jButton4.setToolTipText("Create new filter");
+        jButton4.setContentAreaFilled(false);
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton4.setFocusable(false);
+        jButton4.setMaximumSize(new java.awt.Dimension(100, 32));
+        jButton4.setMinimumSize(new java.awt.Dimension(100, 32));
+        jButton4.setPreferredSize(new java.awt.Dimension(100, 32));
+        jButton4.setRequestFocusEnabled(false);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3runChaosSpam(evt);
+                jButton4ActionPerformed(evt);
             }
         });
+        jPanel10.add(jButton4);
 
-        jButton6.setBackground(new java.awt.Color(20, 20, 20));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/regal.png"))); // NOI18N
-        jButton6.setToolTipText("Run alt/aug/regal/scour spam");
-        jButton6.setContentAreaFilled(false);
-        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton6.setFocusable(false);
-        jButton6.setRequestFocusEnabled(false);
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setBackground(new java.awt.Color(127, 3, 3));
+        jButton1.setFont(getNewFont(12f));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Open");
+        jButton1.setToolTipText("Open filter");
+        jButton1.setContentAreaFilled(false);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.setFocusable(false);
+        jButton1.setMaximumSize(new java.awt.Dimension(100, 32));
+        jButton1.setMinimumSize(new java.awt.Dimension(100, 32));
+        jButton1.setPreferredSize(new java.awt.Dimension(100, 32));
+        jButton1.setRequestFocusEnabled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6runChaosSpam(evt);
+                jButton1ActionPerformed(evt);
             }
         });
+        jPanel10.add(jButton1);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(732, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12))
-        );
+        jLayeredPane2.setLayer(jPanel10, javax.swing.JLayeredPane.PALETTE_LAYER);
+        jLayeredPane2.add(jPanel10);
+
+        jPanel7.setBackground(new java.awt.Color(20, 20, 20));
+        jPanel7.setMaximumSize(new java.awt.Dimension(1158, 500));
+        jPanel7.setMinimumSize(new java.awt.Dimension(1158, 500));
+        jPanel7.setPreferredSize(new java.awt.Dimension(1158, 500));
 
         jPanel8.setBackground(new java.awt.Color(20, 20, 20));
-        jPanel8.setPreferredSize(new java.awt.Dimension(1152, 571));
+        jPanel8.setMaximumSize(new java.awt.Dimension(1158, 571));
+        jPanel8.setMinimumSize(new java.awt.Dimension(1158, 571));
+        jPanel8.setPreferredSize(new java.awt.Dimension(1158, 571));
 
         SelectFilterPanel.setBackground(new java.awt.Color(30, 30, 30));
         SelectFilterPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -315,6 +387,9 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jButton8.setContentAreaFilled(false);
         jButton8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton8.setFocusable(false);
+        jButton8.setMaximumSize(new java.awt.Dimension(45, 40));
+        jButton8.setMinimumSize(new java.awt.Dimension(45, 40));
+        jButton8.setPreferredSize(new java.awt.Dimension(45, 40));
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
@@ -329,7 +404,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
         jPanel11.setBackground(new java.awt.Color(30, 30, 30));
         jPanel11.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 5, 2));
-        ChangeFilterPanel.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 780, 460));
+        ChangeFilterPanel.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 790, 460));
 
         jButton9.setBackground(new java.awt.Color(40, 40, 40));
         jButton9.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -344,18 +419,18 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                 jButton9ActionPerformed(evt);
             }
         });
-        ChangeFilterPanel.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 470, 45, 40));
+        ChangeFilterPanel.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 470, 45, 40));
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap(9, Short.MAX_VALUE)
+                .addGap(9, 9, 9)
                 .addComponent(SelectFilterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(ChangeFilterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -367,17 +442,50 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                 .addContainerGap(218, Short.MAX_VALUE))
         );
 
+        jPanel5.setBackground(new java.awt.Color(30, 30, 30));
+        jPanel5.setPreferredSize(new java.awt.Dimension(1158, 102));
+
+        jButton2.setBackground(new java.awt.Color(20, 20, 20));
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/chaos.png"))); // NOI18N
+        jButton2.setToolTipText("Run Filter");
+        jButton2.setContentAreaFilled(false);
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.setFocusable(false);
+        jButton2.setMaximumSize(new java.awt.Dimension(80, 80));
+        jButton2.setMinimumSize(new java.awt.Dimension(80, 80));
+        jButton2.setRequestFocusEnabled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runChaosSpam(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(1053, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel7Layout.createSequentialGroup()
                     .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 53, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -392,213 +500,16 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                     .addContainerGap(133, Short.MAX_VALUE)))
         );
 
-        jPanel1.setBackground(new java.awt.Color(20, 20, 20));
-        jPanel1.setPreferredSize(new java.awt.Dimension(1160, 13));
-
-        jPanel3.setBackground(new java.awt.Color(20, 20, 20));
-        jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel3MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanel3MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPanel3MouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jPanel3MousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jPanel3MouseReleased(evt);
-            }
-        });
-
-        jLabel1.setBackground(new java.awt.Color(200, 200, 200));
-        jLabel1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("X");
-        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jLabel1.setMaximumSize(new java.awt.Dimension(12, 16));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 49, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-
-        jPanel4.setBackground(new java.awt.Color(20, 20, 20));
-        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel4MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanel4MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPanel4MouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jPanel4MousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jPanel4MouseReleased(evt);
-            }
-        });
-
-        jLabel3.setBackground(new java.awt.Color(200, 200, 200));
-        jLabel3.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("-");
-        jLabel3.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jLabel3.setMaximumSize(new java.awt.Dimension(12, 16));
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 49, Short.MAX_VALUE)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-
-        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(getNewFont(12f));
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("PoE CraftBot 1.0");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 667, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
-        );
-
-        jLayeredPane2.setBackground(new java.awt.Color(0, 255, 0));
-        jLayeredPane2.setPreferredSize(new java.awt.Dimension(1158, 44));
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/titlebar.png"))); // NOI18N
-        jLabel2.setText("null");
-        jLabel2.setOpaque(true);
-        jLayeredPane2.add(jLabel2);
-        jLabel2.setBounds(0, 0, 1160, 44);
-
-        jPanel10.setBackground(new java.awt.Color(113, 10, 9));
-        jPanel10.setOpaque(false);
-        jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 13, 5));
-
-        jButton5.setBackground(new java.awt.Color(127, 3, 3));
-        jButton5.setFont(getNewFont(12f));
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Folder");
-        jButton5.setToolTipText("Open saved folder");
-        jButton5.setContentAreaFilled(false);
-        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton5.setFocusable(false);
-        jButton5.setPreferredSize(new java.awt.Dimension(78, 30));
-        jButton5.setRequestFocusEnabled(false);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        jPanel10.add(jButton5);
-
-        jButton4.setBackground(new java.awt.Color(127, 3, 3));
-        jButton4.setFont(getNewFont(12f));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("New");
-        jButton4.setToolTipText("Create new filter");
-        jButton4.setContentAreaFilled(false);
-        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton4.setFocusable(false);
-        jButton4.setPreferredSize(new java.awt.Dimension(78, 30));
-        jButton4.setRequestFocusEnabled(false);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        jPanel10.add(jButton4);
-
-        jButton1.setBackground(new java.awt.Color(127, 3, 3));
-        jButton1.setFont(getNewFont(12f));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Open");
-        jButton1.setToolTipText("Open filter");
-        jButton1.setContentAreaFilled(false);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.setFocusable(false);
-        jButton1.setPreferredSize(new java.awt.Dimension(78, 30));
-        jButton1.setRequestFocusEnabled(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel10.add(jButton1);
-
-        jLayeredPane2.setLayer(jPanel10, javax.swing.JLayeredPane.PALETTE_LAYER);
-        jLayeredPane2.add(jPanel10);
-        jPanel10.setBounds(870, 3, 290, 40);
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLayeredPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1191, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -607,7 +518,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
                 .addGap(0, 2, Short.MAX_VALUE))
         );
@@ -624,86 +535,20 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             WindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(WindowLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
 
-        getContentPane().add(Window, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(Window);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void startChaosSpam(java.awt.event.ActionEvent evt)
-    {
-        try {
-            CraftingBot.runChaosSpam();
-        } catch (AWTException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedFlavorException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private void startAltSpam(java.awt.event.ActionEvent evt)
-    {
-        try {
-            CraftingBot.runAltSpam();
-        } catch (AWTException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedFlavorException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
-        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-    }//GEN-LAST:event_jPanel3MouseClicked
-
-    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
-        setState(JFrame.ICONIFIED);
-    }//GEN-LAST:event_jPanel4MouseClicked
-
-    private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
-        changeComponentColor(jPanel3, Color.red);
-    }//GEN-LAST:event_jPanel3MouseEntered
-
-    private void jPanel3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseExited
-        changeComponentColor(jPanel3, new Color(20,20,20));
-    }//GEN-LAST:event_jPanel3MouseExited
-
-    private void jPanel4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseEntered
-        changeComponentColor(jPanel4, Color.lightGray);
-    }//GEN-LAST:event_jPanel4MouseEntered
-
-    private void jPanel4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseExited
-        changeComponentColor(jPanel4, new Color(20,20,20));
-    }//GEN-LAST:event_jPanel4MouseExited
-
-    private void runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runChaosSpam
-        startChaosSpam(evt);
-    }//GEN-LAST:event_runChaosSpam
-
-    private void jButton3runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3runChaosSpam
-        startAltSpam(evt);
-    }//GEN-LAST:event_jButton3runChaosSpam
-
-    private void jButton6runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6runChaosSpam
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6runChaosSpam
-
-    private void jButton7runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7runChaosSpam
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7runChaosSpam
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser chooser = new JFileChooser(Utility.getResourcesPath() + "/src/main/resources/filters");
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
             String path = file.toPath().toString();
-            
+
             Filters.saveFilters();
             Filters.reset();
             updateLeftTab();
@@ -717,34 +562,30 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
 
             try {
                 Filters.loadFilters(path);
-//                System.out.println(path);
+                //                System.out.println(path);
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             updateLeftTab();
+
+            jButton2.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        Filter filter = new Filter(true);
-        Filters.singleton.filters.add(filter);
-        genPanel(filter);
-    }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         Object[] possibilities = null;
         String name = (String)JOptionPane.showInputDialog(
-                            this,
-                            "Enter the New Filter's Name",
-                            "CraftingBot",
-                            JOptionPane.PLAIN_MESSAGE,
-                            null,
-                            possibilities,
-                            "New Filter");
-        
+            this,
+            "Enter the New Filter's Name",
+            "CraftingBot",
+            JOptionPane.PLAIN_MESSAGE,
+            null,
+            possibilities,
+            "New Filter");
+
         if (name != null && !name.equals(""))
         {
             Filters.saveFilters();
@@ -757,46 +598,20 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
             }
 
             FilterNamePanel.filterpanels.clear();
-            
+
             jLabel5.setText("   " + name);
-        
+
             Filters.singleton.setName(name);
             Filters.saveFilters();
-            
+
             jLabel5.setVisible(true);
             jButton8.setVisible(true);
+            jButton2.setVisible(true);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        Object[] possibilities = null;
-        String name = (String)JOptionPane.showInputDialog(
-                            this,
-                            "Rename the Filter",
-                            "CraftingBot",
-                            JOptionPane.PLAIN_MESSAGE,
-                            null,
-                            possibilities,
-                            Filters.getName());
-        
-        if (name != null && !name.equals(""))
-        {
-            // delete old
-            
-            File old = new File(Utility.getResourcesPath() + "/src/main/resources/filters" + "/" + Filters.getName() + ".txt");
-            old.delete();
-            
-            // save
-            
-            jLabel5.setText("   " + name);
-            
-            Filters.singleton.setName(name);
-            Filters.saveFilters();
-        }
-    }//GEN-LAST:event_jLabel5MouseClicked
-
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-//        String path = "src/main/resources/filters";
+        //        String path = "src/main/resources/filters";
         String path = Utility.getResourcesPath() + "\\src\\main\\resources\\filters";
         File file = new File(path);
         try {
@@ -804,8 +619,44 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jPanel3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseReleased
+        jPanel3.setBackground(new Color(20,20,20));
+    }//GEN-LAST:event_jPanel3MouseReleased
+
+    private void jPanel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MousePressed
+        jPanel3.setBackground(new Color(160,0,0));
+    }//GEN-LAST:event_jPanel3MousePressed
+
+    private void jPanel3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseExited
+        changeComponentColor(jPanel3, new Color(20,20,20));
+    }//GEN-LAST:event_jPanel3MouseExited
+
+    private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
+        changeComponentColor(jPanel3, Color.red);
+    }//GEN-LAST:event_jPanel3MouseEntered
+
+    private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
+        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }//GEN-LAST:event_jPanel3MouseClicked
+
+    private void jPanel4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseReleased
+        jPanel4.setBackground(new Color(20,20,20));
+        setState(JFrame.ICONIFIED);
+    }//GEN-LAST:event_jPanel4MouseReleased
+
+    private void jPanel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MousePressed
+        jPanel4.setBackground(new Color(160,160,160));
+    }//GEN-LAST:event_jPanel4MousePressed
+
+    private void jPanel4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseExited
+        changeComponentColor(jPanel4, new Color(20,20,20));
+    }//GEN-LAST:event_jPanel4MouseExited
+
+    private void jPanel4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseEntered
+        changeComponentColor(jPanel4, Color.lightGray);
+    }//GEN-LAST:event_jPanel4MouseEntered
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         if (FilterTypePanel.filtertypepanels.size() >= 1)
@@ -816,22 +667,61 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 
-    private void jPanel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MousePressed
-        jPanel3.setBackground(new Color(160,0,0));
-    }//GEN-LAST:event_jPanel3MousePressed
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        Filter filter = new Filter(true);
+        Filters.singleton.filters.add(filter);
+        genPanel(filter);
+    }//GEN-LAST:event_jButton8ActionPerformed
 
-    private void jPanel3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseReleased
-        jPanel3.setBackground(new Color(20,20,20));
-    }//GEN-LAST:event_jPanel3MouseReleased
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        Object[] possibilities = null;
+        String name = (String)JOptionPane.showInputDialog(
+            this,
+            "Rename the Filter",
+            "CraftingBot",
+            JOptionPane.PLAIN_MESSAGE,
+            null,
+            possibilities,
+            Filters.getName());
 
-    private void jPanel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MousePressed
-        jPanel4.setBackground(new Color(160,160,160));
-    }//GEN-LAST:event_jPanel4MousePressed
+        if (name != null && !name.equals(""))
+        {
+            // delete old
 
-    private void jPanel4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseReleased
-        jPanel4.setBackground(new Color(20,20,20));
-    }//GEN-LAST:event_jPanel4MouseReleased
+            File old = new File(Utility.getResourcesPath() + "/src/main/resources/filters" + "/" + Filters.getName() + ".txt");
+            old.delete();
 
+            // save
+
+            jLabel5.setText("   " + name);
+
+            Filters.singleton.setName(name);
+            Filters.saveFilters();
+        }
+    }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runChaosSpam
+        startChaosSpam(evt);
+    }//GEN-LAST:event_runChaosSpam
+
+    private void startChaosSpam(java.awt.event.ActionEvent evt)
+    {
+        if (CraftingBot.mouseHook != null)
+            CraftingBot.stop();
+        else
+            try {
+                CraftingBot.runChaosSpam(mainFrame);
+            } catch (AWTException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnsupportedFlavorException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        
+    }
+    
     public void updateLeftTab()
     {
         jLabel5.setText("   " + Filters.getName());
@@ -855,17 +745,13 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     private javax.swing.JPanel Window;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -873,6 +759,8 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -947,21 +835,7 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         }
         //</editor-fold>
         
-        try {
-            Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-            logger.setLevel(Level.OFF);
-            logger.setUseParentHandlers(false);
-            GlobalScreen.registerNativeHook();
-        }
-        catch (NativeHookException ex) {
-                System.err.println("There was a problem registering the native hook.");
-                System.err.println(ex.getMessage());
-
-                System.exit(1);
-        }
-        
-        GlobalScreen.addNativeKeyListener(this);
-        ComponentMover cm = new ComponentMover(JFrame.class, this.jPanel1);        
+        ComponentMover cm = new ComponentMover(JFrame.class, this.jPanel1);
 //        ComponentResizer cr = new ComponentResizer(this);
 //        todo come back to this line
 //        try {
@@ -991,16 +865,20 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         jLabel5.setVisible(false);
         jButton8.setVisible(false);
         jButton9.setVisible(false);
+        jButton2.setVisible(false);
+        
     }
+    
+    public static Main mainFrame = null;
     
     public static void main() {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Main main = new Main();                
-                main.preload();
-                main.setVisible(true);
-                main.postload();
-                main.pack();
+                mainFrame = new Main();                
+                mainFrame.preload();
+                mainFrame.setVisible(true);
+                mainFrame.postload();
+                mainFrame.pack();
             }
         });
     }
@@ -1029,5 +907,10 @@ public class Main extends javax.swing.JFrame implements NativeKeyListener, Windo
         
         if (FilterTypePanel.filtertypepanels.size() >= 1)
             jButton9.setVisible(true);
+    }
+    
+    public static void setChaosIcon(URL path)
+    {
+        mainFrame.jButton2.setIcon(new javax.swing.ImageIcon(path)); // NOI18N
     }
 }
