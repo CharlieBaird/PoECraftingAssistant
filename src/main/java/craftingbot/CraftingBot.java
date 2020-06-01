@@ -13,6 +13,7 @@ import java.awt.Point;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,20 +49,15 @@ public class CraftingBot {
             mouseHook.addMouseListener(new GlobalMouseAdapter() {
                 @Override 
                 public void mouseReleased(GlobalMouseEvent event)  {
-                        if (event.getButton() == 1) {
-//                            System.out.println("clicked");
-                            if (onSwingWindow() || ignore) return;
-                            delay(85);
-                            try {
-                                boolean b = Filters.checkIfHitOne();
-                                if (b) {
-                                    moveMouseAway();
-                                    System.out.println("hit");
-                                    Utility.playHitSound();
-                                }
-                            } catch (AWTException | UnsupportedFlavorException | IOException ex) {
-                            Logger.getLogger(CraftingBot.class.getName()).log(Level.SEVERE, null, ex);
-                        } 
+                    if (event.getButton() == 1) {
+                        if (onSwingWindow() || ignore) return;
+                        delay(85);
+                        boolean b = Filters.checkIfHitOne();
+                        if (b) {
+                            moveMouseAway();
+                            System.out.println("hit");
+                            Utility.playHitSound();
+                        }
                     }
                 }
             });
@@ -116,9 +112,7 @@ public class CraftingBot {
                mouseLoc.x >= topLeft.x &&
                mouseLoc.y <= botRight.y &&
                mouseLoc.y >= topLeft.y;
-        
-        System.out.println(b);
-        
+                
         return b;
     }
     
@@ -128,7 +122,6 @@ public class CraftingBot {
         mouseHook = null;
         keyHook.shutdownHook();
         keyHook = null;
-        System.out.println("stopped");
         Main.setChaosIcon(Main.mainFrame.getClass().getResource("/chaos.png"));
     }
     
@@ -146,11 +139,11 @@ public class CraftingBot {
         r.mouseMove((int) (xMult * screenSize.width), (int) (yMult * screenSize.height));
     }
         
-    public static void runChaosSpam(Main main) throws AWTException, UnsupportedFlavorException, IOException
+    public static void runChaosSpam(Main main)
     {
         if (runAuto)
         {
-            runAuto();
+            runAuto(main);
         }
         else
         {
@@ -160,8 +153,50 @@ public class CraftingBot {
         }
     }
     
-    private void runAuto()
+    public static boolean run = true;
+    
+    private static void runAuto(Main main)
     {
+        Main.setChaosIcon(main.getClass().getResource("/chaosrun.png"));
         
+        Point modCheckLoc = new Point(331,559); // Point to check if the item has the correct mod (orange outline)
+        Point getChaosLoc = new Point(547, 289); // Point to get chaos from
+        
+        run = true;
+        
+        Robot r = null;
+        try {
+            r = new Robot();
+        } catch (AWTException ex) {
+            Logger.getLogger(CraftingBot.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        r.keyPress(KeyEvent.VK_SHIFT);
+        try {
+            rclick(getChaosLoc.x, getChaosLoc.y);
+        } catch (AWTException ex) {
+            Logger.getLogger(CraftingBot.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        delay(50);
+        r.mouseMove(modCheckLoc.x, modCheckLoc.y-40);
+        delay(50);
+        
+        while (run)
+        {
+            Point mp = MouseInfo.getPointerInfo().getLocation();
+            if (!mp.equals(new Point(modCheckLoc.x, modCheckLoc.y-40)))
+                break;
+            
+            lclick();
+            delay(50);
+            if (Filters.checkIfHitOne())
+            {
+                break;
+            }
+        }
+        
+        r.keyRelease(KeyEvent.VK_SHIFT);
+        Utility.playHitSound();
+        Main.setChaosIcon(Main.mainFrame.getClass().getResource("/chaos.png"));
     }
 }

@@ -97,10 +97,15 @@ public class Filters implements Serializable {
     
     static String savedModsRaw = "";
     
-    public static boolean checkIfHitOne() throws AWTException, UnsupportedFlavorException, IOException
+    public static boolean checkIfHitOne()
     {
 //        long start = System.nanoTime();
-        String mods = Utility.copy();
+        String mods = null;
+        try {
+            mods = Utility.copy();
+        } catch (AWTException | UnsupportedFlavorException | IOException ex) {
+            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (mods == null) return false;
 //        long end = System.nanoTime();
 //        System.out.println((end-start)/1000000);

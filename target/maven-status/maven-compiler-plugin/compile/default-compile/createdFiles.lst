@@ -39,6 +39,7 @@ craftingbot\filtertypes\logicgroups\Count.class
 craftingbot\UI\Min.class
 craftingbot\Main$9.class
 craftingbot\UI\FilterNamePanel.class
+craftingbot\Main$12.class
 craftingbot\Filter.class
 craftingbot\UI\CloseButton.class
 craftingbot\Main$6.class
