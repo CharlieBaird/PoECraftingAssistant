@@ -31,6 +31,7 @@ public class CraftingBot {
         Main.main();
     }
     
+    public static boolean runAuto = false;
     public static GlobalMouseHook mouseHook = null;
     public static GlobalKeyboardHook keyHook = null;
     
@@ -147,8 +148,20 @@ public class CraftingBot {
         
     public static void runChaosSpam(Main main) throws AWTException, UnsupportedFlavorException, IOException
     {
-        while (!establishMouseHook());
-        while (!establishKeyboardHook());
-        Main.setChaosIcon(main.getClass().getResource("/chaosrun.png"));
+        if (runAuto)
+        {
+            runAuto();
+        }
+        else
+        {
+            while (!establishMouseHook());
+            while (!establishKeyboardHook());
+            Main.setChaosIcon(main.getClass().getResource("/chaosrun.png"));
+        }
+    }
+    
+    private void runAuto()
+    {
+        
     }
 }
