@@ -18,6 +18,8 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
@@ -25,10 +27,13 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -470,6 +475,7 @@ public class Main extends javax.swing.JFrame {
         });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gear5.png"))); // NOI18N
+        jButton3.setToolTipText("Open Settings");
         jButton3.setBorderPainted(false);
         jButton3.setContentAreaFilled(false);
         jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -711,7 +717,31 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel4MouseEntered
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        JTextField delay = new JTextField();
+        delay.setText(String.valueOf(Settings.singleton.delay));
+        delay.addKeyListener(new KeyAdapter() {
+         public void keyPressed(KeyEvent ke) {
+            String value = delay.getText();
+            int l = value.length();
+            if (ke.getKeyChar() == 8 || ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') {
+               delay.setEditable(true);
+            } else {
+               delay.setEditable(false);
+            }
+         }
+      });
         
+        JCheckBox runAuto = new JCheckBox();
+        runAuto.setSelected(Settings.singleton.runAuto);
+        Object[] message = {
+            "Delay:", delay,
+            "Auto:", runAuto
+        };
+
+        int option = JOptionPane.showConfirmDialog(null, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
+        
+        Settings.singleton.delay = Integer.valueOf(delay.getText());
+        Settings.singleton.runAuto = runAuto.isSelected();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void startChaosSpam(java.awt.event.ActionEvent evt)

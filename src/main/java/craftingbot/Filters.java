@@ -114,7 +114,7 @@ public class Filters implements Serializable {
         String modsRaw = parseMods(mods);
 //        System.out.println(modsRaw);
 
-        if (savedModsRaw.equals(modsRaw)) System.out.println("too fast");
+//        if (savedModsRaw.equals(modsRaw)) System.out.println("too fast");
         savedModsRaw = modsRaw;
         
         for (Filter f : singleton.filters)

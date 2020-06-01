@@ -1,4 +1,5 @@
 craftingbot\UI\CloseMPButton.class
+craftingbot\Main$13.class
 craftingbot\UI\ComponentMover.class
 craftingbot\UI\FilterTypePanel$1.class
 craftingbot\Main.class
@@ -11,6 +12,7 @@ craftingbot\filtertypes\logicgroups\And.class
 craftingbot\Main$2.class
 craftingbot\filtertypes\IFilter.class
 craftingbot\Utility.class
+craftingbot\Settings.class
 craftingbot\UI\FilterTypePanel.class
 craftingbot\UI\ComponentResizer.class
 craftingbot\filtertypes\Mod.class

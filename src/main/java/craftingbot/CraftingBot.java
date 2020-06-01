@@ -30,6 +30,7 @@ public class CraftingBot {
     public static void main(String[] args)
     {
         Main.main();
+        Settings.save();
     }
     
     public static boolean runAuto = false;
@@ -51,11 +52,11 @@ public class CraftingBot {
                 public void mouseReleased(GlobalMouseEvent event)  {
                     if (event.getButton() == 1) {
                         if (onSwingWindow() || ignore) return;
-                        delay(85);
+                        delay(Settings.singleton.delay + 35);
                         boolean b = Filters.checkIfHitOne();
                         if (b) {
                             moveMouseAway();
-                            System.out.println("hit");
+//                            System.out.println("hit");
                             Utility.playHitSound();
                         }
                     }
@@ -141,16 +142,15 @@ public class CraftingBot {
         
     public static void runChaosSpam(Main main)
     {
-        if (runAuto)
+        if (Settings.singleton.runAuto)
         {
             runAuto(main);
+            return;
         }
-        else
-        {
-            while (!establishMouseHook());
-            while (!establishKeyboardHook());
-            Main.setChaosIcon(main.getClass().getResource("/chaosrun.png"));
-        }
+        
+        while (!establishMouseHook());
+        while (!establishKeyboardHook());
+        Main.setChaosIcon(main.getClass().getResource("/chaosrun.png"));
     }
     
     public static boolean run = true;
@@ -188,7 +188,7 @@ public class CraftingBot {
                 break;
             
             lclick();
-            delay(50);
+            delay(Settings.singleton.delay + 35);
             if (Filters.checkIfHitOne())
             {
                 break;
