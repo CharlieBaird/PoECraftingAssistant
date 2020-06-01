@@ -54,9 +54,14 @@ public class Utility {
         return robot.getPixelColor(x, y);
     }
     
-    public static void lclick() throws AWTException
+    public static void lclick()
     {
-        Robot bot = new Robot();  
+        Robot bot = null;  
+        try {
+            bot = new Robot();
+        } catch (AWTException ex) {
+            Logger.getLogger(Utility.class.getName()).log(Level.SEVERE, null, ex);
+        }
         delay(80);
         bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         delay(80);
@@ -81,7 +86,6 @@ public class Utility {
         bot.keyPress(KeyEvent.VK_C); 
         delay(5);
         bot.keyRelease(KeyEvent.VK_C); 
-//        delay(5);
         bot.keyRelease(KeyEvent.VK_CONTROL); 
         delay(5);
         Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
