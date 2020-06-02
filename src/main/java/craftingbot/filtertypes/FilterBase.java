@@ -5,6 +5,7 @@
  */
 package craftingbot.filtertypes;
 
+import craftingbot.item.Item;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -28,6 +29,11 @@ public class FilterBase implements IFilter, Serializable {
     }
     
     public boolean hit(String input)
+    {
+        return true;
+    }
+    
+    public boolean hit (Item item)
     {
         return true;
     }

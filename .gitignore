@@ -27,3 +27,4 @@ hs_err_pid*
 *.cbfilter
 *.cmd
 *.cbsettings
+target/classes/SampleItem.txt

@@ -1,7 +1,9 @@
 package craftingbot.filtertypes.logicgroups;
 
+import craftingbot.Modifier;
 import craftingbot.filtertypes.FilterBase;
 import craftingbot.filtertypes.Mod;
+import craftingbot.item.Item;
 
 public class Count extends FilterBase {
     public int needed;
@@ -19,6 +21,21 @@ public class Count extends FilterBase {
         {
             if (count >= needed) return true;
             if (m.hit(input)) count++;
+        }
+        
+        return count >= needed;
+    }
+    
+    public boolean hit(Item item)
+    {
+        int count = 0;
+        for (Mod m : mods)
+        {
+            if (count >= needed) return true;
+            for (Modifier em : item.explicitModifiers)
+            {
+                if (m.hit(em)) count++;
+            }
         }
         
         return count >= needed;

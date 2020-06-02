@@ -109,15 +109,11 @@ public class Filters implements Serializable {
         if (mods == null) return false;
 
         mods = parseMods(mods);
-        Item item = new Item(mods);
+        Item item = Item.createItem(mods);
         
         savedModsRaw = mods;
         
-        for (Filter f : singleton.filters)
-            if (f.checkIfHit(mods))
-                return true;
-        
-        return false;
+        return item.hitFilters(singleton);
     }
     
     public static String parseMods(String mods)

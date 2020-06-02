@@ -40,6 +40,16 @@ public class Mod implements Serializable {
         return new Mod(this.assocModifier, this.name, ID.toArr());
     }
     
+    public boolean hit(Modifier em)
+    {
+//        System.out.println(this.name + "-" + em.getStr());
+        if (this.name.equals(em.getStr()))
+        {
+            if (ID.valid(em.rolls))
+                return true;
+        }
+        return false;
+    }
     
     public boolean hit(String input)
     {

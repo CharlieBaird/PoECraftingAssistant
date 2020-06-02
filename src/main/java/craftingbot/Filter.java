@@ -25,46 +25,7 @@ public class Filter implements Serializable
     
     public Filter()
     {
-//        boots
-//        name = "Count MS/ES/RES";
         filters.clear();
-//        boots
-//        name = "Count MS/ES/RES";
-//        filters.clear();
-//        Mod ms = new Mod("% increased movement speed", 25, 35);        
-//        Mod totalES = new Mod("energy shield: ", 130, 1000);
-//        Mod maxES = new Mod("energy shield: ", 160, 1000);
-//        Mod fRes = new Mod("% to fire resistance", 30, 48);
-//        Mod lRes = new Mod("% to lightning resistance", 30, 48);
-//        Mod cRes = new Mod("% to cold resistance", 30, 48);
-//        Mod maxMS = new Mod("% increased movement speed", 35, 35);
-//        filters.add(new Count(6, ms, ms, ms, totalES, totalES, totalES, fRes, fRes, lRes, lRes, cRes, cRes, maxMS, maxMS, maxMS, maxMS, maxMS, maxMS, maxES, maxES, maxES, maxES, maxES, maxES));
-        
-        
-//        Mod totalES = new Mod("energy shield: ", 130, 1000);
-//        Mod maxES = new Mod("energy shield: ", 160, 1000);
-//        Mod fRes = new Mod("% to fire resistance", 30, 48);
-//        Mod lRes = new Mod("% to lightning resistance", 30, 48);
-//        Mod cRes = new Mod("% to cold resistance", 30, 48);
-//        Mod maxMS = new Mod("% increased movement speed", 35, 35);
-//        filters.add(new Count(6, ms, ms, ms, totalES, totalES, totalES, fRes, fRes, lRes, lRes, cRes, cRes, maxMS, maxMS, maxMS, maxMS, maxMS, maxMS, maxES, maxES, maxES, maxES, maxES, maxES));
-//        name = "TestAltSpam";
-//        filters.add(new And(ms));
-        
-        /* EXPLODE MOD ON CHEST
-        Mod explode = new Mod("enemies you kill explode, dealing 3% of their life as physical damage");
-        filters.add(new Count(1, explode));
-        */
-        
-//        FiltersParent.add(this);
-        
-//        print();
-
-//        name = "TestNewFilters";
-//        Mod ms = new Mod("#% increased movement speed", 25, 35);
-//        Mod totalES = new Mod("energy shield: #", 10,500);
-//        filters.add(new And(ms,totalES));
-//        filters.add(new Count(1, ms));
     }
     
     public Filter(boolean isNew)

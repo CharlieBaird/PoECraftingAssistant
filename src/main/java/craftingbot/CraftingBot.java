@@ -37,8 +37,6 @@ public class CraftingBot {
         }
         Main.main();
         Settings.load();
-        
-        Item i = new Item(null);
     }
     
     public static boolean runAuto = false;

@@ -187,11 +187,9 @@ public class Utility {
                 int ps = m.group(1).equals("P") ? 1 : 2;
                 String mod = "1 Added Passive Skill is " + m.group(3);
 
-                Modifier notable = new Modifier(String.valueOf(ps), "ClusterJewelNotable", mod);
+                new Modifier(String.valueOf(ps), "ClusterJewelNotable", mod);
             }
         }
-        
-        System.out.println("Done");
     }
     
     private static String[] removeDuplicates(String[] input)

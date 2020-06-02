@@ -1,7 +1,9 @@
 package craftingbot.item;
 
+import craftingbot.Filter;
 import craftingbot.Filters;
 import craftingbot.Modifier;
+import craftingbot.filtertypes.FilterBase;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.regex.Matcher;
@@ -38,45 +40,15 @@ public class Item {
     
 //    public String influence;
     
-    public static String sample = 
-        "Rarity: Rare\n" +
-        "Chimeric Edge\n" +
-        "Imbued Wand\n" +
-        "--------\n" +
-        "Wand\n" +
-        "Quality: +41% (augmented)\n" + // 5
-        "Physical Damage: 150-286 (augmented)\n" +
-        "Critical Strike Chance: 7.00%\n" +
-        "Attacks per Second: 1.65 (augmented)\n" +
-        "--------\n" +
-        "Requirements:\n" +
-        "Level: 64\n" +
-        "Int: 188\n" +
-        "--------\n" +
-        "Sockets: G-B-B \n" +
-        "--------\n" +
-        "Item Level: 83\n" +
-        "--------\n" +
-        "33% increased Spell Damage (implicit)\n" +
-        "--------\n" +
-        "38% increased Physical Damage\n" +
-        "Adds 21 to 40 Physical Damage\n" +
-        "62% increased Mana Regeneration Rate\n" +
-        "24% increased Projectile Speed\n" +
-        "Can have up to 3 Crafted Modifiers (crafted)\n" +
-        "128% increased Physical Damage (crafted)\n" +
-        "10% increased Attack Speed (crafted)\n" +
-        "+11% to Quality (crafted)\n" +
-        "--------\n" +
-        "Corrupted\n" +
-        "--------\n" +
-        "Crusader Item";
-    
-    public Item(String raw)
+    public static Item createItem(String raw)
     {
-        if (raw == null) raw = sample;
-        
-        raw = Filters.parseMods(raw);
+        if (raw == null) return null;
+        else return new Item(raw);
+    }
+    
+    private Item(String raw)
+    {        
+//        raw = Filters.parseMods(raw);
         
         String[] lines = raw.split("\\r?\\n");
         
@@ -102,9 +74,15 @@ public class Item {
             
             Modifier m = Modifier.getFromStr(s);
             
+            
             for (int j=0; j<rolls.size(); j++)
             {
-                m.rolls[j] = rolls.get(j);
+                try {
+                    m.rolls[j] = rolls.get(j);
+                } catch (NullPointerException e) {
+                    System.out.println("Modifier not found: '" + s + "'");
+                    return;
+                }
             }
             
             explicitModifiers.add(m);
@@ -112,6 +90,33 @@ public class Item {
         
         print();
     }
+    
+    public boolean hitFilters(Filters filters)
+    {
+        for (Filter f : filters.filters)
+        {
+            if (this.hitFilter(f))
+                return true;
+        }
+        
+        return false;
+    }
+    
+    private boolean hitFilter(Filter f)
+    {
+        int goal = f.filters.size();
+        int numhit = 0;
+            
+        for (FilterBase fb : f.filters)
+        {
+            if (fb.hit(this)) numhit++;
+        }
+        
+        if (numhit >= goal) return true;
+        return false;
+    }
+    
+    
                 
     public final String getSingleString(String inputLine, String regex)
     {
@@ -141,7 +146,10 @@ public class Item {
 //        System.out.println("Implicits: ");
 //        for (Modifier m : implicitModifiers) m.print();
         System.out.println("Explicits: ");
-        for (Modifier m : explicitModifiers) m.print();
+        for (Modifier m : explicitModifiers)
+        {
+            m.print();
+        }
 //        System.out.println("Corrupted: " + corrupted);
 //        System.out.println("Influence: " + influence);
     }

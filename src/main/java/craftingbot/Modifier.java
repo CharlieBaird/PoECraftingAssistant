@@ -138,9 +138,9 @@ public class Modifier implements Serializable {
         new Modifier("-1", "Pseudo", "+#% total Elemental Resistance");
         new Modifier("-1", "Pseudo", "+#% total Resistance");
         
-        new Modifier("0", "TotalFromItem", "energy shield: #");
-        new Modifier("0", "TotalFromItem", "evasion: #");
-        new Modifier("0", "TotalFromItem", "armour: #");
+        new Modifier("0", "TotalFromItem", "Energy Shield: #");
+        new Modifier("0", "TotalFromItem", "Evasion: #");
+        new Modifier("0", "TotalFromItem", "Armour: #");
         
         new Modifier("-1", "Pseudo", "# Empty Suffix Modifiers");
         new Modifier("-1", "Pseudo", "# Empty Prefix Modifiers");
