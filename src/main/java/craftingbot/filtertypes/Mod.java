@@ -7,6 +7,7 @@ package craftingbot.filtertypes;
 
 import craftingbot.Modifier;
 import craftingbot.Utility;
+import craftingbot.item.Item;
 import java.io.Serializable;
 
 /**
@@ -41,6 +42,15 @@ public class Mod implements Serializable {
         return new Mod(this.assocModifier, this.name, ID.toArr());
     }
     
+    public double valueOn(Modifier psm)
+    {
+        if (this.name.equals(psm.getStr()))
+        {
+            return psm.rolls[0];
+        }
+        return 0;
+    }
+    
     public boolean hit(Modifier em)
     {
 //        System.out.println("'" + this.name + "'-'" + em.getStr() + "'");
@@ -49,6 +59,35 @@ public class Mod implements Serializable {
             if (ID.valid(em.rolls))
                 return true;
         }
+        
+//        else if (assocModifier != null && assocModifier.getModGenerationTypeID() == -1)
+//        {
+//            if (name.equals("+#% total elemental resistance"))
+//            {
+//                double total = total(input, inputLines, "+#% to cold resistance", "+#% to fire resistance", "+#% to lightning resistance");
+//                return ID.valid(total);
+//            }
+//            
+//            else if (name.equals("+#% total resistance"))
+//            {
+//                double total = total(input, inputLines, "+#% to cold resistance", "+#% to fire resistance", "+#% to lightning resistance", "+#% to chaos resistance");
+//                return ID.valid(total);
+//            }
+//            
+//            else if (name.equals("# empty suffix modifiers"))
+//            {
+//                int[] num = numPrefixSuffix(item);
+//                return ID.valid(3 - num[1]);
+//            }
+//            
+//            else if (name.equals("# empty prefix modifiers"))
+//            {
+//                int[] num = numPrefixSuffix(item);
+//                return ID.valid(3 - num[0]);
+//            }
+//        }
+        // TODO WORK ON PSEUDO
+        
         return false;
     }
     
@@ -136,6 +175,19 @@ public class Mod implements Serializable {
             } catch (NullPointerException e) {
                 continue;
             }
+            if (type == 1) totalPrefixSuffix[0]++;
+            else if (type == 2) totalPrefixSuffix[1]++;
+        }
+        
+        return totalPrefixSuffix;
+    }
+    
+    public static int[] numPrefixSuffix(Item item)
+    {
+        int[] totalPrefixSuffix = new int[2];
+        for (Modifier em : item.explicitModifiers)
+        {
+            int type = em.getModGenerationTypeID();
             if (type == 1) totalPrefixSuffix[0]++;
             else if (type == 2) totalPrefixSuffix[1]++;
         }

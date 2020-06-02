@@ -21,6 +21,8 @@ public class Modifier implements Serializable {
     private String CorrectGroup;
     private String str;
     
+    public Modifier[] pseudoSupportedModifiers = null;
+    
     public double[] rolls;
 
     public int getModGenerationTypeID() {
@@ -96,6 +98,17 @@ public class Modifier implements Serializable {
         all.add(this);
     }
     
+    public Modifier(String ModGenerationTypeID, String CorrectGroup, String str, String[] pseudoSupportedModifiersStrs)
+    {
+        this(ModGenerationTypeID, CorrectGroup, str);
+        
+        pseudoSupportedModifiers = new Modifier[pseudoSupportedModifiersStrs.length];
+        for (int i=0; i<pseudoSupportedModifiersStrs.length; i++)
+        {
+            pseudoSupportedModifiers[i] = Modifier.getFromStr(pseudoSupportedModifiersStrs[i]);
+        }
+    }
+        
     private String removeRolls(String str)
     {
         Pattern p = Pattern.compile("(\\d+(?:\\.\\d+)?)");
@@ -135,15 +148,26 @@ public class Modifier implements Serializable {
     
     public static void genPseudo()
     {
-        new Modifier("-1", "Pseudo", "+#% total Elemental Resistance");
-        new Modifier("-1", "Pseudo", "+#% total Resistance");
+        new Modifier("-1", "Pseudo", "+#% total Elemental Resistance", new String[]
+        {
+            "+#% to Cold Resistance",
+            "+#% to Fire Resistance",
+            "+#% to Lightning Resistance"
+        });
+        new Modifier("-1", "Pseudo", "+#% total Resistance", new String[]
+        {
+            "+#% to Cold Resistance",
+            "+#% to Fire Resistance",
+            "+#% to Lightning Resistance",
+            "+#% to Chaos Resistance"
+        });
         
         new Modifier("0", "TotalFromItem", "Energy Shield: #");
         new Modifier("0", "TotalFromItem", "Evasion: #");
         new Modifier("0", "TotalFromItem", "Armour: #");
         
-        new Modifier("-1", "Pseudo", "# Empty Suffix Modifiers");
-        new Modifier("-1", "Pseudo", "# Empty Prefix Modifiers");
+        new Modifier("-2", "Pseudo", "# Empty Suffix Modifiers");
+        new Modifier("-2", "Pseudo", "# Empty Prefix Modifiers");
         
     }
 }

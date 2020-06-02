@@ -107,9 +107,7 @@ public class Utility {
     }
     
     public static void pullModsFromAPI() throws Exception
-    {        
-        Modifier.genPseudo();
-        
+    {      
         String path = getResourcesPath() + "\\src\\main\\resources\\json";
         File file = new File(path);
         File[] fileNames = file.listFiles();
@@ -170,6 +168,8 @@ public class Utility {
                 }
             } // done with json
         }
+        
+        Modifier.genPseudo();
         
         String clustersPath = getResourcesPath() + "\\src\\main\\resources\\clusternotables.txt";
         String notables = FileScanner.readFromFile(clustersPath);
