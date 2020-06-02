@@ -20,6 +20,8 @@ public class Modifier implements Serializable {
     private int ModGenerationTypeID; // 1 = prefix, 2 = suffix
     private String CorrectGroup;
     private String str;
+    
+    public double[] rolls;
 
     public int getModGenerationTypeID() {
         return ModGenerationTypeID;
@@ -47,14 +49,21 @@ public class Modifier implements Serializable {
     
     public void print()
     {
-        System.out.printf("%-5s %-50s %-40s\n", ModGenerationTypeID, CorrectGroup, str);
+        System.out.printf("%-5s %-53s %-40s", ModGenerationTypeID, CorrectGroup, str);
+        for (double d : rolls) System.out.print(d + " ");
+        System.out.println();
+        
     }
     
     public static Modifier getFromStr(String str)
     {
         for (Modifier m : all)
+        {
             if (m.getStr().equals(str))
+            {
                 return m;
+            }
+        }
         
         return null;
     }
@@ -72,13 +81,19 @@ public class Modifier implements Serializable {
         if (str.contains("<br"))
             str = str.substring(0,str.indexOf("<br"));
         
-        str = str.toLowerCase();
+//        str = str.toLowerCase();
         
         str = removeRolls(str);
         this.str = str;
-                        
-        if (!all.contains(this))
-            all.add(this);
+        
+        for (Modifier m : all)
+            if (m.str.equals(this.str))
+                return;
+        
+        int count = str.length() - str.replaceAll("#", "").length();
+        rolls = new double[count];
+        
+        all.add(this);
     }
     
     private String removeRolls(String str)
@@ -103,16 +118,6 @@ public class Modifier implements Serializable {
         str = str.replaceAll("#-#", "#");
         
         return str;
-    }
-    
-    private boolean contains()
-    {
-        for (Modifier m : all)
-        {
-            if (m.getCorrectGroup().equals(getCorrectGroup()))
-                return true;
-        }
-        return false;
     }
     
     @Override

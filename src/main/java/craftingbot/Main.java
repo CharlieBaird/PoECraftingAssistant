@@ -869,6 +869,8 @@ public class Main extends javax.swing.JFrame {
         }
         //</editor-fold>
         
+        
+        
         ComponentMover cm = new ComponentMover(JFrame.class, this.jPanel1);
 //        ComponentResizer cr = new ComponentResizer(this);
 //        todo come back to this line
@@ -881,11 +883,6 @@ public class Main extends javax.swing.JFrame {
     
     public void postload()
     {
-        try {
-            Utility.pullModsFromAPI();
-        } catch (Exception ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
         try {
             UIManager.setLookAndFeel(new NimbusLookAndFeel() {

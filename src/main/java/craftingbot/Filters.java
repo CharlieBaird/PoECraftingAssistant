@@ -5,6 +5,7 @@
  */
 package craftingbot;
 
+import craftingbot.item.Item;
 import java.awt.AWTException;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
@@ -99,7 +100,6 @@ public class Filters implements Serializable {
     
     public static boolean checkIfHitOne()
     {
-//        long start = System.nanoTime();
         String mods = null;
         try {
             mods = Utility.copy();
@@ -107,30 +107,20 @@ public class Filters implements Serializable {
             Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (mods == null) return false;
-//        long end = System.nanoTime();
-//        System.out.println((end-start)/1000000);
 
-        mods = mods.toLowerCase();
-        String modsRaw = parseMods(mods);
-//        System.out.println(modsRaw);
-
-//        if (savedModsRaw.equals(modsRaw)) System.out.println("too fast");
-        savedModsRaw = modsRaw;
+        mods = parseMods(mods);
+        Item item = new Item(mods);
+        
+        savedModsRaw = mods;
         
         for (Filter f : singleton.filters)
-        {
-            if (f.checkIfHit(modsRaw))
-            {
+            if (f.checkIfHit(mods))
                 return true;
-            }
-        }
-
-//        Filters.print();
         
         return false;
     }
     
-    private static String parseMods(String mods)
+    public static String parseMods(String mods)
     {
         String[] arr = mods.split("\\R");
         ArrayList<String> modLines = new ArrayList<String>();
@@ -161,7 +151,23 @@ public class Filters implements Serializable {
             
             modLines.set(i, modLines.get(i).replace("# added passive skill is a jewel socket", "# added passive skills are jewel sockets"));
             
-            if (mAllWord.find())
+            if (
+                    mAllWord.find() 
+                    || modLines.get(i).contains("(crafted)")
+                    || modLines.get(i).contains("Physical Damage: ")
+                    || modLines.get(i).contains("Elemental Damage: ")
+                    || modLines.get(i).contains("Critical Strike Chance: ")
+                    || modLines.get(i).contains("Attacks per Second: ")
+                    || modLines.get(i).contains("Level: ")
+                    || modLines.get(i).contains("Item Level: ")
+                    || modLines.get(i).contains("Int: ")
+                    || modLines.get(i).contains("Dex: ")
+                    || modLines.get(i).contains("Str: ")
+                    || modLines.get(i).contains("Corrupted")
+                    || modLines.get(i).contains("Str: ")
+                    || modLines.get(i).contains("Weapon Range: ")
+                    || modLines.get(i).contains("(implicit)")
+                )
             {
                 modLines.remove(i);
                 i--;

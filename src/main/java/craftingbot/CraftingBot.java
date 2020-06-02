@@ -6,6 +6,7 @@
 package craftingbot;
 
 import static craftingbot.Utility.*;
+import craftingbot.item.Item;
 import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.MouseInfo;
@@ -29,8 +30,15 @@ public class CraftingBot {
     
     public static void main(String[] args)
     {
+        try {
+            Utility.pullModsFromAPI();
+        } catch (Exception ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Main.main();
         Settings.load();
+        
+        Item i = new Item(null);
     }
     
     public static boolean runAuto = false;

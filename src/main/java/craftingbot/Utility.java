@@ -190,6 +190,8 @@ public class Utility {
                 Modifier notable = new Modifier(String.valueOf(ps), "ClusterJewelNotable", mod);
             }
         }
+        
+        System.out.println("Done");
     }
     
     private static String[] removeDuplicates(String[] input)
