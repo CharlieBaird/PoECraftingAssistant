@@ -55,8 +55,6 @@ public class FilterTypePanel extends JPanel {
         this.filter.active = true;
         this.parent = parent;
         
-//        filterbase.print();
-        
         this.type = filterbase.getClass().getSimpleName();
         
         String path = "src/main/resources";
@@ -390,6 +388,7 @@ class Min extends JTextField {
                     Count c = (Count) parent.filterbase;
                     c.needed = Integer.valueOf(getText());
                     parent.filterbase = c;
+                    Filters.saveFilters();
                 }
             }
         });
@@ -406,6 +405,7 @@ class Min extends JTextField {
                         Count c = (Count) parent.filterbase;
                         c.needed = Integer.valueOf(getText());
                         parent.filterbase = c;
+                        Filters.saveFilters();
                     }
                 }
             }

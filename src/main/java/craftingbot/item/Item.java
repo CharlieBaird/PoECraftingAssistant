@@ -74,7 +74,6 @@ public class Item {
             
             Modifier m = Modifier.getFromStr(s);
             
-            
             for (int j=0; j<rolls.size(); j++)
             {
                 try {
@@ -88,7 +87,7 @@ public class Item {
             explicitModifiers.add(m);
         }
         
-        print();
+//        print();
     }
     
     public boolean hitFilters(Filters filters)

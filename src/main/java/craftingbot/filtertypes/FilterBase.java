@@ -23,7 +23,7 @@ public class FilterBase implements IFilter, Serializable {
         
         for (int i=0; i<newMods.length; i++)
         {
-            newMods[i].toLowerCase();
+//            newMods[i].toLowerCase();
             mods.add(newMods[i]);
         }
     }

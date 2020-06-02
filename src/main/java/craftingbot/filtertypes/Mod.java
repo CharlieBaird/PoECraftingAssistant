@@ -23,17 +23,18 @@ public class Mod implements Serializable {
     public Mod(Modifier assocModifier, String name, int... id)
     {
         this.assocModifier = assocModifier;
-        this.name = name.toLowerCase();
+//        this.name = name.toLowerCase();
+        this.name = name;
 //        this.ids = new Id[id.length / 2];
                
         for (int i=0; i<id.length; i+=2)
             ID = new Id(id[i/2], id[i/2+1]);
     }
     
-    public void toLowerCase()
-    {
-        name = name.toLowerCase();
-    }
+//    public void toLowerCase()
+//    {
+//        name = name.toLowerCase();
+//    }
     
     public Mod dupe()
     {   
@@ -42,7 +43,7 @@ public class Mod implements Serializable {
     
     public boolean hit(Modifier em)
     {
-//        System.out.println(this.name + "-" + em.getStr());
+//        System.out.println("'" + this.name + "'-'" + em.getStr() + "'");
         if (this.name.equals(em.getStr()))
         {
             if (ID.valid(em.rolls))

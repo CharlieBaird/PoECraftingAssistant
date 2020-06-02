@@ -29,7 +29,6 @@ public class Not extends FilterBase {
     {
         for (Mod m : mods)
         {
-            m.print();
             for (Modifier em : item.explicitModifiers)
             {
                 if (m.hit(em)) return false;

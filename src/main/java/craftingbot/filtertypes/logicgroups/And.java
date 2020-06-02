@@ -31,7 +31,6 @@ public class And extends FilterBase {
         int goal = this.mods.size();
         for (Mod m : mods)
         {
-//            m.print();
             for (Modifier em : item.explicitModifiers)
             {
                 if (m.hit(em)) numHit++;

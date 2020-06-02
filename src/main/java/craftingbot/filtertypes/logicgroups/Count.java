@@ -28,17 +28,20 @@ public class Count extends FilterBase {
     
     public boolean hit(Item item)
     {
-        int count = 0;
+        int numHit = 0;
         for (Mod m : mods)
         {
-            if (count >= needed) return true;
             for (Modifier em : item.explicitModifiers)
             {
-                if (m.hit(em)) count++;
+                if (m.hit(em))
+                {
+                    numHit++;
+                    break;
+                }
             }
+            if (numHit >= needed) return true;
         }
-        
-        return count >= needed;
+        return false;
     }
     
     @Override
