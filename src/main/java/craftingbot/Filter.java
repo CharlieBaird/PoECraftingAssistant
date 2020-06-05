@@ -6,20 +6,12 @@
 package craftingbot;
 
 import craftingbot.filtertypes.*;
-import craftingbot.filtertypes.logicgroups.*;
-import java.awt.AWTException;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- *
- * @author charl
- */
 public class Filter implements Serializable
 {
-    public ArrayList<FilterBase> filters = new ArrayList<FilterBase>();
+    public ArrayList<FilterBase> filters = new ArrayList<>();
     public String name;
     public boolean active = false;
     
@@ -31,33 +23,6 @@ public class Filter implements Serializable
     public Filter(boolean isNew)
     {
         name = "New Filter";
-    }
-    
-    public Filter(Filter old) // duplicates
-    {
-        for (FilterBase fb : old.filters)
-        {
-            for (Mod mod : fb.mods)
-            {
-                Mod dupe = mod.dupe();
-            }
-        }
-    }
-    
-    public boolean checkIfHit(String mods)
-    {
-        int goal = filters.size();
-        int numhit = 0;
-        
-//        System.out.println(mods);
-            
-        for (FilterBase fb : filters)
-        {
-            if (fb.hit(mods)) numhit++;
-        }
-        
-        if (numhit >= goal) return true;
-        return false;
     }
     
     public void print()

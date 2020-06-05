@@ -103,7 +103,7 @@ public class ModifierPanel extends JPanel {
 
                 mod.name = m.getStr();
                 mod.assocModifier = assocMod;
-                mod.updateMin();
+//                mod.updateMin();
 
                 ml.setText(m.getStr());
 
@@ -269,7 +269,7 @@ class MPMinMax extends JTextField {
             setForeground(new Color(120,120,120));
             if (isMin) parent.mod.ID.min = -100000;
             else       parent.mod.ID.max =  100000;
-            parent.mod.updateMin();
+//            parent.mod.updateMin();
         }
 
         // save value
@@ -277,7 +277,7 @@ class MPMinMax extends JTextField {
             try {
                 if (isMin) parent.mod.ID.min = Integer.valueOf(parent.min.getText());
                 else       parent.mod.ID.max = Integer.valueOf(parent.max.getText());
-                parent.mod.updateMin();
+//                parent.mod.updateMin();
             } catch (NumberFormatException e) {
                 System.out.println(e);
             }

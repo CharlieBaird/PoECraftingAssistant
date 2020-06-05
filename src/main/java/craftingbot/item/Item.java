@@ -135,8 +135,22 @@ public class Item {
         return 0;
     }
     
+    public int[] numPrefixSuffix()
+    {
+        int[] totalPrefixSuffix = new int[2];
+        for (Modifier em : explicitModifiers)
+        {
+            int type = em.getModGenerationTypeID();
+            if (type == 1) totalPrefixSuffix[0]++;
+            else if (type == 2) totalPrefixSuffix[1]++;
+        }
+        
+        return totalPrefixSuffix;
+    }
+    
     public final void print()
     {
+        System.out.println("- - - Item - - -");
 //        System.out.println(rarity + " " + customName + " " + baseType);
 //        System.out.println(itemType);
         System.out.println("Quality: " + quality);
@@ -161,5 +175,6 @@ public class Item {
         }
 //        System.out.println("Corrupted: " + corrupted);
 //        System.out.println("Influence: " + influence);
+        System.out.println("- - - - - - - -");
     }
 }

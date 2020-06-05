@@ -37,13 +37,13 @@ public class Mod implements Serializable {
         }
     }
     
-    public void updateMin()
-    {
-        if (assocModifier.getModGenerationTypeID() == -1 && ID.min == -100000)
-        {
-            ID.min = 0;
-        }
-    }
+//    public void updateMin()
+//    {
+//        if (assocModifier.getModGenerationTypeID() == -1 && ID.min == -100000)
+//        {
+//            ID.min = 0;
+//        }
+//    }
     
     public Mod dupe()
     {   
@@ -69,139 +69,7 @@ public class Mod implements Serializable {
                 return true;
         }
         
-//        else if (assocModifier != null && assocModifier.getModGenerationTypeID() == -1)
-//        {
-//            if (name.equals("+#% total elemental resistance"))
-//            {
-//                double total = total(input, inputLines, "+#% to cold resistance", "+#% to fire resistance", "+#% to lightning resistance");
-//                return ID.valid(total);
-//            }
-//            
-//            else if (name.equals("+#% total resistance"))
-//            {
-//                double total = total(input, inputLines, "+#% to cold resistance", "+#% to fire resistance", "+#% to lightning resistance", "+#% to chaos resistance");
-//                return ID.valid(total);
-//            }
-//            
-//            else if (name.equals("# empty suffix modifiers"))
-//            {
-//                int[] num = numPrefixSuffix(item);
-//                return ID.valid(3 - num[1]);
-//            }
-//            
-//            else if (name.equals("# empty prefix modifiers"))
-//            {
-//                int[] num = numPrefixSuffix(item);
-//                return ID.valid(3 - num[0]);
-//            }
-//        }
-        // TODO WORK ON PSEUDO
-        
         return false;
-    }
-    
-    public boolean hit(String input)
-    {
-        String[] inputLines = input.split("\\R");
-        
-//        System.out.println(name);
-        
-        if (input.contains(name))
-        {
-            for (String s : inputLines)
-            {
-                if (s.contains(name))
-                {                
-
-                    String[] inputLinesSep = s.split("[*]{1}");
-
-                    s = inputLinesSep[0];
-                    double[] ids = new double[inputLinesSep.length-1];
-                    for (int i=1; i<inputLinesSep.length; i++)
-                    {
-                        ids[i-1] = Double.valueOf(inputLinesSep[i]);
-                    }
-
-                    if (ID.valid(ids))
-                        return true;
-                    else
-                        return false;
-                }
-            }
-        }
-        
-        else if (assocModifier != null && assocModifier.getModGenerationTypeID() == -1)
-        {
-            if (name.equals("+#% total elemental resistance"))
-            {
-                double total = total(input, inputLines, "+#% to cold resistance", "+#% to fire resistance", "+#% to lightning resistance");
-                return ID.valid(total);
-            }
-            
-            else if (name.equals("+#% total resistance"))
-            {
-                double total = total(input, inputLines, "+#% to cold resistance", "+#% to fire resistance", "+#% to lightning resistance", "+#% to chaos resistance");
-                return ID.valid(total);
-            }
-            
-            else if (name.equals("# empty suffix modifiers"))
-            {
-                int[] num = numPrefixSuffix(input);
-//                printArr(num);
-                return ID.valid(3 - num[1]);
-            }
-            
-            else if (name.equals("# empty prefix modifiers"))
-            {
-                int[] num = numPrefixSuffix(input);
-//                printArr(num);
-                return ID.valid(3 - num[0]);
-            }
-        }
-        
-        return false;
-    }
-    
-    private void printArr(int[] arr)
-    {
-        System.out.println("# empty prefix: " + (3 - arr[0]));
-        System.out.println("# empty suffix: " + (3 - arr[1]));
-    }
-    
-    private int[] numPrefixSuffix(String input)
-    {
-        String[] inputLines = input.split("\\R");
-        
-        int[] totalPrefixSuffix = new int[2];
-        
-        for (String s : inputLines)
-        {
-            String real = s.split("[*]{1}")[0];
-            
-            int type;
-            try {
-                type = Modifier.getFromStr(real).getModGenerationTypeID();
-            } catch (NullPointerException e) {
-                continue;
-            }
-            if (type == 1) totalPrefixSuffix[0]++;
-            else if (type == 2) totalPrefixSuffix[1]++;
-        }
-        
-        return totalPrefixSuffix;
-    }
-    
-    public static int[] numPrefixSuffix(Item item)
-    {
-        int[] totalPrefixSuffix = new int[2];
-        for (Modifier em : item.explicitModifiers)
-        {
-            int type = em.getModGenerationTypeID();
-            if (type == 1) totalPrefixSuffix[0]++;
-            else if (type == 2) totalPrefixSuffix[1]++;
-        }
-        
-        return totalPrefixSuffix;
     }
     
     private double total(String input, String[] inputLines, String... mods)

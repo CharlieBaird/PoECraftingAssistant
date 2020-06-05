@@ -5,6 +5,7 @@
  */
 package craftingbot.filtertypes;
 
+import craftingbot.Modifier;
 import java.io.Serializable;
 
 /**
@@ -34,8 +35,18 @@ public class Id implements Serializable
     
     public boolean valid(double roll)
     {
-        System.out.println("Roll: " + roll + " Min: " + min + " Max: " + max);
-        
+//        System.out.println(min + " <= " + roll + " <= " +  + max);
+        return (roll <= max && roll >= min);
+    }
+    
+    public boolean valid(double roll, Modifier m)
+    {
+        if (m.getModGenerationTypeID() == -1 && min == -100000)
+        {
+//            System.out.println(1 + " <= " + roll + " <= " +  + max);
+            return (roll <= max && roll >= 1); 
+        }
+//        System.out.println(min + " <= " + roll + " <= " +  + max);
         return (roll <= max && roll >= min);
     }
     

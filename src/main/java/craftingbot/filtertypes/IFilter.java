@@ -9,8 +9,6 @@ import craftingbot.item.Item;
 
 
 public interface IFilter {
-    public boolean hit(String input);
-    
     public boolean hit(Item item);
     
     public void print();

@@ -16,18 +16,9 @@ public class And extends FilterBase {
         super(mods);
     }
     
-    public boolean hit(String input)
-    {
-        for (Mod m : mods)
-        {
-            if (!m.hit(input)) return false;
-        }
-        return true;
-    }
-    
     public boolean hit(Item item)
     {
-        item.print();
+//        item.print();
         
         int numHit = 0;
         int goal = this.mods.size();
@@ -53,13 +44,13 @@ public class And extends FilterBase {
                         total += item.getValue(psm.getStr());
                     }
                     if (total != -1) total++;
-                    if (m.ID.valid(total))
+                    if (m.ID.valid(total, m.assocModifier))
                     {
                         numHit++;
                     }
                     break;
                 case -2:
-                   int[] numPrefixSuffix = Mod.numPrefixSuffix(item);
+                   int[] numPrefixSuffix = item.numPrefixSuffix();
                     if (m.assocModifier.getStr().equals("# Empty Prefix Modifiers"))
                     {
                         if (m.ID.valid((double) 3 - numPrefixSuffix[0]))

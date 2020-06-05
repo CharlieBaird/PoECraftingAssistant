@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -28,7 +29,7 @@ public class Filters implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    public ArrayList<Filter> filters = new ArrayList<Filter>();
+    public ArrayList<Filter> filters = new ArrayList<>();
     
     public static Filters singleton = new Filters(false);
     
@@ -70,7 +71,7 @@ public class Filters implements Serializable {
         this.filters.clear();
         for (Filter f : filters)
         {
-            this.filters.add(new Filter(f));
+            this.filters.add(f);
         }
     }
     
@@ -139,7 +140,7 @@ public class Filters implements Serializable {
 //        );
         
         Item item = Item.createItem(mods);
-        item.print();
+//        item.print();
         savedModsRaw = mods;
         
         return item.hitFilters(singleton);
@@ -249,17 +250,22 @@ public class Filters implements Serializable {
         return str;
     }
     
-    public static void loadFilters(String path) throws FileNotFoundException, IOException, ClassNotFoundException
+    public static Filters loadFilters(String path) throws FileNotFoundException, IOException, ClassNotFoundException
     {
         singleton.filters.clear();
         
         FileInputStream fi = new FileInputStream(new File(path));
         ObjectInputStream oi = new ObjectInputStream(fi);
-        
-        singleton = (Filters) oi.readObject();
+        Filters input = null;
+        try {
+            input = (Filters) oi.readObject();
+        } catch (InvalidClassException e) {
+            input = null;
+        }
                 
         fi.close();
         oi.close();
+        return input;
     }
     
     public static void saveFilters(String path) throws FileNotFoundException, IOException

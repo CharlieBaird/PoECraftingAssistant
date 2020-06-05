@@ -564,6 +564,19 @@ public class Main extends javax.swing.JFrame {
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
             String path = file.toPath().toString();
+            
+            Filters loaded = null;
+            try {
+                loaded = Filters.loadFilters(path);
+            } catch (IOException | ClassNotFoundException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            if (loaded == null) // Errored, wrong serial ID
+            {
+                JOptionPane.showMessageDialog(null, "Invalid Filter", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             Filters.saveFilters();
             Filters.reset();
@@ -575,15 +588,8 @@ public class Main extends javax.swing.JFrame {
             }
 
             FilterNamePanel.filterpanels.clear();
-
-            try {
-                Filters.loadFilters(path);
-                //                System.out.println(path);
-            } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
+            Filters.singleton = loaded;
 
             updateLeftTab();
 

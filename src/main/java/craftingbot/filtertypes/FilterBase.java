@@ -28,11 +28,6 @@ public class FilterBase implements IFilter, Serializable {
         }
     }
     
-    public boolean hit(String input)
-    {
-        return true;
-    }
-    
     public boolean hit (Item item)
     {
         return true;
