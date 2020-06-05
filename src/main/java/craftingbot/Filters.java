@@ -98,48 +98,55 @@ public class Filters implements Serializable {
     
     static String savedModsRaw = "";
     
-    public static boolean checkIfHitOne()
+    public static boolean checkIfHitOne(boolean debug)
     {
         String mods = null;
-        try {
-            mods = Utility.copy();
-        } catch (AWTException | UnsupportedFlavorException | IOException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (mods == null) return false;
+        if (!debug)
+        {
+            try {
+                mods = Utility.copy();
+            } catch (AWTException | UnsupportedFlavorException | IOException ex) {
+                Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (mods == null) return false;
 
-        mods = parseMods(mods);
-        
-//        mods = parseMods
-//        (
-//            "Rarity: Rare\n" +
-//            "Torment Spark\n" +
-//            "Titan Greaves\n" +
-//            "--------\n" +
-//            "Quality: +20% (augmented)\n" +
-//            "Armour: 389 (augmented)\n" +
-//            "--------\n" +
-//            "Requirements:\n" +
-//            "Level: 68\n" +
-//            "Str: 120\n" +
-//            "--------\n" +
-//            "Sockets: R-R-R-R \n" +
-//            "--------\n" +
-//            "Item Level: 86\n" +
-//            "--------\n" +
-//            "+10 to Armour\n" +
-//            "35% increased Armour\n" +
-//            "+73 to maximum Life\n" +
-//            "+40% to Fire Resistance\n" +
-//            "+20% to Cold Resistance\n" +
-//            "+39% to Lightning Resistance\n" +
-//            "14% increased Stun and Block Recovery\n" +
-//            "--------\n" +
-//            "Hunter Item"
-//        );
+            mods = parseMods(mods);
+        }
+        else
+        {
+            mods = parseMods
+            (
+                "Rarity: Rare\n" +
+                "Vortex Impaler\n" +
+                "Primeval Rapier\n" +
+                "--------\n" +
+                "One Handed Sword\n" +
+                "Physical Damage: 18-73\n" +
+                "Elemental Damage: 10-15 (augmented), 8-153 (augmented)\n" +
+                "Critical Strike Chance: 6.50%\n" +
+                "Attacks per Second: 1.30\n" +
+                "Weapon Range: 14\n" +
+                "--------\n" +
+                "Requirements:\n" +
+                "Level: 50\n" +
+                "Dex: 158\n" +
+                "--------\n" +
+                "Sockets: G-G B \n" +
+                "--------\n" +
+                "Item Level: 69\n" +
+                "--------\n" +
+                "+25% to Global Critical Strike Multiplier (implicit)\n" +
+                "--------\n" +
+                "+1 to Level of Socketed Gems\n" +
+                "+21 to Dexterity\n" +
+                "Adds 10 to 15 Fire Damage\n" +
+                "Adds 8 to 153 Lightning Damage\n" +
+                "+14 Life gained on Kill"
+            );
+        }
         
         Item item = Item.createItem(mods);
-//        item.print();
+        item.print();
         savedModsRaw = mods;
         
         return item.hitFilters(singleton);
@@ -199,7 +206,6 @@ public class Filters implements Serializable {
             }
         }
         String joined = String.join(String.valueOf(((char)10)), modLines);
-//        System.out.println(joined);
         return joined;
     }
     
@@ -267,18 +273,6 @@ public class Filters implements Serializable {
         return input;
     }
     
-    public static void saveFilters(String path) throws FileNotFoundException, IOException
-    {
-        FileOutputStream f = new FileOutputStream(new File(path));
-        ObjectOutputStream o = new ObjectOutputStream(f);
-
-        // Write objects to file
-        o.writeObject(singleton);
-
-        o.close();
-        f.close();
-    }
-    
     public static void saveFilters()
     {
         if (singleton.name.equals("") || singleton.name == null)
@@ -322,5 +316,3 @@ public class Filters implements Serializable {
         f.delete();
     }
 }
-
-// C:\CB\dev\PoE\CraftingBot\test.txt

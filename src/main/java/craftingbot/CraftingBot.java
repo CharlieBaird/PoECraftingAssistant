@@ -27,6 +27,8 @@ import lc.kra.system.mouse.event.GlobalMouseEvent;
 
 public class CraftingBot {
     
+    public static boolean debug = false;
+    
     public static void main(String[] args)
     {
         try {
@@ -60,7 +62,7 @@ public class CraftingBot {
                     if (event.getButton() == 1) {
                         if (onSwingWindow() || ignore) return;
                         delay(Settings.singleton.delay + 35);
-                        boolean b = Filters.checkIfHitOne();
+                        boolean b = Filters.checkIfHitOne(false);
                         if (b) {
                             moveMouseAway();
 //                            System.out.println("hit");
@@ -196,7 +198,7 @@ public class CraftingBot {
             
             lclick();
             delay(Settings.singleton.delay + 35);
-            if (Filters.checkIfHitOne())
+            if (Filters.checkIfHitOne(false))
             {
                 Utility.playHitSound();
                 break;

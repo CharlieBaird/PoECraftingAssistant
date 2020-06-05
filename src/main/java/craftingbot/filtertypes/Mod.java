@@ -6,8 +6,6 @@
 package craftingbot.filtertypes;
 
 import craftingbot.Modifier;
-import craftingbot.Utility;
-import craftingbot.Item;
 import java.io.Serializable;
 
 /**
@@ -37,29 +35,6 @@ public class Mod implements Serializable {
         }
     }
     
-//    public void updateMin()
-//    {
-//        if (assocModifier.getModGenerationTypeID() == -1 && ID.min == -100000)
-//        {
-//            ID.min = 0;
-//        }
-//    }
-    
-    public Mod dupe()
-    {   
-        return new Mod(this.assocModifier, this.name, ID.toArr());
-    }
-    
-    public double valueOn(Modifier psm)
-    {
-        System.out.println("'" + this.name + "'-'" + psm.getStr() + "'");
-        if (this.name.equals(psm.getStr()))
-        {
-            return psm.rolls[0];
-        }
-        return 0;
-    }
-    
     public boolean hit(Modifier em)
     {
 //        System.out.println("'" + this.name + "'-'" + em.getStr() + "'");
@@ -70,31 +45,6 @@ public class Mod implements Serializable {
         }
         
         return false;
-    }
-    
-    private double total(String input, String[] inputLines, String... mods)
-    {
-        double total = 0;
-        for (String modName : mods)
-        {
-            if (input.contains(modName))
-            {
-                for (String s : inputLines)
-                {
-                    if (s.contains(modName))
-                    {                
-
-                        String[] inputLinesSep = s.split("[*]{1}");
-
-                        s = inputLinesSep[0];
-                        double value = Double.valueOf(inputLinesSep[1]);
-                        total += value;
-                    }
-                }
-            }
-        }
-        
-        return total;
     }
     
     public void print()
