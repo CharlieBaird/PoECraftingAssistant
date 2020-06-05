@@ -3,7 +3,7 @@ package craftingbot.filtertypes.logicgroups;
 import craftingbot.Modifier;
 import craftingbot.filtertypes.FilterBase;
 import craftingbot.filtertypes.Mod;
-import craftingbot.item.Item;
+import craftingbot.Item;
 
 public class Count extends FilterBase {
     public int needed;

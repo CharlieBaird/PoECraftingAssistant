@@ -5,7 +5,6 @@
  */
 package craftingbot;
 
-import craftingbot.item.Item;
 import java.awt.AWTException;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;

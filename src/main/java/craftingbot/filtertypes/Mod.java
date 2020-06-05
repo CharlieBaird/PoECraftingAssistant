@@ -7,7 +7,7 @@ package craftingbot.filtertypes;
 
 import craftingbot.Modifier;
 import craftingbot.Utility;
-import craftingbot.item.Item;
+import craftingbot.Item;
 import java.io.Serializable;
 
 /**

@@ -5,7 +5,7 @@
  */
 package craftingbot.filtertypes;
 
-import craftingbot.item.Item;
+import craftingbot.Item;
 
 
 public interface IFilter {

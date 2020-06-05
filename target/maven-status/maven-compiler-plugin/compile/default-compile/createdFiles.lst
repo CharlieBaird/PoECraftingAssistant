@@ -15,11 +15,11 @@ craftingbot\Utility.class
 craftingbot\Settings.class
 craftingbot\UI\FilterTypePanel.class
 craftingbot\UI\ComponentResizer.class
-craftingbot\item\Item.class
 craftingbot\filtertypes\Mod.class
 craftingbot\UI\Min$2.class
 craftingbot\UI\CloseFBButton.class
 craftingbot\UI\ModMouseListener.class
+craftingbot\Item.class
 craftingbot\Main$5.class
 craftingbot\filtertypes\logicgroups\Not.class
 craftingbot\filtertypes\Id.class

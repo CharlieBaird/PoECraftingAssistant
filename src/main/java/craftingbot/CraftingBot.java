@@ -6,7 +6,6 @@
 package craftingbot;
 
 import static craftingbot.Utility.*;
-import craftingbot.item.Item;
 import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.MouseInfo;

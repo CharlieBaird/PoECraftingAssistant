@@ -1,4 +1,4 @@
-package craftingbot.item;
+package craftingbot;
 
 import craftingbot.Filter;
 import craftingbot.Filters;
