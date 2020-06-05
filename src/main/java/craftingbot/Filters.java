@@ -109,8 +109,37 @@ public class Filters implements Serializable {
         if (mods == null) return false;
 
         mods = parseMods(mods);
-        Item item = Item.createItem(mods);
         
+//        mods = parseMods
+//        (
+//            "Rarity: Rare\n" +
+//            "Torment Spark\n" +
+//            "Titan Greaves\n" +
+//            "--------\n" +
+//            "Quality: +20% (augmented)\n" +
+//            "Armour: 389 (augmented)\n" +
+//            "--------\n" +
+//            "Requirements:\n" +
+//            "Level: 68\n" +
+//            "Str: 120\n" +
+//            "--------\n" +
+//            "Sockets: R-R-R-R \n" +
+//            "--------\n" +
+//            "Item Level: 86\n" +
+//            "--------\n" +
+//            "+10 to Armour\n" +
+//            "35% increased Armour\n" +
+//            "+73 to maximum Life\n" +
+//            "+40% to Fire Resistance\n" +
+//            "+20% to Cold Resistance\n" +
+//            "+39% to Lightning Resistance\n" +
+//            "14% increased Stun and Block Recovery\n" +
+//            "--------\n" +
+//            "Hunter Item"
+//        );
+        
+        Item item = Item.createItem(mods);
+        item.print();
         savedModsRaw = mods;
         
         return item.hitFilters(singleton);

@@ -27,60 +27,59 @@ public class And extends FilterBase {
     
     public boolean hit(Item item)
     {
+        item.print();
+        
         int numHit = 0;
         int goal = this.mods.size();
         for (Mod m : mods)
-        {
-            for (Modifier em : item.explicitModifiers)
+        {   
+            switch (m.assocModifier.getModGenerationTypeID())
             {
-                switch (em.getModGenerationTypeID())
-                {
-                    case 0:
-                    case 1:
-                    case 2: // 0,1,2 are all normal ID's that can be measured this way. 0 = Armour: x; 1 = # to Maximum Life; 2 = +#% to Cold Resistance
+                case 0:
+                case 1:
+                case 2:
+                    for (Modifier em : item.explicitModifiers)
                     {
                         if (m.hit(em))
                         {
                             numHit++;
                         }
-                        break;
                     }
-                    case -1: // Psuedo Total Modifier. Example: Total Res on an item
+                    break;
+                case -1:
+                    int total = -1;
+                    for (Modifier psm : m.assocModifier.pseudoSupportedModifiers)
                     {
-                        int total = 0;
-                        for (Modifier psm : em.pseudoSupportedModifiers)
-                        {
-                            total += m.valueOn(psm);
-                        }
-                        if (m.ID.valid(total))
+                        total += item.getValue(psm.getStr());
+                    }
+                    if (total != -1) total++;
+                    if (m.ID.valid(total))
+                    {
+                        numHit++;
+                    }
+                    break;
+                case -2:
+                   int[] numPrefixSuffix = Mod.numPrefixSuffix(item);
+                    if (m.assocModifier.getStr().equals("# Empty Prefix Modifiers"))
+                    {
+                        if (m.ID.valid((double) 3 - numPrefixSuffix[0]))
                         {
                             numHit++;
                         }
                     }
-                    case -2: // Pseudo Item Stats Modifier. Example: Total number of empty prefixes on an item
+                    else if (m.assocModifier.getStr().equals("# Empty Suffix Modifiers"))
                     {
-                        int[] numPrefixSuffix = Mod.numPrefixSuffix(item);
-                        if (em.getStr().equals("# Empty Prefix Modifiers"))
+                        if (m.ID.valid((double) 3 - numPrefixSuffix[1]))
                         {
-                            if (m.ID.valid((double) 3 - numPrefixSuffix[0]))
-                            {
-                                numHit++;
-                            }
+                            numHit++;
                         }
-                        else if (em.getStr().equals("# Empty Suffix Modifiers"))
-                        {
-                            if (m.ID.valid((double) 3 - numPrefixSuffix[1]))
-                            {
-                                numHit++;
-                            }
-                        }
-                                
-                        break;
                     }
-                }
-                    
-                if (numHit >= goal) return true;
+                    break;
+                default:
+                    System.exit(0);
             }
+            
+            if (numHit >= goal) return true;
         }
         return false;
     }

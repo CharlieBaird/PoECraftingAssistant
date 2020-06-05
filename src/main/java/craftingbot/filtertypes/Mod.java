@@ -30,12 +30,20 @@ public class Mod implements Serializable {
                
         for (int i=0; i<id.length; i+=2)
             ID = new Id(id[i/2], id[i/2+1]);
+        
+        if (assocModifier != null && assocModifier.getModGenerationTypeID() == -1) // Pseudo mod. Default min should be 1
+        {
+            ID = new Id(1);
+        }
     }
     
-//    public void toLowerCase()
-//    {
-//        name = name.toLowerCase();
-//    }
+    public void updateMin()
+    {
+        if (assocModifier.getModGenerationTypeID() == -1 && ID.min == -100000)
+        {
+            ID.min = 0;
+        }
+    }
     
     public Mod dupe()
     {   
@@ -44,6 +52,7 @@ public class Mod implements Serializable {
     
     public double valueOn(Modifier psm)
     {
+        System.out.println("'" + this.name + "'-'" + psm.getStr() + "'");
         if (this.name.equals(psm.getStr()))
         {
             return psm.rolls[0];

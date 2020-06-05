@@ -37,6 +37,8 @@ public class CraftingBot {
         }
         Main.main();
         Settings.load();
+
+//        Item i = new Item()
     }
     
     public static boolean runAuto = false;
@@ -197,12 +199,12 @@ public class CraftingBot {
             delay(Settings.singleton.delay + 35);
             if (Filters.checkIfHitOne())
             {
+                Utility.playHitSound();
                 break;
             }
         }
         
         r.keyRelease(KeyEvent.VK_SHIFT);
-        Utility.playHitSound();
         Main.setChaosIcon(Main.mainFrame.getClass().getResource("/chaos.png"));
     }
 }

@@ -114,8 +114,6 @@ public class Item {
         if (numhit >= goal) return true;
         return false;
     }
-    
-    
                 
     public final String getSingleString(String inputLine, String regex)
     {
@@ -123,6 +121,18 @@ public class Item {
         if (m.find())
             return m.group(3);
         return null;
+    }
+    
+    public double getValue(String s)
+    {
+        for (Modifier m : explicitModifiers)
+        {        
+            if (m.getStr().equals(s))
+            {
+                return m.rolls[0];
+            }
+        }
+        return 0;
     }
     
     public final void print()

@@ -22,6 +22,11 @@ public class Id implements Serializable
         this.max = max;
     }
     
+    public Id(int min)
+    {
+        this.min = min;
+    }
+    
     public Id()
     {
         
@@ -29,7 +34,8 @@ public class Id implements Serializable
     
     public boolean valid(double roll)
     {
-//        if (min == -100000 || max == 100000) return true;
+        System.out.println("Roll: " + roll + " Min: " + min + " Max: " + max);
+        
         return (roll <= max && roll >= min);
     }
     
