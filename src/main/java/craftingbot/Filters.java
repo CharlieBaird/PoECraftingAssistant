@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -27,7 +28,7 @@ public class Filters implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    public ArrayList<Filter> filters = new ArrayList<Filter>();
+    public ArrayList<Filter> filters = new ArrayList<>();
     
     public static Filters singleton = new Filters(false);
     
@@ -69,7 +70,7 @@ public class Filters implements Serializable {
         this.filters.clear();
         for (Filter f : filters)
         {
-            this.filters.add(new Filter(f));
+            this.filters.add(f);
         }
     }
     
@@ -97,40 +98,61 @@ public class Filters implements Serializable {
     
     static String savedModsRaw = "";
     
-    public static boolean checkIfHitOne()
+    public static boolean checkIfHitOne(boolean debug)
     {
-//        long start = System.nanoTime();
         String mods = null;
-        try {
-            mods = Utility.copy();
-        } catch (AWTException | UnsupportedFlavorException | IOException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (mods == null) return false;
-//        long end = System.nanoTime();
-//        System.out.println((end-start)/1000000);
-
-        mods = mods.toLowerCase();
-        String modsRaw = parseMods(mods);
-//        System.out.println(modsRaw);
-
-//        if (savedModsRaw.equals(modsRaw)) System.out.println("too fast");
-        savedModsRaw = modsRaw;
-        
-        for (Filter f : singleton.filters)
+        if (!debug)
         {
-            if (f.checkIfHit(modsRaw))
-            {
-                return true;
+            try {
+                mods = Utility.copy();
+            } catch (AWTException | UnsupportedFlavorException | IOException ex) {
+                Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+            if (mods == null) return false;
 
-//        Filters.print();
+            mods = parseMods(mods);
+        }
+        else
+        {
+            mods = parseMods
+            (
+                "Rarity: Rare\n" +
+                "Vortex Impaler\n" +
+                "Primeval Rapier\n" +
+                "--------\n" +
+                "One Handed Sword\n" +
+                "Physical Damage: 18-73\n" +
+                "Elemental Damage: 10-15 (augmented), 8-153 (augmented)\n" +
+                "Critical Strike Chance: 6.50%\n" +
+                "Attacks per Second: 1.30\n" +
+                "Weapon Range: 14\n" +
+                "--------\n" +
+                "Requirements:\n" +
+                "Level: 50\n" +
+                "Dex: 158\n" +
+                "--------\n" +
+                "Sockets: G-G B \n" +
+                "--------\n" +
+                "Item Level: 69\n" +
+                "--------\n" +
+                "+25% to Global Critical Strike Multiplier (implicit)\n" +
+                "--------\n" +
+                "+1 to Level of Socketed Gems\n" +
+                "+21 to Dexterity\n" +
+                "Adds 10 to 15 Fire Damage\n" +
+                "Adds 8 to 153 Lightning Damage\n" +
+                "+14 Life gained on Kill"
+            );
+        }
         
-        return false;
+        Item item = Item.createItem(mods);
+        item.print();
+        savedModsRaw = mods;
+        
+        return item.hitFilters(singleton);
     }
     
-    private static String parseMods(String mods)
+    public static String parseMods(String mods)
     {
         String[] arr = mods.split("\\R");
         ArrayList<String> modLines = new ArrayList<String>();
@@ -161,14 +183,29 @@ public class Filters implements Serializable {
             
             modLines.set(i, modLines.get(i).replace("# added passive skill is a jewel socket", "# added passive skills are jewel sockets"));
             
-            if (mAllWord.find())
+            if (
+                    mAllWord.find() 
+                    || modLines.get(i).contains("(crafted)")
+                    || modLines.get(i).contains("Physical Damage: ")
+                    || modLines.get(i).contains("Elemental Damage: ")
+                    || modLines.get(i).contains("Critical Strike Chance: ")
+                    || modLines.get(i).contains("Attacks per Second: ")
+                    || modLines.get(i).contains("Level: ")
+                    || modLines.get(i).contains("Item Level: ")
+                    || modLines.get(i).contains("Int: ")
+                    || modLines.get(i).contains("Dex: ")
+                    || modLines.get(i).contains("Str: ")
+                    || modLines.get(i).contains("Corrupted")
+                    || modLines.get(i).contains("Str: ")
+                    || modLines.get(i).contains("Weapon Range: ")
+                    || modLines.get(i).contains("(implicit)")
+                )
             {
                 modLines.remove(i);
                 i--;
             }
         }
         String joined = String.join(String.valueOf(((char)10)), modLines);
-//        System.out.println(joined);
         return joined;
     }
     
@@ -218,29 +255,22 @@ public class Filters implements Serializable {
         return str;
     }
     
-    public static void loadFilters(String path) throws FileNotFoundException, IOException, ClassNotFoundException
+    public static Filters loadFilters(String path) throws FileNotFoundException, IOException, ClassNotFoundException
     {
         singleton.filters.clear();
         
         FileInputStream fi = new FileInputStream(new File(path));
         ObjectInputStream oi = new ObjectInputStream(fi);
-        
-        singleton = (Filters) oi.readObject();
+        Filters input = null;
+        try {
+            input = (Filters) oi.readObject();
+        } catch (InvalidClassException e) {
+            input = null;
+        }
                 
         fi.close();
         oi.close();
-    }
-    
-    public static void saveFilters(String path) throws FileNotFoundException, IOException
-    {
-        FileOutputStream f = new FileOutputStream(new File(path));
-        ObjectOutputStream o = new ObjectOutputStream(f);
-
-        // Write objects to file
-        o.writeObject(singleton);
-
-        o.close();
-        f.close();
+        return input;
     }
     
     public static void saveFilters()
@@ -286,5 +316,3 @@ public class Filters implements Serializable {
         f.delete();
     }
 }
-
-// C:\CB\dev\PoE\CraftingBot\test.txt

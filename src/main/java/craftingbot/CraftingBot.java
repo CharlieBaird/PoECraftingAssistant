@@ -27,10 +27,19 @@ import lc.kra.system.mouse.event.GlobalMouseEvent;
 
 public class CraftingBot {
     
+    public static boolean debug = false;
+    
     public static void main(String[] args)
     {
+        try {
+            Utility.pullModsFromAPI();
+        } catch (Exception ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Main.main();
         Settings.load();
+
+//        Item i = new Item()
     }
     
     public static boolean runAuto = false;
@@ -53,7 +62,7 @@ public class CraftingBot {
                     if (event.getButton() == 1) {
                         if (onSwingWindow() || ignore) return;
                         delay(Settings.singleton.delay + 35);
-                        boolean b = Filters.checkIfHitOne();
+                        boolean b = Filters.checkIfHitOne(false);
                         if (b) {
                             moveMouseAway();
 //                            System.out.println("hit");
@@ -189,14 +198,14 @@ public class CraftingBot {
             
             lclick();
             delay(Settings.singleton.delay + 35);
-            if (Filters.checkIfHitOne())
+            if (Filters.checkIfHitOne(false))
             {
+                Utility.playHitSound();
                 break;
             }
         }
         
         r.keyRelease(KeyEvent.VK_SHIFT);
-        Utility.playHitSound();
         Main.setChaosIcon(Main.mainFrame.getClass().getResource("/chaos.png"));
     }
 }

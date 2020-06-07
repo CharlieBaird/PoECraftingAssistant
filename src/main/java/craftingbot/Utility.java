@@ -107,9 +107,7 @@ public class Utility {
     }
     
     public static void pullModsFromAPI() throws Exception
-    {        
-        Modifier.genPseudo();
-        
+    {      
         String path = getResourcesPath() + "\\src\\main\\resources\\json";
         File file = new File(path);
         File[] fileNames = file.listFiles();
@@ -171,6 +169,8 @@ public class Utility {
             } // done with json
         }
         
+        Modifier.genPseudo();
+        
         String clustersPath = getResourcesPath() + "\\src\\main\\resources\\clusternotables.txt";
         String notables = FileScanner.readFromFile(clustersPath);
 
@@ -187,7 +187,7 @@ public class Utility {
                 int ps = m.group(1).equals("P") ? 1 : 2;
                 String mod = "1 Added Passive Skill is " + m.group(3);
 
-                Modifier notable = new Modifier(String.valueOf(ps), "ClusterJewelNotable", mod);
+                new Modifier(String.valueOf(ps), "ClusterJewelNotable", mod);
             }
         }
     }

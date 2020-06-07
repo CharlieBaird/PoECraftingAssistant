@@ -19,6 +19,7 @@ craftingbot\filtertypes\Mod.class
 craftingbot\UI\Min$2.class
 craftingbot\UI\CloseFBButton.class
 craftingbot\UI\ModMouseListener.class
+craftingbot\Item.class
 craftingbot\Main$5.class
 craftingbot\filtertypes\logicgroups\Not.class
 craftingbot\filtertypes\Id.class
@@ -44,6 +45,7 @@ craftingbot\UI\FilterNamePanel.class
 craftingbot\Main$12.class
 craftingbot\Filter.class
 craftingbot\UI\CloseButton.class
+craftingbot\Main$14.class
 craftingbot\Main$6.class
 craftingbot\UI\AddButton$1.class
 craftingbot\UI\ModLabel.class

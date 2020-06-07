@@ -20,6 +20,10 @@ public class Modifier implements Serializable {
     private int ModGenerationTypeID; // 1 = prefix, 2 = suffix
     private String CorrectGroup;
     private String str;
+    
+    public Modifier[] pseudoSupportedModifiers = null;
+    
+    public double[] rolls;
 
     public int getModGenerationTypeID() {
         return ModGenerationTypeID;
@@ -47,14 +51,21 @@ public class Modifier implements Serializable {
     
     public void print()
     {
-        System.out.printf("%-5s %-50s %-40s\n", ModGenerationTypeID, CorrectGroup, str);
+        System.out.printf("%-5s %-53s %-40s", ModGenerationTypeID, CorrectGroup, str);
+        for (double d : rolls) System.out.print(d + " ");
+        System.out.println();
+        
     }
     
     public static Modifier getFromStr(String str)
     {
         for (Modifier m : all)
+        {
             if (m.getStr().equals(str))
+            {
                 return m;
+            }
+        }
         
         return null;
     }
@@ -72,15 +83,32 @@ public class Modifier implements Serializable {
         if (str.contains("<br"))
             str = str.substring(0,str.indexOf("<br"));
         
-        str = str.toLowerCase();
+//        str = str.toLowerCase();
         
         str = removeRolls(str);
         this.str = str;
-                        
-        if (!all.contains(this))
-            all.add(this);
+        
+        for (Modifier m : all)
+            if (m.str.equals(this.str))
+                return;
+        
+        int count = str.length() - str.replaceAll("#", "").length();
+        rolls = new double[count];
+        
+        all.add(this);
     }
     
+    public Modifier(String ModGenerationTypeID, String CorrectGroup, String str, String[] pseudoSupportedModifiersStrs)
+    {
+        this(ModGenerationTypeID, CorrectGroup, str);
+        
+        pseudoSupportedModifiers = new Modifier[pseudoSupportedModifiersStrs.length];
+        for (int i=0; i<pseudoSupportedModifiersStrs.length; i++)
+        {
+            pseudoSupportedModifiers[i] = Modifier.getFromStr(pseudoSupportedModifiersStrs[i]);
+        }
+    }
+        
     private String removeRolls(String str)
     {
         Pattern p = Pattern.compile("(\\d+(?:\\.\\d+)?)");
@@ -105,16 +133,6 @@ public class Modifier implements Serializable {
         return str;
     }
     
-    private boolean contains()
-    {
-        for (Modifier m : all)
-        {
-            if (m.getCorrectGroup().equals(getCorrectGroup()))
-                return true;
-        }
-        return false;
-    }
-    
     @Override
     public boolean equals(Object that)
     {
@@ -130,15 +148,26 @@ public class Modifier implements Serializable {
     
     public static void genPseudo()
     {
-        new Modifier("-1", "Pseudo", "+#% total Elemental Resistance");
-        new Modifier("-1", "Pseudo", "+#% total Resistance");
+        new Modifier("-1", "Pseudo", "+#% total Elemental Resistance", new String[]
+        {
+            "+#% to Cold Resistance",
+            "+#% to Fire Resistance",
+            "+#% to Lightning Resistance"
+        });
+        new Modifier("-1", "Pseudo", "+#% total Resistance", new String[]
+        {
+            "+#% to Cold Resistance",
+            "+#% to Fire Resistance",
+            "+#% to Lightning Resistance",
+            "+#% to Chaos Resistance"
+        });
         
-        new Modifier("0", "TotalFromItem", "energy shield: #");
-        new Modifier("0", "TotalFromItem", "evasion: #");
-        new Modifier("0", "TotalFromItem", "armour: #");
+        new Modifier("0", "TotalFromItem", "Energy Shield: #");
+        new Modifier("0", "TotalFromItem", "Evasion: #");
+        new Modifier("0", "TotalFromItem", "Armour: #");
         
-        new Modifier("-1", "Pseudo", "# Empty Suffix Modifiers");
-        new Modifier("-1", "Pseudo", "# Empty Prefix Modifiers");
+        new Modifier("-2", "Pseudo", "# Empty Suffix Modifiers");
+        new Modifier("-2", "Pseudo", "# Empty Prefix Modifiers");
         
     }
 }
