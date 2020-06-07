@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package craftingbot;
 
 import static craftingbot.Utility.*;
@@ -21,12 +16,21 @@ import lc.kra.system.keyboard.event.GlobalKeyEvent;
 import lc.kra.system.mouse.GlobalMouseHook;
 import lc.kra.system.mouse.event.GlobalMouseAdapter;
 import lc.kra.system.mouse.event.GlobalMouseEvent;
+import poeitem.Modifier;
 import poeitem.ModifierLoader;
 
 
 public class CraftingBot {
     
-    public static boolean debug = false;
+    public static boolean debug = true;
+    
+    public static void printAllMods()
+    {
+        for (Modifier m : Modifier.AllExplicitModifiers)
+        {
+            m.print();
+        }
+    }
     
     public static void main(String[] args)
     {

@@ -1,12 +1,16 @@
 package craftingbot;
 
 import craftingbot.filtertypes.FilterBase;
+import poeitem.Modifier;
 import poeitem.PoEItem;
 
 public class Item extends PoEItem {
     
     public static Item createItem(String raw)
     {
+        Modifier.genPseudo();
+        CraftingBot.printAllMods();
+        
         if (raw == null) return null;
         else return new Item(raw);
     }

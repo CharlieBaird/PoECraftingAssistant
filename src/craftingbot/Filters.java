@@ -99,6 +99,7 @@ public class Filters implements Serializable {
     public static boolean checkIfHitOne(boolean debug)
     {
         String mods = null;
+//        CraftingBot.printAllMods();
         if (!debug)
         {
             try {
@@ -112,43 +113,37 @@ public class Filters implements Serializable {
         }
         else
         {
-            mods = 
+            mods =
+            (
                 "Rarity: Rare\n" +
-                "Vortex Impaler\n" +
-                "Primeval Rapier\n" +
+                "Beast Spark\n" +
+                "Titan Greaves\n" +
                 "--------\n" +
-                "One Handed Sword\n" +
-                "Physical Damage: 18-73\n" +
-                "Elemental Damage: 10-15 (augmented), 8-153 (augmented)\n" +
-                "Critical Strike Chance: 6.50%\n" +
-                "Attacks per Second: 1.30\n" +
-                "Weapon Range: 14\n" +
+                "Quality: +20% (augmented)\n" +
+                "Armour: 324 (augmented)\n" +
                 "--------\n" +
                 "Requirements:\n" +
-                "Level: 50\n" +
-                "Dex: 158\n" +
+                "Level: 68\n" +
+                "Str: 120\n" +
                 "--------\n" +
-                "Sockets: G-G B \n" +
+                "Sockets: R-R-R-R \n" +
                 "--------\n" +
-                "Item Level: 69\n" +
+                "Item Level: 86\n" +
                 "--------\n" +
-                "+25% to Global Critical Strike Multiplier (implicit)\n" +
+                "+29 to Armour\n" +
+                "Regenerate 13.2 Life per second\n" +
+                "+43% to Fire Resistance\n" +
+                "26% increased Stun and Block Recovery\n" +
                 "--------\n" +
-                "+1 to Level of Socketed Gems\n" +
-                "+21 to Dexterity\n" +
-                "Adds 10 to 15 Fire Damage\n" +
-                "Adds 8 to 153 Lightning Damage\n" +
-                "+14 Life gained on Kill"
-            ;
+                "Hunter Item"
+            );
         }
-//        double startLoad = System.nanoTime();
         Item item = Item.createItem(mods);
-//        double endLoad = System.nanoTime();
-//        System.out.println("Load Time: " + (endLoad - startLoad) / 1000000 + " ms");
-//        item.print();
+        item.print();
         savedModsRaw = mods;
         
-        return item.hitFilters(singleton);
+//        return item.hitFilters(singleton);
+        return true;
     }
     
     public static void prepItemLoad()
@@ -209,89 +204,6 @@ public class Filters implements Serializable {
             "--------\n" +
             "Hunter Item"
         );
-    }
-    
-    public static String parseMods(String mods)
-    {
-        String[] arr = mods.split("\\R");
-        ArrayList<String> modLines = new ArrayList<String>();
-        for (String s : arr) modLines.add(s);
-        
-        for (int i=0; i<modLines.size(); i++)
-        {
-            String str = modLines.get(i);
-            
-            Pattern p1a = Pattern.compile("^(\\D+)(\\d+(?:\\.\\d+)?)(\\D+)$"); // 2
-            Pattern p1b = Pattern.compile("^(\\d+(?:\\.\\d+)?)(\\D+)$"); // 1
-            Pattern p1c = Pattern.compile("^(\\D+)(\\d+(?:\\.\\d+)?)$"); // 2
-            Pattern p2  = Pattern.compile("^(\\D+)(\\d+(?:\\.\\d+)?)(\\D+)(\\d+(?:\\.\\d+)?)(\\D+)$"); // 2, 4
-            Matcher m1a = p1a.matcher(str);
-            Matcher m1b = p1b.matcher(str);
-            Matcher m1c = p1c.matcher(str);
-            Matcher m2  = p2.matcher(str);
-            
-            if      (m1a.find()) str = swapHash(str, m1a.group(2));
-            else if (m1b.find()) str = swapHash(str, m1b.group(1));
-            else if (m1c.find()) str = swapHash(str, m1c.group(2));
-            else if (m2.find())  str = swapHash(str, m2.group(2), m2.group(4));
-            
-            modLines.set(i,str);
-            
-            Pattern pAllWord = Pattern.compile("^([^0-9#%]*)$");
-            Matcher mAllWord = pAllWord.matcher(str);
-            
-            modLines.set(i, modLines.get(i).replace("# added passive skill is a jewel socket", "# added passive skills are jewel sockets"));
-            
-            if (
-                    mAllWord.find() 
-                    || modLines.get(i).contains("(crafted)")
-                    || modLines.get(i).contains("Physical Damage: ")
-                    || modLines.get(i).contains("Elemental Damage: ")
-                    || modLines.get(i).contains("Critical Strike Chance: ")
-                    || modLines.get(i).contains("Attacks per Second: ")
-                    || modLines.get(i).contains("Level: ")
-                    || modLines.get(i).contains("Item Level: ")
-                    || modLines.get(i).contains("Int: ")
-                    || modLines.get(i).contains("Dex: ")
-                    || modLines.get(i).contains("Str: ")
-                    || modLines.get(i).contains("Corrupted")
-                    || modLines.get(i).contains("Str: ")
-                    || modLines.get(i).contains("Weapon Range: ")
-                    || modLines.get(i).contains("(implicit)")
-                )
-            {
-                modLines.remove(i);
-                i--;
-            }
-        }
-        String joined = String.join(String.valueOf(((char)10)), modLines);
-        return joined;
-    }
-    
-    private static String swapHash(String mod, String... keys)
-    {
-        for (int i=0; i<keys.length; i++)
-        {
-            int len = keys[i].length();
-            int index = mod.indexOf(keys[i]);
-                        
-            mod = mod.substring(0, index) + "#" + mod.substring(index+len, mod.length());
-            
-            // Check for other weird things
-            
-            index = mod.indexOf(" (augmented");
-            if (index != -1)
-            {
-                mod = mod.substring(0, index);
-            }
-        }
-        
-        for (String s : keys)
-        {
-            mod += "*" + s;
-        }
-        
-        return mod;
     }
     
     public static void print()
