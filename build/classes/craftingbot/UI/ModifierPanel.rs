@@ -1,0 +1,9 @@
+craftingbot.UI.ModLabel
+craftingbot.UI.ModifierPanel
+craftingbot.UI.CloseMPButton$1
+craftingbot.UI.CloseMPButton
+craftingbot.UI.MPMinMax
+craftingbot.UI.MPMinMax$1
+craftingbot.UI.FListener
+craftingbot.UI.ModMouseListener
+craftingbot.UI.MPMinMax$2

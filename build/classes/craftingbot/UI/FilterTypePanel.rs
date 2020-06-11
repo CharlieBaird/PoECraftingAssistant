@@ -1,0 +1,11 @@
+craftingbot.UI.AddButton
+craftingbot.UI.TypeLabel
+craftingbot.UI.DropdownButton$1
+craftingbot.UI.Min$1
+craftingbot.UI.Min$2
+craftingbot.UI.FilterTypePanel
+craftingbot.UI.DropdownButton
+craftingbot.UI.Min
+craftingbot.UI.AddButton$1
+craftingbot.UI.CloseFBButton$1
+craftingbot.UI.CloseFBButton

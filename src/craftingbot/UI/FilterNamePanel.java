@@ -116,7 +116,7 @@ class FilterTextField extends JTextField
         setForeground(new Color(255,255,255));
         setPreferredSize(d);
         setText(name);
-        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
 
         

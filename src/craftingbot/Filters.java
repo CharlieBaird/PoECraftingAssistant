@@ -230,21 +230,39 @@ public class Filters implements Serializable {
         return str;
     }
     
-    public static Filters loadFilters(String path) throws FileNotFoundException, IOException, ClassNotFoundException
+    public static Filters loadFilters(String path)
     {
         singleton.filters.clear();
         
-        FileInputStream fi = new FileInputStream(new File(path));
-        ObjectInputStream oi = new ObjectInputStream(fi);
+        FileInputStream fi = null;
+        try {
+            fi = new FileInputStream(new File(path));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ObjectInputStream oi = null;
+        try {
+            oi = new ObjectInputStream(fi);
+        } catch (IOException ex) {
+            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Filters input = null;
         try {
             input = (Filters) oi.readObject();
-        } catch (InvalidClassException e) {
-            input = null;
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
         }
                 
-        fi.close();
-        oi.close();
+        try {
+            fi.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            oi.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return input;
     }
     

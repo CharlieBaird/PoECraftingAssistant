@@ -19,6 +19,7 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
@@ -76,10 +77,11 @@ public class Main extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         SelectFilterPanel = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        jTextField1 = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
         ChangeFilterPanel = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jButton9 = new javax.swing.JButton();
@@ -280,28 +282,45 @@ public class Main extends javax.swing.JFrame {
         jPanel8.setPreferredSize(new java.awt.Dimension(1158, 571));
 
         SelectFilterPanel.setBackground(new java.awt.Color(30, 30, 30));
-        SelectFilterPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel6.setBackground(new java.awt.Color(30, 30, 30));
-        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 8));
-        SelectFilterPanel.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 46, 316, 510));
+        SelectFilterPanel.setMaximumSize(new java.awt.Dimension(315, 200));
+        SelectFilterPanel.setMinimumSize(new java.awt.Dimension(315, 200));
+        SelectFilterPanel.setPreferredSize(new java.awt.Dimension(315, 200));
+        SelectFilterPanel.setLayout(new javax.swing.BoxLayout(SelectFilterPanel, javax.swing.BoxLayout.Y_AXIS));
 
         jPanel9.setBackground(new java.awt.Color(30, 30, 30));
         jPanel9.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(70, 70, 70)));
-        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel9.setMaximumSize(new java.awt.Dimension(400, 42));
+        jPanel9.setMinimumSize(new java.awt.Dimension(400, 42));
+        jPanel9.setPreferredSize(new java.awt.Dimension(400, 42));
+        jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel5.setBackground(new java.awt.Color(80, 80, 80));
-        jLabel5.setFont(getNewFont(18f));
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel5.setToolTipText("Rename");
-        jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
-            }
-        });
-        jPanel9.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 269, 40));
+        jPanel14.setBackground(new java.awt.Color(30, 30, 30));
+        jPanel14.setPreferredSize(new java.awt.Dimension(20, 40));
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
+
+        jPanel9.add(jPanel14);
+
+        jTextField1.setBackground(new java.awt.Color(30, 30, 30));
+        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
+        jTextField1.setBorder(null);
+        jTextField1.setCaretColor(new java.awt.Color(255, 255, 255));
+        jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextField1.setDisabledTextColor(new java.awt.Color(255, 255, 255));
+        jTextField1.setMaximumSize(new java.awt.Dimension(250, 40));
+        jTextField1.setMinimumSize(new java.awt.Dimension(250, 40));
+        jTextField1.setPreferredSize(new java.awt.Dimension(250, 40));
+        jTextField1.setSelectedTextColor(new java.awt.Color(255, 255, 255));
+        jPanel9.add(jTextField1);
 
         jButton8.setBackground(new java.awt.Color(40, 40, 40));
         jButton8.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -319,9 +338,15 @@ public class Main extends javax.swing.JFrame {
                 jButton8ActionPerformed(evt);
             }
         });
-        jPanel9.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(271, 0, 45, 40));
+        jPanel9.add(jButton8);
 
-        SelectFilterPanel.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        SelectFilterPanel.add(jPanel9);
+
+        jPanel6.setBackground(new java.awt.Color(30, 30, 30));
+        jPanel6.setMaximumSize(new java.awt.Dimension(500, 550));
+        jPanel6.setMinimumSize(new java.awt.Dimension(400, 550));
+        jPanel6.setPreferredSize(new java.awt.Dimension(400, 550));
+        SelectFilterPanel.add(jPanel6);
 
         ChangeFilterPanel.setBackground(new java.awt.Color(30, 30, 30));
         ChangeFilterPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -433,7 +458,7 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(ChangeFilterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(SelectFilterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -576,11 +601,7 @@ public class Main extends javax.swing.JFrame {
             String path = file.toPath().toString();
             
             Filters loaded = null;
-            try {
-                loaded = Filters.loadFilters(path);
-            } catch (IOException | ClassNotFoundException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            loaded = Filters.loadFilters(path);
             
             if (loaded == null) // Errored, wrong serial ID
             {
@@ -631,12 +652,12 @@ public class Main extends javax.swing.JFrame {
 
             FilterNamePanel.filterpanels.clear();
 
-            jLabel5.setText("   " + name);
+            jTextField1.setText(name);
 
             Filters.singleton.setName(name);
             Filters.saveFilters();
 
-            jLabel5.setVisible(true);
+            jTextField1.setVisible(true);
             jButton8.setVisible(true);
             jButton2.setVisible(true);
         }
@@ -666,33 +687,6 @@ public class Main extends javax.swing.JFrame {
         Filters.singleton.filters.add(filter);
         genPanel(filter);
     }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        Object[] possibilities = null;
-        String name = (String)JOptionPane.showInputDialog(
-            this,
-            "Rename the Filter",
-            "CraftingBot",
-            JOptionPane.PLAIN_MESSAGE,
-            null,
-            possibilities,
-            Filters.getName());
-
-        if (name != null && !name.equals(""))
-        {
-            // delete old
-
-            File old = new File(Utility.getResourcesPath() + "/src/resources/filters" + "/" + Filters.getName() + ".txt");
-            old.delete();
-
-            // save
-
-            jLabel5.setText("   " + name);
-
-            Filters.singleton.setName(name);
-            Filters.saveFilters();
-        }
-    }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jPanel3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseReleased
         jPanel3.setBackground(new Color(20,20,20));
@@ -753,7 +747,7 @@ public class Main extends javax.swing.JFrame {
             "Auto:", runAuto
         };
 
-        int option = JOptionPane.showConfirmDialog(null, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
+        JOptionPane.showConfirmDialog(null, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
         
         Settings.singleton.delay = Integer.valueOf(delay.getText());
         Settings.singleton.runAuto = runAuto.isSelected();
@@ -784,9 +778,9 @@ public class Main extends javax.swing.JFrame {
     
     public void updateLeftTab()
     {
-        jLabel5.setText("   " + Filters.getName());
+        jTextField1.setText(Filters.getName());
         
-        jLabel5.setVisible(true);
+        jTextField1.setVisible(true);
         jButton8.setVisible(true);
         
         for (Filter f : Filters.singleton.filters)
@@ -816,12 +810,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -831,6 +825,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
     
@@ -863,7 +858,7 @@ public class Main extends javax.swing.JFrame {
         
         Filters.saveFilters();
         
-        jLabel5.setVisible(true);
+        jTextField1.setVisible(true);
         jButton8.setVisible(true);
         
         pack();
@@ -904,6 +899,34 @@ public class Main extends javax.swing.JFrame {
 //        } catch (IOException ex) {
 //            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+
+        KeyListener keyListener = new KeyListener()
+        {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == 10)
+                {
+                    jPanel9.requestFocusInWindow();
+                    
+                    File old = new File(Utility.getResourcesPath() + "/src/resources/filters/" + Filters.getName() + ".cbfilter");
+                    System.out.println(old.getPath() + "_" + old.exists());
+                    old.delete();
+
+                    Filters.singleton.setName(jTextField1.getText());
+                    Filters.saveFilters();
+                }
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+        };
+        
+        jTextField1.addKeyListener(keyListener);
     }
     
     public void postload()
@@ -918,7 +941,7 @@ public class Main extends javax.swing.JFrame {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        jLabel5.setVisible(false);
+        jTextField1.setVisible(false);
         jButton8.setVisible(false);
         jButton9.setVisible(false);
         jButton2.setVisible(false);
