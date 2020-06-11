@@ -283,7 +283,7 @@ public class Main extends javax.swing.JFrame {
         SelectFilterPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel6.setBackground(new java.awt.Color(30, 30, 30));
-        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
+        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 8));
         SelectFilterPanel.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 46, 316, 510));
 
         jPanel9.setBackground(new java.awt.Color(30, 30, 30));
@@ -340,6 +340,7 @@ public class Main extends javax.swing.JFrame {
         jButton9.setFocusable(false);
         jButton9.setMaximumSize(new java.awt.Dimension(40, 40));
         jButton9.setMinimumSize(new java.awt.Dimension(40, 40));
+        jButton9.setOpaque(true);
         jButton9.setPreferredSize(new java.awt.Dimension(40, 40));
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

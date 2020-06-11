@@ -152,10 +152,10 @@ class CloseMPButton extends JButton {
         setContentAreaFilled(true);
         setOpaque(true);
         setPreferredSize(new Dimension((int) (parent.getWidth() * 0.06),(int) ((32))));
-        setBackground(new Color(0,0,0));
+        setBackground(new Color(60,60,60));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/xbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Remove this logic filter");
-        addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
+        addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(60,60,60)));
         
         ActionListener actionListener = new ActionListener() {
             @Override

@@ -5,6 +5,8 @@
  */
 package craftingbot;
 
+import craftingbot.filtertypes.FilterBase;
+import craftingbot.filtertypes.Mod;
 import java.awt.AWTException;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
@@ -19,6 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class Filters implements Serializable {
     private String name = "";
@@ -135,6 +138,12 @@ public class Filters implements Serializable {
             );
         }
         Item item = Item.createItem(mods);
+        
+        if (item == null)
+        {
+            JOptionPane.showMessageDialog(null, "Item could not be copied", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
 //        item.print();
         savedModsRaw = mods;
         
@@ -280,5 +289,22 @@ public class Filters implements Serializable {
     {
         File f = new File(Utility.getResourcesPath() + "/src/resources/filters" + "/" + name + ".cbfilter");
         f.delete();
+    }
+    
+    public static boolean verify()
+    {
+        for (Filter f : singleton.filters)
+        {
+            for (FilterBase fb : f.filters)
+            {
+                for (Mod m : fb.mods)
+                {
+                    if (m.assocModifier == null)
+                        return false;
+                }
+            }
+        }
+        
+        return true;
     }
 }

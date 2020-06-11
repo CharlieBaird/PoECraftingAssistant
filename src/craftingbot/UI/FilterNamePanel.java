@@ -41,8 +41,8 @@ public class FilterNamePanel extends JPanel {
         Dimension size = new Dimension((int)(parent.getWidth() * 0.97),40);
         setSize(size);
         setPreferredSize(size);
-        setBackground(new Color(30,30,30));
-        setLayout(new FlowLayout(FlowLayout.LEFT));
+        setBackground(new Color(40,40,40));
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         
         CloseButton cb = new CloseButton(this, size);
         FilterTextField ftf = new FilterTextField(this, size, name, savedname);
@@ -51,7 +51,6 @@ public class FilterNamePanel extends JPanel {
         add(cb);
         add(ftf);
         add(ob);
-
         
         parent.add(this);
         filterpanels.add(this);
@@ -159,10 +158,10 @@ class CloseButton extends JButton
         setOpaque(true);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setPreferredSize(d1);
-        setBackground(new Color(0,0,0));
+        setBackground(new Color(40,40,40));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/xbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Delete this subfilter");
-        addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
+        addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(40,40,40)));
         
         ActionListener actionListener = new ActionListener() {
             @Override
@@ -186,10 +185,10 @@ class OpenButton extends JButton
         setOpaque(true);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setPreferredSize(d1);
-        setBackground(new Color(0,0,0));
+        setBackground(new Color(40,40,40));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/arrowbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Open this subfilter");
-        addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
+        addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(40,40,40)));
         
         ActionListener actionListener = new ActionListener() {
             @Override

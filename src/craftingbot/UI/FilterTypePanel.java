@@ -265,10 +265,10 @@ class AddButton extends JButton {
         setContentAreaFilled(true);
         setOpaque(true);
         setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
-        setBackground(new Color(0,0,0));
+        setBackground(new Color(50,50,50));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/plusbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("New modifier");
-        addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
+        addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(50,50,50)));
         
         ActionListener actionListener = new ActionListener() {
             @Override
@@ -280,7 +280,6 @@ class AddButton extends JButton {
                 
                 FilterTypePanel.reshow();
                 
-//                parent.filterbase.print();
                 parent.frame.pack();
             }
         };
@@ -296,10 +295,10 @@ class CloseFBButton extends JButton {
         setContentAreaFilled(true);
         setOpaque(true);
         setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
-        setBackground(new Color(0,0,0));
+        setBackground(new Color(50,50,50));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/xbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Remove this logic filter");
-        addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
+        addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(50,50,50)));
         
         ActionListener actionListener = new ActionListener() {
             @Override
@@ -334,10 +333,10 @@ class DropdownButton extends JButton {
         setContentAreaFilled(true);
         setOpaque(true);
         setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
-        setBackground(new Color(0,0,0));
+        setBackground(new Color(50,50,50));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/opendropdowntransparentsmall.png"))); // NOI18N
         setToolTipText("Select logic type");
-        addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(0,0,0)));
+        addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(50,50,50)));
         
         ActionListener actionListener = new ActionListener() {
             @Override

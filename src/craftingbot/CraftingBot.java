@@ -10,6 +10,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import lc.kra.system.keyboard.GlobalKeyboardHook;
 import lc.kra.system.keyboard.event.GlobalKeyAdapter;
 import lc.kra.system.keyboard.event.GlobalKeyEvent;
@@ -149,6 +150,11 @@ public class CraftingBot {
     public static void runChaosSpam(Main main)
     {
         Filters.prepItemLoad();
+        if (!Filters.verify())
+        {
+            JOptionPane.showMessageDialog(null, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
         if (Settings.singleton.runAuto)
         {
