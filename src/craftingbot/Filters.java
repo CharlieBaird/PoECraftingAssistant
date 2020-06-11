@@ -19,8 +19,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 public class Filters implements Serializable {
     private String name = "";
@@ -108,8 +106,6 @@ public class Filters implements Serializable {
                 Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (mods == null) return false;
-
-//            mods = parseMods(mods);
         }
         else
         {
@@ -139,11 +135,10 @@ public class Filters implements Serializable {
             );
         }
         Item item = Item.createItem(mods);
-        item.print();
+//        item.print();
         savedModsRaw = mods;
         
-//        return item.hitFilters(singleton);
-        return true;
+        return item.hitFilters(singleton);
     }
     
     public static void prepItemLoad()

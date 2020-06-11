@@ -3,12 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/CB/dev/PoE/CraftingBotVanilla/src/craftingbot/filtertypes/logicgroups/And.java</file>
-            <file>file:/C:/CB/dev/PoE/CraftingBotVanilla/src/craftingbot/Filters.java</file>
-            <file>file:/C:/CB/dev/PoE/CraftingBotVanilla/src/craftingbot/Filter.java</file>
-            <file>file:/C:/CB/dev/PoE/CraftingBotVanilla/src/craftingbot/filtertypes/FilterBase.java</file>
-            <file>file:/C:/CB/dev/PoE/CraftingBotVanilla/src/craftingbot/UI/ModifierPanel.java</file>
-            <file>file:/C:/CB/dev/PoE/CraftingBotVanilla/src/craftingbot/filtertypes/logicgroups/Count.java</file>
+            <file>file:/C:/CB/dev/PoE/CraftingBot/src/craftingbot/CraftingBot.java</file>
+            <file>file:/C:/CB/dev/PoE/CraftingBot/src/craftingbot/Filters.java</file>
         </group>
     </open-files>
 </project-private>

@@ -16,21 +16,13 @@ import lc.kra.system.keyboard.event.GlobalKeyEvent;
 import lc.kra.system.mouse.GlobalMouseHook;
 import lc.kra.system.mouse.event.GlobalMouseAdapter;
 import lc.kra.system.mouse.event.GlobalMouseEvent;
-import poeitem.Modifier;
 import poeitem.ModifierLoader;
 
 
 public class CraftingBot {
     
-    public static boolean debug = true;
+    public static boolean debug = false;
     
-    public static void printAllMods()
-    {
-        for (Modifier m : Modifier.AllExplicitModifiers)
-        {
-            m.print();
-        }
-    }
     
     public static void main(String[] args)
     {
@@ -65,7 +57,7 @@ public class CraftingBot {
                     if (event.getButton() == 1) {
                         if (onSwingWindow() || ignore) return;
                         delay(Settings.singleton.delay + 35);
-                        boolean b = Filters.checkIfHitOne(false);
+                        boolean b = Filters.checkIfHitOne(debug);
                         if (b) {
                             moveMouseAway();
 //                            System.out.println("hit");
@@ -205,7 +197,7 @@ public class CraftingBot {
             
             lclick();
             delay(Settings.singleton.delay + 35);
-            if (Filters.checkIfHitOne(false))
+            if (Filters.checkIfHitOne(debug))
             {
                 Utility.playHitSound();
                 break;

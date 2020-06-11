@@ -280,7 +280,7 @@ class AddButton extends JButton {
                 
                 FilterTypePanel.reshow();
                 
-                parent.filterbase.print();
+//                parent.filterbase.print();
                 parent.frame.pack();
             }
         };
