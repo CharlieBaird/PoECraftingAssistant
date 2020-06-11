@@ -154,7 +154,7 @@ class CloseMPButton extends JButton {
         setPreferredSize(new Dimension((int) (parent.getWidth() * 0.06),(int) ((32))));
         setBackground(new Color(60,60,60));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/xbuttontransparentsmall.png"))); // NOI18N
-        setToolTipText("Remove this logic filter");
+        setToolTipText("Remove this mod");
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(60,60,60)));
         
         ActionListener actionListener = new ActionListener() {
@@ -165,6 +165,7 @@ class CloseMPButton extends JButton {
 //                parent.parent.modifierpanels.remove(this);
                 parent.filterbase.mods.remove(parent.mod);
                 FilterTypePanel.reshow();
+                parent.parent.parent.requestFocusInWindow();
 //                parent.filterbase.print();
         
                 Filters.saveFilters();
@@ -207,6 +208,8 @@ class MPMinMax extends JTextField {
         setBackground(new Color(0,0,0));
         setForeground(new Color(120,120,120));
         
+        setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        
         if (!placeholder.equals("min") && !placeholder.equals("max"))
             setForeground(new Color(255,255,255));
         
@@ -243,14 +246,14 @@ class MPMinMax extends JTextField {
         });
         
         addKeyListener(new KeyAdapter() {
-         public void keyPressed(KeyEvent ke) {
-            if (ke.getKeyChar() == 8 || (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')) {
-               setEditable(true);
-            } else {
-               setEditable(false);
+            public void keyPressed(KeyEvent ke) {
+                if (ke.getKeyChar() == 8 || (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')) {
+                   setEditable(true);
+                } else {
+                   setEditable(false);
+                }
             }
-         }
-      });
+        });
     }
     
     public void focusGained()

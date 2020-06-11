@@ -8,6 +8,7 @@ package craftingbot;
 import craftingbot.UI.ComponentMover;
 import craftingbot.UI.FilterNamePanel;
 import craftingbot.UI.FilterTypePanel;
+import craftingbot.UI.MouseFocusListener;
 import static craftingbot.Utility.getResourcesPath;
 import craftingbot.filtertypes.FilterBase;
 import craftingbot.filtertypes.logicgroups.And;
@@ -17,9 +18,13 @@ import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
@@ -332,6 +337,7 @@ public class Main extends javax.swing.JFrame {
         jButton8.setFocusable(false);
         jButton8.setMaximumSize(new java.awt.Dimension(45, 40));
         jButton8.setMinimumSize(new java.awt.Dimension(45, 40));
+        jButton8.setOpaque(true);
         jButton8.setPreferredSize(new java.awt.Dimension(45, 40));
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -514,7 +520,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setText("jButton6");
+        jButton6.setText("debug");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
@@ -528,7 +534,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 969, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 982, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -772,8 +778,6 @@ public class Main extends javax.swing.JFrame {
             CraftingBot.stop();
         else
             CraftingBot.runChaosSpam(mainFrame);
-        
-        
     }
     
     public void updateLeftTab()
@@ -899,24 +903,9 @@ public class Main extends javax.swing.JFrame {
 //        } catch (IOException ex) {
 //            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
-        KeyListener keyListener = new KeyListener()
+        
+        jTextField1.addKeyListener(new KeyListener()
         {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == 10)
-                {
-                    jPanel9.requestFocusInWindow();
-                    
-                    File old = new File(Utility.getResourcesPath() + "/src/resources/filters/" + Filters.getName() + ".cbfilter");
-                    System.out.println(old.getPath() + "_" + old.exists());
-                    old.delete();
-
-                    Filters.singleton.setName(jTextField1.getText());
-                    Filters.saveFilters();
-                }
-            }
-
             @Override
             public void keyTyped(KeyEvent e) {
             }
@@ -924,9 +913,33 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
             }
-        };
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == 10)
+                {
+                    jPanel9.requestFocusInWindow();
+                }
+            }
+        });
         
-        jTextField1.addKeyListener(keyListener);
+        jTextField1.addFocusListener(new FocusListener()
+        {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                File old = new File(Utility.getResourcesPath() + "/src/resources/filters/" + Filters.getName() + ".cbfilter");
+                old.delete();
+
+                Filters.singleton.setName(jTextField1.getText());
+                Filters.saveFilters();
+            }
+        });
+        
+        
     }
     
     public void postload()
@@ -947,6 +960,20 @@ public class Main extends javax.swing.JFrame {
         jButton2.setVisible(false);
         if (!CraftingBot.debug) jButton6.setVisible(false);
         
+        jPanel6.addMouseListener(new MouseFocusListener(jPanel6));
+        jPanel11.addMouseListener(new MouseFocusListener(jPanel11));
+        ChangeFilterPanel.addMouseListener(new MouseFocusListener(ChangeFilterPanel));
+        jPanel5.addMouseListener(new MouseFocusListener(jPanel5));
+        jPanel10.addMouseListener(new MouseFocusListener(jPanel10));
+        Window.addMouseListener(new MouseFocusListener(Window));
+        jPanel2.addMouseListener(new MouseFocusListener(jPanel2));
+//        jPanel1.addMouseListener(new MouseFocusListener(jPanel1));
+//        jPanel12.addMouseListener(new MouseFocusListener(jPanel12));
+//        jPanel13.addMouseListener(new MouseFocusListener(jPanel13));
+        jPanel7.addMouseListener(new MouseFocusListener(jPanel7));
+        SelectFilterPanel.addMouseListener(new MouseFocusListener(SelectFilterPanel));
+        jPanel9.addMouseListener(new MouseFocusListener(jPanel9));
+        jPanel14.addMouseListener(new MouseFocusListener(jPanel14));
     }
     
     public static Main mainFrame = null;

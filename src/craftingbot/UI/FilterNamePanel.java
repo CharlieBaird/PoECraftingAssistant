@@ -11,6 +11,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 import craftingbot.Filter;
+import craftingbot.Utility;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.io.File;
 
@@ -127,10 +130,6 @@ class FilterTextField extends JTextField
                 if (e.getKeyCode() == 10)
                 {
                     parent.requestFocusInWindow();
-                    Filters.singleton.rename(savedname, getText());
-                    Filters.saveFilters();
-//                    Filters.deleteFilters(savedname);
-                    parent.savedname = getText();
                 }
             }
 
@@ -144,6 +143,20 @@ class FilterTextField extends JTextField
         };
         
         addKeyListener(keyListener);
+        
+        addFocusListener(new FocusListener()
+        {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                Filters.singleton.rename(savedname, getText());
+                Filters.saveFilters();
+                parent.savedname = getText();
+            }
+        });
     }
 }
 

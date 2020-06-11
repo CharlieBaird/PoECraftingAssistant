@@ -305,6 +305,8 @@ class CloseFBButton extends JButton {
             public void actionPerformed(ActionEvent e)
             {
                 parent.remove();
+                parent.parent.requestFocusInWindow();
+                Filters.saveFilters();
             }
         };
         addActionListener(actionListener);
@@ -363,6 +365,7 @@ class Min extends JTextField {
         setForeground(new Color(120,120,120));
         setVisible(false);
         setHorizontalAlignment(SwingConstants.CENTER);
+        setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         
         addFocusListener(new FocusListener() {
             @Override
@@ -396,13 +399,6 @@ class Min extends JTextField {
                 if (e.getKeyCode() == 10)
                 {
                     parent.requestFocusInWindow();
-                    if (parent.filterbase.getClass().getSimpleName().equals("Count"))
-                    {
-                        Count c = (Count) parent.filterbase;
-                        c.needed = Integer.valueOf(getText());
-                        parent.filterbase = c;
-                        Filters.saveFilters();
-                    }
                 }
             }
 
@@ -416,6 +412,16 @@ class Min extends JTextField {
         };
         
         addKeyListener(keyListener);
+        
+        addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent ke) {
+                if (ke.getKeyChar() == 8 || (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')) {
+                   setEditable(true);
+                } else {
+                   setEditable(false);
+                }
+            }
+        });
     }
     
     public void setInView(boolean show)
