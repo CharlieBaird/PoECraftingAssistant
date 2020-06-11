@@ -15,14 +15,12 @@ public class Filter implements Serializable
     public String name;
     public boolean active = false;
     
+    public static int counter = 1;
+    
     public Filter()
     {
-        filters.clear();
-    }
-    
-    public Filter(boolean isNew)
-    {
-        name = "New Filter";
+        name = "Filter " + counter;
+        counter++;
     }
     
     public void print()

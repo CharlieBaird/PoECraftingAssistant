@@ -152,7 +152,7 @@ class FilterTextField extends JTextField
 
             @Override
             public void focusLost(FocusEvent e) {
-                Filters.singleton.rename(savedname, getText());
+                Filters.singleton.rename(parent.filter, getText());
                 Filters.saveFilters();
                 parent.savedname = getText();
             }

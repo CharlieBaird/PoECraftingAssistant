@@ -277,6 +277,7 @@ class AddButton extends JButton {
                 ModifierPanel mp = new ModifierPanel(parent.frame, parent, parent.filterbase, null);
                 parent.modifierpanels.add(mp);
                 parent.parent.add(mp);
+                parent.parent.requestFocusInWindow();
                 
                 FilterTypePanel.reshow();
                 

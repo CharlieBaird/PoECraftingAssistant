@@ -55,11 +55,11 @@ public class Filters implements Serializable {
         }
     }
     
-    public void rename(String oldname, String newname)
+    public void rename(Filter filter, String newname)
     {
         for (int i=0; i<filters.size(); i++)
         {
-            if (filters.get(i).name.equals(oldname))
+            if (filters.get(i).equals(filter))
             {
                 filters.get(i).name = newname;
             }
@@ -79,15 +79,6 @@ public class Filters implements Serializable {
     {
         singleton.name = "";
         singleton.filters.clear();
-    }
-    
-    public Filters(String name) throws IOException
-    {
-        Filter f = new Filter();
-        singleton.name = name;
-        singleton.filters.clear();
-        singleton.filters.add(f);
-        Filters.saveFilters();
     }
     
     public static void add(Filter f)

@@ -689,7 +689,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        Filter filter = new Filter(true);
+        Filter filter = new Filter();
         Filters.singleton.filters.add(filter);
         genPanel(filter);
     }//GEN-LAST:event_jButton8ActionPerformed
