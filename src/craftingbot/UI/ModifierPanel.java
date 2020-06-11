@@ -57,6 +57,7 @@ public class ModifierPanel extends JPanel {
         setBackground(new Color(60,60,60));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        setVisible(filterbase.UIVisible);
         
         CloseMPButton cb = new CloseMPButton(this);
         ml = new ModLabel(this, mod.name);
@@ -145,8 +146,13 @@ class ModMouseListener implements MouseListener {
 }
 
 class CloseMPButton extends JButton {
+    
+    ModifierPanel parent;
+    
     public CloseMPButton(ModifierPanel parent)
     {
+        this.parent = parent;
+        
         setBorderPainted(false);
         setFocusPainted(false);
         setContentAreaFilled(true);
@@ -162,10 +168,12 @@ class CloseMPButton extends JButton {
             public void actionPerformed(ActionEvent e)
             {
 //                parent.filterbase.print();
-//                parent.parent.modifierpanels.remove(this);
+                parent.parent.modifierpanels.remove(parent);
                 parent.filterbase.mods.remove(parent.mod);
                 FilterTypePanel.reshow();
+                parent.setVisible(false);
                 parent.parent.parent.requestFocusInWindow();
+                
 //                parent.filterbase.print();
         
                 Filters.saveFilters();

@@ -17,6 +17,8 @@ public class FilterBase implements IFilter, Serializable {
     
     public ArrayList<Mod> mods = new ArrayList<Mod>();
     
+    public boolean UIVisible = true;
+    
     public FilterBase(Mod... newMods)
     {
         mods = new ArrayList<Mod>();

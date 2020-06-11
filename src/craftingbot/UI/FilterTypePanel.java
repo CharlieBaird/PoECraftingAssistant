@@ -30,7 +30,7 @@ public class FilterTypePanel extends JPanel {
     
     public static ArrayList<FilterTypePanel> filtertypepanels = new ArrayList<FilterTypePanel>();
     
-    public ArrayList<ModifierPanel> modifierpanels = new ArrayList<ModifierPanel>();
+    public ArrayList<ModifierPanel> modifierpanels = new ArrayList<>();
     
     public String type;
     public String resourcePath;
@@ -134,13 +134,14 @@ public class FilterTypePanel extends JPanel {
     
     public static void clear(boolean clearLists)
     {
+        System.out.println(filtertypepanels.size());
         for (int i = 0; i < filtertypepanels.size(); i++)
         {
             filtertypepanels.get(i).setVisible(false);
             
             for (int j = 0; j < filtertypepanels.get(i).modifierpanels.size(); j++)
             {
-                filtertypepanels.get(i).modifierpanels.get(j).setVisible(false);
+                filtertypepanels.get(i).modifierpanels.get(j).setVisible(false); // todo fix this. it can't clear them.
             }
         }
         
@@ -255,6 +256,22 @@ public class FilterTypePanel extends JPanel {
             filter.filters.set(index, filterbase);
         }        
     }
+    
+    protected void hideMods()
+    {
+        for (ModifierPanel m : modifierpanels)
+        {
+            m.setVisible(false);
+        }
+    }
+    
+    protected void showMods()
+    {
+        for (ModifierPanel m : modifierpanels)
+        {
+            m.setVisible(true);
+        }
+    }
 }
 
 class AddButton extends JButton {
@@ -274,14 +291,15 @@ class AddButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                
                 ModifierPanel mp = new ModifierPanel(parent.frame, parent, parent.filterbase, null);
                 parent.modifierpanels.add(mp);
                 parent.parent.add(mp);
                 parent.parent.requestFocusInWindow();
-                
+                parent.dropdown.open();
                 FilterTypePanel.reshow();
                 
-                parent.frame.pack();
+                Main.mainFrame.pack();
             }
         };
         addActionListener(actionListener);
@@ -329,28 +347,67 @@ class TypeLabel extends JLabel {
 }
 
 class DropdownButton extends JButton {
+    
+    private FilterTypePanel parent;
+    
     public DropdownButton(FilterTypePanel parent)
     {
+        this.parent = parent;
+        
         setBorderPainted(false);
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
         setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
         setBackground(new Color(50,50,50));
-        setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/opendropdowntransparentsmall.png"))); // NOI18N
-        setToolTipText("Select logic type");
+        
+        if (parent.filterbase.UIVisible)
+        {
+            setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/closedropdowntransparentsmall.png"))); // NOI18N
+            setToolTipText("Hide mods");
+        }
+        else
+        {
+            setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/opendropdowntransparentsmall.png"))); // NOI18N
+            setToolTipText("Show mods");
+        }
+        
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(50,50,50)));
         
         ActionListener actionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                
-//                parent.filterbase.print();
-//                parent.showDropdown();
+                updateVisibility();
             }
         };
         addActionListener(actionListener);
+    }
+    
+    public void open()
+    {
+        parent.filterbase.UIVisible = true;
+        parent.showMods();
+        setToolTipText("Hide mods");
+        setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/closedropdowntransparentsmall.png"))); // NOI18N
+    }
+    
+    public void close()
+    {
+        parent.filterbase.UIVisible = false;
+        parent.hideMods();
+        setToolTipText("Show mods");
+        setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/opendropdowntransparentsmall.png"))); // NOI18N
+    }
+    
+    public void updateVisibility()
+    {
+        if (parent.filterbase.UIVisible)
+            close();
+        else
+            open();
+
+        Main.mainFrame.pack();
     }
 }
 
