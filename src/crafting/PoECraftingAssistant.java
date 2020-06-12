@@ -53,13 +53,13 @@ public class PoECraftingAssistant {
             mouseHook.addMouseListener(new GlobalMouseAdapter() {
                 @Override 
                 public void mouseReleased(GlobalMouseEvent event)  {
-                    if (event.getButton() == 1) {
+                    if (run && event.getButton() == 1) {
                         if (onSwingWindow() || ignore) return;
                         delay(Settings.singleton.delay + 35);
                         boolean b = Filters.checkIfHitOne(debug);
                         if (b) {
                             moveMouseAway();
-//                            System.out.println("hit");
+                            run = false;
                             Utility.playHitSound();
                         }
                     }
@@ -122,6 +122,7 @@ public class PoECraftingAssistant {
     
     public static void stop()
     {
+        run = false;
         if (mouseHook != null)
             mouseHook.shutdownHook();
         mouseHook = null;
@@ -153,6 +154,7 @@ public class PoECraftingAssistant {
             JOptionPane.showMessageDialog(null, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        run = true;
         
         if (Settings.singleton.runAuto)
         {
@@ -173,8 +175,6 @@ public class PoECraftingAssistant {
     {
         Point modCheckLoc = new Point(331,559); // Point to check if the item has the correct mod (orange outline)
         Point getChaosLoc = new Point(547, 289); // Point to get chaos from
-        
-        run = true;
         
         Robot r = null;
         try {

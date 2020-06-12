@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 import crafting.Filter;
-import crafting.Utility;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
@@ -26,6 +25,11 @@ public class FilterNamePanel extends JPanel {
     public JPanel parent;
     public String resourcePath;
     public Main frame;
+    
+    public DeleteButton cb;
+    public FilterTextField ftf;
+    public OpenButton ob;
+    
     
     public FilterNamePanel(Main frame, JPanel parent, Filter filter)
     {
@@ -47,9 +51,9 @@ public class FilterNamePanel extends JPanel {
         setBackground(new Color(40,40,40));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         
-        CloseButton cb = new CloseButton(this, size);
-        FilterTextField ftf = new FilterTextField(this, size, name, savedname);
-        OpenButton ob = new OpenButton(this,size);
+        cb = new DeleteButton(this, size);
+        ftf = new FilterTextField(this, size, name, savedname);
+        ob = new OpenButton(this,size);
         
         add(cb);
         add(ftf);
@@ -115,7 +119,7 @@ class FilterTextField extends JTextField
     public FilterTextField(FilterNamePanel parent, Dimension size, String name, String savedname)
     {
         Dimension d = new Dimension((int)(size.width*0.6), (int)(size.height * 0.9));
-        setBackground(new Color(40,40,40));
+        setBackground(new Color(50,50,50));
         setForeground(new Color(255,255,255));
         setPreferredSize(d);
         setText(name);
@@ -160,9 +164,9 @@ class FilterTextField extends JTextField
     }
 }
 
-class CloseButton extends JButton
+class DeleteButton extends JButton
 {
-    public CloseButton(FilterNamePanel parent, Dimension size)
+    public DeleteButton(FilterNamePanel parent, Dimension size)
     {
         Dimension d1 = new Dimension((int)(size.width * 0.15), (int)(size.height * 0.9));
         setBorderPainted(false);
@@ -208,6 +212,11 @@ class OpenButton extends JButton
             public void actionPerformed(ActionEvent e)
             {
                 parent.frame.genFilterPanel(parent.filter);
+                for (int i=0; i<parent.filterpanels.size(); i++)
+                {
+                    parent.filterpanels.get(i).setBackground(new Color(40,40,40));
+                }
+                parent.setBackground(new Color(70,70,70));
             }
         };
         addActionListener(actionListener);

@@ -133,6 +133,8 @@ public class Filters implements Serializable {
         if (item == null)
         {
             JOptionPane.showMessageDialog(null, "Item could not be copied", "Error", JOptionPane.ERROR_MESSAGE);
+            PoECraftingAssistant.run = false;
+            PoECraftingAssistant.stop();
             return false;
         }
 //        item.print();
