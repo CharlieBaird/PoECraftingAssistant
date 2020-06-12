@@ -26,4 +26,13 @@ hs_err_pid*
 *.cbfilter
 *.cmd
 *.cbsettings
-target/classes/SampleItem.txt
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+PoECraftingAssistant/
+build/
+nbbuild/
+dist/
+nbdist/
+*.stackdump
+

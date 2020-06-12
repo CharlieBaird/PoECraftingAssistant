@@ -1,1 +1,0 @@
-Do not edit/delete any of these files. If you do, the CraftingTool will NOT work properly. You may only delete .CBFILTER files under the directory "filters."
