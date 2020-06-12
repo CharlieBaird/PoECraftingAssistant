@@ -168,11 +168,12 @@ class CloseMPButton extends JButton {
             public void actionPerformed(ActionEvent e)
             {
 //                parent.filterbase.print();
+                parent.parent.parent.requestFocusInWindow();
                 parent.parent.modifierpanels.remove(parent);
                 parent.filterbase.mods.remove(parent.mod);
                 FilterTypePanel.reshow();
                 parent.setVisible(false);
-                parent.parent.parent.requestFocusInWindow();
+                
                 
 //                parent.filterbase.print();
         
@@ -187,7 +188,7 @@ class ModLabel extends JLabel {
     public ModLabel(ModifierPanel parent, String text)
     {
         setText(text);
-        setFont(parent.frame.getNewFont(14));
+        setFont(parent.frame.getNewFont(13));
         setBackground(new Color(255,0,0));
         setForeground(new Color(255,255,255));
         setPreferredSize(new Dimension((int) (parent.getWidth() * 0.74),(int) ((32))));

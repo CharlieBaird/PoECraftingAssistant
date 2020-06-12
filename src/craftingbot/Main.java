@@ -23,11 +23,10 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -316,6 +315,7 @@ public class Main extends javax.swing.JFrame {
         jPanel9.add(jPanel14);
 
         jTextField1.setBackground(new java.awt.Color(30, 30, 30));
+        jTextField1.setFont(getNewFont(16f));
         jTextField1.setForeground(new java.awt.Color(255, 255, 255));
         jTextField1.setBorder(null);
         jTextField1.setCaretColor(new java.awt.Color(255, 255, 255));
@@ -680,6 +680,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        jPanel6.requestFocusInWindow();
         if (FilterTypePanel.filtertypepanels.size() >= 1)
         {
             Filter f = FilterTypePanel.filtertypepanels.get(0).filter;
@@ -841,8 +842,9 @@ public class Main extends javax.swing.JFrame {
     public Font getNewFont(float size)
     {        
         try {
-            File fontFile = new File((getResourcesPath() + "/src/resources/Volkhov-Regular.ttf"));
-            font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+            InputStream is = getClass().getResourceAsStream("/resources/Volkhov-Regular.ttf");
+            font = Font.createFont(Font.TRUETYPE_FONT, is);
+            is.close();
         } catch (FontFormatException | IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

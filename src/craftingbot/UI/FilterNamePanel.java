@@ -61,6 +61,7 @@ public class FilterNamePanel extends JPanel {
     
     public void remove()
     {
+        parent.requestFocusInWindow();
         if (filter.active)
         {
             FilterTypePanel.clear(true);
@@ -68,7 +69,6 @@ public class FilterNamePanel extends JPanel {
         }
         setVisible(false);
         Filters.singleton.remove(name);
-        parent.requestFocus();
         Filters.saveFilters();
         
     }
@@ -121,7 +121,7 @@ class FilterTextField extends JTextField
         setText(name);
         setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
-
+        setFont(parent.frame.getNewFont(14));
         
         KeyListener keyListener = new KeyListener()
         {

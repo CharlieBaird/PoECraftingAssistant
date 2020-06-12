@@ -134,7 +134,6 @@ public class FilterTypePanel extends JPanel {
     
     public static void clear(boolean clearLists)
     {
-        System.out.println(filtertypepanels.size());
         for (int i = 0; i < filtertypepanels.size(); i++)
         {
             filtertypepanels.get(i).setVisible(false);
