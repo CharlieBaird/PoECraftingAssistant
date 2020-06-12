@@ -1,13 +1,9 @@
 package crafting;
 
 import static crafting.Utility.*;
-import java.awt.AWTException;
-import java.awt.Dimension;
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.awt.Robot;
-import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -34,9 +30,14 @@ public class PoECraftingAssistant {
         }
         Main.main();
         Settings.load();
+        
+//        while (Main.mainFrame == null) {}
+            
+//        InputStream is = Main.mainFrame.getClass().getResourceAsStream("/resources/HitSFX.wav");
+//        System.out.println("x" + is.toString());
+//        Utility.playHitSound();
     }
     
-    public static boolean runAuto = false;
     public static GlobalMouseHook mouseHook = null;
     public static GlobalKeyboardHook keyHook = null;
     
@@ -58,8 +59,6 @@ public class PoECraftingAssistant {
                         delay(Settings.singleton.delay + 35);
                         boolean b = Filters.checkIfHitOne(debug);
                         if (b) {
-                            moveMouseAway();
-                            run = false;
                             Utility.playHitSound();
                         }
                     }
@@ -72,8 +71,6 @@ public class PoECraftingAssistant {
         
         return success;
     }
-    
-    
     
     public static boolean establishKeyboardHook()
     {
@@ -131,20 +128,6 @@ public class PoECraftingAssistant {
         keyHook = null;
         Main.setChaosIcon(Main.mainFrame.getClass().getResource("/resources/images/chaos.png"));
     }
-    
-    private static void moveMouseAway()
-    {
-        Robot r = null;
-        try {
-            r = new Robot();
-        } catch (AWTException ex) {
-            Logger.getLogger(PoECraftingAssistant.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        double xMult = 0.30885416;
-        double yMult = 0.64537037;
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        r.mouseMove((int) (xMult * screenSize.width), (int) (yMult * screenSize.height));
-    }
         
     public static void runChaosSpam(Main main)
     {
@@ -156,58 +139,10 @@ public class PoECraftingAssistant {
         }
         run = true;
         
-        if (Settings.singleton.runAuto)
-        {
-            runAuto(main);
-        }
-        
-        else
-        {
-            while (!establishMouseHook());
-            while (!establishKeyboardHook());
-            Main.setChaosIcon(main.getClass().getResource("/resources/images/chaosrun.png"));
-        }
+        while (!establishMouseHook());
+        while (!establishKeyboardHook());
+        Main.setChaosIcon(main.getClass().getResource("/resources/images/chaosrun.png"));
     }
     
     public static boolean run = true;
-    
-    private static void runAuto(Main main)
-    {
-        Point modCheckLoc = new Point(331,559); // Point to check if the item has the correct mod (orange outline)
-        Point getChaosLoc = new Point(547, 289); // Point to get chaos from
-        
-        Robot r = null;
-        try {
-            r = new Robot();
-        } catch (AWTException ex) {
-            Logger.getLogger(PoECraftingAssistant.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        r.keyPress(KeyEvent.VK_SHIFT);
-        try {
-            rclick(getChaosLoc.x, getChaosLoc.y);
-        } catch (AWTException ex) {
-            Logger.getLogger(PoECraftingAssistant.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        delay(50);
-        r.mouseMove(modCheckLoc.x, modCheckLoc.y-40);
-        delay(50);
-        
-        while (run)
-        {
-            Point mp = MouseInfo.getPointerInfo().getLocation();
-            if (!mp.equals(new Point(modCheckLoc.x, modCheckLoc.y-40)))
-                break;
-            
-            lclick();
-            delay(Settings.singleton.delay + 35);
-            if (Filters.checkIfHitOne(debug))
-            {
-                Utility.playHitSound();
-                break;
-            }
-        }
-        
-        r.keyRelease(KeyEvent.VK_SHIFT);
-    }
 }

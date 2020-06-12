@@ -7,6 +7,7 @@ package crafting;
 
 import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -14,11 +15,13 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.File;
-import java.util.ArrayList;
+import java.io.InputStream;
+import java.net.URL;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -39,36 +42,6 @@ public class Utility {
         }
     }
     
-    public static Color captureScreen(int x, int y) throws AWTException
-    {
-        Robot robot = new Robot();
-        return robot.getPixelColor(x, y);
-    }
-    
-    public static void lclick()
-    {
-        Robot bot = null;  
-        try {
-            bot = new Robot();
-        } catch (AWTException ex) {
-            Logger.getLogger(Utility.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        delay(80);
-        bot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-        delay(80);
-        bot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-    }
-    
-    public static void rclick(int x, int y) throws AWTException
-    {
-        Robot bot = new Robot();
-        bot.mouseMove(x, y);    
-        delay(80);
-        bot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
-        delay(80);
-        bot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);
-    }
-    
     public static String copy() throws AWTException, UnsupportedFlavorException, IOException
     {
         Robot bot = new Robot();
@@ -80,7 +53,7 @@ public class Utility {
         bot.keyRelease(KeyEvent.VK_CONTROL); 
         delay(5);
         Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-
+        bot = null;
         String cc = null;
         try {
             cc = (String) c.getData(DataFlavor.stringFlavor);
@@ -99,10 +72,9 @@ public class Utility {
     
     public static void playHitSound()
     {
-        String path = getResourcesPath() + "/src/resources/HitSFX.wav";
-        File clipFile = new File(path);
-        
-//        System.out.println(clipFile.getAbsolutePath());
+        InputStream is = Main.mainFrame.getClass().getResourceAsStream("/resources/HitSFX.wav");
+
+        InputStream bufferedIn = new BufferedInputStream(is);
         
         Clip clip = null;
         try {
@@ -112,18 +84,16 @@ public class Utility {
         }
         AudioInputStream ais = null;
         try {
-            ais = AudioSystem.getAudioInputStream(clipFile);
+            ais = AudioSystem.getAudioInputStream(bufferedIn);
         } catch (UnsupportedAudioFileException | IOException ex) {
             System.out.println(ex);
         }
         try {
             clip.open(ais);
             clip.loop(0);
-//            clip.start();
+            clip.start();
         } catch (LineUnavailableException | IOException ex) {
             System.out.println(ex);
         }
-        
-//        System.out.println("finished");
     }
 }

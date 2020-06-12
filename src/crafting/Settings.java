@@ -99,6 +99,5 @@ public class Settings implements Serializable {
         }
     }
     
-    public boolean runAuto = false;
     public int delay = 50;
 }

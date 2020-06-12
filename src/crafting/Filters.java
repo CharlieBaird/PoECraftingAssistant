@@ -91,7 +91,6 @@ public class Filters implements Serializable {
     public static boolean checkIfHitOne(boolean debug)
     {
         String mods = null;
-//        CraftingBot.printAllMods();
         if (!debug)
         {
             try {

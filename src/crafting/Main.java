@@ -746,17 +746,13 @@ public class Main extends javax.swing.JFrame {
          }
       });
         
-        JCheckBox runAuto = new JCheckBox();
-        runAuto.setSelected(Settings.singleton.runAuto);
         Object[] message = {
-            "Delay:", delay,
-            "Auto:", runAuto
+            "Delay:", delay
         };
 
         JOptionPane.showConfirmDialog(null, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
         
         Settings.singleton.delay = Integer.valueOf(delay.getText());
-        Settings.singleton.runAuto = runAuto.isSelected();
         
         Settings.save();
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -980,14 +976,12 @@ public class Main extends javax.swing.JFrame {
     public static Main mainFrame = null;
     
     public static void main() {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                mainFrame = new Main();                
-                mainFrame.preload();
-                mainFrame.setVisible(true);
-                mainFrame.postload();
-                mainFrame.pack();
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            mainFrame = new Main();
+            mainFrame.preload();
+            mainFrame.setVisible(true);
+            mainFrame.postload();
+            mainFrame.pack();
         });
     }
     
