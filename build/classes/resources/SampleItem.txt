@@ -1,0 +1,32 @@
+Rarity: Rare
+Chimeric Edge
+Imbued Wand
+--------
+Wand
+Quality: +41% (augmented)
+Physical Damage: 150-286 (augmented)
+Critical Strike Chance: 7.00%
+Attacks per Second: 1.65 (augmented)
+--------
+Requirements:
+Level: 64
+Int: 188
+--------
+Sockets: G-B-B 
+--------
+Item Level: 83
+--------
+33% increased Spell Damage (implicit)
+--------
+38% increased Physical Damage
+Adds 21 to 40 Physical Damage
+62% increased Mana Regeneration Rate
+24% increased Projectile Speed
+Can have up to 3 Crafted Modifiers (crafted)
+128% increased Physical Damage (crafted)
+10% increased Attack Speed (crafted)
++11% to Quality (crafted)
+--------
+Corrupted
+--------
+Crusader Item
