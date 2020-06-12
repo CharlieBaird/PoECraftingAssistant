@@ -13,6 +13,7 @@ import lc.kra.system.keyboard.event.GlobalKeyEvent;
 import lc.kra.system.mouse.GlobalMouseHook;
 import lc.kra.system.mouse.event.GlobalMouseAdapter;
 import lc.kra.system.mouse.event.GlobalMouseEvent;
+import poeitem.Modifier;
 import poeitem.ModifierLoader;
 
 
@@ -28,6 +29,10 @@ public class PoECraftingAssistant {
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        Utility.SortExplicitModifiers();
+        
+        
         Main.main();
         Settings.load();
         

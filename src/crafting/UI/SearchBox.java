@@ -15,10 +15,6 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
-/**
- *
- * @author charl
- */
 public class SearchBox extends JComboBox
 {
     ComboBoxModel defaultmodel;
@@ -100,6 +96,27 @@ public class SearchBox extends JComboBox
         
         return types;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 

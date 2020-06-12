@@ -6,27 +6,24 @@
 package crafting;
 
 import java.awt.AWTException;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.io.File;
 import java.io.InputStream;
-import java.net.URL;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import poeitem.Modifier;
+import static poeitem.Modifier.AllExplicitModifiers;
 
 public class Utility {
    
@@ -95,5 +92,46 @@ public class Utility {
         } catch (LineUnavailableException | IOException ex) {
             System.out.println(ex);
         }
+    }
+    
+    public static void SortExplicitModifiers()
+    {
+        String[] priorityMods = new String[] {
+            "+# to maximum Life",
+            "#% increased maximum Energy Shield",
+            "+# to maximum Energy Shield",
+            "+#% total Elemental Resistance",
+            "+#% total Resistance",
+            "Energy Shield: #",
+            "# Empty Suffix Modifiers",
+            "# Empty Prefix Modifiers",
+            "#% increased Movement Speed",
+            "+# to Dexterity",
+            "+# to Intelligence",
+            "+# to Strength",
+            "+#% to Fire Resistance",
+            "+#% to Cold Resistance",
+            "+#% to Lightning Resistance",
+            "+#% to Chaos Resistance"
+        };
+        
+        for (int j=priorityMods.length-1; j>=0; j--)
+        {
+            for (int i=0; i<AllExplicitModifiers.size(); i++)
+            {
+                if (AllExplicitModifiers.get(i).getStr().equals(priorityMods[j]))
+                {
+                    pushToFront(i);
+                    break;
+                }
+            }
+        }
+    }
+    
+    private static void pushToFront(int index)
+    {
+        Modifier m = AllExplicitModifiers.get(index);
+        AllExplicitModifiers.remove(m);
+        AllExplicitModifiers.add(0, m);
     }
 }

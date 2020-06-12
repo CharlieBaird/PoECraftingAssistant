@@ -9,10 +9,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JComponent;
 
-/**
- *
- * @author charl
- */
 public class MouseFocusListener implements MouseListener {
 
     JComponent owner = null;

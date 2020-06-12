@@ -9,10 +9,6 @@ import crafting.Item;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- *
- * @author charl
- */
 public class FilterBase implements IFilter, Serializable {
     
     public ArrayList<Mod> mods = new ArrayList<Mod>();

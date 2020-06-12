@@ -8,10 +8,6 @@ package crafting.filtertypes;
 import java.io.Serializable;
 import poeitem.Modifier;
 
-/**
- *
- * @author charl
- */
 public class Mod implements Serializable {
     public poeitem.Modifier assocModifier;
     public String name; // Form of: #% increased movement speed

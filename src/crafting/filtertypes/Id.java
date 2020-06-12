@@ -8,10 +8,6 @@ package crafting.filtertypes;
 import poeitem.Modifier;
 import java.io.Serializable;
 
-/**
- *
- * @author charl
- */
 public class Id implements Serializable
 {
     public int min = -100000;

@@ -16,10 +16,6 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author charl
- */
 public class Settings implements Serializable {
     
     public static Settings singleton = new Settings();

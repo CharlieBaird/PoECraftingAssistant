@@ -40,10 +40,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-/**
- *
- * @author charl
- */
 public class Main extends javax.swing.JFrame {
 
     /**
