@@ -40,6 +40,7 @@ public class FilterTypePanel extends JPanel {
     public JPanel parent;
     
     public TypeLabel typelabel;
+    public NumLabel numlabel;
     public DropdownButton dropdown;
     public Min min;
     public AddButton addbutton;
@@ -74,6 +75,7 @@ public class FilterTypePanel extends JPanel {
                 
         CloseFBButton closeButton = new CloseFBButton(this);
         typelabel = new TypeLabel(this);
+        numlabel = new NumLabel(this);
         dropdown = new DropdownButton(this);
         min = new Min(this, " min");
         addbutton = new AddButton(this);
@@ -82,6 +84,8 @@ public class FilterTypePanel extends JPanel {
         add(Box.createRigidArea(new Dimension(15,0)), Box.LEFT_ALIGNMENT);
         add(typelabel, Box.LEFT_ALIGNMENT);
         add(Box.createHorizontalGlue());
+        add(numlabel, Box.RIGHT_ALIGNMENT);
+        add(Box.createRigidArea(new Dimension(9,0)), Box.RIGHT_ALIGNMENT);
         add(min, Box.RIGHT_ALIGNMENT);
         add(Box.createRigidArea(new Dimension(9,0)), Box.RIGHT_ALIGNMENT);
         add(addbutton, Box.RIGHT_ALIGNMENT);
@@ -299,6 +303,7 @@ class AddButton extends JButton {
                 parent.parent.requestFocusInWindow();
                 parent.dropdown.open();
                 FilterTypePanel.reshow();
+                parent.numlabel.update();
                 
                 Main.mainFrame.pack();
             }
@@ -324,8 +329,9 @@ class CloseFBButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                parent.remove();
                 parent.parent.requestFocusInWindow();
+                parent.remove();
+                parent.numlabel.update();
                 Filters.saveFilters();
             }
         };
@@ -342,8 +348,25 @@ class TypeLabel extends JLabel {
         
         setText(parent.type);
         setFont(parent.frame.getNewFont(14));
-        setBackground(new Color(255,0,0));
         setForeground(new Color(255,255,255));
+    }
+}
+
+class NumLabel extends JLabel {
+    private FilterTypePanel parent;
+    
+    public NumLabel(FilterTypePanel parent)
+    {
+        this.parent = parent;
+        
+        setText(String.valueOf(parent.filterbase.mods.size()));
+        setFont(parent.frame.getNewFont(14));
+        setForeground(new Color(200,200,200));
+    }
+    
+    public void update()
+    {
+        setText(String.valueOf(parent.filterbase.mods.size()));
     }
 }
 
