@@ -49,6 +49,12 @@ No, it's not perfect. Error comes from network instability. For example, the too
 #### Can I move the folder?
 Yes! The tool is entirely stand-alone. However, the .jar and the "src" folder **must** remain in the same directory. Check above for steps in creating a shortcut to open the .jar.
 
+# Roadmap
+- Sandbox mode for testing filters on already crafted items
+- Add map support
+- Possibly mac/linux support
+- Bug: #% to all resistances is not supported
+
 # Bug reports
 If you find a bug, please create an issue thread. I will try to get back to you as soon as possible.
 
