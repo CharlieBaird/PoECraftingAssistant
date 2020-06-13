@@ -11,6 +11,9 @@ To open, double click the downloaded .jar file. **NOTE:** The files included in 
 
 # Getting Started
 
+## Demo Video
+https://youtu.be/3w9q7ZIyEKU
+
 ## Creating Filters
 Once the program is opened, you are presented with the GUI that all the filter creation is done in. To start, create a new filter by clicking the "New" button in the top left of the window. You will be prompted to name your new filter. After clicking "ok," you can rename this at any time by simply clicking the name of your filter in the top left. To create a new subfilter for this filter, click the white "+" button to the right of your new filter. A new subfilter appears. To edit this subfilter, click the white arrow to the right of the subfilter. By doing so, a new "And" logic group appears on the right side of the window.
 
