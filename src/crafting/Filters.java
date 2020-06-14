@@ -14,7 +14,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -98,33 +97,36 @@ public class Filters implements Serializable {
             } catch (AWTException | UnsupportedFlavorException | IOException ex) {
                 Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if (mods == null) return false;
+            if (mods == null)
+            {
+                JOptionPane.showMessageDialog(null, "Failed to access clipboard", "Error", JOptionPane.ERROR_MESSAGE);
+                PoECraftingAssistant.stop();
+                return false;
+            }
         }
         else
         {
             mods =
             (
                 "Rarity: Rare\n" +
-                "Beast Spark\n" +
-                "Titan Greaves\n" +
+                "Blasted Slag\n" +
+                "Crystal Ore Map\n" +
                 "--------\n" +
-                "Quality: +20% (augmented)\n" +
-                "Armour: 324 (augmented)\n" +
+                "Map Tier: 16\n" +
+                "Atlas Region: Lex Proxima\n" +
+                "Item Quantity: +61% (augmented)\n" +
+                "Item Rarity: +36% (augmented)\n" +
+                "Monster Pack Size: +23% (augmented)\n" +
                 "--------\n" +
-                "Requirements:\n" +
-                "Level: 68\n" +
-                "Str: 120\n" +
+                "Item Level: 84\n" +
                 "--------\n" +
-                "Sockets: R-R-R-R \n" +
+                "Players are Cursed with Temporal Chains\n" +
+                "Area contains two Unique Bosses\n" +
+                "Unique Boss deals 25% increased Damage\n" +
+                "Unique Boss has 30% increased Attack and Cast Speed\n" +
+                "Monsters gain a Frenzy Charge on Hit\n" +
                 "--------\n" +
-                "Item Level: 86\n" +
-                "--------\n" +
-                "+29 to Armour\n" +
-                "Regenerate 13.2 Life per second\n" +
-                "+43% to Fire Resistance\n" +
-                "26% increased Stun and Block Recovery\n" +
-                "--------\n" +
-                "Hunter Item"
+                "Travel to this Map by using it in a personal Map Device. Maps can only be used once."
             );
         }
         Item item = Item.createItem(mods);
@@ -132,7 +134,6 @@ public class Filters implements Serializable {
         if (item == null)
         {
             JOptionPane.showMessageDialog(null, "Item could not be copied", "Error", JOptionPane.ERROR_MESSAGE);
-            PoECraftingAssistant.run = false;
             PoECraftingAssistant.stop();
             return false;
         }

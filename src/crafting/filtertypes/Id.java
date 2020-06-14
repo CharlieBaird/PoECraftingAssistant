@@ -60,7 +60,6 @@ public class Id implements Serializable
         {
             return valid((((rolls[0] + rolls[1]) / 2) + ((rolls[2] + rolls[3]) / 2)) / 2 );
         }
-        System.exit(0);
         return true;
     }
     

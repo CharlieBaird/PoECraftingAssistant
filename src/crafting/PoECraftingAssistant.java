@@ -3,7 +3,6 @@ package crafting;
 import static crafting.Utility.*;
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -13,7 +12,6 @@ import lc.kra.system.keyboard.event.GlobalKeyEvent;
 import lc.kra.system.mouse.GlobalMouseHook;
 import lc.kra.system.mouse.event.GlobalMouseAdapter;
 import lc.kra.system.mouse.event.GlobalMouseEvent;
-import poeitem.Modifier;
 import poeitem.ModifierLoader;
 
 
