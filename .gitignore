@@ -37,3 +37,5 @@ nbdist/
 other/
 *.stackdump
 
+.idea
+*.iml

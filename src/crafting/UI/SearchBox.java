@@ -124,7 +124,7 @@ public class SearchBox extends JComboBox
 class KeyTypedListener implements KeyListener
 {
     SearchBox owner;
-    
+
     public KeyTypedListener(SearchBox owner)
     {
         this.owner = owner;
@@ -140,8 +140,15 @@ class KeyTypedListener implements KeyListener
 
     @Override
     public void keyReleased(KeyEvent e) {
-        owner.entry = owner.getEditor().getItem().toString();    
-        owner.updateList();
+        if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_A) {
+            owner.getEditor().selectAll();
+        } else {
+            if (e.getKeyCode() == KeyEvent.VK_CONTROL || e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                return;
+            }
+            owner.entry = owner.getEditor().getItem().toString();
+            owner.updateList();
+        }
     }
 }
 
