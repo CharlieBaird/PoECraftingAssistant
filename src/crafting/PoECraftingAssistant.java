@@ -1,11 +1,22 @@
 package crafting;
 
 import static crafting.Utility.*;
+import java.awt.Cursor;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import lc.kra.system.keyboard.GlobalKeyboardHook;
 import lc.kra.system.keyboard.event.GlobalKeyAdapter;
 import lc.kra.system.keyboard.event.GlobalKeyEvent;
@@ -33,12 +44,9 @@ public class PoECraftingAssistant {
         Main.main();
         Settings.load();
         
-//        while (Main.mainFrame == null) {}
-            
-//        InputStream is = Main.mainFrame.getClass().getResourceAsStream("/resources/HitSFX.wav");
-//        System.out.println("x" + is.toString());
-//        Utility.playHitSound();
     }
+    
+    public static boolean run = true;
     
     public static GlobalMouseHook mouseHook = null;
     public static GlobalKeyboardHook keyHook = null;
@@ -142,5 +150,36 @@ public class PoECraftingAssistant {
         Main.setChaosIcon(main.getClass().getResource("/resources/images/chaosrun.png"));
     }
     
-    public static boolean run = true;
+    public static void testFilter(Main main, JButton owner)
+    {
+        Filters.prepItemLoad();
+        if (!Filters.verify())
+        {
+            JOptionPane.showMessageDialog(null, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
+        String raw = null;
+        try {
+            raw = (String) c.getData(DataFlavor.stringFlavor);
+        } catch (UnsupportedFlavorException | IOException | IllegalStateException e) {
+            System.out.println(e);
+        }
+        
+        if (!raw.equals("") && raw != null)
+        {
+            Filters.testMods = raw;
+            if (Filters.checkIfHitOne(true))
+            {
+                JOptionPane.showMessageDialog(null, "The item hit the filter!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "The item did not hit the filter.", "Failure", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+            
+    }
 }

@@ -89,10 +89,12 @@ public class Main extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
 
         jScrollPane1.setViewportView(jEditorPane1);
 
@@ -344,17 +346,18 @@ public class Main extends javax.swing.JFrame {
         SelectFilterPanel.add(jPanel9);
 
         jPanel6.setBackground(new java.awt.Color(30, 30, 30));
-        jPanel6.setMaximumSize(new java.awt.Dimension(500, 550));
-        jPanel6.setMinimumSize(new java.awt.Dimension(400, 550));
-        jPanel6.setPreferredSize(new java.awt.Dimension(400, 550));
+        jPanel6.setMaximumSize(new java.awt.Dimension(500, 600));
+        jPanel6.setMinimumSize(new java.awt.Dimension(500, 600));
+        jPanel6.setPreferredSize(new java.awt.Dimension(500, 600));
         SelectFilterPanel.add(jPanel6);
 
         ChangeFilterPanel.setBackground(new java.awt.Color(30, 30, 30));
+        ChangeFilterPanel.setPreferredSize(new java.awt.Dimension(796, 600));
         ChangeFilterPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel11.setBackground(new java.awt.Color(30, 30, 30));
         jPanel11.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 5, 2));
-        ChangeFilterPanel.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 790, 500));
+        ChangeFilterPanel.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 790, 550));
 
         jButton9.setBackground(new java.awt.Color(40, 40, 40));
         jButton9.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -373,7 +376,7 @@ public class Main extends javax.swing.JFrame {
                 jButton9ActionPerformed(evt);
             }
         });
-        ChangeFilterPanel.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 510, 40, 40));
+        ChangeFilterPanel.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 560, 40, 40));
 
         jPanel10.setBackground(new java.awt.Color(88, 0, 0));
         jPanel10.setMinimumSize(new java.awt.Dimension(320, 32));
@@ -437,6 +440,33 @@ public class Main extends javax.swing.JFrame {
         });
         jPanel10.add(jButton1);
 
+        jButton7.setBackground(new java.awt.Color(127, 3, 3));
+        jButton7.setFont(getNewFont(12f));
+        jButton7.setForeground(new java.awt.Color(255, 255, 255));
+        jButton7.setText("Save");
+        jButton7.setToolTipText("Save filter");
+        jButton7.setContentAreaFilled(false);
+        jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton7.setFocusable(false);
+        jButton7.setMaximumSize(new java.awt.Dimension(100, 32));
+        jButton7.setMinimumSize(new java.awt.Dimension(100, 32));
+        jButton7.setPreferredSize(new java.awt.Dimension(100, 32));
+        jButton7.setRequestFocusEnabled(false);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jPanel10.add(jButton7);
+
+        jButton6.setText("debug");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        jPanel10.add(jButton6);
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -459,7 +489,7 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(ChangeFilterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(SelectFilterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -473,9 +503,9 @@ public class Main extends javax.swing.JFrame {
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 611, Short.MAX_VALUE)
-                .addGap(20, 20, 20))
+                .addContainerGap()
+                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel5.setBackground(new java.awt.Color(30, 30, 30));
@@ -489,9 +519,9 @@ public class Main extends javax.swing.JFrame {
         jButton2.setContentAreaFilled(false);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.setFocusable(false);
-        jButton2.setMaximumSize(new java.awt.Dimension(99, 99));
-        jButton2.setMinimumSize(new java.awt.Dimension(99, 99));
-        jButton2.setPreferredSize(new java.awt.Dimension(99, 99));
+        jButton2.setMaximumSize(new java.awt.Dimension(60, 60));
+        jButton2.setMinimumSize(new java.awt.Dimension(60, 60));
+        jButton2.setPreferredSize(new java.awt.Dimension(60, 60));
         jButton2.setRequestFocusEnabled(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -501,24 +531,32 @@ public class Main extends javax.swing.JFrame {
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/gear5.png"))); // NOI18N
         jButton3.setToolTipText("Open Settings");
-        jButton3.setBorderPainted(false);
         jButton3.setContentAreaFilled(false);
         jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton3.setFocusPainted(false);
         jButton3.setFocusable(false);
-        jButton3.setMaximumSize(new java.awt.Dimension(40, 40));
-        jButton3.setMinimumSize(new java.awt.Dimension(40, 40));
-        jButton3.setPreferredSize(new java.awt.Dimension(40, 40));
+        jButton3.setMaximumSize(new java.awt.Dimension(60, 60));
+        jButton3.setMinimumSize(new java.awt.Dimension(60, 60));
+        jButton3.setPreferredSize(new java.awt.Dimension(60, 60));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jButton6.setText("debug");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        jButton10.setBackground(new java.awt.Color(20, 20, 20));
+        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/testfilter.png"))); // NOI18N
+        jButton10.setToolTipText("Test Filter off of Copied Clipboard");
+        jButton10.setContentAreaFilled(false);
+        jButton10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton10.setFocusable(false);
+        jButton10.setMaximumSize(new java.awt.Dimension(60, 60));
+        jButton10.setMinimumSize(new java.awt.Dimension(60, 60));
+        jButton10.setPreferredSize(new java.awt.Dimension(60, 60));
+        jButton10.setRequestFocusEnabled(false);
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                jButton10runChaosSpam(evt);
             }
         });
 
@@ -528,23 +566,21 @@ public class Main extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 982, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 954, Short.MAX_VALUE)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(0, 6, Short.MAX_VALUE)
-                        .addComponent(jButton6)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jButton10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -566,9 +602,9 @@ public class Main extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
-                .addGap(3, 3, 3)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout WindowLayout = new javax.swing.GroupLayout(Window);
@@ -592,7 +628,10 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runChaosSpam
-        startChaosSpam(evt);
+        if (PoECraftingAssistant.mouseHook != null)
+            PoECraftingAssistant.stop();
+        else
+            PoECraftingAssistant.runChaosSpam(mainFrame);
     }//GEN-LAST:event_runChaosSpam
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -626,6 +665,7 @@ public class Main extends javax.swing.JFrame {
             updateLeftTab();
 
             jButton2.setVisible(true);
+            jButton10.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -661,6 +701,7 @@ public class Main extends javax.swing.JFrame {
             jTextField1.setVisible(true);
             jButton8.setVisible(true);
             jButton2.setVisible(true);
+            jButton10.setVisible(true);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -744,14 +785,17 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void startChaosSpam(java.awt.event.ActionEvent evt)
-    {
-        if (PoECraftingAssistant.mouseHook != null)
-            PoECraftingAssistant.stop();
-        else
-            PoECraftingAssistant.runChaosSpam(mainFrame);
-    }
-    
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        if (Filters.singleton != null)
+        {
+            Filters.saveFilters();
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton10runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10runChaosSpam
+        PoECraftingAssistant.testFilter(this, jButton10);
+    }//GEN-LAST:event_jButton10runChaosSpam
+
     public void updateLeftTab()
     {
         jTextField1.setText(Filters.getName());
@@ -774,11 +818,13 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel SelectFilterPanel;
     private javax.swing.JPanel Window;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JEditorPane jEditorPane1;
@@ -931,6 +977,7 @@ public class Main extends javax.swing.JFrame {
         jButton8.setVisible(false);
         jButton9.setVisible(false);
         jButton2.setVisible(false);
+        jButton10.setVisible(false);
         if (!PoECraftingAssistant.debug) jButton6.setVisible(false);
         
         jPanel6.addMouseListener(new MouseFocusListener(jPanel6));
@@ -940,9 +987,6 @@ public class Main extends javax.swing.JFrame {
         jPanel10.addMouseListener(new MouseFocusListener(jPanel10));
         Window.addMouseListener(new MouseFocusListener(Window));
         jPanel2.addMouseListener(new MouseFocusListener(jPanel2));
-//        jPanel1.addMouseListener(new MouseFocusListener(jPanel1));
-//        jPanel12.addMouseListener(new MouseFocusListener(jPanel12));
-//        jPanel13.addMouseListener(new MouseFocusListener(jPanel13));
         jPanel7.addMouseListener(new MouseFocusListener(jPanel7));
         SelectFilterPanel.addMouseListener(new MouseFocusListener(SelectFilterPanel));
         jPanel9.addMouseListener(new MouseFocusListener(jPanel9));

@@ -23,6 +23,9 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Filters implements Serializable {
+    
+    public static String testMods = null;
+    
     private String name = "";
 
     public void setName(String name) {
@@ -106,31 +109,7 @@ public class Filters implements Serializable {
         }
         else
         {
-            mods =
-            (
-                "Rarity: Rare\n" +
-                "Savage Waste\n" +
-                "Crystal Ore Map\n" +
-                "--------\n" +
-                "Map Tier: 16\n" +
-                "Atlas Region: Lex Proxima\n" +
-                "Item Quantity: +75% (augmented)\n" +
-                "Item Rarity: +33% (augmented)\n" +
-                "Monster Pack Size: +21% (augmented)\n" +
-                "Quality: +20% (augmented)\n" +
-                "--------\n" +
-                "Item Level: 83\n" +
-                "--------\n" +
-                "Area has patches of chilled ground\n" +
-                "25% more Rare Monsters\n" +
-                "Players are Cursed with Elemental Weakness\n" +
-                "25% increased Monster Movement Speed\n" +
-                "36% increased Monster Attack Speed\n" +
-                "43% increased Monster Cast Speed\n" +
-                "Rare Monsters each have a Nemesis Mod\n" +
-                "--------\n" +
-                "Travel to this Map by using it in a personal Map Device. Maps can only be used once."
-            );
+            mods = testMods;
         }
         Item item = Item.createItem(mods);
         
@@ -140,8 +119,9 @@ public class Filters implements Serializable {
             PoECraftingAssistant.stop();
             return false;
         }
-//        item.print();
-        savedModsRaw = mods;
+        if (!debug) savedModsRaw = mods;
+        
+//        if (debug) item.print();
         
         return item.hitFilters(singleton);
     }
