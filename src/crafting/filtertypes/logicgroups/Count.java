@@ -64,6 +64,15 @@ public class Count extends FilterBase {
                         }
                     }
                     break;
+                case -3:
+                    for (Modifier em : item.baseModifiers)
+                    {
+                        if (m.hit(em))
+                        {
+                            numHit++;
+                        }
+                    }
+                    break;
                 default:
                     System.exit(0);
             }

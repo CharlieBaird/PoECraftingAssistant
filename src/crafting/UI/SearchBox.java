@@ -82,6 +82,7 @@ public class SearchBox extends JComboBox
                     && m.getModGenerationTypeID() != -2
                     && m.getModGenerationTypeID() != -1
                     && m.getModGenerationTypeID() != 0
+                    && m.getModGenerationTypeID() != -3
                 )
             {
                 typesList.remove(m);

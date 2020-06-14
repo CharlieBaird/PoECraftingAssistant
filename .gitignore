@@ -34,5 +34,6 @@ build/
 nbbuild/
 dist/
 nbdist/
+other/
 *.stackdump
 

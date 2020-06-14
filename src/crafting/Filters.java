@@ -137,7 +137,7 @@ public class Filters implements Serializable {
             PoECraftingAssistant.stop();
             return false;
         }
-//        item.print();
+        item.print();
         savedModsRaw = mods;
         
         return item.hitFilters(singleton);
