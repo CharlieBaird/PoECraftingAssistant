@@ -100,7 +100,7 @@ public class Settings implements Serializable {
     }
     
     public int delay = 50;
-    public String pathToSound = Utility.getResourcesPath() + "/src/resources/HitSFX.wav";
+    public String pathToSound = Utility.getResourcesPath() + "/src/resources/HitSFX1.wav";
     public int volume = 50;
     
     public void OpenSettings()
@@ -147,14 +147,18 @@ public class Settings implements Serializable {
         Object[] message = {
             "Delay:", delay,
             "Ping Sound:", pathToSound,
-            "Volume:", volume
+            "Volume: (0-100)", volume
         };
 
         JOptionPane.showConfirmDialog(null, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
         
         Settings.singleton.delay = Integer.valueOf(delay.getText());
         Settings.singleton.pathToSound = pathToSound.getText();
-        Settings.singleton.volume = Integer.valueOf(volume.getText());
+        if (Integer.valueOf(volume.getText()) <= 100 && Integer.valueOf(volume.getText()) >= 0)
+            Settings.singleton.volume = Integer.valueOf(volume.getText());
+        else
+            Settings.singleton.volume = 80;
+        
         
         Settings.save();
     }

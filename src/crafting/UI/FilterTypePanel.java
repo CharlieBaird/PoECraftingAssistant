@@ -259,6 +259,7 @@ public class FilterTypePanel extends JPanel {
             }
             
             filter.filters.set(index, filterbase);
+            Filters.saveFilters();
         }        
     }
     

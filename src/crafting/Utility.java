@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
@@ -97,6 +98,18 @@ public class Utility {
         }
         try {
             clip.open(ais);
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+//            gainControl.setValue((float) ((float) Settings.singleton.volume-50f)/8.3f);
+            double volToSet = map(0,100,gainControl.getMinimum(),gainControl.getMaximum(),Settings.singleton.volume);
+            System.out.println("volToSet: " + volToSet);
+            gainControl.setValue((float) volToSet);
+            
+
+//            System.out.println(gainControl.getMaximum());
+//            System.out.println(gainControl.getMinimum());
+//            System.out.println(gainControl.getPrecision());
+
+
             clip.loop(0);
             clip.start();
         } catch (LineUnavailableException | NullPointerException | IOException ex) {
@@ -106,9 +119,14 @@ public class Utility {
         }
     }
     
+    private static double map(double bMin, double bMax, double eMin, double eMax, double val)
+    {
+        return ((val-bMin)/(bMax-bMin)) * (eMax-eMin) + eMin;
+    }
+    
     private static void playPrebuiltSound()
     {
-        InputStream is = Main.mainFrame.getClass().getResourceAsStream("/resources/HitSFX.wav");
+        InputStream is = Main.mainFrame.getClass().getResourceAsStream("/resources/HitSFX1.wav");
         InputStream bufferedIn = new BufferedInputStream(is);
         
         Clip clip = null;
