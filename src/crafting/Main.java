@@ -728,29 +728,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel4MouseEntered
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        JTextField delay = new JTextField();
-        delay.setText(String.valueOf(Settings.singleton.delay));
-        delay.addKeyListener(new KeyAdapter() {
-         public void keyPressed(KeyEvent ke) {
-            String value = delay.getText();
-            int l = value.length();
-            if (ke.getKeyChar() == 8 || ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') {
-               delay.setEditable(true);
-            } else {
-               delay.setEditable(false);
-            }
-         }
-      });
-        
-        Object[] message = {
-            "Delay:", delay
-        };
-
-        JOptionPane.showConfirmDialog(null, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
-        
-        Settings.singleton.delay = Integer.valueOf(delay.getText());
-        
-        Settings.save();
+        Settings.singleton.OpenSettings();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed

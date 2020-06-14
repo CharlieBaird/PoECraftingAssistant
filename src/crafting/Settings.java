@@ -5,6 +5,8 @@
  */
 package crafting;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,6 +17,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class Settings implements Serializable {
     
@@ -96,4 +100,62 @@ public class Settings implements Serializable {
     }
     
     public int delay = 50;
+    public String pathToSound = Utility.getResourcesPath() + "/src/resources/HitSFX.wav";
+    public int volume = 50;
+    
+    public void OpenSettings()
+    {
+        PoECraftingAssistant.stop();
+        
+        JTextField delay = new JTextField();
+        delay.setText(String.valueOf(Settings.singleton.delay));
+        delay.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent ke) {
+                if (ke.getKeyChar() == 8 || ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') {
+                   delay.setEditable(true);
+                } else {
+                   delay.setEditable(false);
+                }
+            }
+        });
+        
+        JTextField pathToSound = new JTextField();
+        pathToSound.setText(Settings.singleton.pathToSound);
+//        pathToSound.addKeyListener(new KeyAdapter() {
+//            public void keyPressed(KeyEvent ke) {
+//                if (ke.getKeyChar() == 8 || ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') {
+//                   pathToSound.setEditable(true);
+//                } else {
+//                   pathToSound.setEditable(false);
+//                }
+//            }
+//        });
+        
+        
+        JTextField volume = new JTextField();
+        volume.setText(String.valueOf(Settings.singleton.volume));
+        volume.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent ke) {
+                if (ke.getKeyChar() == 8 || ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') {
+                   volume.setEditable(true);
+                } else {
+                   volume.setEditable(false);
+                }
+            }
+        });
+        
+        Object[] message = {
+            "Delay:", delay,
+            "Ping Sound:", pathToSound,
+            "Volume:", volume
+        };
+
+        JOptionPane.showConfirmDialog(null, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
+        
+        Settings.singleton.delay = Integer.valueOf(delay.getText());
+        Settings.singleton.pathToSound = pathToSound.getText();
+        Settings.singleton.volume = Integer.valueOf(volume.getText());
+        
+        Settings.save();
+    }
 }

@@ -108,58 +108,28 @@ public class Filters implements Serializable {
         {
             mods =
             (
-//                "Rarity: Rare\n" +
-//                "Fate Band\n" +
-//                "Sapphire Ring\n" +
-//                "--------\n" +
-//                "Requirements:\n" +
-//                "Level: 33\n" +
-//                "--------\n" +
-//                "Item Level: 83\n" +
-//                "--------\n" +
-//                "+21% to Cold Resistance (implicit)\n" +
-//                "--------\n" +
-//                "+152 to Accuracy Rating\n" +
-//                "+68 to Evasion Rating\n" +
-//                "+9 to maximum Energy Shield\n" +
-//                "+8% to all Elemental Resistances"
-                    
                 "Rarity: Rare\n" +
-                "Gale Loop\n" +
-                "Sapphire Ring\n" +
+                "Savage Waste\n" +
+                "Crystal Ore Map\n" +
                 "--------\n" +
-                "Requirements:\n" +
-                "Level: 38\n" +
+                "Map Tier: 16\n" +
+                "Atlas Region: Lex Proxima\n" +
+                "Item Quantity: +75% (augmented)\n" +
+                "Item Rarity: +33% (augmented)\n" +
+                "Monster Pack Size: +21% (augmented)\n" +
+                "Quality: +20% (augmented)\n" +
                 "--------\n" +
                 "Item Level: 83\n" +
                 "--------\n" +
-                "+21% to Cold Resistance (implicit)\n" +
+                "Area has patches of chilled ground\n" +
+                "25% more Rare Monsters\n" +
+                "Players are Cursed with Elemental Weakness\n" +
+                "25% increased Monster Movement Speed\n" +
+                "36% increased Monster Attack Speed\n" +
+                "43% increased Monster Cast Speed\n" +
+                "Rare Monsters each have a Nemesis Mod\n" +
                 "--------\n" +
-                "Adds 2 to 22 Lightning Damage to Attacks\n" +
-                "+117 to Accuracy Rating\n" +
-                "+13% to all Elemental Resistances\n" +
-                "+12% to Cold Resistance"
-                    
-//                "Rarity: Magic\n" +
-//                "Enduring Divine Mana Flask of Infliction\n" +
-//                "--------\n" +
-//                "Quality: +18% (augmented)\n" +
-//                "Recovers 1156 (augmented) Mana over 3.50 (augmented) Seconds\n" +
-//                "Consumes 8 of 42 Charges on use\n" +
-//                "Currently has 0 Charges\n" +
-//                "--------\n" +
-//                "Requirements:\n" +
-//                "Level: 60\n" +
-//                "--------\n" +
-//                "Item Level: 65\n" +
-//                "--------\n" +
-//                "30% reduced Amount Recovered\n" +
-//                "21% chance to Freeze, Shock and Ignite during Flask effect\n" +
-//                "30% reduced Duration\n" +
-//                "Flask Effect is not removed at Full Mana\n" +
-//                "Flask Effect does not Queue\n" +
-//                "--------\n" +
-//                "Right click to drink. Can only hold charges while in belt. Refills as you kill monsters."
+                "Travel to this Map by using it in a personal Map Device. Maps can only be used once."
             );
         }
         Item item = Item.createItem(mods);
@@ -170,7 +140,7 @@ public class Filters implements Serializable {
             PoECraftingAssistant.stop();
             return false;
         }
-//        item.print();
+        item.print();
         savedModsRaw = mods;
         
         return item.hitFilters(singleton);

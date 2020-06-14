@@ -13,6 +13,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyEvent;
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,8 +70,8 @@ public class Utility {
     
     public static void playHitSound()
     {
+        /* Old method of doing it, stores the default one the .jar
         InputStream is = Main.mainFrame.getClass().getResourceAsStream("/resources/HitSFX.wav");
-
         InputStream bufferedIn = new BufferedInputStream(is);
         
         Clip clip = null;
@@ -82,6 +83,28 @@ public class Utility {
         AudioInputStream ais = null;
         try {
             ais = AudioSystem.getAudioInputStream(bufferedIn);
+        } catch (UnsupportedAudioFileException | IOException ex) {
+            System.out.println(ex);
+        }
+        try {
+            clip.open(ais);
+            clip.loop(0);
+            clip.start();
+        } catch (LineUnavailableException | IOException ex) {
+            System.out.println(ex);
+        }
+        */
+        
+        File clipFile = new File(Settings.singleton.pathToSound);
+        Clip clip = null;
+        try {
+            clip = AudioSystem.getClip();
+        } catch (LineUnavailableException ex) {
+            System.out.println(ex);
+        }
+        AudioInputStream ais = null;
+        try {
+            ais = AudioSystem.getAudioInputStream(clipFile);
         } catch (UnsupportedAudioFileException | IOException ex) {
             System.out.println(ex);
         }
