@@ -6,7 +6,7 @@ A lightweight and intuitive crafting assistant for Path of Exile. This tool was 
 The Crafting Assistant comes with a UI to assist users in creating filters. This program is entirely standalone, and does not come with an installer. It runs off of a single .jar file, using resources that come in the downloaded folder. Currently it is only tested and functional on Windows 10 with 16:9 monitors. Support for other aspect ratios and other platforms may come in the future.
 
 # Download
-Simple compressed .zip with all necessary files: [PoECraftingAssistant](http://www.mediafire.com/file/uj3xcicthxt4rhj/PoECraftingAssistant.zip/file "Download").\
+Simple compressed .zip with all necessary files: [PoECraftingAssistant](https://www.mediafire.com/file/uj3xcicthxt4rhj/PoECraftingAssistant.zip/file "Download").\
 To open, double click the downloaded .jar file. **NOTE:** The files included in this folder **must** remain in this directory for the tool to work properly. Look below for steps in creating a shortcut to run the Assistant.
 
 # Getting Started
@@ -17,6 +17,9 @@ https://youtu.be/3w9q7ZIyEKU
 ## System Requirements
 1. The program will only run on a Windows computer. I do not currently have the capability to test it on Mac/Linux. Please create an issue request if you'd like me to look into this. I can figure something out.
 2. You will need at *least* java 8 installed on your computer. Most computers already have this installed.
+
+## Opening
+You should be able to simply double click the downloaded .jar file. If this does not work, try following these [instructions](https://imgur.com/a/hBRzCT5 "Instructions"). If it throws an error/exception, please create an issue on the GitHub page.
 
 ## Creating Filters
 Once the program is opened, you are presented with the GUI that all the filter creation is done in. To start, create a new filter by clicking the "New" button in the top left of the window. You will be prompted to name your new filter. After clicking "ok," you can rename this at any time by simply clicking the name of your filter in the top left. To create a new subfilter for this filter, click the white "+" button to the right of your new filter. A new subfilter appears. To edit this subfilter, click the white arrow to the right of the subfilter. By doing so, a new "And" logic group appears on the right side of the window.
