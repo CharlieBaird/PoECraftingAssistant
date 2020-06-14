@@ -376,7 +376,7 @@ public class Main extends javax.swing.JFrame {
                 jButton9ActionPerformed(evt);
             }
         });
-        ChangeFilterPanel.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 560, 40, 40));
+        ChangeFilterPanel.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 560, 40, 40));
 
         jPanel10.setBackground(new java.awt.Color(88, 0, 0));
         jPanel10.setMinimumSize(new java.awt.Dimension(320, 32));
@@ -546,7 +546,7 @@ public class Main extends javax.swing.JFrame {
 
         jButton10.setBackground(new java.awt.Color(20, 20, 20));
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/testfilter.png"))); // NOI18N
-        jButton10.setToolTipText("Test Filter");
+        jButton10.setToolTipText("Test Filter off of Copied Clipboard");
         jButton10.setContentAreaFilled(false);
         jButton10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton10.setFocusable(false);
@@ -628,7 +628,10 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runChaosSpam
-        startChaosSpam(evt);
+        if (PoECraftingAssistant.mouseHook != null)
+            PoECraftingAssistant.stop();
+        else
+            PoECraftingAssistant.runChaosSpam(mainFrame);
     }//GEN-LAST:event_runChaosSpam
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -662,6 +665,7 @@ public class Main extends javax.swing.JFrame {
             updateLeftTab();
 
             jButton2.setVisible(true);
+            jButton10.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -697,6 +701,7 @@ public class Main extends javax.swing.JFrame {
             jTextField1.setVisible(true);
             jButton8.setVisible(true);
             jButton2.setVisible(true);
+            jButton10.setVisible(true);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -788,17 +793,9 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton10runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10runChaosSpam
-        // TODO add your handling code here:
+        PoECraftingAssistant.testFilter(this, jButton10);
     }//GEN-LAST:event_jButton10runChaosSpam
 
-    private void startChaosSpam(java.awt.event.ActionEvent evt)
-    {
-        if (PoECraftingAssistant.mouseHook != null)
-            PoECraftingAssistant.stop();
-        else
-            PoECraftingAssistant.runChaosSpam(mainFrame);
-    }
-    
     public void updateLeftTab()
     {
         jTextField1.setText(Filters.getName());
@@ -980,6 +977,7 @@ public class Main extends javax.swing.JFrame {
         jButton8.setVisible(false);
         jButton9.setVisible(false);
         jButton2.setVisible(false);
+        jButton10.setVisible(false);
         if (!PoECraftingAssistant.debug) jButton6.setVisible(false);
         
         jPanel6.addMouseListener(new MouseFocusListener(jPanel6));
@@ -989,9 +987,6 @@ public class Main extends javax.swing.JFrame {
         jPanel10.addMouseListener(new MouseFocusListener(jPanel10));
         Window.addMouseListener(new MouseFocusListener(Window));
         jPanel2.addMouseListener(new MouseFocusListener(jPanel2));
-//        jPanel1.addMouseListener(new MouseFocusListener(jPanel1));
-//        jPanel12.addMouseListener(new MouseFocusListener(jPanel12));
-//        jPanel13.addMouseListener(new MouseFocusListener(jPanel13));
         jPanel7.addMouseListener(new MouseFocusListener(jPanel7));
         SelectFilterPanel.addMouseListener(new MouseFocusListener(SelectFilterPanel));
         jPanel9.addMouseListener(new MouseFocusListener(jPanel9));
