@@ -107,16 +107,12 @@ public class PoECraftingAssistant {
     
     private static boolean onSwingWindow()
     {
-        Point topLeft  = Main.mainFrame.getLocation();
-        Point botRight = new Point(topLeft.x + Main.mainFrame.getWidth(), topLeft.y + Main.mainFrame.getHeight());
-        Point mouseLoc = MouseInfo.getPointerInfo().getLocation();
+        if (!Main.mainFrame.isActive() || !Main.mainFrame.isFocused())
+        {
+            return false;
+        }
         
-        boolean b = mouseLoc.x <= botRight.x &&
-               mouseLoc.x >= topLeft.x &&
-               mouseLoc.y <= botRight.y &&
-               mouseLoc.y >= topLeft.y;
-                
-        return b;
+        return true;
     }
     
     public static void stop()
