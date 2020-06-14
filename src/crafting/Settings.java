@@ -5,6 +5,7 @@
  */
 package crafting;
 
+import java.awt.Cursor;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -108,6 +109,7 @@ public class Settings implements Serializable {
         PoECraftingAssistant.stop();
         
         JTextField delay = new JTextField();
+        delay.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         delay.setText(String.valueOf(Settings.singleton.delay));
         delay.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent ke) {
@@ -120,19 +122,11 @@ public class Settings implements Serializable {
         });
         
         JTextField pathToSound = new JTextField();
+        pathToSound.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         pathToSound.setText(Settings.singleton.pathToSound);
-//        pathToSound.addKeyListener(new KeyAdapter() {
-//            public void keyPressed(KeyEvent ke) {
-//                if (ke.getKeyChar() == 8 || ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') {
-//                   pathToSound.setEditable(true);
-//                } else {
-//                   pathToSound.setEditable(false);
-//                }
-//            }
-//        });
-        
         
         JTextField volume = new JTextField();
+        volume.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         volume.setText(String.valueOf(Settings.singleton.volume));
         volume.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent ke) {
@@ -150,16 +144,17 @@ public class Settings implements Serializable {
             "Volume: (0-100)", volume
         };
 
-        JOptionPane.showConfirmDialog(null, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
-        
-        Settings.singleton.delay = Integer.valueOf(delay.getText());
-        Settings.singleton.pathToSound = pathToSound.getText();
-        if (Integer.valueOf(volume.getText()) <= 100 && Integer.valueOf(volume.getText()) >= 0)
-            Settings.singleton.volume = Integer.valueOf(volume.getText());
-        else
-            Settings.singleton.volume = 80;
-        
-        
-        Settings.save();
+        int n = JOptionPane.showConfirmDialog(null, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
+        if (n == JOptionPane.OK_OPTION)
+        {
+            Settings.singleton.delay = Integer.valueOf(delay.getText());
+            Settings.singleton.pathToSound = pathToSound.getText();
+            if (Integer.valueOf(volume.getText()) <= 100 && Integer.valueOf(volume.getText()) >= 0)
+                Settings.singleton.volume = Integer.valueOf(volume.getText());
+            else
+                Settings.singleton.volume = 80;
+
+            Settings.save();
+        }
     }
 }
