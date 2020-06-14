@@ -86,10 +86,19 @@ public class ModifierPanel extends JPanel {
         String[] types = SearchBox.toArr(Modifier.AllExplicitModifiers);
         SearchBox sb = new SearchBox(types);
         
-        JOptionPane jop = new JOptionPane();
-        sb.setSelectedIndex(-1);        
-
-        jop.showMessageDialog(this, sb, "PoE Crafting Assistant", JOptionPane.PLAIN_MESSAGE, null);
+        sb.setSelectedIndex(-1);
+        
+        JPanel msgPanel = new JPanel();
+        msgPanel.add(sb);
+        
+//        JOptionPane message = new JOptionPane(this, sb, "PoE Crafting Assistant", JOptionPane.PLAIN_MESSAGE, null) {
+        JOptionPane message = new JOptionPane(msgPanel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION) {
+            @Override
+            public void selectInitialValue() {
+                sb.requestFocusInWindow();
+            }
+        };
+        message.createDialog(this, "PoE Crafting Assistant").setVisible(true);
         
         Object selected = sb.getSelectedItem();
         

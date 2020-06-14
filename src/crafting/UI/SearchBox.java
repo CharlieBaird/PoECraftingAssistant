@@ -30,9 +30,19 @@ public class SearchBox extends JComboBox
         defaultmodel = this.getModel();
         this.setSelectedIndex(-1);
         
+        String maxLength = "a";
+        for (int i=0; i<getModel().getSize(); i++)
+        {
+            String m = (String) getModel().getElementAt(i);
+            if (m.length() > maxLength.length())
+            {
+                maxLength = m;
+            }
+        }
+        setPrototypeDisplayValue(maxLength);
+        
         this.getEditor().getEditorComponent().addKeyListener(new KeyTypedListener(this));
         this.getEditor().getEditorComponent().addFocusListener(new ClickListener(this));
-        
         
         this.setSelectedIndex(-1);
 //        showPopup();
