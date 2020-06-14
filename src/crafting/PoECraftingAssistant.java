@@ -167,7 +167,7 @@ public class PoECraftingAssistant {
             System.out.println(e);
         }
         
-        if (!raw.equals("") && raw != null)
+        if (raw != null && !raw.equals(""))
         {
             Filters.testMods = raw;
             if (Filters.checkIfHitOne(true))
