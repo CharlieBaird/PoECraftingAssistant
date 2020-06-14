@@ -15,14 +15,15 @@ import java.awt.event.KeyEvent;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.io.InputStream;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.JOptionPane;
 import poeitem.Modifier;
 import static poeitem.Modifier.AllExplicitModifiers;
 
@@ -70,7 +71,43 @@ public class Utility {
     
     public static void playHitSound()
     {
-        /* Old method of doing it, stores the default one the .jar
+        File clipFile = new File(Settings.singleton.pathToSound);
+        Clip clip = null;
+        try {
+            clip = AudioSystem.getClip();
+        } catch (LineUnavailableException ex) {
+            playPrebuiltSound();
+            JOptionPane.showMessageDialog(null, "An error occurred with your custom sound."
+                    + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        AudioInputStream ais = null;
+        try {
+            ais = AudioSystem.getAudioInputStream(clipFile);
+        } catch (UnsupportedAudioFileException ex) {
+            playPrebuiltSound();
+            JOptionPane.showMessageDialog(null, "An error occurred. The audio file you have selected is in the wrong format. Please use the .wav format."
+                    + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        } catch (IOException ex) {
+            playPrebuiltSound();
+            JOptionPane.showMessageDialog(null, "Your sound file could not found. Please check the path again."
+                    + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            clip.open(ais);
+            clip.loop(0);
+            clip.start();
+        } catch (LineUnavailableException | NullPointerException | IOException ex) {
+            playPrebuiltSound();
+            JOptionPane.showMessageDialog(null, "An error occurred, and the sound could not be played. The file might be corrupted."
+                    + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private static void playPrebuiltSound()
+    {
         InputStream is = Main.mainFrame.getClass().getResourceAsStream("/resources/HitSFX.wav");
         InputStream bufferedIn = new BufferedInputStream(is);
         
@@ -83,28 +120,6 @@ public class Utility {
         AudioInputStream ais = null;
         try {
             ais = AudioSystem.getAudioInputStream(bufferedIn);
-        } catch (UnsupportedAudioFileException | IOException ex) {
-            System.out.println(ex);
-        }
-        try {
-            clip.open(ais);
-            clip.loop(0);
-            clip.start();
-        } catch (LineUnavailableException | IOException ex) {
-            System.out.println(ex);
-        }
-        */
-        
-        File clipFile = new File(Settings.singleton.pathToSound);
-        Clip clip = null;
-        try {
-            clip = AudioSystem.getClip();
-        } catch (LineUnavailableException ex) {
-            System.out.println(ex);
-        }
-        AudioInputStream ais = null;
-        try {
-            ais = AudioSystem.getAudioInputStream(clipFile);
         } catch (UnsupportedAudioFileException | IOException ex) {
             System.out.println(ex);
         }
