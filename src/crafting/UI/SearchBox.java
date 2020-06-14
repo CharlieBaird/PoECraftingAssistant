@@ -97,29 +97,7 @@ public class SearchBox extends JComboBox
         
         return types;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
-
 
 class KeyTypedListener implements KeyListener
 {
@@ -141,6 +119,7 @@ class KeyTypedListener implements KeyListener
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_A) {
+            owner.showPopup();
             owner.getEditor().selectAll();
         } else {
             if (e.getKeyCode() == KeyEvent.VK_CONTROL || e.getKeyCode() == KeyEvent.VK_SHIFT) {
