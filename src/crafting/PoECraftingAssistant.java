@@ -30,7 +30,6 @@ public class PoECraftingAssistant {
         
         Utility.SortExplicitModifiers();
         
-        
         Main.main();
         Settings.load();
         
