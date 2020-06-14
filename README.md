@@ -51,7 +51,7 @@ Yes! The tool is entirely stand-alone. However, the .jar and the "src" folder **
 
 # Roadmap
 - Sandbox mode for testing filters on already crafted items
-- Add map support
+- Add map support (modifiers done. Need to add quantity: #% support).
 - Possibly mac/linux support
 - Bug: #% to all resistances is not supported
 
