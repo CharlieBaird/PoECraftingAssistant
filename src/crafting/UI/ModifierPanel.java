@@ -247,34 +247,7 @@ class MPMinMax extends JTextField {
         
         addFocusListener(new FListener(this, this.placeholder));
                 
-        addKeyListener(new KeyListener()
-        {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == 10)
-                {
-                    parent.requestFocusInWindow();
-                }
-            }
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
-        });
-        
-        addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent ke) {
-                if (ke.getKeyChar() == 8 || (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')) {
-                   setEditable(true);
-                } else {
-                   setEditable(false);
-                }
-            }
-        });
+        addKeyListener(new NumFieldKeyListener());
     }
     
     public void focusGained()

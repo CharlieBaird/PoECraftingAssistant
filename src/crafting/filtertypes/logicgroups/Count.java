@@ -6,18 +6,18 @@ import crafting.Item;
 import poeitem.Modifier;
 
 public class Count extends FilterBase {
-    public int needed;
+    public int neededMin;
+    public int neededMax;
     
-    public Count(int needed, Mod... mods)
+    public Count(int neededMin, int neededMax, Mod... mods)
     {
         super(mods);
-        this.needed = needed;
+        this.neededMin = neededMin;
+        this.neededMax = neededMax;
     }
     
     public boolean hit(Item item)
     {
-//        item.print();
-        
         int numHit = 0;
         int goal = this.mods.size();
         for (Mod m : mods)
@@ -76,16 +76,14 @@ public class Count extends FilterBase {
                 default:
                     System.exit(0);
             }
-            
-            if (numHit >= needed) return true;
         }
-        return false;
+        return (numHit >= neededMin && numHit <= neededMax);
     }
     
     @Override
     public String view()
     {
-        String str = "    " + this.getClass().getSimpleName() + " " + needed + "\n";
+        String str = "    " + this.getClass().getSimpleName() + " " + neededMin + "-" + neededMax + "\n";
               
         for (Mod m : mods)
         {
@@ -98,7 +96,7 @@ public class Count extends FilterBase {
     @Override
     public void print()
     {
-        System.out.println("        " + this.getClass().getSimpleName() + " " + needed);
+        System.out.println("        " + this.getClass().getSimpleName() + " " + neededMin + "-" + neededMax);
         for (Mod m : mods)
         {
             m.print();

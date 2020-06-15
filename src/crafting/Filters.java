@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -227,7 +228,9 @@ public class Filters implements Serializable {
         Filters input = null;
         try {
             input = (Filters) oi.readObject();
-        } catch (IOException | ClassNotFoundException ex) {
+        } catch (InvalidClassException | ClassNotFoundException ex) {
+            return null;
+        } catch (IOException ex) {
             Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
         }
                 

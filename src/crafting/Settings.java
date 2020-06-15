@@ -5,6 +5,7 @@
  */
 package crafting;
 
+import crafting.UI.NumFieldKeyListener;
 import java.awt.Cursor;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -117,53 +118,37 @@ public class Settings implements Serializable {
     {
         PoECraftingAssistant.stop();
         
-        JTextField delay = new JTextField();
-        delay.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-        delay.setText(String.valueOf(Settings.singleton.delay));
-        delay.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent ke) {
-                if (ke.getKeyChar() == 8 || ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') {
-                   delay.setEditable(true);
-                } else {
-                   delay.setEditable(false);
-                }
-            }
-        });
+        JTextField delayField = new JTextField();
+        delayField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        delayField.setText(String.valueOf(Settings.singleton.delay));
+        delayField.addKeyListener(new NumFieldKeyListener(false));
         
-        JTextField pathToSound = new JTextField();
-        pathToSound.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-        pathToSound.setText(Settings.singleton.pathToSound);
+        JTextField pathToSoundField = new JTextField();
+        pathToSoundField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        pathToSoundField.setText(Settings.singleton.pathToSound);
         
-        JTextField volume = new JTextField();
-        volume.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-        volume.setText(String.valueOf(Settings.singleton.volume));
-        volume.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent ke) {
-                if (ke.getKeyChar() == 8 || ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') {
-                   volume.setEditable(true);
-                } else {
-                   volume.setEditable(false);
-                }
-            }
-        });
+        JTextField volumeField = new JTextField();
+        volumeField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        volumeField.setText(String.valueOf(Settings.singleton.volume));
+        volumeField.addKeyListener(new NumFieldKeyListener(false));
         
         JCheckBox useAltGr = new JCheckBox();
         useAltGr.setSelected(ctrlKey != KeyEvent.VK_CONTROL);
         
         Object[] message = {
-            "Delay:", delay,
-            "Ping Sound:", pathToSound,
-            "Volume: (0-100)", volume,
+            "Delay:", delayField,
+            "Ping Sound:", pathToSoundField,
+            "Volume: (0-100)", volumeField,
             "Use \"AltGr\" instead of \"Ctrl\" (For non-UK/American keyboards)", useAltGr
         };
 
         int n = JOptionPane.showConfirmDialog(Main.mainFrame, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
         if (n == JOptionPane.OK_OPTION)
         {
-            Settings.singleton.delay = Integer.valueOf(delay.getText());
-            Settings.singleton.pathToSound = pathToSound.getText();
-            if (Integer.valueOf(volume.getText()) <= 100 && Integer.valueOf(volume.getText()) >= 0)
-                Settings.singleton.volume = Integer.valueOf(volume.getText());
+            Settings.singleton.delay = Integer.valueOf(delayField.getText());
+            Settings.singleton.pathToSound = pathToSoundField.getText();
+            if (Integer.valueOf(volumeField.getText()) <= 100 && Integer.valueOf(volumeField.getText()) >= 0)
+                Settings.singleton.volume = Integer.valueOf(volumeField.getText());
             else
                 Settings.singleton.volume = 80;
             
