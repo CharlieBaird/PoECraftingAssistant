@@ -159,13 +159,7 @@ public class PoECraftingAssistant {
             return;
         }
         
-        Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-        String raw = null;
-        try {
-            raw = (String) c.getData(DataFlavor.stringFlavor);
-        } catch (UnsupportedFlavorException | IOException | IllegalStateException e) {
-            System.out.println(e);
-        }
+        String raw = Utility.getClipboard();
         
         if (raw != null && !raw.equals(""))
         {

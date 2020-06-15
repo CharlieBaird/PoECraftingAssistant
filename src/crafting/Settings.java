@@ -112,7 +112,7 @@ public class Settings implements Serializable {
     public int delay = 50;
     public String pathToSound = Utility.getResourcesPath() + "/src/resources/HitSFX1.wav";
     public int volume = 80;
-    public int ctrlKey = KeyEvent.VK_CONTROL;
+    public int ctrlKey = 0xA2; // left control
     
     public void OpenSettings()
     {
@@ -132,14 +132,14 @@ public class Settings implements Serializable {
         volumeField.setText(String.valueOf(Settings.singleton.volume));
         volumeField.addKeyListener(new NumFieldKeyListener(false));
         
-        JCheckBox useAltGr = new JCheckBox();
-        useAltGr.setSelected(ctrlKey != KeyEvent.VK_CONTROL);
+//        JCheckBox useAltGr = new JCheckBox();
+//        useAltGr.setSelected(ctrlKey != KeyEvent.VK_CONTROL);
         
         Object[] message = {
             "Delay:", delayField,
             "Ping Sound:", pathToSoundField,
-            "Volume: (0-100)", volumeField,
-            "Use \"AltGr\" instead of \"Ctrl\" (For non-UK/American keyboards)", useAltGr
+            "Volume: (0-100)", volumeField
+//            "Use \"AltGr\" instead of \"Ctrl\" (For non-UK/American keyboards)", useAltGr
         };
 
         int n = JOptionPane.showConfirmDialog(Main.mainFrame, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
@@ -152,10 +152,10 @@ public class Settings implements Serializable {
             else
                 Settings.singleton.volume = 80;
             
-            if (useAltGr.isSelected())
-                Settings.singleton.ctrlKey = KeyEvent.VK_ALT_GRAPH;
-            else
-                Settings.singleton.ctrlKey = KeyEvent.VK_CONTROL;
+//            if (useAltGr.isSelected())
+//                Settings.singleton.ctrlKey = KeyEvent.ctrl
+//            else
+//                Settings.singleton.ctrlKey = KeyEvent.VK_CONTROL;
 
             Settings.save();
         }

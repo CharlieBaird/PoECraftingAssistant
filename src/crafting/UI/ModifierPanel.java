@@ -179,15 +179,11 @@ class CloseMPButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-//                parent.filterbase.print();
                 parent.parent.parent.requestFocusInWindow();
-                parent.parent.modifierpanels.remove(parent);
+                boolean b = parent.parent.modifierpanels.remove(parent);
                 parent.filterbase.mods.remove(parent.mod);
                 FilterTypePanel.reshow();
                 parent.setVisible(false);
-                
-                
-//                parent.filterbase.print();
         
                 Filters.saveFilters();
             }

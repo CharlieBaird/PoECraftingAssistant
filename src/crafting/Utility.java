@@ -10,6 +10,7 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyEvent;
 import java.io.BufferedInputStream;
@@ -64,12 +65,18 @@ public class Utility {
         bot.keyRelease(KeyEvent.VK_C); 
         bot.keyRelease(Settings.singleton.ctrlKey); 
         delay(5);
-        Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-        bot = null;
+        return getClipboard();
+    }
+    
+    public static String getClipboard()
+    {
+        Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+        
         String cc = null;
         try {
-            cc = (String) c.getData(DataFlavor.stringFlavor);
+            cc = (String) cb.getData(DataFlavor.stringFlavor);
         } catch (UnsupportedFlavorException | IOException | IllegalStateException e) {
+            JOptionPane.showMessageDialog(Main.mainFrame, "An error occurred while trying to access the clipboard.", "Failure", JOptionPane.ERROR_MESSAGE);
             System.out.println(e);
         }
         return cc;

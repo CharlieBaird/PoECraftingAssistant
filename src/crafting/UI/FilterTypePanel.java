@@ -21,8 +21,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import java.io.File;
 import crafting.filtertypes.FilterBase;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import crafting.filtertypes.Mod;
 
@@ -78,8 +76,8 @@ public class FilterTypePanel extends JPanel {
         typelabel = new TypeLabel(this);
         numlabel = new NumLabel(this);
         dropdown = new DropdownButton(this);
-        min = new MinMax(this, "min");
-        max = new MinMax(this, "max");
+        min = new MinMax(this, "min", "min");
+        max = new MinMax(this, "max", "min");
         addbutton = new AddButton(this);
         
         add(closeButton, Box.LEFT_ALIGNMENT);
@@ -125,10 +123,16 @@ public class FilterTypePanel extends JPanel {
         if (type.equals("Count"))
         {
             Count c = (Count) this.filterbase;
-            min.setText(String.valueOf(c.neededMin));
-            min.setForeground(new Color(255,255,255));
-            max.setText(String.valueOf(c.neededMax));
-            max.setForeground(new Color(255,255,255));
+            if (c.neededMin != -100000)
+            {
+                min.setText(String.valueOf(c.neededMin));
+                min.setForeground(new Color(255,255,255));
+            }
+            if (c.neededMax != 100000)
+            {
+                max.setText(String.valueOf(c.neededMax));
+                max.setForeground(new Color(255,255,255));
+            }
         }
         
         addMouseListener(mouseListener);
@@ -264,7 +268,7 @@ public class FilterTypePanel extends JPanel {
                     filterbase = new Not(modsToAdd);
                     break;
                 case "Count":
-                    filterbase = new Count(1, 100000, modsToAdd);
+                    filterbase = new Count(-100000, 100000, modsToAdd);
                     break;
             }
             
@@ -451,8 +455,12 @@ class MinMax extends JTextField {
     public String placeholder;
     public FilterTypePanel parent;
     
-    public MinMax(FilterTypePanel parent, String placeholder)
-    {
+    public MinMax(FilterTypePanel parent, String placeholder, String placeholderName)
+    {   
+        if (placeholder.contains("100000"))
+        {
+            placeholder = placeholderName;
+        }
         this.placeholder = placeholder;
         this.parent = parent;
         
@@ -504,7 +512,7 @@ class MinMax extends JTextField {
             if (!parent.min.getText().isEmpty() && !parent.min.getText().equals("min"))
                 c.neededMin = Integer.valueOf(parent.min.getText());
             else
-                c.neededMin = 1;
+                c.neededMin = -100000;
             if (!parent.max.getText().isEmpty() && !parent.max.getText().equals("max"))
                 c.neededMax = Integer.valueOf(parent.max.getText());
             else

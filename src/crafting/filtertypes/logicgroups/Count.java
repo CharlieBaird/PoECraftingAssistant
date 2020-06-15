@@ -77,7 +77,21 @@ public class Count extends FilterBase {
                     System.exit(0);
             }
         }
+        if (neededMin == -100000)
+        {
+            if (neededMax == 100000)
+            {
+                return (numHit >= 1);
+            }
+            return numHit >= 1 && numHit <= neededMax;
+        }
+        if (neededMax == 100000)
+        {
+            return numHit >= neededMin;
+        }
+        
         return (numHit >= neededMin && numHit <= neededMax);
+        
     }
     
     @Override
