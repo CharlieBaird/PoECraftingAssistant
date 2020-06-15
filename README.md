@@ -64,7 +64,7 @@ Yes! The tool is entirely stand-alone. However, the .jar and the "src" folder **
 - Request: Some sort of in-tool docs on how to use
 - Request: Be able to type "flaring"/"merciless" or the actual mod name in filters to make creating filters easier
 - Request: Create a popup when it hits the filter to prevent roll-overs. This will be toggleable
-- Request: Invert filter to ding on not hitting filters and vice-versa
+- Request: Invert filter to ding on not hitting filters and vice-versa **Done, will be available in official release**
 - Bug: Fix count min/max UI display **Done, will be available in official release**
 
 
