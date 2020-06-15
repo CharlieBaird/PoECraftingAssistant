@@ -118,15 +118,8 @@ public class Utility {
         try {
             clip.open(ais);
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-//            gainControl.setValue((float) ((float) Settings.singleton.volume-50f)/8.3f);
             double volToSet = map(0,100,gainControl.getMinimum(),gainControl.getMaximum(),Settings.singleton.volume);
-//            System.out.println("volToSet: " + volToSet);
             gainControl.setValue((float) volToSet);
-            
-
-//            System.out.println(gainControl.getMaximum());
-//            System.out.println(gainControl.getMinimum());
-//            System.out.println(gainControl.getPrecision());
 
 
             clip.loop(0);

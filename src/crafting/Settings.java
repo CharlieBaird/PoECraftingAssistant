@@ -7,7 +7,6 @@ package crafting;
 
 import crafting.UI.NumFieldKeyListener;
 import java.awt.Cursor;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
@@ -112,7 +111,8 @@ public class Settings implements Serializable {
     public int delay = 50;
     public String pathToSound = Utility.getResourcesPath() + "/src/resources/HitSFX1.wav";
     public int volume = 80;
-    public int ctrlKey = 0xA2; // left control
+    public int ctrlKey = KeyEvent.VK_CONTROL; // left control
+    public boolean invertTool = false;
     
     public void OpenSettings()
     {
@@ -134,11 +134,15 @@ public class Settings implements Serializable {
         
 //        JCheckBox useAltGr = new JCheckBox();
 //        useAltGr.setSelected(ctrlKey != KeyEvent.VK_CONTROL);
+
+        JCheckBox invertToolBox = new JCheckBox();
+        invertToolBox.setSelected(invertTool);
         
         Object[] message = {
-            "Delay:", delayField,
-            "Ping Sound:", pathToSoundField,
-            "Volume: (0-100)", volumeField
+            "Delay after left click to run Ctrl+C:", delayField,
+            "Sound to play on filter hit:", pathToSoundField,
+            "Volume: (0-100)", volumeField,
+            "Invert tool to ping on not hitting the filter", invertToolBox
 //            "Use \"AltGr\" instead of \"Ctrl\" (For non-UK/American keyboards)", useAltGr
         };
 
@@ -151,6 +155,7 @@ public class Settings implements Serializable {
                 Settings.singleton.volume = Integer.valueOf(volumeField.getText());
             else
                 Settings.singleton.volume = 80;
+            Settings.singleton.invertTool = invertToolBox.isSelected();
             
 //            if (useAltGr.isSelected())
 //                Settings.singleton.ctrlKey = KeyEvent.ctrl

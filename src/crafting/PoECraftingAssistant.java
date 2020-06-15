@@ -1,22 +1,10 @@
 package crafting;
 
 import static crafting.Utility.*;
-import java.awt.Cursor;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import lc.kra.system.keyboard.GlobalKeyboardHook;
 import lc.kra.system.keyboard.event.GlobalKeyAdapter;
 import lc.kra.system.keyboard.event.GlobalKeyEvent;
@@ -61,16 +49,35 @@ public class PoECraftingAssistant {
             
             mouseHook = new GlobalMouseHook();
             
-            mouseHook.addMouseListener(new GlobalMouseAdapter() {
+            mouseHook.addMouseListener(new GlobalMouseAdapter()
+            {
                 @Override 
-                public void mouseReleased(GlobalMouseEvent event)  {
-                    if (run && event.getButton() == 1) {
+                public void mouseReleased(GlobalMouseEvent event)
+                {
+                    if (run && event.getButton() == 1)
+                    {
                         if (onSwingWindow() || ignore) return;
+                        
                         delay(Settings.singleton.delay + 35);
+                        
                         boolean b = Filters.checkIfHitOne(debug);
-                        if (b) {
-                            Utility.playHitSound();
+                        
+                        if (!Settings.singleton.invertTool) // act normal
+                        {
+                            if (b)
+                            {
+                                Utility.playHitSound();
+                            }
                         }
+                        else
+                        {
+                            if (!b)
+                            {
+                                Utility.playHitSound();
+                            }
+                        }
+                        
+                        
                     }
                 }
             });
