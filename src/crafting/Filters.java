@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -23,6 +24,9 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Filters implements Serializable {
+    
+    public static String testMods = null;
+    
     private String name = "";
 
     public void setName(String name) {
@@ -99,79 +103,28 @@ public class Filters implements Serializable {
             }
             if (mods == null)
             {
-                JOptionPane.showMessageDialog(null, "Failed to access clipboard", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(Main.mainFrame, "Failed to access clipboard", "Error", JOptionPane.ERROR_MESSAGE);
                 PoECraftingAssistant.stop();
                 return false;
             }
         }
         else
         {
-            mods =
-            (
-//                "Rarity: Rare\n" +
-//                "Fate Band\n" +
-//                "Sapphire Ring\n" +
-//                "--------\n" +
-//                "Requirements:\n" +
-//                "Level: 33\n" +
-//                "--------\n" +
-//                "Item Level: 83\n" +
-//                "--------\n" +
-//                "+21% to Cold Resistance (implicit)\n" +
-//                "--------\n" +
-//                "+152 to Accuracy Rating\n" +
-//                "+68 to Evasion Rating\n" +
-//                "+9 to maximum Energy Shield\n" +
-//                "+8% to all Elemental Resistances"
-                    
-                "Rarity: Rare\n" +
-                "Gale Loop\n" +
-                "Sapphire Ring\n" +
-                "--------\n" +
-                "Requirements:\n" +
-                "Level: 38\n" +
-                "--------\n" +
-                "Item Level: 83\n" +
-                "--------\n" +
-                "+21% to Cold Resistance (implicit)\n" +
-                "--------\n" +
-                "Adds 2 to 22 Lightning Damage to Attacks\n" +
-                "+117 to Accuracy Rating\n" +
-                "+13% to all Elemental Resistances\n" +
-                "+12% to Cold Resistance"
-                    
-//                "Rarity: Magic\n" +
-//                "Enduring Divine Mana Flask of Infliction\n" +
-//                "--------\n" +
-//                "Quality: +18% (augmented)\n" +
-//                "Recovers 1156 (augmented) Mana over 3.50 (augmented) Seconds\n" +
-//                "Consumes 8 of 42 Charges on use\n" +
-//                "Currently has 0 Charges\n" +
-//                "--------\n" +
-//                "Requirements:\n" +
-//                "Level: 60\n" +
-//                "--------\n" +
-//                "Item Level: 65\n" +
-//                "--------\n" +
-//                "30% reduced Amount Recovered\n" +
-//                "21% chance to Freeze, Shock and Ignite during Flask effect\n" +
-//                "30% reduced Duration\n" +
-//                "Flask Effect is not removed at Full Mana\n" +
-//                "Flask Effect does not Queue\n" +
-//                "--------\n" +
-//                "Right click to drink. Can only hold charges while in belt. Refills as you kill monsters."
-            );
+            mods = testMods;
         }
         Item item = Item.createItem(mods);
         
         if (item == null)
         {
-            JOptionPane.showMessageDialog(null, "Item could not be copied", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Main.mainFrame, "Item could not be copied", "Error", JOptionPane.ERROR_MESSAGE);
             PoECraftingAssistant.stop();
             return false;
         }
+        if (!debug) savedModsRaw = mods;
+        
+//        if (debug) item.print();
+
 //        item.print();
-        savedModsRaw = mods;
         
         return item.hitFilters(singleton);
     }
@@ -275,7 +228,9 @@ public class Filters implements Serializable {
         Filters input = null;
         try {
             input = (Filters) oi.readObject();
-        } catch (IOException | ClassNotFoundException ex) {
+        } catch (InvalidClassException | ClassNotFoundException ex) {
+            return null;
+        } catch (IOException ex) {
             Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
         }
                 

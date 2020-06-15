@@ -10,18 +10,22 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyEvent;
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.io.InputStream;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.JOptionPane;
 import poeitem.Modifier;
 import static poeitem.Modifier.AllExplicitModifiers;
 
@@ -42,19 +46,37 @@ public class Utility {
     public static String copy() throws AWTException, UnsupportedFlavorException, IOException
     {
         Robot bot = new Robot();
-        bot.keyPress(KeyEvent.VK_CONTROL);
+        try {
+            bot.keyPress(Settings.singleton.ctrlKey);
+        } catch (IllegalArgumentException ex) {
+            if (Settings.singleton.ctrlKey == KeyEvent.VK_CONTROL)
+            {
+                JOptionPane.showMessageDialog(Main.mainFrame, "Unable to fire the CTRL key.\nTry changing to the ALTGR key in settings.", "Failure", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(Main.mainFrame, "Unable to fire the ALTGR key.\nTry changing to the CTRL key in settings.", "Failure", JOptionPane.ERROR_MESSAGE);
+            }
+            return null;
+        }
         delay(10);
         bot.keyPress(KeyEvent.VK_C); 
         delay(5);
         bot.keyRelease(KeyEvent.VK_C); 
-        bot.keyRelease(KeyEvent.VK_CONTROL); 
+        bot.keyRelease(Settings.singleton.ctrlKey); 
         delay(5);
-        Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
-        bot = null;
+        return getClipboard();
+    }
+    
+    public static String getClipboard()
+    {
+        Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+        
         String cc = null;
         try {
-            cc = (String) c.getData(DataFlavor.stringFlavor);
+            cc = (String) cb.getData(DataFlavor.stringFlavor);
         } catch (UnsupportedFlavorException | IOException | IllegalStateException e) {
+            JOptionPane.showMessageDialog(Main.mainFrame, "An error occurred while trying to access the clipboard.", "Failure", JOptionPane.ERROR_MESSAGE);
             System.out.println(e);
         }
         return cc;
@@ -69,8 +91,54 @@ public class Utility {
     
     public static void playHitSound()
     {
-        InputStream is = Main.mainFrame.getClass().getResourceAsStream("/resources/HitSFX.wav");
+        File clipFile = new File(Settings.singleton.pathToSound);
+        Clip clip = null;
+        try {
+            clip = AudioSystem.getClip();
+        } catch (LineUnavailableException ex) {
+            playPrebuiltSound();
+            JOptionPane.showMessageDialog(Main.mainFrame, "An error occurred with your custom sound."
+                    + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        AudioInputStream ais = null;
+        try {
+            ais = AudioSystem.getAudioInputStream(clipFile);
+        } catch (UnsupportedAudioFileException ex) {
+            playPrebuiltSound();
+            JOptionPane.showMessageDialog(Main.mainFrame, "An error occurred. The audio file you have selected is in the wrong format. Please use the .wav format."
+                    + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        } catch (IOException ex) {
+            playPrebuiltSound();
+            JOptionPane.showMessageDialog(Main.mainFrame, "Your sound file could not found. Please check the path again."
+                    + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            clip.open(ais);
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            double volToSet = map(0,100,gainControl.getMinimum(),gainControl.getMaximum(),Settings.singleton.volume);
+            gainControl.setValue((float) volToSet);
 
+
+            clip.loop(0);
+            clip.start();
+        } catch (LineUnavailableException | NullPointerException | IOException ex) {
+            playPrebuiltSound();
+            JOptionPane.showMessageDialog(Main.mainFrame, "An error occurred, and the sound could not be played. The file might be corrupted."
+                    + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private static double map(double bMin, double bMax, double eMin, double eMax, double val)
+    {
+        return ((val-bMin)/(bMax-bMin)) * (eMax-eMin) + eMin;
+    }
+    
+    private static void playPrebuiltSound()
+    {
+        InputStream is = Main.mainFrame.getClass().getResourceAsStream("/resources/HitSFX1.wav");
         InputStream bufferedIn = new BufferedInputStream(is);
         
         Clip clip = null;

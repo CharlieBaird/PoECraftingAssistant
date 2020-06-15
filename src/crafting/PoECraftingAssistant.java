@@ -1,10 +1,9 @@
 package crafting;
 
 import static crafting.Utility.*;
-import java.awt.MouseInfo;
-import java.awt.Point;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import lc.kra.system.keyboard.GlobalKeyboardHook;
 import lc.kra.system.keyboard.event.GlobalKeyAdapter;
@@ -33,12 +32,9 @@ public class PoECraftingAssistant {
         Main.main();
         Settings.load();
         
-//        while (Main.mainFrame == null) {}
-            
-//        InputStream is = Main.mainFrame.getClass().getResourceAsStream("/resources/HitSFX.wav");
-//        System.out.println("x" + is.toString());
-//        Utility.playHitSound();
     }
+    
+    public static boolean run = true;
     
     public static GlobalMouseHook mouseHook = null;
     public static GlobalKeyboardHook keyHook = null;
@@ -53,16 +49,35 @@ public class PoECraftingAssistant {
             
             mouseHook = new GlobalMouseHook();
             
-            mouseHook.addMouseListener(new GlobalMouseAdapter() {
+            mouseHook.addMouseListener(new GlobalMouseAdapter()
+            {
                 @Override 
-                public void mouseReleased(GlobalMouseEvent event)  {
-                    if (run && event.getButton() == 1) {
+                public void mouseReleased(GlobalMouseEvent event)
+                {
+                    if (run && event.getButton() == 1)
+                    {
                         if (onSwingWindow() || ignore) return;
+                        
                         delay(Settings.singleton.delay + 35);
+                        
                         boolean b = Filters.checkIfHitOne(debug);
-                        if (b) {
-                            Utility.playHitSound();
+                        
+                        if (!Settings.singleton.invertTool) // act normal
+                        {
+                            if (b)
+                            {
+                                Utility.playHitSound();
+                            }
                         }
+                        else
+                        {
+                            if (!b)
+                            {
+                                Utility.playHitSound();
+                            }
+                        }
+                        
+                        
                     }
                 }
             });
@@ -132,7 +147,7 @@ public class PoECraftingAssistant {
         Filters.prepItemLoad();
         if (!Filters.verify())
         {
-            JOptionPane.showMessageDialog(null, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         run = true;
@@ -142,5 +157,30 @@ public class PoECraftingAssistant {
         Main.setChaosIcon(main.getClass().getResource("/resources/images/chaosrun.png"));
     }
     
-    public static boolean run = true;
+    public static void testFilter(Main main, JButton owner)
+    {
+        Filters.prepItemLoad();
+        if (!Filters.verify())
+        {
+            JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        String raw = Utility.getClipboard();
+        
+        if (raw != null && !raw.equals(""))
+        {
+            Filters.testMods = raw;
+            if (Filters.checkIfHitOne(true))
+            {
+                JOptionPane.showMessageDialog(Main.mainFrame, "The item hit the filter!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(Main.mainFrame, "The item did not hit the filter.", "Failure", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+            
+    }
 }

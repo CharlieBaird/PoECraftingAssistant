@@ -14,12 +14,14 @@ import java.util.ArrayList;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JTextField;
 
 public class SearchBox extends JComboBox
 {
     ComboBoxModel defaultmodel;
     
     public String entry = "";
+    public int caretPos = -1;
     
     public SearchBox(Object[] types)
     {
@@ -57,6 +59,8 @@ public class SearchBox extends JComboBox
         this.setModel(model);
                 
         this.setSelectedItem(entry);
+        if (caretPos != -1)
+            ((JTextField)this.editor.getEditorComponent()).setCaretPosition(this.caretPos);
         showPopup();
     }
     
@@ -126,16 +130,32 @@ class KeyTypedListener implements KeyListener
     public void keyPressed(KeyEvent e) {
     }
 
+    // Logic of search box for keys, shortcuts, etc.
     @Override
-    public void keyReleased(KeyEvent e) {
-        if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_A) {
+    public void keyReleased(KeyEvent e)
+    {
+        // Enter key should select one, hide dropdown, remove focus.
+         // Up / Down arrow for selecting should not update the list.
+        if (e.getKeyCode() == 10 || e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP)
+        {
+            e.consume();
+        }
+        // Ctrl + A
+        // Credit to PR from https://github.com/JamesZoft
+        else if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_A)
+        {
             owner.showPopup();
             owner.getEditor().selectAll();
-        } else {
-            if (e.getKeyCode() == KeyEvent.VK_CONTROL || e.getKeyCode() == KeyEvent.VK_SHIFT) {
+        }
+        else 
+        {
+            if (e.getKeyCode() == KeyEvent.VK_CONTROL || e.getKeyCode() == KeyEvent.VK_SHIFT) 
+            {
                 return;
             }
+            JTextField editor = (JTextField) owner.getEditor().getEditorComponent();
             owner.entry = owner.getEditor().getItem().toString();
+            owner.caretPos = editor.getCaretPosition();
             owner.updateList();
         }
     }

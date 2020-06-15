@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.KeyAdapter;
 import javax.swing.*;
 import java.io.File;
+import poeitem.ModifierLoader;
 
 public class ModifierPanel extends JPanel {
      
@@ -120,6 +121,8 @@ public class ModifierPanel extends JPanel {
                 Filters.saveFilters();
             }
         }
+        
+        ModifierLoader.loadModifiers();
     }
 }
 
@@ -176,15 +179,11 @@ class CloseMPButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-//                parent.filterbase.print();
                 parent.parent.parent.requestFocusInWindow();
-                parent.parent.modifierpanels.remove(parent);
+                boolean b = parent.parent.modifierpanels.remove(parent);
                 parent.filterbase.mods.remove(parent.mod);
                 FilterTypePanel.reshow();
                 parent.setVisible(false);
-                
-                
-//                parent.filterbase.print();
         
                 Filters.saveFilters();
             }
@@ -244,34 +243,7 @@ class MPMinMax extends JTextField {
         
         addFocusListener(new FListener(this, this.placeholder));
                 
-        addKeyListener(new KeyListener()
-        {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == 10)
-                {
-                    parent.requestFocusInWindow();
-                }
-            }
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
-        });
-        
-        addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent ke) {
-                if (ke.getKeyChar() == 8 || (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')) {
-                   setEditable(true);
-                } else {
-                   setEditable(false);
-                }
-            }
-        });
+        addKeyListener(new NumFieldKeyListener());
     }
     
     public void focusGained()

@@ -21,8 +21,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 import java.io.File;
 import crafting.filtertypes.FilterBase;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import crafting.filtertypes.Mod;
 
@@ -42,7 +40,8 @@ public class FilterTypePanel extends JPanel {
     public TypeLabel typelabel;
     public NumLabel numlabel;
     public DropdownButton dropdown;
-    public Min min;
+    public MinMax min;
+    public MinMax max;
     public AddButton addbutton;
     public boolean minMaxEnabled = false;
     
@@ -77,7 +76,8 @@ public class FilterTypePanel extends JPanel {
         typelabel = new TypeLabel(this);
         numlabel = new NumLabel(this);
         dropdown = new DropdownButton(this);
-        min = new Min(this, " min");
+        min = new MinMax(this, "min", "min");
+        max = new MinMax(this, "max", "min");
         addbutton = new AddButton(this);
         
         add(closeButton, Box.LEFT_ALIGNMENT);
@@ -88,9 +88,12 @@ public class FilterTypePanel extends JPanel {
         add(Box.createRigidArea(new Dimension(9,0)), Box.RIGHT_ALIGNMENT);
         add(min, Box.RIGHT_ALIGNMENT);
         add(Box.createRigidArea(new Dimension(9,0)), Box.RIGHT_ALIGNMENT);
+        add(max, Box.RIGHT_ALIGNMENT);
+        add(Box.createRigidArea(new Dimension(9,0)), Box.RIGHT_ALIGNMENT);
         add(addbutton, Box.RIGHT_ALIGNMENT);
         add(Box.createRigidArea(new Dimension(9,0)), Box.RIGHT_ALIGNMENT);
         add(dropdown, Box.RIGHT_ALIGNMENT);
+        add(Box.createRigidArea(new Dimension(4,0)), Box.RIGHT_ALIGNMENT);
         addRemMinMax();
         
         MouseListener mouseListener = new MouseListener() {
@@ -120,8 +123,16 @@ public class FilterTypePanel extends JPanel {
         if (type.equals("Count"))
         {
             Count c = (Count) this.filterbase;
-            min.setText(String.valueOf(c.needed));
-            min.setForeground(new Color(255,255,255));
+            if (c.neededMin != -100000)
+            {
+                min.setText(String.valueOf(c.neededMin));
+                min.setForeground(new Color(255,255,255));
+            }
+            if (c.neededMax != 100000)
+            {
+                max.setText(String.valueOf(c.neededMax));
+                max.setForeground(new Color(255,255,255));
+            }
         }
         
         addMouseListener(mouseListener);
@@ -169,15 +180,18 @@ public class FilterTypePanel extends JPanel {
         if (type.equals("Count"))
         {
             min.setInView(true);
+            max.setInView(true);
             minMaxEnabled = true;
         }
         else
         {
             min.setInView(false);
+            max.setInView(false);
             min.setText("");
+            max.setText("");
             minMaxEnabled = false;
         }
-        typelabel.setPreferredSize(new Dimension((int) (getWidth() * 0.74),(int) ((32))));
+        typelabel.setPreferredSize(new Dimension((int) (getWidth() * 0.4),(int) ((32))));
     }
     
     public void remove()
@@ -254,11 +268,12 @@ public class FilterTypePanel extends JPanel {
                     filterbase = new Not(modsToAdd);
                     break;
                 case "Count":
-                    filterbase = new Count(1, modsToAdd);
+                    filterbase = new Count(-100000, 100000, modsToAdd);
                     break;
             }
             
             filter.filters.set(index, filterbase);
+            Filters.saveFilters();
         }        
     }
     
@@ -435,12 +450,20 @@ class DropdownButton extends JButton {
     }
 }
 
-class Min extends JTextField {
-    public String placeholder;
+class MinMax extends JTextField {
     
-    public Min(FilterTypePanel parent, String placeholder)
-    {
+    public String placeholder;
+    public FilterTypePanel parent;
+    
+    public MinMax(FilterTypePanel parent, String placeholder, String placeholderName)
+    {   
+        if (placeholder.contains("100000"))
+        {
+            placeholder = placeholderName;
+        }
         this.placeholder = placeholder;
+        this.parent = parent;
+        
         setText(placeholder);
         setFont(parent.frame.getNewFont(14));
         setBackground(new Color(0,0,0));
@@ -448,62 +471,55 @@ class Min extends JTextField {
         setVisible(false);
         setHorizontalAlignment(SwingConstants.CENTER);
         setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.07),parent.getHeight()));
+        setMinimumSize(new Dimension((int) (parent.getWidth() * 0.07),parent.getHeight()));
+        setMaximumSize(new Dimension((int) (parent.getWidth() * 0.07),parent.getHeight()));
         
         addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) {
-                if (getText().equals(placeholder)) {
-                    setText("");
-                    setForeground(new Color(255,255,255));
-                }
+            public void focusGained(FocusEvent e)
+            {
+                focusGain();
             }
             @Override
-            public void focusLost(FocusEvent e) {
-                if (getText().isEmpty()) {
-                    setText(placeholder);
-                    setForeground(new Color(120,120,120));
-                }
-                
-                if (parent.filterbase.getClass().getSimpleName().equals("Count"))
-                {
-                    Count c = (Count) parent.filterbase;
-                    c.needed = Integer.valueOf(getText());
-                    parent.filterbase = c;
-                    Filters.saveFilters();
-                }
+            public void focusLost(FocusEvent e)
+            {
+                focusLoss();
             }
         });
-                
-        KeyListener keyListener = new KeyListener()
+        
+        addKeyListener(new NumFieldKeyListener());
+    }
+    
+    protected void focusGain()
+    {
+        if (getText().equals(placeholder)) {
+            setText("");
+            setForeground(new Color(255,255,255));
+        }
+    }
+    
+    protected void focusLoss()
+    {
+        if (getText().isEmpty()) {
+            setText(placeholder);
+            setForeground(new Color(120,120,120));
+        }
+
+        if (this.parent.filterbase.getClass().getSimpleName().equals("Count"))
         {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == 10)
-                {
-                    parent.requestFocusInWindow();
-                }
-            }
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-            }
-        };
-        
-        addKeyListener(keyListener);
-        
-        addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent ke) {
-                if (ke.getKeyChar() == 8 || (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9')) {
-                   setEditable(true);
-                } else {
-                   setEditable(false);
-                }
-            }
-        });
+            Count c = (Count) parent.filterbase;
+            if (!parent.min.getText().isEmpty() && !parent.min.getText().equals("min"))
+                c.neededMin = Integer.valueOf(parent.min.getText());
+            else
+                c.neededMin = -100000;
+            if (!parent.max.getText().isEmpty() && !parent.max.getText().equals("max"))
+                c.neededMax = Integer.valueOf(parent.max.getText());
+            else
+                c.neededMax = 100000;
+            parent.filterbase = c;
+            Filters.saveFilters();
+        }
     }
     
     public void setInView(boolean show)
