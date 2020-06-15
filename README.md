@@ -52,14 +52,14 @@ No, it's not perfect. Error comes from network instability. For example, the too
 Yes! The tool is entirely stand-alone. However, the .jar and the "src" folder **must** remain in the same directory. Check above for steps in creating a shortcut to open the .jar.
 
 # Roadmap
-- Sandbox mode for testing filters on already crafted items **Done, will be released in official release**
-- Add map support (modifiers done. Need to add quantity: #% support). **Done, will be released in official release**
-- Add max for count logic group **Done, will be released in official release**
-- Bug: #% to all resistances is not supported **Done, will be released in official release**
-- Optimize search box for modifiers **Done, will be released in official release**
-- Bug: Text fields for count, min/max being weird **Done, will be released in official release**
-- Request: Support for AltGr instead of Ctrl **Done, will be released in official release. I have no way to test this, but I strongly believe it is functional**
-- Request: Customizable sound / volume **Done, will be released in official release**
+- Sandbox mode for testing filters on already crafted items **Done, will be available in official release**
+- Add map support (modifiers done. Need to add quantity: #% support). **Done, will be available in official release**
+- Add max for count logic group **Done, will be available in official release**
+- Bug: #% to all resistances is not supported **Done, will be available in official release**
+- Optimize search box for modifiers **Done, will be available in official release**
+- Bug: Text fields for count, min/max being weird **Done, will be available in official release**
+- Request: Support for AltGr instead of Ctrl **Done, will be available in official release. I have no way to test this, but I strongly believe it is functional**
+- Request: Customizable sound / volume **Done, will be available in official release**
 - Request: Some sort of in-tool docs on how to use
 - Request: Be able to type "flaring"/"merciless" or the actual mod name in filters to make creating filters easier
 - Request: Create a popup when it hits the filter to prevent roll-overs. This will be toggleable
