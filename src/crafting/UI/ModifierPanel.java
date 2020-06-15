@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.KeyAdapter;
 import javax.swing.*;
 import java.io.File;
+import poeitem.ModifierLoader;
 
 public class ModifierPanel extends JPanel {
      
@@ -120,6 +121,8 @@ public class ModifierPanel extends JPanel {
                 Filters.saveFilters();
             }
         }
+        
+        ModifierLoader.loadModifiers();
     }
 }
 

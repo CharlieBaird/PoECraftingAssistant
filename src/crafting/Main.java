@@ -645,7 +645,7 @@ public class Main extends javax.swing.JFrame {
             
             if (loaded == null) // Errored, wrong serial ID
             {
-                JOptionPane.showMessageDialog(null, "Invalid Filter", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Filter", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 

@@ -45,12 +45,24 @@ public class Utility {
     public static String copy() throws AWTException, UnsupportedFlavorException, IOException
     {
         Robot bot = new Robot();
-        bot.keyPress(KeyEvent.VK_CONTROL);
+        try {
+            bot.keyPress(Settings.singleton.ctrlKey);
+        } catch (IllegalArgumentException ex) {
+            if (Settings.singleton.ctrlKey == KeyEvent.VK_CONTROL)
+            {
+                JOptionPane.showMessageDialog(Main.mainFrame, "Unable to fire the CTRL key.\nTry changing to the ALTGR key in settings.", "Failure", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(Main.mainFrame, "Unable to fire the ALTGR key.\nTry changing to the CTRL key in settings.", "Failure", JOptionPane.ERROR_MESSAGE);
+            }
+            return null;
+        }
         delay(10);
         bot.keyPress(KeyEvent.VK_C); 
         delay(5);
         bot.keyRelease(KeyEvent.VK_C); 
-        bot.keyRelease(KeyEvent.VK_CONTROL); 
+        bot.keyRelease(Settings.singleton.ctrlKey); 
         delay(5);
         Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
         bot = null;
@@ -78,7 +90,7 @@ public class Utility {
             clip = AudioSystem.getClip();
         } catch (LineUnavailableException ex) {
             playPrebuiltSound();
-            JOptionPane.showMessageDialog(null, "An error occurred with your custom sound."
+            JOptionPane.showMessageDialog(Main.mainFrame, "An error occurred with your custom sound."
                     + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -87,12 +99,12 @@ public class Utility {
             ais = AudioSystem.getAudioInputStream(clipFile);
         } catch (UnsupportedAudioFileException ex) {
             playPrebuiltSound();
-            JOptionPane.showMessageDialog(null, "An error occurred. The audio file you have selected is in the wrong format. Please use the .wav format."
+            JOptionPane.showMessageDialog(Main.mainFrame, "An error occurred. The audio file you have selected is in the wrong format. Please use the .wav format."
                     + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         } catch (IOException ex) {
             playPrebuiltSound();
-            JOptionPane.showMessageDialog(null, "Your sound file could not found. Please check the path again."
+            JOptionPane.showMessageDialog(Main.mainFrame, "Your sound file could not found. Please check the path again."
                     + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -101,7 +113,7 @@ public class Utility {
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 //            gainControl.setValue((float) ((float) Settings.singleton.volume-50f)/8.3f);
             double volToSet = map(0,100,gainControl.getMinimum(),gainControl.getMaximum(),Settings.singleton.volume);
-            System.out.println("volToSet: " + volToSet);
+//            System.out.println("volToSet: " + volToSet);
             gainControl.setValue((float) volToSet);
             
 
@@ -114,7 +126,7 @@ public class Utility {
             clip.start();
         } catch (LineUnavailableException | NullPointerException | IOException ex) {
             playPrebuiltSound();
-            JOptionPane.showMessageDialog(null, "An error occurred, and the sound could not be played. The file might be corrupted."
+            JOptionPane.showMessageDialog(Main.mainFrame, "An error occurred, and the sound could not be played. The file might be corrupted."
                     + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }

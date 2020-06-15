@@ -102,7 +102,7 @@ public class Filters implements Serializable {
             }
             if (mods == null)
             {
-                JOptionPane.showMessageDialog(null, "Failed to access clipboard", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(Main.mainFrame, "Failed to access clipboard", "Error", JOptionPane.ERROR_MESSAGE);
                 PoECraftingAssistant.stop();
                 return false;
             }
@@ -115,13 +115,15 @@ public class Filters implements Serializable {
         
         if (item == null)
         {
-            JOptionPane.showMessageDialog(null, "Item could not be copied", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Main.mainFrame, "Item could not be copied", "Error", JOptionPane.ERROR_MESSAGE);
             PoECraftingAssistant.stop();
             return false;
         }
         if (!debug) savedModsRaw = mods;
         
 //        if (debug) item.print();
+
+//        item.print();
         
         return item.hitFilters(singleton);
     }

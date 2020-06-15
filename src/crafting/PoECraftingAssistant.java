@@ -140,7 +140,7 @@ public class PoECraftingAssistant {
         Filters.prepItemLoad();
         if (!Filters.verify())
         {
-            JOptionPane.showMessageDialog(null, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         run = true;
@@ -155,7 +155,7 @@ public class PoECraftingAssistant {
         Filters.prepItemLoad();
         if (!Filters.verify())
         {
-            JOptionPane.showMessageDialog(null, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
@@ -172,11 +172,11 @@ public class PoECraftingAssistant {
             Filters.testMods = raw;
             if (Filters.checkIfHitOne(true))
             {
-                JOptionPane.showMessageDialog(null, "The item hit the filter!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(Main.mainFrame, "The item hit the filter!", "Success", JOptionPane.INFORMATION_MESSAGE);
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "The item did not hit the filter.", "Failure", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(Main.mainFrame, "The item did not hit the filter.", "Failure", JOptionPane.ERROR_MESSAGE);
             }
         }
         

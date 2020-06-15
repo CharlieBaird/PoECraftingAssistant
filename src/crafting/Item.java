@@ -8,8 +8,6 @@ public class Item extends PoEItem {
     
     public static Item createItem(String raw)
     {
-        Modifier.genPseudo();
-        
         if (raw == null || (!raw.contains("Rarity: Normal") && !raw.contains("Rarity: Magic") && !raw.contains("Rarity: Rare"))) return null;
         else return new Item(raw);
     }
