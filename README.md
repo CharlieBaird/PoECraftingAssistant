@@ -6,8 +6,7 @@ A lightweight and intuitive crafting assistant for Path of Exile. This tool was 
 The Crafting Assistant comes with a UI to assist users in creating filters. This program is entirely standalone, and does not come with an installer. It runs off of a single .jar file, using resources that come in the downloaded folder. Currently it is only tested and functional on Windows 10 with 16:9 monitors. Support for other aspect ratios and other platforms may come in the future.
 
 # Download
-Simple compressed .zip with all necessary files: [PoECraftingAssistant](https://www.mediafire.com/file/uj3xcicthxt4rhj/PoECraftingAssistant.zip/file "Download").\
-To open, double click the downloaded .jar file. **NOTE:** The files included in this folder **must** remain in this directory for the tool to work properly. Look below for steps in creating a shortcut to run the Assistant.
+Only alpha versions have been released; the download is no longer available. A new download will be created when the tool is in a more stable and improved state.
 
 # Getting Started
 
