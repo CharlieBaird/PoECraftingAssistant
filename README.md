@@ -7,6 +7,7 @@ The Crafting Assistant comes with a UI to assist users in creating filters. This
 
 # Download
 Only alpha versions have been released; the download is no longer available. A new download will be created when the tool is in a more stable and improved state for the official release.
+It is not recommended to try and run the tool from the source code, but you may try if you want.
 
 # Getting Started
 
