@@ -21,6 +21,18 @@ https://youtu.be/3w9q7ZIyEKU
 ## Opening
 You should be able to simply double click the downloaded .jar file. If this does not work, try following these [instructions](https://imgur.com/a/hBRzCT5 "Instructions"). If it throws an error/exception, please create an issue on the GitHub page.
 
+## Configuring Delay
+### **THIS IS AN EXTREMELY IMPORTANT STEP. THE TOOL WILL NOT WORK AS EXPECTED IF NOT ADJUSTED CORRECTLY TO YOUR IN-GAME PING.**
+### **IF THE TOOL SEEMS TO NOT BE DETECTING WHEN FILTERS HAVE HIT, IT IS MOST LIKELY BECAUSE THIS VALUE IS TOO LOW. ADJUST AND TEST BEFORE YOU TRUST IT.**
+
+Press F1 while in-game to view your ping to the server you are connected to. Alternatively, logout and it will show you your ping value in the login screen where it asks you to select a server.
+
+To adjust the delay, click the gear in the bottom right. *If you are mid-range, I would strongly suggest rounding up. The higher your ping is, the slower you must craft.*
+|   Ping In PoE: (ms)  	|           	| 10 	| 20 	| 30 	| 40 	| 50 	|  60 	|  80 	| 100 	| 120 	| 140 	| 200 	|
+|:----------------:	|:---------:	|:--:	|:--:	|:--:	|:--:	|:--:	|:---:	|:---:	|:---:	|:---:	|:---:	|:---:	|
+| Suggested Delay: (ms) 	|  Stable Internet:  	| 18 	| 27 	| 36 	| 48 	| 58 	|  72 	|  96 	| 120 	| 144 	| 192 	| 240 	|
+|                  	| Unstable Internet: 	| 27 	| 40 	| 54 	| 72 	| 87 	| 108 	| 144 	| 180 	| 216 	| 288 	| 360 	|
+
 ## Creating Filters
 Once the program is opened, you are presented with the GUI that all the filter creation is done in. To start, create a new filter by clicking the "New" button in the top left of the window. You will be prompted to name your new filter. After clicking "ok," you can rename this at any time by simply clicking the name of your filter in the top left. To create a new subfilter for this filter, click the white "+" button to the right of your new filter. A new subfilter appears. To edit this subfilter, click the white arrow to the right of the subfilter. By doing so, a new "And" logic group appears on the right side of the window.
 
