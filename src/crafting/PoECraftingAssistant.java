@@ -5,6 +5,9 @@ import static crafting.Utility.*;
 import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -159,8 +162,11 @@ public class PoECraftingAssistant {
         }
         run = true;
         
+        StringSelection selection = new StringSelection("hi");
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(selection, selection);
+        
         while (!establishMouseHook());
-//        while (!establishKeyboardHook());
         Main.setChaosIcon(main.getClass().getResource("/resources/images/chaosrun.png"));
     }
     
