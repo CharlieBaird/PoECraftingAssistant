@@ -1,5 +1,6 @@
 package crafting;
 
+import static crafting.Main.mainFrame;
 import static crafting.Utility.*;
 import java.awt.Color;
 import java.awt.MouseInfo;
@@ -43,7 +44,7 @@ public class PoECraftingAssistant {
     public static boolean run = true;
     
     public static GlobalMouseHook mouseHook = null;
-    public static GlobalKeyboardHook keyHook = null;
+    public static GlobalKeyboardHook hotkeyHook = null;
     
     private static boolean ignore = false;
     
@@ -104,6 +105,8 @@ public class PoECraftingAssistant {
     
     private static void showPopup()
     {
+        ignore = true;
+        
         popup = new JFrame();
         popup.setUndecorated(true);
         popup.setSize(100,100);
@@ -117,39 +120,18 @@ public class PoECraftingAssistant {
         popup.setLocation(pos.x - popup.getWidth()/2, pos.y - popup.getHeight()/2);
         popup.setAlwaysOnTop(true);
         popup.setVisible(true);
-        Utility.delay(2000);
-        popup.dispose();
-    }
-    
-    public static boolean establishKeyboardHook()
-    {
-        boolean success = true;
-        try {
-            if (keyHook != null) keyHook.shutdownHook();
-            
-            keyHook = new GlobalKeyboardHook();
-            
-            keyHook.addKeyListener(new GlobalKeyAdapter() {
-                @Override 
-                public void keyPressed(GlobalKeyEvent event) {
-                    if (event.getVirtualKeyCode() == 192) {
-                        ignore = true;
-                    }
-                }
-			
-                @Override 
-                public void keyReleased(GlobalKeyEvent event) {
-                    if (event.getVirtualKeyCode() == 192) {
-                        ignore = false;
-                    }
-                }
-            });
-        } catch (RuntimeException | UnsatisfiedLinkError e) {
-            System.out.println("Failed");
-            success = false;
-        }
         
-        return success;
+        
+        new Thread( new Runnable() {
+        @Override
+        public void run()  {
+            try  { Thread.sleep( 2000 ); }
+            catch (InterruptedException ie)  {}
+            popup.dispose();
+            ignore = false;
+        }
+    } ).start();
+        
     }
     
     private static boolean onSwingWindow()
@@ -175,14 +157,17 @@ public class PoECraftingAssistant {
         if (mouseHook != null)
             mouseHook.shutdownHook();
         mouseHook = null;
-        if (keyHook != null)
-            keyHook.shutdownHook();
-        keyHook = null;
         Main.setChaosIcon(Main.mainFrame.getClass().getResource("/resources/images/chaos.png"));
     }
         
     public static void runChaosSpam(Main main)
     {
+        if (mouseHook != null)
+        {
+            PoECraftingAssistant.stop();
+            return;
+        }
+        
         Filters.prepItemLoad();
         if (!Filters.verify())
         {
@@ -192,7 +177,7 @@ public class PoECraftingAssistant {
         run = true;
         
         while (!establishMouseHook());
-        while (!establishKeyboardHook());
+//        while (!establishKeyboardHook());
         Main.setChaosIcon(main.getClass().getResource("/resources/images/chaosrun.png"));
     }
     
@@ -222,4 +207,49 @@ public class PoECraftingAssistant {
         
             
     }
+    
+    
+    public static boolean establishHotkeyHook()
+    {
+        boolean success = true;
+        try {
+            if (hotkeyHook != null) hotkeyHook.shutdownHook();
+            
+            hotkeyHook = new GlobalKeyboardHook();
+            
+            hotkeyHook.addKeyListener(new GlobalKeyAdapter() {
+                @Override 
+                public void keyPressed(GlobalKeyEvent event) {
+                    if (event.getKeyChar()=='1' && event.isControlPressed()) {
+                        runChaosSpam(Main.mainFrame);
+                    }
+                }
+			
+                @Override 
+                public void keyReleased(GlobalKeyEvent event) {
+                }
+            });
+        } catch (RuntimeException | UnsatisfiedLinkError e) {
+            System.out.println("Failed");
+            success = false;
+        }
+        
+        return success;
+    }
+    
+    public static void establishHotkeyShortcut()
+    {
+        while (!establishHotkeyHook());
+    }
+
+    public static void shutdownAll() {
+        
+        if (mouseHook != null)
+            mouseHook.shutdownHook();
+        mouseHook = null;
+        if (hotkeyHook != null)
+            hotkeyHook.shutdownHook();
+        hotkeyHook = null;
+    }
+    
 }

@@ -148,7 +148,7 @@ public class Settings implements Serializable {
         
         Object[] message = {
             "Show popup on filter hit", showPopupBox,
-            "Disable tool on filter hit", disableOnHitBox,
+            "Disable on filter hit", disableOnHitBox,
             "Delay after left click to run Ctrl+C:", delayField,
             "Sound to play on filter hit:", pathToSoundField,
             "Volume: (0-100)", volumeField,

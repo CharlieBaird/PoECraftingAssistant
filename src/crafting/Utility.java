@@ -10,7 +10,6 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyEvent;
 import java.io.BufferedInputStream;
@@ -79,6 +78,7 @@ public class Utility {
             JOptionPane.showMessageDialog(Main.mainFrame, "An error occurred while trying to access the clipboard.", "Failure", JOptionPane.ERROR_MESSAGE);
             System.out.println(e);
         }
+        
         return cc;
     }
     
