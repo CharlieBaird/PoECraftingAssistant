@@ -113,6 +113,8 @@ public class Settings implements Serializable {
     public int volume = 80;
     public int ctrlKey = KeyEvent.VK_CONTROL; // left control
     public boolean invertTool = false;
+    public boolean showPopup = true;
+    public boolean disableOnHit = true;
     
     public void OpenSettings()
     {
@@ -138,7 +140,15 @@ public class Settings implements Serializable {
         JCheckBox invertToolBox = new JCheckBox();
         invertToolBox.setSelected(invertTool);
         
+        JCheckBox showPopupBox = new JCheckBox();
+        showPopupBox.setSelected(showPopup);
+        
+        JCheckBox disableOnHitBox = new JCheckBox();
+        disableOnHitBox.setSelected(disableOnHit);
+        
         Object[] message = {
+            "Show popup on filter hit", showPopupBox,
+            "Disable tool on filter hit", disableOnHitBox,
             "Delay after left click to run Ctrl+C:", delayField,
             "Sound to play on filter hit:", pathToSoundField,
             "Volume: (0-100)", volumeField,
@@ -149,6 +159,8 @@ public class Settings implements Serializable {
         int n = JOptionPane.showConfirmDialog(Main.mainFrame, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
         if (n == JOptionPane.OK_OPTION)
         {
+            Settings.singleton.showPopup = showPopupBox.isSelected();
+            Settings.singleton.disableOnHit = disableOnHitBox.isSelected();
             Settings.singleton.delay = Integer.valueOf(delayField.getText());
             Settings.singleton.pathToSound = pathToSoundField.getText();
             if (Integer.valueOf(volumeField.getText()) <= 100 && Integer.valueOf(volumeField.getText()) >= 0)

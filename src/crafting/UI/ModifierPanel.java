@@ -92,7 +92,6 @@ public class ModifierPanel extends JPanel {
         JPanel msgPanel = new JPanel();
         msgPanel.add(sb);
         
-//        JOptionPane message = new JOptionPane(this, sb, "PoE Crafting Assistant", JOptionPane.PLAIN_MESSAGE, null) {
         JOptionPane message = new JOptionPane(msgPanel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION) {
             @Override
             public void selectInitialValue() {

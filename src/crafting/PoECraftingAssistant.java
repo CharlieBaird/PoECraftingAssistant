@@ -1,10 +1,17 @@
 package crafting;
 
 import static crafting.Utility.*;
+import java.awt.Color;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import lc.kra.system.keyboard.GlobalKeyboardHook;
 import lc.kra.system.keyboard.event.GlobalKeyAdapter;
 import lc.kra.system.keyboard.event.GlobalKeyEvent;
@@ -17,7 +24,6 @@ import poeitem.ModifierLoader;
 public class PoECraftingAssistant {
     
     public static boolean debug = false;
-    
     
     public static void main(String[] args)
     {
@@ -40,6 +46,8 @@ public class PoECraftingAssistant {
     public static GlobalKeyboardHook keyHook = null;
     
     private static boolean ignore = false;
+    
+    private static JFrame popup;
     
     public static boolean establishMouseHook()
     {
@@ -67,6 +75,8 @@ public class PoECraftingAssistant {
                             if (b)
                             {
                                 Utility.playHitSound();
+                                if (Settings.singleton.showPopup) showPopup();
+                                if (Settings.singleton.disableOnHit) stop();
                             }
                         }
                         else
@@ -75,9 +85,12 @@ public class PoECraftingAssistant {
                             {
                                 Utility.playHitSound();
                             }
+                            else
+                            {
+                                if (Settings.singleton.showPopup) showPopup();
+                                if (Settings.singleton.disableOnHit) stop();
+                            }
                         }
-                        
-                        
                     }
                 }
             });
@@ -87,6 +100,25 @@ public class PoECraftingAssistant {
         }
         
         return success;
+    }
+    
+    private static void showPopup()
+    {
+        popup = new JFrame();
+        popup.setUndecorated(true);
+        popup.setSize(100,100);
+        
+        JPanel panel = new JPanel();
+        panel.setSize(120,120);
+        panel.setBackground(new Color(80,80,80));
+        popup.add(panel);
+        
+        Point pos = MouseInfo.getPointerInfo().getLocation();
+        popup.setLocation(pos.x - popup.getWidth()/2, pos.y - popup.getHeight()/2);
+        popup.setAlwaysOnTop(true);
+        popup.setVisible(true);
+        Utility.delay(2000);
+        popup.dispose();
     }
     
     public static boolean establishKeyboardHook()
@@ -122,12 +154,19 @@ public class PoECraftingAssistant {
     
     private static boolean onSwingWindow()
     {
-        if (!Main.mainFrame.isActive() || !Main.mainFrame.isFocused())
+        if (popup != null)
         {
-            return false;
+            if (Main.mainFrame.isActive() || Main.mainFrame.isFocused() || popup.isVisible())
+            {
+                return true;
+            }
+        }
+        else if (Main.mainFrame.isActive() || Main.mainFrame.isFocused())
+        {
+            return true;
         }
         
-        return true;
+        return false;
     }
     
     public static void stop()
