@@ -874,7 +874,7 @@ public class Main extends javax.swing.JFrame {
     
     private void genPanel(Filter filter)
     {
-        if (Filters.singleton.filters.size() <= 10)
+        if (Filters.singleton.filters.size() <= 12)
         {
             new FilterNamePanel(this, jPanel6, filter);
         }
