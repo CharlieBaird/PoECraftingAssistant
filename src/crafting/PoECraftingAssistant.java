@@ -69,28 +69,11 @@ public class PoECraftingAssistant {
                         
                         delay(Settings.singleton.delay + 35);
                         
-                        boolean b = Filters.checkIfHitOne(debug);
-                        
-                        if (!Settings.singleton.invertTool) // act normal
+                        if(Filters.checkIfHitOne(debug))
                         {
-                            if (b)
-                            {
-                                Utility.playHitSound();
-                                if (Settings.singleton.showPopup) showPopup();
-                                if (Settings.singleton.disableOnHit) stop();
-                            }
-                        }
-                        else
-                        {
-                            if (!b)
-                            {
-                                Utility.playHitSound();
-                            }
-                            else
-                            {
-                                if (Settings.singleton.showPopup) showPopup();
-                                if (Settings.singleton.disableOnHit) stop();
-                            }
+                            Utility.playHitSound();
+                            if (Settings.singleton.showPopup) showPopup();
+                            if (Settings.singleton.disableOnHit) stop();
                         }
                     }
                 }

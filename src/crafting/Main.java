@@ -25,6 +25,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -990,6 +991,23 @@ public class Main extends javax.swing.JFrame {
         jPanel14.addMouseListener(new MouseFocusListener(jPanel14));
         
         establishHotkeyShortcut();
+        
+        this.addWindowFocusListener(new WindowFocusListener() {
+        @Override
+        public void windowGainedFocus(WindowEvent e) {
+            if (e.getOppositeWindow() == null) {
+                if (Settings.singleton.disableOnFocus)
+                    PoECraftingAssistant.stop();
+            }
+        }
+
+        @Override
+        public void windowLostFocus(WindowEvent e) {
+            if (e.getOppositeWindow() != null) {
+                PoECraftingAssistant.stop();
+            }
+        }
+    });
     }
     
     public static Main mainFrame = null;

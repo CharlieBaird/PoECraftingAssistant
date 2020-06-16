@@ -112,9 +112,10 @@ public class Settings implements Serializable {
     public String pathToSound = Utility.getResourcesPath() + "/src/resources/HitSFX1.wav";
     public int volume = 80;
     public int ctrlKey = KeyEvent.VK_CONTROL; // left control
-    public boolean invertTool = false;
+//    public boolean invertTool = false;
     public boolean showPopup = true;
     public boolean disableOnHit = true;
+    public boolean disableOnFocus = false;
     
     public void OpenSettings()
     {
@@ -137,8 +138,8 @@ public class Settings implements Serializable {
 //        JCheckBox useAltGr = new JCheckBox();
 //        useAltGr.setSelected(ctrlKey != KeyEvent.VK_CONTROL);
 
-        JCheckBox invertToolBox = new JCheckBox();
-        invertToolBox.setSelected(invertTool);
+//        JCheckBox invertToolBox = new JCheckBox();
+//        invertToolBox.setSelected(invertTool);
         
         JCheckBox showPopupBox = new JCheckBox();
         showPopupBox.setSelected(showPopup);
@@ -146,13 +147,17 @@ public class Settings implements Serializable {
         JCheckBox disableOnHitBox = new JCheckBox();
         disableOnHitBox.setSelected(disableOnHit);
         
+        JCheckBox disableOnFocusBox = new JCheckBox();
+        disableOnFocusBox.setSelected(disableOnFocus);
+        
         Object[] message = {
             "Show popup on filter hit", showPopupBox,
             "Disable on filter hit", disableOnHitBox,
             "Delay after left click to run Ctrl+C:", delayField,
             "Sound to play on filter hit:", pathToSoundField,
             "Volume: (0-100)", volumeField,
-            "Invert tool to ping on not hitting the filter", invertToolBox
+//            "Invert tool to ping on not hitting the filter", invertToolBox,
+            "Disable tool on window focus", disableOnFocusBox
 //            "Use \"AltGr\" instead of \"Ctrl\" (For non-UK/American keyboards)", useAltGr
         };
 
@@ -167,7 +172,8 @@ public class Settings implements Serializable {
                 Settings.singleton.volume = Integer.valueOf(volumeField.getText());
             else
                 Settings.singleton.volume = 80;
-            Settings.singleton.invertTool = invertToolBox.isSelected();
+//            Settings.singleton.invertTool = invertToolBox.isSelected();
+            Settings.singleton.disableOnFocus = disableOnFocusBox.isSelected();
             
 //            if (useAltGr.isSelected())
 //                Settings.singleton.ctrlKey = KeyEvent.ctrl
