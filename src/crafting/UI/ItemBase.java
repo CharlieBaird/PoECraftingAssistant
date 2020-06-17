@@ -114,7 +114,15 @@ class ItemLevelField extends JTextField
     
     protected void focusLoss()
     {
-        ItemBase.SelectedItemLevel = Integer.valueOf(this.getText());
+        if (!getText().equals(""))
+        {
+            ItemBase.SelectedItemLevel = Integer.valueOf(this.getText());
+        }
+        else
+        {
+            setText("100");
+            ItemBase.SelectedItemLevel = 100;
+        }
     }
 }
 

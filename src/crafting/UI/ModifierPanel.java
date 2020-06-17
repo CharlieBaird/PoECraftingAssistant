@@ -17,7 +17,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.KeyAdapter;
 import javax.swing.*;
 import java.io.File;
+import poeitem.BaseItem;
 import poeitem.ModifierLoader;
+import poeitem.ModifierTier;
 
 public class ModifierPanel extends JPanel {
      
@@ -27,6 +29,7 @@ public class ModifierPanel extends JPanel {
     public Mod mod;
     public FilterTypePanel parent;
     
+    public TierComboBox tier;
     public MPMinMax min;
     public MPMinMax max;
     public ModLabel ml;
@@ -62,16 +65,16 @@ public class ModifierPanel extends JPanel {
         
         CloseMPButton cb = new CloseMPButton(this);
         ml = new ModLabel(this, mod.name);
-        
         min = new MPMinMax(this, String.valueOf(mod.ID.min), true);
         max = new MPMinMax(this, String.valueOf(mod.ID.max), false);
+        tier = new TierComboBox();
         
         add(cb, Box.LEFT_ALIGNMENT);
         add(Box.createRigidArea(new Dimension(15,0)), Box.LEFT_ALIGNMENT);
         add(ml, Box.LEFT_ALIGNMENT);
         
         add(Box.createHorizontalGlue());
-        
+        add(tier, Box.RIGHT_ALIGNMENT);
         add(min, Box.RIGHT_ALIGNMENT);
         add(max, Box.RIGHT_ALIGNMENT);
         
@@ -104,25 +107,76 @@ public class ModifierPanel extends JPanel {
         
         if (selected != null && !selected.toString().equals(""))
         {
-            Modifier m = Modifier.getExplicitFromStr(selected.toString());
-            if (m != null)
+            if (ItemBase.SelectedBase == null)
             {
-//                m.print();
-            
-                assocMod = m;
+                Modifier m = Modifier.getExplicitFromStr(selected.toString());
+                if (m != null)
+                {
+                    assocMod = m;
+                    mod.name = m.getStr();
+                    mod.assocModifier = assocMod;
+                    ml.setText(m.getStr());
+                    hideTierComboBox();
 
-                mod.name = m.getStr();
-                mod.assocModifier = assocMod;
-//                mod.updateMin();
+                    Filters.saveFilters();
+                }
+            }
+            else
+            {
+                Modifier m = BaseItem.getFromBase(ItemBase.SelectedBase).getExplicitFromStr(selected.toString());
+                if (m != null)
+                {
+                    assocMod = m;
+                    mod.name = m.getStr();
+                    mod.assocModifier = assocMod;
+                    ml.setText(m.getStr());
+                    
+                    showTierComboBox(m);
 
-                ml.setText(m.getStr());
-
-                Filters.saveFilters();
+                    Filters.saveFilters();
+                }
             }
         }
         
         ModifierLoader.loadModifiers();
     }
+    
+    public void showTierComboBox(Modifier m)
+    {
+        DefaultComboBoxModel model = new DefaultComboBoxModel(tier.modelToString(m));
+        if (model.getSize() == 0) return;
+        tier.setModel(model);
+        tier.setPrototypeDisplayValue(12);
+        tier.setVisible(true);
+    }
+    
+    public void hideTierComboBox()
+    {
+        
+    }
+}
+
+class TierComboBox extends JComboBox {
+    
+    public TierComboBox()
+    {
+        setVisible(false);
+    }
+    
+    public String[] modelToString(Modifier m)
+    {
+        ModifierTier[] tiers = m.getTiersWithLevel(ItemBase.SelectedItemLevel);
+        String[] tiersStr = new String[tiers.length];
+        int highest = m.getHighestHittableTier(ItemBase.SelectedItemLevel);
+        
+        for (int i=0; i<tiers.length; i++)
+        {
+            tiersStr[i] = "T" + (i + highest);
+        }
+        
+        return tiersStr;
+    }
+    
 }
 
 class ModMouseListener implements MouseListener {

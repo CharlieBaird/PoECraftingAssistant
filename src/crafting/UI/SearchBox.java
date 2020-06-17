@@ -44,6 +44,7 @@ public class SearchBox extends JComboBox
             }
         }
         setPrototypeDisplayValue(maxLength);
+        setMaximumRowCount(20);
         
         this.getEditor().getEditorComponent().addKeyListener(new KeyTypedListener(this));
         this.getEditor().getEditorComponent().addFocusListener(new ClickListener(this));
