@@ -30,7 +30,8 @@ hs_err_pid*
 **/nbproject/Makefile-*.mk
 **/nbproject/Package-*.bash
 PoECraftingAssistant/
-build/*
+build/
+build/build-jar.properties
 nbbuild/
 dist/*
 nbdist/

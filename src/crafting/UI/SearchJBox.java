@@ -15,24 +15,24 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
-import poeitem.BaseItem;
-import poeitem.Modifier.Type;
 
-public class SearchBox extends JComboBox
+public class SearchJBox extends JComboBox
 {
     ComboBoxModel defaultmodel;
+    public ItemBase parent;
     
     public String entry = "";
     public int caretPos = -1;
     
-    public SearchBox(Object[] types)
+    public SearchJBox(ItemBase parent, Object[] types)
     {
         super(types);
         this.setSelectedIndex(-1);
         setEditable(true);
         
+        this.parent = parent;
         defaultmodel = this.getModel();
-        this.setSelectedIndex(-1);
+        this.setSelectedIndex(0);
         
         String maxLength = "a";
         for (int i=0; i<getModel().getSize(); i++)
@@ -45,10 +45,11 @@ public class SearchBox extends JComboBox
         }
         setPrototypeDisplayValue(maxLength);
         
-        this.getEditor().getEditorComponent().addKeyListener(new KeyTypedListener(this));
-        this.getEditor().getEditorComponent().addFocusListener(new ClickListener(this));
+        this.getEditor().getEditorComponent().addKeyListener(new KeyTypedListenerSJB(this));
+        this.getEditor().getEditorComponent().addFocusListener(new ClickListenerSJB(this));
         
         this.setSelectedIndex(-1);
+
     }
     
     public void updateList()
@@ -63,7 +64,7 @@ public class SearchBox extends JComboBox
         showPopup();
     }
     
-    private String[] getCompatObjects()
+    protected String[] getCompatObjects()
     {
         ArrayList<Object> os = new ArrayList<>();
         for (int i=0; i<defaultmodel.getSize(); i++)
@@ -90,24 +91,16 @@ public class SearchBox extends JComboBox
         {
             Modifier m = typesList.get(i);
             if (
-                    (m.getModGenerationTypeID() != 1
+                    m.getModGenerationTypeID() != 1
                     && m.getModGenerationTypeID() != 2
                     && m.getModGenerationTypeID() != -2
                     && m.getModGenerationTypeID() != -1
                     && m.getModGenerationTypeID() != 0
-                    && m.getModGenerationTypeID() != -3) ||
-                    !m.isSearchable()
+                    && m.getModGenerationTypeID() != -3
                 )
             {
                 typesList.remove(m);
                 i--;
-                continue;
-            }
-            
-            if (ItemBase.SelectedBase != null && m.getType() == Type.EXPLICIT && (m.getModGenerationTypeID() == 1 || m.getModGenerationTypeID() == 2))
-            {
-                typesList.clear();
-                typesList.addAll(BaseItem.getFromBase(ItemBase.SelectedBase).assocModifiers);
             }
         }
         
@@ -120,11 +113,11 @@ public class SearchBox extends JComboBox
     }
 }
 
-class KeyTypedListener implements KeyListener
+class KeyTypedListenerSJB implements KeyListener
 {
-    SearchBox owner;
+    SearchJBox owner;
 
-    public KeyTypedListener(SearchBox owner)
+    public KeyTypedListenerSJB(SearchJBox owner)
     {
         this.owner = owner;
     }
@@ -141,12 +134,20 @@ class KeyTypedListener implements KeyListener
     @Override
     public void keyReleased(KeyEvent e)
     {
-        // Enter key should select one, hide dropdown, remove focus.
-         // Up / Down arrow for selecting should not update the list.
-        if (e.getKeyCode() == 10 || e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP)
+        
+        // Up / Down arrow for selecting should not update the list.
+        if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP)
         {
             e.consume();
         }
+        
+        // Enter key
+        else if (e.getKeyCode() == 10)
+        {
+            e.consume();
+//            Main.mainFrame.requestFocusInWindow();
+        }
+        
         // Ctrl + A
         // Credit to PR from https://github.com/JamesZoft
         else if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_A)
@@ -168,11 +169,11 @@ class KeyTypedListener implements KeyListener
     }
 }
 
-class ClickListener implements FocusListener
+class ClickListenerSJB implements FocusListener
 {
-    SearchBox owner;
+    SearchJBox owner;
     
-    public ClickListener(SearchBox owner)
+    public ClickListenerSJB(SearchJBox owner)
     {
         this.owner = owner;
     }
@@ -184,5 +185,22 @@ class ClickListener implements FocusListener
 
     @Override
     public void focusLost(FocusEvent e) {
+        if (owner.getSelectedIndex() == -1)
+        {
+            ((JTextField) owner.getEditor().getEditorComponent()).setText("");
+            owner.entry = "";
+            
+            String[] compat = owner.getCompatObjects();
+            DefaultComboBoxModel model = new DefaultComboBoxModel(compat);
+            owner.setModel(model);
+            
+            owner.setSelectedIndex(-1);
+            
+            ItemBase.SelectedBase = null;
+        }
+        else
+        {
+            ItemBase.SelectedBase = ItemBase.BaseTypes.get((String) owner.getSelectedItem());
+        }
     }
 }

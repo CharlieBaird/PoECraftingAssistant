@@ -16,13 +16,10 @@ FishingRod.
 Warstaff.
 BaseItemTypes&an=Crimson+Jewel.
 BaseItemTypes&an=Viridian+Jewel.
-BaseItemTypes&an=Viridian+Jewel.
-BaseItemTypes&an=Prismatic+Jewel.
 BaseItemTypes&an=Murderous+Eye+Jewel.
 BaseItemTypes&an=Searching+Eye+Jewel.
 BaseItemTypes&an=Hypnotic+Eye+Jewel.
 BaseItemTypes&an=Ghastly+Eye+Jewel.
-BaseItemTypes&an=Timeless+Jewel.
 BaseItemTypes&an=Large+Cluster+Jewel.
 BaseItemTypes&an=Medium+Cluster+Jewel.
 BaseItemTypes&an=Small+Cluster+Jewel.
