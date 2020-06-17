@@ -197,10 +197,12 @@ class ClickListenerSJB implements FocusListener
             owner.setSelectedIndex(-1);
             
             ItemBase.SelectedBase = null;
+            ModifierPanel.updateTierViews();
         }
         else
         {
             ItemBase.SelectedBase = ItemBase.BaseTypes.get((String) owner.getSelectedItem());
+            ModifierPanel.updateTierViews();
         }
     }
 }

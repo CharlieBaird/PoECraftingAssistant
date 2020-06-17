@@ -33,7 +33,6 @@ public class FilterNamePanel extends JPanel {
     
     public FilterNamePanel(Main frame, JPanel parent, Filter filter)
     {
-        
         String path = "src/resources";
         File file = new File(path);
         path = file.getAbsolutePath();

@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.KeyAdapter;
 import javax.swing.*;
 import java.io.File;
+import java.util.ArrayList;
 import poeitem.BaseItem;
 import poeitem.ModifierLoader;
 import poeitem.ModifierTier;
@@ -54,6 +55,8 @@ public class ModifierPanel extends JPanel {
             min = new MPMinMax(this, "min", true);
             max = new MPMinMax(this, "max", false);
         }
+        
+        assocMod = Modifier.getExplicitFromStr(mod.name);
         
         Dimension size = new Dimension((int) (parent.getWidth() * 0.95),(int) (40)); // 0.912
         setSize(size);
@@ -144,7 +147,11 @@ public class ModifierPanel extends JPanel {
     public void showTierComboBox(Modifier m)
     {
         DefaultComboBoxModel model = new DefaultComboBoxModel(tier.modelToString(m));
-        if (model.getSize() == 0) return;
+        if (model.getSize() == 0)
+        {
+            hideTierComboBox();
+            return;
+        }
         tier.setModel(model);
         tier.setPrototypeDisplayValue(12);
         tier.setVisible(true);
@@ -152,7 +159,72 @@ public class ModifierPanel extends JPanel {
     
     public void hideTierComboBox()
     {
+        tier.setVisible(false);
+        if (assocMod != null) assocMod = Modifier.getExplicitFromStr(assocMod.getStr());
+    }
+    
+    public Modifier updateDD()
+    {
+        Modifier thrownModifier = null;
         
+        if (ItemBase.SelectedBase != null)
+        {
+            if (assocMod != null)
+            {
+                Modifier result = BaseItem.getFromBase(ItemBase.SelectedBase).getExplicitFromStr(assocMod.getStr());
+                if (result != null)
+                {
+                    assocMod = result;
+                    showTierComboBox(assocMod);
+                }
+                else
+                {
+                    thrownModifier = assocMod;
+                }
+            }
+        }
+        else
+        {
+            hideTierComboBox();
+        }
+        
+        return thrownModifier;
+    }
+    
+    public static void updateTierViews() {
+        ArrayList<Modifier> errorModifiers = new ArrayList<>();
+        
+        for (FilterTypePanel ftp : FilterTypePanel.filtertypepanels)
+        {
+            for (ModifierPanel mp : ftp.modifierpanels)
+            {
+                if (mp.isVisible())
+                {
+                    Modifier m = mp.updateDD();
+                    if (m != null)
+                    {
+                        errorModifiers.add(m);
+                    }
+                }
+            }
+        }
+        System.out.println(errorModifiers.size());
+        if (errorModifiers.size() >= 1)
+        {
+            String errorMsg = genErrorMsg(errorModifiers);
+            JOptionPane.showMessageDialog(Main.mainFrame, errorMsg, "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    private static String genErrorMsg(ArrayList<Modifier> mods)
+    {
+        String s = "The following modifiers in your filters cannot be hit on Item Type \"" + ItemBase.SelectedBase + "\"\n";
+        for (int i=0; i<mods.size(); i++)
+        {
+            s += (i+1) + ". " + mods.get(0).getStr() + "\n";
+        }
+        
+        return s;
     }
 }
 

@@ -123,6 +123,8 @@ class ItemLevelField extends JTextField
             setText("100");
             ItemBase.SelectedItemLevel = 100;
         }
+        
+        ModifierPanel.updateTierViews();
     }
 }
 
