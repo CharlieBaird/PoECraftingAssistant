@@ -87,7 +87,6 @@ public class ModifierPanel extends JPanel {
         
         if (Filters.singleton.SelectedBase != null && assocMod != null)
         {
-//            assocMod.print();
             this.showTierComboBox(assocMod);
             this.updateDD();
             this.tier.manualUpdate(this.min.getText());
@@ -165,8 +164,6 @@ public class ModifierPanel extends JPanel {
             return;
         }
         tier.setModel(model);
-        
-        m.print();
         
         if (this.min.getText().equals("min") && model.getSize() >= 2)
         {
@@ -274,7 +271,7 @@ class TierComboBox extends JComboBox {
                {
                     String selection = (String) event.getItem();
                     if (selection.equals("Custom")) return;
-                    int tier = Integer.valueOf((selection).substring(1));
+                    int tier = Integer.valueOf((selection).substring(1,2));
                     setMin(tier);
                }
             }
@@ -304,7 +301,8 @@ class TierComboBox extends JComboBox {
         tiersStr[tiersStr.length-1] = "Custom";
         for (int i=0; i<tiers.length; i++)
         {
-            tiersStr[i] = "T" + (i + 1);
+            int val = (int) m.tiers.get(m.tiers.size()-1-i).getValue();
+            tiersStr[i] = "T" + (i + 1) /*+ " - " + val*/;
         }
         
         return tiersStr;
@@ -335,7 +333,6 @@ class TierComboBox extends JComboBox {
             {
                 if (this.getSelectedIndex() != assocModifier.tiers.size())
                 {
-                    System.out.println("SELECTED INDEX: " + this.getSelectedIndex());
                     setMin(this.getSelectedIndex()+1);
                     return;
                 }
@@ -465,6 +462,9 @@ class MPMinMax extends JTextField {
                 
         addKeyListener(new NumFieldKeyListener());
     }
+    
+    @Override
+    public void paste() {}
     
     public void focusGained()
     {

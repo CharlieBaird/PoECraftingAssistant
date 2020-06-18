@@ -121,7 +121,11 @@ public class Settings implements Serializable {
     {
         PoECraftingAssistant.stop();
         
-        JTextField delayField = new JTextField();
+        JTextField delayField = new JTextField()
+        {
+            @Override
+            public void paste() {}
+        };
         delayField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         delayField.setText(String.valueOf(Settings.singleton.delay));
         delayField.addKeyListener(new NumFieldKeyListener(false));
@@ -130,7 +134,11 @@ public class Settings implements Serializable {
         pathToSoundField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         pathToSoundField.setText(Settings.singleton.pathToSound);
         
-        JTextField volumeField = new JTextField();
+        JTextField volumeField = new JTextField()
+        {
+            @Override
+            public void paste() {}
+        };
         volumeField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
         volumeField.setText(String.valueOf(Settings.singleton.volume));
         volumeField.addKeyListener(new NumFieldKeyListener(false));

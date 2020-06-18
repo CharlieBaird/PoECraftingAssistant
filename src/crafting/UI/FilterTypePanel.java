@@ -491,6 +491,9 @@ class MinMax extends JTextField {
         addKeyListener(new NumFieldKeyListener());
     }
     
+    @Override
+    public void paste() {}
+    
     protected void focusGain()
     {
         if (getText().equals(placeholder)) {
