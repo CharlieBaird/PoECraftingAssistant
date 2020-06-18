@@ -68,6 +68,8 @@ Yes! The tool is entirely stand-alone. However, the .jar and the "src" folder **
 - Saving item base config along with filters
 - Request: Some sort of in-tool docs on how to use / tips / advanced tips
 - Remove popup search box, put it in the tool's main window
+- Fix tier issues
+- Fix open prefix/suffix mod on magic items. Also add system to detect mods with multiple lines on magic items
 
 - Sandbox mode for testing filters on already crafted items **Done, will be available in official release**
 - Add map support (modifiers done. Need to add quantity: #% support). **Done, will be available in official release**
