@@ -10,7 +10,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -27,46 +27,46 @@ public class ItemBase extends JPanel {
     public static Base SelectedBase = null;
     public static int SelectedItemLevel = 100;
         
-    protected static final HashMap<String, Base> BaseTypes = new HashMap<String, Base>()
+    protected static final LinkedHashMap<String, Base> BaseTypes = new LinkedHashMap<String, Base>()
     {{
-        put ("Claw", Base.CLAW);
-        put ("Dagger", Base.DAGGER);
-        put ("Wand", Base.WAND);
-        put ("One Hand Sword", Base.ONE_HAND_SWORD);
-        put ("Thrusting One Hand Sword", Base.THRUSTING_ONE_HAND_SWORD);
-        put ("One Hand Axe", Base.ONE_HAND_AXE);
-        put ("One Hand Mace", Base.ONE_HAND_MACE);
-        put ("Sceptre", Base.SCEPTRE);
-        put ("Rune Dagger", Base.RUNE_DAGGER);
+        put ("Amulet", Base.AMULET);
+        put ("Belt", Base.BELT);
+        put ("Body Armour", Base.BODY_ARMOUR);
+        put ("Boots", Base.BOOTS);
         put ("Bow", Base.BOW);
-        put ("Staff", Base.STAFF);
-        put ("Two Hand Sword", Base.TWO_HAND_SWORD);
-        put ("Two Hand Axe", Base.TWO_HAND_AXE);
-        put ("Two Hand Mace", Base.TWO_HAND_MACE);
-        put ("FishingRod", Base.FISHING_ROD);
-        put ("Warstaff", Base.WARSTAFF);
+        put ("Claw", Base.CLAW);
         put ("Crimson Jewel", Base.CRIMSON_JEWEL);
-        put ("Viridian Jewel", Base.VIRIDIAN_JEWEL);
-        put ("Murderous Eye Jewel", Base.MURDEROUS_EYE_JEWEL);
-        put ("Searching Eye Jewel", Base.SEARCHING_EYE_JEWEL);
+        put ("Dagger", Base.DAGGER);
+        put ("FishingRod", Base.FISHING_ROD);
+        put ("Flask", Base.FLASK);
         put ("Ghastly Eye Jewel", Base.GHASTLY_EYE_JEWEL);
+        put ("Gloves", Base.GLOVES);
+        put ("Helmet", Base.HELMET);
         put ("Hypnotic Eye Jewel", Base.HYPNOTIC_EYE_JEWEL);
         put ("Large Cluster Jewel", Base.LARGE_CLUSTER_JEWEL);
         put ("Medium Cluster Jewel", Base.MEDIUM_CLUSTER_JEWEL);
-        put ("Small Cluster Jewel", Base.SMALL_CLUSTER_JEWEL);
-        put ("Amulet", Base.AMULET);
-        put ("Ring", Base.RING);
-        put ("Unset Ring", Base.UNSET_RING);
-        put ("Belt", Base.BELT);
-        put ("Gloves", Base.GLOVES);
-        put ("Boots", Base.BOOTS);
-        put ("Body Armour", Base.BODY_ARMOUR);
-        put ("Helmet", Base.HELMET);
+        put ("Murderous Eye Jewel", Base.MURDEROUS_EYE_JEWEL);
+        put ("One Hand Axe", Base.ONE_HAND_AXE);
+        put ("One Hand Mace", Base.ONE_HAND_MACE);
+        put ("One Hand Sword", Base.ONE_HAND_SWORD);
         put ("Quiver", Base.QUIVER);
+        put ("Ring", Base.RING);
+        put ("Rune Dagger", Base.RUNE_DAGGER);
+        put ("Sceptre", Base.SCEPTRE);
+        put ("Searching Eye Jewel", Base.SEARCHING_EYE_JEWEL);
         put ("Shield", Base.SHIELD);
-        put ("Flask", Base.FLASK);
+        put ("Small Cluster Jewel", Base.SMALL_CLUSTER_JEWEL);
+        put ("Staff", Base.STAFF);
+        put ("Thrusting One Hand Sword", Base.THRUSTING_ONE_HAND_SWORD);
+        put ("Two Hand Axe", Base.TWO_HAND_AXE);
+        put ("Two Hand Mace", Base.TWO_HAND_MACE);
+        put ("Two Hand Sword", Base.TWO_HAND_SWORD);
+        put ("Unset Ring", Base.UNSET_RING);
+        put ("Viridian Jewel", Base.VIRIDIAN_JEWEL);
+        put ("Wand", Base.WAND);
+        put ("Warstaff", Base.WARSTAFF);
     }};
-    
+        
     public ItemBase(JPanel parent)
     {
         setPreferredSize(new Dimension(523, 32));
@@ -75,6 +75,7 @@ public class ItemBase extends JPanel {
         
         add(new TitleLabel("Item Type:"));
         add(Box.createRigidArea(new Dimension(8,0)), Box.LEFT_ALIGNMENT);
+        
         add(new SearchJBox(this, BaseTypes.keySet().toArray()));
         
         add(Box.createRigidArea(new Dimension(8,0)), Box.LEFT_ALIGNMENT);
@@ -93,6 +94,9 @@ class ItemLevelField extends JTextField
     public ItemLevelField(String text)
     {
         super(text);
+        
+        setFont(Main.mainFrame.getNewFont(12));
+        
         addKeyListener(new NumFieldKeyListener());
         addFocusListener(new FocusListener() {
             @Override

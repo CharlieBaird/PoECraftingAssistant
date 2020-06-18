@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -70,7 +72,7 @@ public class ModifierPanel extends JPanel {
         ml = new ModLabel(this, mod.name);
         min = new MPMinMax(this, String.valueOf(mod.ID.min), true);
         max = new MPMinMax(this, String.valueOf(mod.ID.max), false);
-        tier = new TierComboBox();
+        tier = new TierComboBox(this);
         
         add(cb, Box.LEFT_ALIGNMENT);
         add(Box.createRigidArea(new Dimension(15,0)), Box.LEFT_ALIGNMENT);
@@ -122,6 +124,7 @@ public class ModifierPanel extends JPanel {
                     hideTierComboBox();
 
                     Filters.saveFilters();
+                    ml.setForeground(new Color(255,255,255));
                 }
             }
             else
@@ -137,6 +140,7 @@ public class ModifierPanel extends JPanel {
                     showTierComboBox(m);
 
                     Filters.saveFilters();
+                    ml.setForeground(new Color(255,255,255));
                 }
             }
         }
@@ -198,22 +202,25 @@ public class ModifierPanel extends JPanel {
         {
             for (ModifierPanel mp : ftp.modifierpanels)
             {
-                if (mp.isVisible())
+                Modifier m = mp.updateDD();
+                if (m != null)
                 {
-                    Modifier m = mp.updateDD();
-                    if (m != null)
-                    {
-                        errorModifiers.add(m);
-                    }
+                    errorModifiers.add(m);
+                    mp.ml.setForeground(new Color(238,99,90));
+                    mp.hideTierComboBox();
+                }
+                else
+                {
+                    mp.ml.setForeground(new Color(255,255,255));
                 }
             }
         }
-        System.out.println(errorModifiers.size());
-        if (errorModifiers.size() >= 1)
-        {
-            String errorMsg = genErrorMsg(errorModifiers);
-            JOptionPane.showMessageDialog(Main.mainFrame, errorMsg, "Warning", JOptionPane.WARNING_MESSAGE);
-        }
+//        System.out.println(errorModifiers.size());
+//        if (errorModifiers.size() >= 1)
+//        {
+//            String errorMsg = genErrorMsg(errorModifiers);
+//            JOptionPane.showMessageDialog(Main.mainFrame, errorMsg, "Warning", JOptionPane.WARNING_MESSAGE);
+//        }
     }
     
     private static String genErrorMsg(ArrayList<Modifier> mods)
@@ -221,7 +228,7 @@ public class ModifierPanel extends JPanel {
         String s = "The following modifiers in your filters cannot be hit on Item Type \"" + ItemBase.SelectedBase + "\"\n";
         for (int i=0; i<mods.size(); i++)
         {
-            s += (i+1) + ". " + mods.get(0).getStr() + "\n";
+            s += (i+1) + ". " + mods.get(i).getStr() + "\n";
         }
         
         return s;
@@ -230,25 +237,84 @@ public class ModifierPanel extends JPanel {
 
 class TierComboBox extends JComboBox {
     
-    public TierComboBox()
+    Modifier assocModifier = null;
+    ModifierPanel parent = null;
+    
+    public TierComboBox(ModifierPanel parent)
     {
+        this.assocModifier = parent.assocMod;
+        this.parent = parent;
+        
         setVisible(false);
+        setPreferredSize(new Dimension(80,32));
+        setMaximumSize(new Dimension(80,32));
+        setMaximumRowCount(20);
+        
+        addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent event)
+            {
+               if (event.getStateChange() == ItemEvent.SELECTED)
+               {
+                    String selection = (String) event.getItem();
+                    if (selection.equals("Custom")) return;
+                    int tier = Integer.valueOf((selection).substring(1));
+                    setMin(tier);
+               }
+            }
+        });
+    }
+    
+    public void setMin(int whatTier)
+    {
+        if (assocModifier != null)
+        {
+            whatTier = assocModifier.tiers.size() - whatTier;
+            
+            double val = assocModifier.tiers.get(whatTier).getValue();
+            System.out.println(val);
+            
+            parent.min.textUpdate(val);
+            
+        }
     }
     
     public String[] modelToString(Modifier m)
     {
+        this.assocModifier = m;
         ModifierTier[] tiers = m.getTiersWithLevel(ItemBase.SelectedItemLevel);
-        String[] tiersStr = new String[tiers.length];
+        String[] tiersStr = new String[1+tiers.length];
         int highest = m.getHighestHittableTier(ItemBase.SelectedItemLevel);
         
+        tiersStr[0] = "Custom";
         for (int i=0; i<tiers.length; i++)
         {
-            tiersStr[i] = "T" + (i + highest);
+            tiersStr[i+1] = "T" + (i + highest);
         }
         
         return tiersStr;
     }
-    
+
+    public void manualUpdate(String text) {
+        if (ItemBase.SelectedBase != null)
+        {
+            Integer value = Integer.valueOf(text);
+            if (assocModifier.tiers.size() >= 1)
+            {
+                for (int i=0; i<assocModifier.tiers.size(); i++)
+                {
+                    if (assocModifier.tiers.get(i).getValue() == value)
+                    {
+                        int foundTier = assocModifier.tiers.size() - i;
+                        this.setSelectedIndex(foundTier);
+                        return;
+                    }
+                }
+            }
+        }
+        
+        this.setSelectedIndex(0);
+    }
 }
 
 class ModMouseListener implements MouseListener {
@@ -324,7 +390,7 @@ class ModLabel extends JLabel {
         setFont(parent.frame.getNewFont(13));
         setBackground(new Color(255,0,0));
         setForeground(new Color(255,255,255));
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.74),(int) ((32))));
+//        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.4),(int) ((32))));
     }
 }
 
@@ -381,28 +447,35 @@ class MPMinMax extends JTextField {
     
     public void focusLost()
     {
+        if (isMin && parent.tier.isVisible())
+        {
+            parent.tier.manualUpdate(getText());
+        }
+        
         if (getText().isEmpty()) {
             setText(placeholder);
             setForeground(new Color(120,120,120));
             if (isMin) parent.mod.ID.min = -100000;
             else       parent.mod.ID.max =  100000;
-//            parent.mod.updateMin();
         }
 
-        // save value
         else 
             try {
                 if (isMin) parent.mod.ID.min = Integer.valueOf(parent.min.getText());
                 else       parent.mod.ID.max = Integer.valueOf(parent.max.getText());
-//                parent.mod.updateMin();
             } catch (NumberFormatException e) {
                 System.out.println(e);
             }
         
         Filters.saveFilters();
     }
-    
-    
+
+    void textUpdate(double val) {
+        setForeground(new Color(255,255,255));
+        setText(String.valueOf((int) val));
+        parent.mod.ID.min = (int) val;
+        Filters.saveFilters();
+    }
 }
 
 class FListener implements FocusListener

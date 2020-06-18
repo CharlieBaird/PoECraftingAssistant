@@ -5,12 +5,16 @@
  */
 package crafting.UI;
 
+import crafting.Main;
+import java.awt.Color;
 import poeitem.Modifier;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -32,7 +36,10 @@ public class SearchJBox extends JComboBox
         
         this.parent = parent;
         defaultmodel = this.getModel();
+        
         this.setSelectedIndex(0);
+        
+        this.setFont(Main.mainFrame.getNewFont(12));
         
         String maxLength = "a";
         for (int i=0; i<getModel().getSize(); i++)
