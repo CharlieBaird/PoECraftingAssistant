@@ -85,6 +85,14 @@ public class ModifierPanel extends JPanel {
         
         addMouseListener(new ModMouseListener(this));
         
+        if (Filters.singleton.SelectedBase != null && assocMod != null)
+        {
+//            assocMod.print();
+            this.showTierComboBox(assocMod);
+            this.updateDD();
+            this.tier.manualUpdate(this.min.getText());
+        }
+        
         parent.add(this);
         
         Filters.saveFilters();
@@ -158,9 +166,11 @@ public class ModifierPanel extends JPanel {
         }
         tier.setModel(model);
         
+        m.print();
+        
         if (this.min.getText().equals("min") && model.getSize() >= 2)
         {
-            this.tier.setSelectedIndex(1);
+            this.tier.setSelectedIndex(0);
             tier.manualUpdate(min.getText());
         }
         
@@ -291,10 +301,10 @@ class TierComboBox extends JComboBox {
                 
         String[] tiersStr = new String[1+tiers.length];
         
-        tiersStr[0] = "Custom";
+        tiersStr[tiersStr.length-1] = "Custom";
         for (int i=0; i<tiers.length; i++)
         {
-            tiersStr[i+1] = "T" + (i + 1);
+            tiersStr[i] = "T" + (i + 1);
         }
         
         return tiersStr;
@@ -303,24 +313,36 @@ class TierComboBox extends JComboBox {
     public void manualUpdate(String text) {
         if (Filters.singleton.SelectedBase != null)
         {
-            Integer value = Integer.valueOf(text);
-            if (assocModifier.tiers.size() >= 1)
+            if (!text.equals("min") && !text.equals(""))
             {
-                for (int i=0; i<assocModifier.tiers.size(); i++)
+                Integer value = Integer.valueOf(text);
+                if (assocModifier.tiers.size() >= 1)
                 {
-                    if (assocModifier.tiers.get(i).getValue() == value)
+                    for (int i=0; i<assocModifier.tiers.size(); i++)
                     {
-                        int foundTier = assocModifier.tiers.size() - i;
-                        if (foundTier < this.getModel().getSize())
-                            this.setSelectedIndex(foundTier);
-                        else this.setSelectedIndex(0);
-                        return;
+                        if ((int) assocModifier.tiers.get(i).getValue() == value)
+                        {
+                            int foundTier = assocModifier.tiers.size() - i - 1;
+                            if (foundTier < this.getModel().getSize() && foundTier != -1)
+                                this.setSelectedIndex(foundTier);
+                            else this.setSelectedIndex(assocModifier.tiers.size());
+                            return;
+                        }
                     }
+                }
+            }
+            else
+            {
+                if (this.getSelectedIndex() != assocModifier.tiers.size())
+                {
+                    System.out.println("SELECTED INDEX: " + this.getSelectedIndex());
+                    setMin(this.getSelectedIndex()+1);
+                    return;
                 }
             }
         }
         
-        this.setSelectedIndex(0);
+        this.setSelectedIndex(assocModifier.tiers.size());
     }
 }
 

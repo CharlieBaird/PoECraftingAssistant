@@ -714,6 +714,10 @@ public class Main extends javax.swing.JFrame {
 
             Filters.singleton.setName(name);
             Filters.saveFilters();
+            
+            Filters.singleton.SelectedBase = null;
+            Filters.singleton.SelectedIndex = -1;
+            mainFrame.itemType.updateFromFilter();
 
             jTextField1.setVisible(true);
             jButton8.setVisible(true);
