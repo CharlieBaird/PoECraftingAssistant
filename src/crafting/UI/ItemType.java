@@ -5,27 +5,20 @@
  */
 package crafting.UI;
 
+import crafting.Filters;
 import crafting.Main;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.util.LinkedHashMap;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import poeitem.Base;
 
-/**
- *
- * @author charl
- */
-public class ItemBase extends JPanel {
-    
-    public static Base SelectedBase = null;
-    public static int SelectedItemLevel = 100;
+public class ItemType extends JPanel {
+        
+    public SearchJBox baseComboBox = new SearchJBox(this, BaseTypes.keySet().toArray());
         
     protected static final LinkedHashMap<String, Base> BaseTypes = new LinkedHashMap<String, Base>()
     {{
@@ -67,7 +60,7 @@ public class ItemBase extends JPanel {
         put ("Warstaff", Base.WARSTAFF);
     }};
         
-    public ItemBase(JPanel parent)
+    public ItemType(JPanel parent)
     {
         setPreferredSize(new Dimension(523, 32));
         setBackground(new Color(88,0,0));
@@ -76,59 +69,15 @@ public class ItemBase extends JPanel {
         add(new TitleLabel("Item Type:"));
         add(Box.createRigidArea(new Dimension(8,0)), Box.LEFT_ALIGNMENT);
         
-        add(new SearchJBox(this, BaseTypes.keySet().toArray()));
+        add(baseComboBox);
         
         add(Box.createRigidArea(new Dimension(8,0)), Box.LEFT_ALIGNMENT);
-        
-        add(new TitleLabel("Item Level:"));
-        add(Box.createRigidArea(new Dimension(8,0)), Box.LEFT_ALIGNMENT);
-        add(new ItemLevelField("100"));
         
         Main.mainFrame.requestFocusInWindow();
     }
-}
 
-class ItemLevelField extends JTextField
-{
-    
-    public ItemLevelField(String text)
-    {
-        super(text);
-        
-        setFont(Main.mainFrame.getNewFont(12));
-        
-        addKeyListener(new NumFieldKeyListener());
-        addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                focusGain();
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                focusLoss();
-            }
-        });
-    }
-    
-    protected void focusGain()
-    {
-        
-    }
-    
-    protected void focusLoss()
-    {
-        if (!getText().equals(""))
-        {
-            ItemBase.SelectedItemLevel = Integer.valueOf(this.getText());
-        }
-        else
-        {
-            setText("100");
-            ItemBase.SelectedItemLevel = 100;
-        }
-        
-        ModifierPanel.updateTierViews();
+    public void updateFromFilter() {
+        this.baseComboBox.setSelectedIndex(Filters.singleton.SelectedIndex);
     }
 }
 

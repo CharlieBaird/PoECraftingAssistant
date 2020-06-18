@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import poeitem.Base;
 
 public class Filters implements Serializable {
     
@@ -35,6 +36,9 @@ public class Filters implements Serializable {
     public ArrayList<Filter> filters = new ArrayList<>();
     
     public static Filters singleton = new Filters(false);
+    
+    public Base SelectedBase = null;
+    public int SelectedIndex = -1;
     
     public static String getName()
     {
@@ -82,6 +86,10 @@ public class Filters implements Serializable {
     {
         singleton.name = "";
         singleton.filters.clear();
+        singleton.SelectedBase = null;
+        Main.mainFrame.itemType.baseComboBox.setSelectedIndex(-1);
+        Main.mainFrame.itemType.updateFromFilter();
+        
     }
     
     public static void add(Filter f)
@@ -255,6 +263,7 @@ public class Filters implements Serializable {
     
     public static void saveFilters()
     {
+        
         if (singleton.name.equals("") || singleton.name == null)
             return;
         

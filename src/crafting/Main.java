@@ -9,7 +9,8 @@ import static crafting.PoECraftingAssistant.establishHotkeyShortcut;
 import crafting.UI.ComponentMover;
 import crafting.UI.FilterNamePanel;
 import crafting.UI.FilterTypePanel;
-import crafting.UI.ItemBase;
+import crafting.UI.ItemType;
+import crafting.UI.ModifierPanel;
 import crafting.UI.MouseFocusListener;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.logicgroups.And;
@@ -676,9 +677,12 @@ public class Main extends javax.swing.JFrame {
             Filters.singleton = loaded;
 
             updateLeftTab();
-
+            
             jButton2.setVisible(true);
             jButton10.setVisible(true);
+            
+            mainFrame.itemType.updateFromFilter();
+            ModifierPanel.updateTierViews();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -973,8 +977,11 @@ public class Main extends javax.swing.JFrame {
             }
         });
         
-        jPanel10.add(new ItemBase(jPanel10));
+        itemType = new ItemType(jPanel10);
+        jPanel10.add(itemType);
     }
+    
+    public ItemType itemType = null;
     
     public void postload()
     {

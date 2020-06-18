@@ -5,6 +5,7 @@
  */
 package crafting.UI;
 
+import crafting.Filters;
 import poeitem.Modifier;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -105,10 +106,10 @@ public class SearchBox extends JComboBox
                 continue;
             }
             
-            if (ItemBase.SelectedBase != null && m.getType() == Type.EXPLICIT && (m.getModGenerationTypeID() == 1 || m.getModGenerationTypeID() == 2))
+            if (Filters.singleton.SelectedBase != null && m.getType() == Type.EXPLICIT && (m.getModGenerationTypeID() == 1 || m.getModGenerationTypeID() == 2))
             {
                 typesList.clear();
-                typesList.addAll(BaseItem.getFromBase(ItemBase.SelectedBase).assocModifiers);
+                typesList.addAll(BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers);
             }
         }
         

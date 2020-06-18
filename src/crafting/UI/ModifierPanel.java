@@ -112,7 +112,7 @@ public class ModifierPanel extends JPanel {
         
         if (selected != null && !selected.toString().equals(""))
         {
-            if (ItemBase.SelectedBase == null)
+            if (Filters.singleton.SelectedBase == null)
             {
                 Modifier m = Modifier.getExplicitFromStr(selected.toString());
                 if (m != null)
@@ -129,7 +129,7 @@ public class ModifierPanel extends JPanel {
             }
             else
             {
-                Modifier m = BaseItem.getFromBase(ItemBase.SelectedBase).getExplicitFromStr(selected.toString());
+                Modifier m = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(selected.toString());
                 if (m != null)
                 {
                     assocMod = m;
@@ -157,7 +157,13 @@ public class ModifierPanel extends JPanel {
             return;
         }
         tier.setModel(model);
-        tier.setPrototypeDisplayValue(12);
+        
+        if (this.min.getText().equals("min") && model.getSize() >= 2)
+        {
+            this.tier.setSelectedIndex(1);
+            tier.manualUpdate(min.getText());
+        }
+        
         tier.setVisible(true);
     }
     
@@ -171,31 +177,27 @@ public class ModifierPanel extends JPanel {
     {
         Modifier thrownModifier = null;
         
-        if (ItemBase.SelectedBase != null)
+        if (assocMod != null)
         {
-            if (assocMod != null)
+            Modifier result = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(assocMod.getStr());
+
+            if (result != null)
             {
-                Modifier result = BaseItem.getFromBase(ItemBase.SelectedBase).getExplicitFromStr(assocMod.getStr());
-                if (result != null)
-                {
-                    assocMod = result;
-                    showTierComboBox(assocMod);
-                }
-                else
-                {
-                    thrownModifier = assocMod;
-                }
+                assocMod = result;
+                showTierComboBox(assocMod);
             }
-        }
-        else
-        {
-            hideTierComboBox();
+            else
+            {
+                thrownModifier = assocMod;
+            }
         }
         
         return thrownModifier;
     }
     
     public static void updateTierViews() {
+        if (Filters.singleton.SelectedBase == null) return;
+                
         ArrayList<Modifier> errorModifiers = new ArrayList<>();
         
         for (FilterTypePanel ftp : FilterTypePanel.filtertypepanels)
@@ -212,6 +214,10 @@ public class ModifierPanel extends JPanel {
                 else
                 {
                     mp.ml.setForeground(new Color(255,255,255));
+                    if (!mp.min.getText().equals("min"))
+                    {
+                        mp.tier.manualUpdate(mp.min.getText());
+                    }
                 }
             }
         }
@@ -225,7 +231,7 @@ public class ModifierPanel extends JPanel {
     
     private static String genErrorMsg(ArrayList<Modifier> mods)
     {
-        String s = "The following modifiers in your filters cannot be hit on Item Type \"" + ItemBase.SelectedBase + "\"\n";
+        String s = "The following modifiers in your filters cannot be hit on Item Type \"" + Filters.singleton.SelectedBase + "\"\n";
         for (int i=0; i<mods.size(); i++)
         {
             s += (i+1) + ". " + mods.get(i).getStr() + "\n";
@@ -272,7 +278,6 @@ class TierComboBox extends JComboBox {
             whatTier = assocModifier.tiers.size() - whatTier;
             
             double val = assocModifier.tiers.get(whatTier).getValue();
-            System.out.println(val);
             
             parent.min.textUpdate(val);
             
@@ -282,21 +287,21 @@ class TierComboBox extends JComboBox {
     public String[] modelToString(Modifier m)
     {
         this.assocModifier = m;
-        ModifierTier[] tiers = m.getTiersWithLevel(ItemBase.SelectedItemLevel);
+        ModifierTier[] tiers = m.getTiersWithLevel(100);
+                
         String[] tiersStr = new String[1+tiers.length];
-        int highest = m.getHighestHittableTier(ItemBase.SelectedItemLevel);
         
         tiersStr[0] = "Custom";
         for (int i=0; i<tiers.length; i++)
         {
-            tiersStr[i+1] = "T" + (i + highest);
+            tiersStr[i+1] = "T" + (i + 1);
         }
         
         return tiersStr;
     }
 
     public void manualUpdate(String text) {
-        if (ItemBase.SelectedBase != null)
+        if (Filters.singleton.SelectedBase != null)
         {
             Integer value = Integer.valueOf(text);
             if (assocModifier.tiers.size() >= 1)
@@ -306,7 +311,9 @@ class TierComboBox extends JComboBox {
                     if (assocModifier.tiers.get(i).getValue() == value)
                     {
                         int foundTier = assocModifier.tiers.size() - i;
-                        this.setSelectedIndex(foundTier);
+                        if (foundTier < this.getModel().getSize())
+                            this.setSelectedIndex(foundTier);
+                        else this.setSelectedIndex(0);
                         return;
                     }
                 }
@@ -447,10 +454,6 @@ class MPMinMax extends JTextField {
     
     public void focusLost()
     {
-        if (isMin && parent.tier.isVisible())
-        {
-            parent.tier.manualUpdate(getText());
-        }
         
         if (getText().isEmpty()) {
             setText(placeholder);
@@ -460,12 +463,19 @@ class MPMinMax extends JTextField {
         }
 
         else 
+        {
             try {
                 if (isMin) parent.mod.ID.min = Integer.valueOf(parent.min.getText());
                 else       parent.mod.ID.max = Integer.valueOf(parent.max.getText());
-            } catch (NumberFormatException e) {
-                System.out.println(e);
+            } catch (NumberFormatException e) { }
+            
+            if (isMin && parent.tier.isVisible())
+            {
+                parent.tier.manualUpdate(getText());
             }
+        }
+        
+        
         
         Filters.saveFilters();
     }

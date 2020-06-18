@@ -5,6 +5,7 @@
  */
 package crafting.UI;
 
+import crafting.Filters;
 import crafting.Main;
 import java.awt.Color;
 import poeitem.Modifier;
@@ -23,12 +24,12 @@ import javax.swing.JTextField;
 public class SearchJBox extends JComboBox
 {
     ComboBoxModel defaultmodel;
-    public ItemBase parent;
+    public ItemType parent;
     
     public String entry = "";
     public int caretPos = -1;
     
-    public SearchJBox(ItemBase parent, Object[] types)
+    public SearchJBox(ItemType parent, Object[] types)
     {
         super(types);
         this.setSelectedIndex(-1);
@@ -203,12 +204,14 @@ class ClickListenerSJB implements FocusListener
             
             owner.setSelectedIndex(-1);
             
-            ItemBase.SelectedBase = null;
+            Filters.singleton.SelectedBase = null;
+            Filters.singleton.SelectedIndex = -1;
             ModifierPanel.updateTierViews();
         }
         else
         {
-            ItemBase.SelectedBase = ItemBase.BaseTypes.get((String) owner.getSelectedItem());
+            Filters.singleton.SelectedBase = ItemType.BaseTypes.get((String) owner.getSelectedItem());
+            Filters.singleton.SelectedIndex = owner.getSelectedIndex();
             ModifierPanel.updateTierViews();
         }
     }
