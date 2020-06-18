@@ -11,6 +11,8 @@ import java.awt.Color;
 import poeitem.Modifier;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -55,6 +57,7 @@ public class SearchJBox extends JComboBox
         
         this.getEditor().getEditorComponent().addKeyListener(new KeyTypedListenerSJB(this));
         this.getEditor().getEditorComponent().addFocusListener(new ClickListenerSJB(this));
+        this.addItemListener(new SelectionListener(this));
         
         this.setSelectedIndex(-1);
 
@@ -193,6 +196,9 @@ class ClickListenerSJB implements FocusListener
 
     @Override
     public void focusLost(FocusEvent e) {
+        
+        Main.mainFrame.requestFocusInWindow();
+        
         if (owner.getSelectedIndex() == -1)
         {
             ((JTextField) owner.getEditor().getEditorComponent()).setText("");
@@ -214,5 +220,44 @@ class ClickListenerSJB implements FocusListener
             Filters.singleton.SelectedIndex = owner.getSelectedIndex();
             ModifierPanel.updateTierViews();
         }
+    }
+}
+
+class SelectionListener implements ItemListener
+{
+    
+    SearchJBox owner;
+    
+    public SelectionListener(SearchJBox owner)
+    {
+        this.owner = owner;
+    }
+    
+    public void itemStateChanged(ItemEvent event)
+    {
+       if (event.getStateChange() == ItemEvent.SELECTED)
+       {
+            if (owner.getSelectedIndex() == -1)
+            {
+                ((JTextField) owner.getEditor().getEditorComponent()).setText("");
+                owner.entry = "";
+
+                String[] compat = owner.getCompatObjects();
+                DefaultComboBoxModel model = new DefaultComboBoxModel(compat);
+                owner.setModel(model);
+
+                owner.setSelectedIndex(-1);
+
+                Filters.singleton.SelectedBase = null;
+                Filters.singleton.SelectedIndex = -1;
+                ModifierPanel.updateTierViews();
+            }
+            else
+            {
+                Filters.singleton.SelectedBase = ItemType.BaseTypes.get((String) owner.getSelectedItem());
+                Filters.singleton.SelectedIndex = owner.getSelectedIndex();
+                ModifierPanel.updateTierViews();
+            }
+       }
     }
 }
