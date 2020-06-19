@@ -85,7 +85,7 @@ public class ModifierPanel extends JPanel {
         
         addMouseListener(new ModMouseListener(this));
         
-        if (Filters.singleton.SelectedBase != null && assocMod != null)
+        if (Filters.singleton.SelectedBase != null && assocMod != null && assocMod.tiers.size() >= 1)
         {
             this.showTierComboBox(assocMod);
             this.updateDD();
@@ -328,6 +328,11 @@ class TierComboBox extends JComboBox {
                         }
                     }
                 }
+                else
+                {
+                    parent.hideTierComboBox();
+                    return;
+                }
             }
             else
             {
@@ -338,8 +343,8 @@ class TierComboBox extends JComboBox {
                 }
             }
         }
-        
-        this.setSelectedIndex(assocModifier.tiers.size());
+        if (assocModifier.tiers.size() >= 1)
+            this.setSelectedIndex(assocModifier.tiers.size());
     }
 }
 

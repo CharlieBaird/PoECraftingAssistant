@@ -1,6 +1,5 @@
 package crafting;
 
-import static crafting.Main.mainFrame;
 import static crafting.Utility.*;
 import java.awt.Color;
 import java.awt.MouseInfo;
@@ -11,9 +10,7 @@ import java.awt.datatransfer.StringSelection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import lc.kra.system.keyboard.GlobalKeyboardHook;
@@ -75,8 +72,10 @@ public class PoECraftingAssistant {
                         if(Filters.checkIfHitOne(debug))
                         {
                             Utility.playHitSound();
-                            if (Settings.singleton.showPopup) showPopup();
-                            if (Settings.singleton.disableOnHit) stop();
+                            if (Settings.singleton.showPopup)
+                                showPopup();
+                            if (Settings.singleton.disableOnHit)
+                                stop();
                         }
                     }
                 }
