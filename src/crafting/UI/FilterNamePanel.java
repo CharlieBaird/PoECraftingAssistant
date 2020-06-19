@@ -75,6 +75,16 @@ public class FilterNamePanel extends JPanel {
         Filters.saveFilters();
         
     }
+    
+    public void open()
+    {
+        frame.genFilterPanel(filter);
+        for (int i=0; i<filterpanels.size(); i++)
+        {
+            filterpanels.get(i).setBackground(new Color(40,40,40));
+        }
+        setBackground(new Color(70,70,70));
+    }
 }
 
 class BackgroundListener implements MouseListener
@@ -192,8 +202,12 @@ class DeleteButton extends JButton
 
 class OpenButton extends JButton
 {
+    FilterNamePanel parent;
+    
     public OpenButton(FilterNamePanel parent, Dimension size)
     {
+        this.parent = parent;
+        
         Dimension d1 = new Dimension((int)(size.width * 0.15), (int)(size.height * 0.9));
         setBorderPainted(false);
         setFocusPainted(false);
@@ -210,14 +224,14 @@ class OpenButton extends JButton
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                parent.frame.genFilterPanel(parent.filter);
-                for (int i=0; i<parent.filterpanels.size(); i++)
-                {
-                    parent.filterpanels.get(i).setBackground(new Color(40,40,40));
-                }
-                parent.setBackground(new Color(70,70,70));
+                open();
             }
         };
         addActionListener(actionListener);
+    }
+    
+    public void open()
+    {
+        parent.open();
     }
 }

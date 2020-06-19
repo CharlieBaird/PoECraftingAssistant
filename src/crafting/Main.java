@@ -678,6 +678,11 @@ public class Main extends javax.swing.JFrame {
 
             updateLeftTab();
             
+            if (FilterNamePanel.filterpanels.size() >= 1)
+            {
+                FilterNamePanel.filterpanels.get(0).open();
+            }
+            
             jButton2.setVisible(true);
             jButton10.setVisible(true);
             

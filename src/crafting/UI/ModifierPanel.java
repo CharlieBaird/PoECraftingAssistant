@@ -158,7 +158,7 @@ public class ModifierPanel extends JPanel {
     public void showTierComboBox(Modifier m)
     {
         DefaultComboBoxModel model = new DefaultComboBoxModel(tier.modelToString(m));
-        if (model.getSize() == 0)
+        if (model.getSize() == 1)
         {
             hideTierComboBox();
             return;
