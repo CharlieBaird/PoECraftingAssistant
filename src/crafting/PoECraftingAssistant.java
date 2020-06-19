@@ -1,16 +1,16 @@
 package crafting;
 
-import static crafting.Main.mainFrame;
 import static crafting.Utility.*;
 import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import lc.kra.system.keyboard.GlobalKeyboardHook;
@@ -69,28 +69,13 @@ public class PoECraftingAssistant {
                         
                         delay(Settings.singleton.delay + 35);
                         
-                        boolean b = Filters.checkIfHitOne(debug);
-                        
-                        if (!Settings.singleton.invertTool) // act normal
+                        if(Filters.checkIfHitOne(debug))
                         {
-                            if (b)
-                            {
-                                Utility.playHitSound();
-                                if (Settings.singleton.showPopup) showPopup();
-                                if (Settings.singleton.disableOnHit) stop();
-                            }
-                        }
-                        else
-                        {
-                            if (!b)
-                            {
-                                Utility.playHitSound();
-                            }
-                            else
-                            {
-                                if (Settings.singleton.showPopup) showPopup();
-                                if (Settings.singleton.disableOnHit) stop();
-                            }
+                            Utility.playHitSound();
+                            if (Settings.singleton.showPopup)
+                                showPopup();
+                            if (Settings.singleton.disableOnHit)
+                                stop();
                         }
                     }
                 }
@@ -176,8 +161,11 @@ public class PoECraftingAssistant {
         }
         run = true;
         
+        StringSelection selection = new StringSelection("hi");
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(selection, selection);
+        
         while (!establishMouseHook());
-//        while (!establishKeyboardHook());
         Main.setChaosIcon(main.getClass().getResource("/resources/images/chaosrun.png"));
     }
     

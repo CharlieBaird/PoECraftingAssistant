@@ -48,17 +48,18 @@ public class Count extends FilterBase {
                     }
                     break;
                 case -2:
-                   int[] numPrefixSuffix = item.numPrefixSuffix();
+                    int[] numPrefixSuffix = item.numPrefixSuffix();
+                    int max = item.rarity.equals("Rare") ? 3 : 1;
                     if (m.assocModifier.getStr().equals("# Empty Prefix Modifiers"))
                     {
-                        if (m.ID.valid((double) 3 - numPrefixSuffix[0]))
+                        if (m.ID.valid((double) max - numPrefixSuffix[0]))
                         {
                             numHit++;
                         }
                     }
                     else if (m.assocModifier.getStr().equals("# Empty Suffix Modifiers"))
                     {
-                        if (m.ID.valid((double) 3 - numPrefixSuffix[1]))
+                        if (m.ID.valid((double) max - numPrefixSuffix[1]))
                         {
                             numHit++;
                         }

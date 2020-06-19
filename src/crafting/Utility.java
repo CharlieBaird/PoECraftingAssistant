@@ -58,11 +58,12 @@ public class Utility {
             }
             return null;
         }
+        
         delay(10);
-        bot.keyPress(KeyEvent.VK_C); 
+        bot.keyPress(KeyEvent.VK_C);
         delay(5);
-        bot.keyRelease(KeyEvent.VK_C); 
-        bot.keyRelease(Settings.singleton.ctrlKey); 
+        bot.keyRelease(KeyEvent.VK_C);
+        bot.keyRelease(Settings.singleton.ctrlKey);
         delay(5);
         return getClipboard();
     }

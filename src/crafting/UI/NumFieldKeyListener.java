@@ -9,10 +9,6 @@ import crafting.Main;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-/**
- *
- * @author charl
- */
 public class NumFieldKeyListener implements KeyListener {
     
     private boolean loseFocus = true;

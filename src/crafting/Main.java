@@ -9,8 +9,9 @@ import static crafting.PoECraftingAssistant.establishHotkeyShortcut;
 import crafting.UI.ComponentMover;
 import crafting.UI.FilterNamePanel;
 import crafting.UI.FilterTypePanel;
+import crafting.UI.ItemType;
+import crafting.UI.ModifierPanel;
 import crafting.UI.MouseFocusListener;
-import static crafting.Utility.getResourcesPath;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.logicgroups.And;
 import java.awt.Color;
@@ -21,22 +22,20 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -86,12 +85,13 @@ public class Main extends javax.swing.JFrame {
         ChangeFilterPanel = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jButton9 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        jPanel15 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -203,9 +203,9 @@ public class Main extends javax.swing.JFrame {
             .addGap(0, 64, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 29, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 30, Short.MAX_VALUE)))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,9 +257,9 @@ public class Main extends javax.swing.JFrame {
             .addGap(0, 64, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 27, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 28, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -303,7 +303,7 @@ public class Main extends javax.swing.JFrame {
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 20, Short.MAX_VALUE)
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -377,7 +377,15 @@ public class Main extends javax.swing.JFrame {
                 jButton9ActionPerformed(evt);
             }
         });
-        ChangeFilterPanel.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 560, 40, 40));
+        ChangeFilterPanel.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 560, 40, 40));
+
+        jButton6.setText("debug");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        ChangeFilterPanel.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 570, -1, -1));
 
         jPanel10.setBackground(new java.awt.Color(88, 0, 0));
         jPanel10.setMinimumSize(new java.awt.Dimension(320, 32));
@@ -460,13 +468,21 @@ public class Main extends javax.swing.JFrame {
         });
         jPanel10.add(jButton7);
 
-        jButton6.setText("debug");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-        jPanel10.add(jButton6);
+        jPanel15.setOpaque(false);
+        jPanel15.setPreferredSize(new java.awt.Dimension(200, 20));
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 200, Short.MAX_VALUE)
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+
+        jPanel10.add(jPanel15);
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -475,8 +491,8 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
                 .addComponent(SelectFilterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(ChangeFilterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ChangeFilterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -488,7 +504,7 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(ChangeFilterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ChangeFilterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
                     .addComponent(SelectFilterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -595,7 +611,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1158, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 237, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -613,7 +629,7 @@ public class Main extends javax.swing.JFrame {
         WindowLayout.setHorizontalGroup(
             WindowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(WindowLayout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1395, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
         WindowLayout.setVerticalGroup(
@@ -661,9 +677,17 @@ public class Main extends javax.swing.JFrame {
             Filters.singleton = loaded;
 
             updateLeftTab();
-
+            
+            if (FilterNamePanel.filterpanels.size() >= 1)
+            {
+                FilterNamePanel.filterpanels.get(0).open();
+            }
+            
             jButton2.setVisible(true);
             jButton10.setVisible(true);
+            
+            mainFrame.itemType.updateFromFilter();
+            ModifierPanel.updateTierViews();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -695,6 +719,10 @@ public class Main extends javax.swing.JFrame {
 
             Filters.singleton.setName(name);
             Filters.saveFilters();
+            
+            Filters.singleton.SelectedBase = null;
+            Filters.singleton.SelectedIndex = -1;
+            mainFrame.itemType.updateFromFilter();
 
             jTextField1.setVisible(true);
             jButton8.setVisible(true);
@@ -837,6 +865,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -873,7 +902,7 @@ public class Main extends javax.swing.JFrame {
     
     private void genPanel(Filter filter)
     {
-        if (Filters.singleton.filters.size() <= 10)
+        if (Filters.singleton.filters.size() <= 12)
         {
             new FilterNamePanel(this, jPanel6, filter);
         }
@@ -956,7 +985,12 @@ public class Main extends javax.swing.JFrame {
                 Filters.saveFilters();
             }
         });
+        
+        itemType = new ItemType(jPanel10);
+        jPanel10.add(itemType);
     }
+    
+    public ItemType itemType = null;
     
     public void postload()
     {
@@ -990,6 +1024,25 @@ public class Main extends javax.swing.JFrame {
         jPanel14.addMouseListener(new MouseFocusListener(jPanel14));
         
         establishHotkeyShortcut();
+        
+        requestFocusInWindow();
+        
+        this.addWindowFocusListener(new WindowFocusListener() {
+        @Override
+        public void windowGainedFocus(WindowEvent e) {
+            if (e.getOppositeWindow() == null) {
+                if (Settings.singleton.disableOnFocus)
+                    PoECraftingAssistant.stop();
+            }
+        }
+
+        @Override
+        public void windowLostFocus(WindowEvent e) {
+            if (e.getOppositeWindow() != null) {
+                PoECraftingAssistant.stop();
+            }
+        }
+    });
     }
     
     public static Main mainFrame = null;
@@ -997,6 +1050,7 @@ public class Main extends javax.swing.JFrame {
     public static void main() {
         java.awt.EventQueue.invokeLater(() -> {
             mainFrame = new Main();
+            mainFrame.setLocationRelativeTo(null);
             mainFrame.preload();
             mainFrame.setVisible(true);
             mainFrame.postload();
