@@ -23,7 +23,7 @@ You should be able to simply double click the downloaded .jar file. If this does
 
 ## Configuring Delay
 ### **THIS IS AN EXTREMELY IMPORTANT STEP. THE TOOL WILL NOT WORK AS EXPECTED IF NOT ADJUSTED CORRECTLY TO YOUR IN-GAME PING.**
-### **IF THE TOOL SEEMS TO NOT BE DETECTING WHEN FILTERS HAVE HIT, IT IS MOST LIKELY BECAUSE THIS VALUE IS TOO LOW. ADJUST AND TEST BEFORE YOU TRUST IT.**
+### **IF THE TOOL SEEMS TO NOT BE DETECTING WHEN FILTERS HAVE HIT, IT IS MOST LIKELY BECAUSE THIS VALUE IS TOO LOW. ADJUST AND TEST BEFORE YOU TRUST IT WITH SPAMMING.**
 
 Press F1 while in-game to view your ping to the server you are connected to. Alternatively, logout and it will show you your ping value in the login screen where it asks you to select a server.
 
@@ -50,10 +50,15 @@ Inside the downloaded folder, right click the .jar file and click "Create shortc
 ## Editing the Delay
 To edit the delay, click the gear on the bottom right of the screen. Personally, I run Path of Exile consistently at ~30 ms of ping and have the delay set to 50ms for best results. Adjust accordingly. This has not been officially tested at any higher or lower ping.
 
+# Warnings
+- Open prefix/suffix is not perfect. It will not work with modifiers that contains more than 1 line, such as hybrid mods, because they are counted as two prefixes instead of one. Until GGG updates the copy item system, I cannot do anything about this.
+- Make sure to use the tool while PoE is in either windowed or windowed-fullscreen mode.
+- Do not click your mouse as fast as you can; the tool will not work if you click too fast. The lower your ping, the faster you can click. Do not report an issue that the tool isn't working when you are clicking 20 times a second.
+
 # Frequently Asked Questions
 
 #### Will I be banned for using this tool?
-No. This tool is **entirely** compliant with the Path of Exile terms of service for macros and 3rd party tools.
+No. This tool is **entirely** compliant with the Path of Exile terms of service for macros and 3rd party tools. It only performs one action on the client per click, a simple Ctrl+C.
 
 #### How do I create an "or" logic gate?
 To create an "or" gate, you can create a subfilter in the GUI. To do so, click the white plus button on the left side of the screen to the right of your created filter. The tool will play the sound if the item hits **any** of the created subfilters.
