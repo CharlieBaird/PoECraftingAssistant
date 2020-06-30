@@ -60,9 +60,9 @@ public class ItemType extends JPanel {
         put ("Warstaff", Base.WARSTAFF);
     }};
         
-    public ItemType(JPanel parent)
+    public ItemType()
     {
-        setPreferredSize(new Dimension(523, 32));
+        setPreferredSize(new Dimension(300, 32));
         setBackground(new Color(88,0,0));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         

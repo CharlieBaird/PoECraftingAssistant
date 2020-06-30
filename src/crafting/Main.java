@@ -32,6 +32,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -470,13 +472,13 @@ public class Main extends javax.swing.JFrame {
         jPanel10.add(jButton7);
 
         jPanel15.setOpaque(false);
-        jPanel15.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel15.setPreferredSize(new java.awt.Dimension(426, 20));
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
         jPanel15Layout.setHorizontalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1009,8 +1011,8 @@ public class Main extends javax.swing.JFrame {
             }
         });
         
-        itemType = new ItemType(jPanel10);
-        jPanel10.add(itemType);
+        itemType = new ItemType();
+        jPanel10.add(itemType, Box.RIGHT_ALIGNMENT);
     }
     
     public ItemType itemType = null;

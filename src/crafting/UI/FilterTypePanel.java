@@ -217,8 +217,11 @@ public class FilterTypePanel extends JPanel {
     public static void reshow()
     {
         clear(false);
-        Filter f = FilterTypePanel.filtertypepanels.get(0).filter;
-        frame.genFilterPanel(f);
+        if (!FilterTypePanel.filtertypepanels.isEmpty()) {
+            Filter f = FilterTypePanel.filtertypepanels.get(0).filter;
+            frame.genFilterPanel(f);
+        }
+        
     }
     
     private int getIndex()

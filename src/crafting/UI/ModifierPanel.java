@@ -115,7 +115,15 @@ public class ModifierPanel extends JPanel {
             aMod = Modifier.getExplicitFromStr(mod.name);
         }
         
-        String[] types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
+        String[] types;
+        
+        if (Filters.singleton.SelectedBase == null) {
+            types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
+        }
+        else {
+            types = ModifierComboBox.toArr(BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers);
+        }
+        
         ModifierComboBox mcb = new ModifierComboBox(this, types);
         
         if (aMod != null)
