@@ -238,43 +238,43 @@ public class FilterTypePanel extends JPanel {
     
     public void selectLogicFilter()
     {
-        SearchBox sb = new SearchBox(types);
-        
-        JOptionPane jop = new JOptionPane();
-        sb.setSelectedIndex(getIndex());        
-
-        jop.showMessageDialog(this, sb, "PoE Crafting Assistant", JOptionPane.PLAIN_MESSAGE, null);
-        
-        String selected = sb.getSelectedItem().toString();
-        
-        if (selected != null && !selected.equals(type))
-        {
-            type = selected;
-            typelabel.setText(type);
-            addRemMinMax();
-            
-            Mod[] modsToAdd = new Mod[filterbase.mods.size()];
-            for (int i=0; i<modsToAdd.length; i++)
-            {
-                modsToAdd[i] = filterbase.mods.get(i);
-            }
-            
-            switch (selected)
-            {
-                case "And":
-                    filterbase = new And(modsToAdd);
-                    break;
-                case "Not":
-                    filterbase = new Not(modsToAdd);
-                    break;
-                case "Count":
-                    filterbase = new Count(-100000, 100000, modsToAdd);
-                    break;
-            }
-            
-            filter.filters.set(index, filterbase);
-            Filters.saveFilters();
-        }        
+//        SearchBox sb = new SearchBox(types);
+//        
+//        JOptionPane jop = new JOptionPane();
+//        sb.setSelectedIndex(getIndex());        
+//
+//        jop.showMessageDialog(this, sb, "PoE Crafting Assistant", JOptionPane.PLAIN_MESSAGE, null);
+//        
+//        String selected = sb.getSelectedItem().toString();
+//        
+//        if (selected != null && !selected.equals(type))
+//        {
+//            type = selected;
+//            typelabel.setText(type);
+//            addRemMinMax();
+//            
+//            Mod[] modsToAdd = new Mod[filterbase.mods.size()];
+//            for (int i=0; i<modsToAdd.length; i++)
+//            {
+//                modsToAdd[i] = filterbase.mods.get(i);
+//            }
+//            
+//            switch (selected)
+//            {
+//                case "And":
+//                    filterbase = new And(modsToAdd);
+//                    break;
+//                case "Not":
+//                    filterbase = new Not(modsToAdd);
+//                    break;
+//                case "Count":
+//                    filterbase = new Count(-100000, 100000, modsToAdd);
+//                    break;
+//            }
+//            
+//            filter.filters.set(index, filterbase);
+//            Filters.saveFilters();
+//        }        
     }
     
     protected void hideMods()

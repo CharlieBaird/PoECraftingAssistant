@@ -18,7 +18,6 @@ import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import poeitem.BaseItem;
-import poeitem.ModifierLoader;
 import poeitem.ModifierTier;
 
 public class ModifierPanel extends JPanel {
@@ -55,7 +54,14 @@ public class ModifierPanel extends JPanel {
             max = new MPMinMax(this, "max", false);
         }
         
-        assocMod = Modifier.getExplicitFromStr(mod.name);
+        if (Filters.singleton.SelectedBase != null)
+        {
+            assocMod = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(mod.name);
+        }
+        else
+        {
+            assocMod = Modifier.getExplicitFromStr(mod.name);
+        }
         
         Dimension size = new Dimension((int) (parent.getWidth() * 0.95),(int) (40)); // 0.912
         setSize(size);
@@ -66,7 +72,7 @@ public class ModifierPanel extends JPanel {
         setVisible(filterbase.UIVisible);
         
         CloseMPButton cb = new CloseMPButton(this);
-        mcb = showSearchBox(assocMod);
+        mcb = showSearchBox(mod);
         mcb.setPreferredSize(new Dimension(140,20));
         min = new MPMinMax(this, String.valueOf(mod.ID.min), true);
         max = new MPMinMax(this, String.valueOf(mod.ID.max), false);
@@ -77,11 +83,12 @@ public class ModifierPanel extends JPanel {
         add(mcb, Box.LEFT_ALIGNMENT);
         
 //        add(Box.createHorizontalGlue());
+
+        if (assocMod != null) assocMod.print();
+
         add(tier, Box.RIGHT_ALIGNMENT);
         add(min, Box.RIGHT_ALIGNMENT);
         add(max, Box.RIGHT_ALIGNMENT);
-        
-        addMouseListener(new ModMouseListener(this));
         
         if (Filters.singleton.SelectedBase != null && assocMod != null && assocMod.tiers.size() >= 1)
         {
@@ -95,19 +102,38 @@ public class ModifierPanel extends JPanel {
         Filters.saveFilters();
     }
     
-    public ModifierComboBox showSearchBox(Modifier mod)
+    public ModifierComboBox showSearchBox(Mod mod)
     {
-        
-        String[] types = SearchBox.toArr(Modifier.AllExplicitModifiers);
-        ModifierComboBox mcb = new ModifierComboBox(this, types);
-        
-        if (mod != null)
+        System.out.println("--> " + mod.name);
+        Modifier aMod;
+        if (Filters.singleton.SelectedBase != null)
         {
-            mcb.setSelectedItem((Object) mod.getStr());
+            aMod = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(mod.name);
         }
         else
         {
-            mcb.setSelectedIndex(-1);
+            aMod = Modifier.getExplicitFromStr(mod.name);
+        }
+        
+        String[] types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
+        ModifierComboBox mcb = new ModifierComboBox(this, types);
+        
+        if (aMod != null)
+        {
+            mcb.setSelectedItem((Object) aMod.getStr());
+        }
+        else
+        {
+            if (mod != null)
+            {
+                ((JTextField)mcb.getEditor().getEditorComponent()).setText(mod.name);
+                System.out.println(mod.name);
+                ((JTextField)mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
+            }
+            else
+            {
+                mcb.setSelectedIndex(-1);
+            }
         }
         
         add(mcb);
@@ -171,9 +197,11 @@ public class ModifierPanel extends JPanel {
         {
             for (ModifierPanel mp : ftp.modifierpanels)
             {
+                mp.mcb.update(mp.assocMod, false);
                 Modifier m = mp.updateDD();
                 if (m != null)
                 {
+//                    m.print();
                     errorModifiers.add(m);
                     mp.mcb.setForeground(new Color(238,99,90));
                     mp.hideTierComboBox();
@@ -268,7 +296,12 @@ class TierComboBox extends JComboBox {
             if (!text.equals("min") && !text.equals(""))
             {
                 Integer value = Integer.valueOf(text);
-                if (assocModifier.tiers.size() >= 1)
+                if (assocModifier == null)
+                {
+                    parent.hideTierComboBox();
+                    return;
+                }
+                else if (assocModifier.tiers.size() >= 1)
                 {
                     for (int i=0; i<assocModifier.tiers.size(); i++)
                     {
@@ -299,37 +332,6 @@ class TierComboBox extends JComboBox {
         }
         if (assocModifier.tiers.size() >= 1)
             this.setSelectedIndex(assocModifier.tiers.size());
-    }
-}
-
-class ModMouseListener implements MouseListener {
-    
-    ModifierPanel owner;
-    
-    public ModMouseListener(ModifierPanel owner)
-    {
-        this.owner = owner;
-    }
-    
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        owner.showSearchBox(owner.assocMod);
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
     }
 }
 

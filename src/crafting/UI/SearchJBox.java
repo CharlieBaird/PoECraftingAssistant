@@ -194,30 +194,6 @@ class ClickListenerSJB implements FocusListener
     @Override
     public void focusLost(FocusEvent e) {
         
-        Main.mainFrame.requestFocusInWindow();
-        
-        if (owner.getSelectedIndex() == -1)
-        {
-            ((JTextField) owner.getEditor().getEditorComponent()).setText("");
-            owner.entry = "";
-            
-            String[] compat = owner.getCompatObjects();
-            DefaultComboBoxModel model = new DefaultComboBoxModel(compat);
-            owner.setModel(model);
-            
-            owner.setSelectedIndex(-1);
-            
-            Filters.singleton.SelectedBase = null;
-            Filters.singleton.SelectedIndex = -1;
-            ModifierPanel.updateTierViews();
-        }
-        else
-        {
-            Filters.singleton.SelectedBase = ItemType.BaseTypes.get((String) owner.getSelectedItem());
-            Filters.singleton.SelectedIndex = owner.getSelectedIndex();
-            ModifierPanel.updateTierViews();
-        }
-        Filters.saveFilters();
     }
 }
 
@@ -238,6 +214,7 @@ class SelectionListener implements ItemListener
             Filters.singleton.SelectedBase = ItemType.BaseTypes.get((String) owner.getSelectedItem());
             Filters.singleton.SelectedIndex = owner.getSelectedIndex();
             ModifierPanel.updateTierViews();
+            FilterTypePanel.reshow();
        }
        Filters.saveFilters();
     }

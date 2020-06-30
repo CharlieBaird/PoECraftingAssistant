@@ -14,7 +14,6 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
-import poeitem.BaseItem;
 import poeitem.Modifier;
 
 public class ModifierComboBox extends JComboBox
@@ -50,7 +49,7 @@ public class ModifierComboBox extends JComboBox
         
         this.getEditor().getEditorComponent().addKeyListener(new ModKeyTypedListenerSJB(this));
         this.getEditor().getEditorComponent().addFocusListener(new ModClickListenerSJB(this));
-//        this.addItemListener(new ModSelectionListener(this));
+        this.addItemListener(new ModSelectionListener(this));
         
         this.setSelectedIndex(-1);
 
@@ -114,6 +113,20 @@ public class ModifierComboBox extends JComboBox
             types[i] = typesList.get(i).getStr();
         
         return types;
+    }
+    
+    public void update(Modifier m, boolean updateTierViews)
+    {
+        if (m != null && parent.tier != null)
+        {
+            parent.assocMod = m;
+            parent.mod.name = m.getStr();
+            parent.mod.assocModifier = parent.assocMod;
+            parent.showTierComboBox(m);
+            if (updateTierViews) ModifierPanel.updateTierViews();
+
+            ((JTextField) parent.mcb.getEditor().getEditorComponent()).setForeground(new Color(0,0,0));
+        }
     }
 }
 
@@ -190,46 +203,33 @@ class ModClickListenerSJB implements FocusListener
     @Override
     public void focusLost(FocusEvent e)
     {
-        Main.mainFrame.requestFocusInWindow();
-        
-        Object selected = owner.getSelectedItem();
-        if (selected != null)
-        {
-            Modifier m = Modifier.getExplicitFromStr(selected.toString());
-
-            if (m != null)
-            {
-                owner.parent.assocMod = m;
-                owner.parent.mod.name = m.getStr();
-                owner.parent.mod.assocModifier = owner.parent.assocMod;
-                owner.parent.hideTierComboBox();
-
-                owner.parent.mcb.setForeground(new Color(255,255,255));
-            }
-
-            Filters.saveFilters();
-        }
     }
 }
 
-//class ModSelectionListener implements ItemListener
-//{
-//    
-//    ModifierComboBox owner;
-//    
-//    public ModSelectionListener(ModifierComboBox owner)
-//    {
-//        this.owner = owner;
-//    }
-//    
-//    public void itemStateChanged(ItemEvent event)
-//    {
-//       if (event.getStateChange() == ItemEvent.SELECTED)
-//       {
-//            Filters.singleton.SelectedBase = ItemType.BaseTypes.get((String) owner.getSelectedItem());
-//            Filters.singleton.SelectedIndex = owner.getSelectedIndex();
-//            ModifierPanel.updateTierViews();
-//       }
-//       Filters.saveFilters();
-//    }
-//}
+class ModSelectionListener implements ItemListener
+{
+    
+    ModifierComboBox owner;
+    
+    public ModSelectionListener(ModifierComboBox owner)
+    {
+        this.owner = owner;
+    }
+    
+    public void itemStateChanged(ItemEvent event)
+    {
+       if (event.getStateChange() == ItemEvent.SELECTED)
+       {
+            Object selected = owner.getSelectedItem();
+            if (selected != null)
+            {
+                Modifier m = Modifier.getExplicitFromStr(selected.toString());
+                
+                owner.update(m, true);
+
+                Filters.saveFilters();
+            }
+       }
+       Filters.saveFilters();
+    }
+}
