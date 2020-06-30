@@ -12,11 +12,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.KeyAdapter;
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -35,7 +32,7 @@ public class ModifierPanel extends JPanel {
     public TierComboBox tier;
     public MPMinMax min;
     public MPMinMax max;
-    public ModLabel ml;
+    public ModifierComboBox mcb;
     
     public Modifier assocMod;
     
@@ -69,16 +66,17 @@ public class ModifierPanel extends JPanel {
         setVisible(filterbase.UIVisible);
         
         CloseMPButton cb = new CloseMPButton(this);
-        ml = new ModLabel(this, mod.name);
+        mcb = showSearchBox(assocMod);
+        mcb.setPreferredSize(new Dimension(140,20));
         min = new MPMinMax(this, String.valueOf(mod.ID.min), true);
         max = new MPMinMax(this, String.valueOf(mod.ID.max), false);
         tier = new TierComboBox(this);
         
         add(cb, Box.LEFT_ALIGNMENT);
-        add(Box.createRigidArea(new Dimension(15,0)), Box.LEFT_ALIGNMENT);
-        add(ml, Box.LEFT_ALIGNMENT);
+        add(Box.createRigidArea(new Dimension(7,0)), Box.LEFT_ALIGNMENT);
+        add(mcb, Box.LEFT_ALIGNMENT);
         
-        add(Box.createHorizontalGlue());
+//        add(Box.createHorizontalGlue());
         add(tier, Box.RIGHT_ALIGNMENT);
         add(min, Box.RIGHT_ALIGNMENT);
         add(max, Box.RIGHT_ALIGNMENT);
@@ -97,62 +95,24 @@ public class ModifierPanel extends JPanel {
         Filters.saveFilters();
     }
     
-    public void showSearchBox()
+    public ModifierComboBox showSearchBox(Modifier mod)
     {
+        
         String[] types = SearchBox.toArr(Modifier.AllExplicitModifiers);
-        SearchBox sb = new SearchBox(types);
+        ModifierComboBox mcb = new ModifierComboBox(this, types);
         
-        sb.setSelectedIndex(-1);
-        
-        JPanel msgPanel = new JPanel();
-        msgPanel.add(sb);
-        
-        JOptionPane message = new JOptionPane(msgPanel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION) {
-            @Override
-            public void selectInitialValue() {
-                sb.requestFocusInWindow();
-            }
-        };
-        message.createDialog(this, "PoE Crafting Assistant").setVisible(true);
-        
-        Object selected = sb.getSelectedItem();
-        
-        if (selected != null && !selected.toString().equals(""))
+        if (mod != null)
         {
-            if (Filters.singleton.SelectedBase == null)
-            {
-                Modifier m = Modifier.getExplicitFromStr(selected.toString());
-                if (m != null)
-                {
-                    assocMod = m;
-                    mod.name = m.getStr();
-                    mod.assocModifier = assocMod;
-                    ml.setText(m.getStr());
-                    hideTierComboBox();
-
-                    Filters.saveFilters();
-                    ml.setForeground(new Color(255,255,255));
-                }
-            }
-            else
-            {
-                Modifier m = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(selected.toString());
-                if (m != null)
-                {
-                    assocMod = m;
-                    mod.name = m.getStr();
-                    mod.assocModifier = assocMod;
-                    ml.setText(m.getStr());
-                    
-                    showTierComboBox(m);
-
-                    Filters.saveFilters();
-                    ml.setForeground(new Color(255,255,255));
-                }
-            }
+            mcb.setSelectedItem((Object) mod.getStr());
+        }
+        else
+        {
+            mcb.setSelectedIndex(-1);
         }
         
-        ModifierLoader.loadModifiers();
+        add(mcb);
+        
+        return mcb;
     }
     
     public void showTierComboBox(Modifier m)
@@ -215,12 +175,12 @@ public class ModifierPanel extends JPanel {
                 if (m != null)
                 {
                     errorModifiers.add(m);
-                    mp.ml.setForeground(new Color(238,99,90));
+                    mp.mcb.setForeground(new Color(238,99,90));
                     mp.hideTierComboBox();
                 }
                 else
                 {
-                    mp.ml.setForeground(new Color(255,255,255));
+                    mp.mcb.setForeground(new Color(255,255,255));
                     if (!mp.min.getText().equals("min"))
                     {
                         mp.tier.manualUpdate(mp.min.getText());
@@ -228,12 +188,6 @@ public class ModifierPanel extends JPanel {
                 }
             }
         }
-//        System.out.println(errorModifiers.size());
-//        if (errorModifiers.size() >= 1)
-//        {
-//            String errorMsg = genErrorMsg(errorModifiers);
-//            JOptionPane.showMessageDialog(Main.mainFrame, errorMsg, "Warning", JOptionPane.WARNING_MESSAGE);
-//        }
     }
     
     private static String genErrorMsg(ArrayList<Modifier> mods)
@@ -359,7 +313,7 @@ class ModMouseListener implements MouseListener {
     
     @Override
     public void mouseClicked(MouseEvent e) {
-        owner.showSearchBox();
+        owner.showSearchBox(owner.assocMod);
     }
 
     @Override

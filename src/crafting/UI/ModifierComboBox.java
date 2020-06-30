@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package crafting.UI;
 
 import crafting.Filters;
 import crafting.Main;
-import poeitem.Modifier;
+import java.awt.Color;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
@@ -19,16 +14,18 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import poeitem.BaseItem;
+import poeitem.Modifier;
 
-public class SearchJBox extends JComboBox
+public class ModifierComboBox extends JComboBox
 {
     ComboBoxModel defaultmodel;
-    public ItemType parent;
+    public ModifierPanel parent;
     
     public String entry = "";
     public int caretPos = -1;
     
-    public SearchJBox(ItemType parent, Object[] types)
+    public ModifierComboBox(ModifierPanel parent, Object[] types)
     {
         super(types);
         this.setSelectedIndex(-1);
@@ -50,11 +47,10 @@ public class SearchJBox extends JComboBox
                 maxLength = m;
             }
         }
-        setPrototypeDisplayValue(maxLength);
         
-        this.getEditor().getEditorComponent().addKeyListener(new KeyTypedListenerSJB(this));
-        this.getEditor().getEditorComponent().addFocusListener(new ClickListenerSJB(this));
-        this.addItemListener(new SelectionListener(this));
+        this.getEditor().getEditorComponent().addKeyListener(new ModKeyTypedListenerSJB(this));
+        this.getEditor().getEditorComponent().addFocusListener(new ModClickListenerSJB(this));
+//        this.addItemListener(new ModSelectionListener(this));
         
         this.setSelectedIndex(-1);
 
@@ -121,11 +117,11 @@ public class SearchJBox extends JComboBox
     }
 }
 
-class KeyTypedListenerSJB implements KeyListener
+class ModKeyTypedListenerSJB implements KeyListener
 {
-    SearchJBox owner;
+    ModifierComboBox owner;
 
-    public KeyTypedListenerSJB(SearchJBox owner)
+    public ModKeyTypedListenerSJB(ModifierComboBox owner)
     {
         this.owner = owner;
     }
@@ -177,11 +173,11 @@ class KeyTypedListenerSJB implements KeyListener
     }
 }
 
-class ClickListenerSJB implements FocusListener
+class ModClickListenerSJB implements FocusListener
 {
-    SearchJBox owner;
+    ModifierComboBox owner;
     
-    public ClickListenerSJB(SearchJBox owner)
+    public ModClickListenerSJB(ModifierComboBox owner)
     {
         this.owner = owner;
     }
@@ -192,53 +188,48 @@ class ClickListenerSJB implements FocusListener
     }
 
     @Override
-    public void focusLost(FocusEvent e) {
-        
+    public void focusLost(FocusEvent e)
+    {
         Main.mainFrame.requestFocusInWindow();
         
-        if (owner.getSelectedIndex() == -1)
+        Object selected = owner.getSelectedItem();
+        if (selected != null)
         {
-            ((JTextField) owner.getEditor().getEditorComponent()).setText("");
-            owner.entry = "";
-            
-            String[] compat = owner.getCompatObjects();
-            DefaultComboBoxModel model = new DefaultComboBoxModel(compat);
-            owner.setModel(model);
-            
-            owner.setSelectedIndex(-1);
-            
-            Filters.singleton.SelectedBase = null;
-            Filters.singleton.SelectedIndex = -1;
-            ModifierPanel.updateTierViews();
+            Modifier m = Modifier.getExplicitFromStr(selected.toString());
+
+            if (m != null)
+            {
+                owner.parent.assocMod = m;
+                owner.parent.mod.name = m.getStr();
+                owner.parent.mod.assocModifier = owner.parent.assocMod;
+                owner.parent.hideTierComboBox();
+
+                owner.parent.mcb.setForeground(new Color(255,255,255));
+            }
+
+            Filters.saveFilters();
         }
-        else
-        {
-            Filters.singleton.SelectedBase = ItemType.BaseTypes.get((String) owner.getSelectedItem());
-            Filters.singleton.SelectedIndex = owner.getSelectedIndex();
-            ModifierPanel.updateTierViews();
-        }
-        Filters.saveFilters();
     }
 }
 
-class SelectionListener implements ItemListener
-{
-    
-    SearchJBox owner;
-    
-    public SelectionListener(SearchJBox owner)
-    {
-        this.owner = owner;
-    }
-    
-    public void itemStateChanged(ItemEvent event)
-    {
-       if (event.getStateChange() == ItemEvent.SELECTED)
-       {
-            Filters.singleton.SelectedBase = ItemType.BaseTypes.get((String) owner.getSelectedItem());
-            Filters.singleton.SelectedIndex = owner.getSelectedIndex();
-            ModifierPanel.updateTierViews();
-       }
-       Filters.saveFilters();
-    }
-}
+//class ModSelectionListener implements ItemListener
+//{
+//    
+//    ModifierComboBox owner;
+//    
+//    public ModSelectionListener(ModifierComboBox owner)
+//    {
+//        this.owner = owner;
+//    }
+//    
+//    public void itemStateChanged(ItemEvent event)
+//    {
+//       if (event.getStateChange() == ItemEvent.SELECTED)
+//       {
+//            Filters.singleton.SelectedBase = ItemType.BaseTypes.get((String) owner.getSelectedItem());
+//            Filters.singleton.SelectedIndex = owner.getSelectedIndex();
+//            ModifierPanel.updateTierViews();
+//       }
+//       Filters.saveFilters();
+//    }
+//}
