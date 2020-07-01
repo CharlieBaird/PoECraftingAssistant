@@ -4,9 +4,7 @@ import crafting.Filters;
 import crafting.Main;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
+import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
@@ -14,17 +12,21 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicComboBoxEditor;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 import poeitem.Modifier;
 
 public class ModifierComboBox extends JComboBox
@@ -41,8 +43,22 @@ public class ModifierComboBox extends JComboBox
         
         setRenderer(new ModifierComboBoxRenderer());
         setEditor(new ModifierComboBoxEditor());
-        setBackground(Color.DARK_GRAY);
-        setForeground(Color.DARK_GRAY);
+        setBackground(new Color(60,60,60));
+        setForeground(new Color(60,60,60));
+        
+        // Code to disable/hide arrow button in dropdown from http://www.java2s.com/Tutorials/Java/Swing_How_to/JComboBox/Hide_arrow_button_from_JComboBox.htm
+        UIManager.put("ComboBox.squareButton", Boolean.FALSE);
+            setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton()
+            {
+                JButton b = new JButton();
+                b.setBorder(BorderFactory.createEmptyBorder());
+                b.setVisible(false);
+                return b;
+            }
+        });
+        // End code
         
         this.setSelectedIndex(-1);
         setEditable(true);
@@ -155,8 +171,8 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
 
     public ModifierComboBoxRenderer() {
         setOpaque(true);
-        setFont(Main.mainFrame.getNewFont(18));
-        setBackground(Color.DARK_GRAY);
+//        setFont(Main.mainFrame.getNewFont(18));
+        setBackground(new Color(60,60,60));
         setForeground(Color.WHITE);
         setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
     }
@@ -164,6 +180,16 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         setText(value.toString());
+        
+        if (isSelected)
+        {
+            setBackground(new Color(70,82,96));
+        }
+        else
+        {
+            setBackground(new Color(60,60,60));
+        }
+        
         return this;
     }
 }
@@ -175,9 +201,9 @@ class ModifierComboBoxEditor extends BasicComboBoxEditor {
     public ModifierComboBoxEditor() {
          
         label.setOpaque(false);
-        label.setFont(Main.mainFrame.getNewFont(14));
+//        label.setFont(Main.mainFrame.getNewFont(30));
         label.setForeground(Color.WHITE);
-        label.setBackground(Color.DARK_GRAY);
+        label.setBackground(new Color(60,60,60));
         label.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
         label.setEditable(true);
     }
