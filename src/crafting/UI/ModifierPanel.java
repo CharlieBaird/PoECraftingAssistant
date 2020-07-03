@@ -47,7 +47,7 @@ public class ModifierPanel extends JPanel {
         this.mod = mod;
         this.parent = parent;
         
-        if (mod == null)
+        if (mod == null || mod.name == null)
         {
             mod = new Mod(null, "New Modifier");
             filterbase.mods.add(mod);

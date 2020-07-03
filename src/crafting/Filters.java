@@ -23,6 +23,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import poeitem.Base;
+import poeitem.BaseItem;
+import poeitem.Modifier;
 
 public class Filters implements Serializable {
     
@@ -314,6 +316,19 @@ public class Filters implements Serializable {
                 for (Mod m : fb.mods)
                 {
                     if (m.assocModifier == null)
+                        return false;
+                    
+                    Modifier m2;
+                    if (Filters.singleton.SelectedBase != null)
+                    {
+                        m2 = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(m.name);
+                    }
+                    else
+                    {
+                        m2 = Modifier.getExplicitFromStr(m.name);
+                    }
+                    
+                    if (m2 == null)
                         return false;
                 }
             }

@@ -141,8 +141,9 @@ public class FilterTypePanel extends JPanel {
         
         parent.add(this);
         
-        for (Mod m: filterbase.mods)
+        for (int i=0; i<filterbase.mods.size(); i++)
         {
+            Mod m = filterbase.mods.get(i);
             ModifierPanel mp = new ModifierPanel(frame, this, filterbase, m);
             modifierpanels.add(mp);
             parent.add(mp);

@@ -213,7 +213,6 @@ class SelectionListener implements ItemListener
        {
             Filters.singleton.SelectedBase = ItemType.BaseTypes.get((String) owner.getSelectedItem());
             Filters.singleton.SelectedIndex = owner.getSelectedIndex();
-            ModifierPanel.updateTierViews();
             FilterTypePanel.reshow();
        }
        Filters.saveFilters();
