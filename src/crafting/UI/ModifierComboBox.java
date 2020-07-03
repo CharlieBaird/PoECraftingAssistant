@@ -40,7 +40,7 @@ public class ModifierComboBox extends JComboBox
     {
         super(types);
         
-        setRenderer(new ModifierComboBoxRenderer());
+        setRenderer(new ModifierComboBoxRenderer(this));
         setEditor(new ModifierComboBoxEditor());
         setBackground(new Color(60,60,60));
         setForeground(new Color(60,60,60));
@@ -174,16 +174,59 @@ public class ModifierComboBox extends JComboBox
 
 class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
 
-    public ModifierComboBoxRenderer() {
+    ModifierComboBox owner;
+    
+    public ModifierComboBoxRenderer(ModifierComboBox owner) {
+        this.owner = owner;
         setOpaque(true);
         setBackground(new Color(60,60,60));
         setForeground(Color.WHITE);
         setBorder(BorderFactory.createEmptyBorder(7, 5, 7, 0));
     }
+    
+    private String genHTMLString(String rawtext, String highlight) {
+        
+        String rawTextLower = rawtext.toLowerCase();
+        String highlightLower = highlight.toLowerCase();
+        
+        StringBuffer text = new StringBuffer(rawtext);
+        StringBuffer lowertext = new StringBuffer(rawTextLower);
+        if (!rawTextLower.contains(highlightLower) || highlight.equals(""))
+        {
+//            System.out.println(rawtext + " did not contain " + highlight);
+            return rawtext;
+        }
+        
+        int i=0;
+        while (true)
+        {
+            int index = rawTextLower.indexOf(highlightLower, i);
+            if (index == -1) break;
+            
+            int endIndex = index + highlight.length() + 28;
+            
+            text.insert(index, "<span style=\"Color: YELLOW\">");
+            text.insert(endIndex, "</span>");
+            lowertext.insert(index, "<span style=\"Color: YELLOW\">");
+            lowertext.insert(endIndex, "</span>");
+            rawTextLower = lowertext.toString();
+            i = endIndex + 7;
+        }
+        text.insert(0, "<html>");
+        text.insert(text.length(), "</html>");
+        System.out.println(text.toString());
+        return text.toString();
+    }
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        setText(value.toString());
+        
+//        setText(value.toString());
+
+        String text = genHTMLString(value.toString(), owner.entry);
+        setText(text);
+
+//        setText("<html>    <span style=\"font-family:Arial;font-size:13px;\">Giraffe says :</span>Hi there!    </html>");
         
         if (isSelected)
         {
@@ -212,14 +255,17 @@ class ModifierComboBoxEditor extends BasicComboBoxEditor {
         label.setEditable(true);
     }
      
+    @Override
     public Component getEditorComponent() {
         return this.label;
     }
      
+    @Override
     public Object getItem() {
         return this.selectedItem != null ? this.selectedItem.toString() : null;
     }
      
+    @Override
     public void setItem(Object item) {
         this.selectedItem = item;
         if (item != null)
