@@ -166,6 +166,14 @@ public class ModifierComboBox extends JComboBox
             parent.showTierComboBox(m);
             if (updateTierViews) ModifierPanel.updateTierViews();
         }
+        else if (m == null)
+        {
+            parent.assocMod = null;
+            parent.mod.name = null;
+            parent.mod.assocModifier = parent.assocMod;
+            parent.hideTierComboBox();
+            if (updateTierViews) ModifierPanel.updateTierViews();
+        }
     }
 }
 
@@ -324,31 +332,32 @@ class ModClickListenerSJB implements FocusListener
         ((JTextField) owner.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
        
         String content = ((JTextField) owner.getEditor().getEditorComponent()).getText();
-        if (!content.equals(owner.parent.assocMod.getStr()))
-        {
-            for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
-                String str = (String) owner.defaultmodel.getElementAt(i);
-                if (content.equals(str))
+        
+        for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
+            String str = (String) owner.defaultmodel.getElementAt(i);
+            if (content.equals(str))
+            {
+                Modifier m;
+                if (Filters.singleton.SelectedBase != null)
                 {
-                    Modifier m;
-                    if (Filters.singleton.SelectedBase != null)
-                    {
-                        m = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(str);
-                    }
-                    else
-                    {
-                        m = Modifier.getExplicitFromStr(str);
-                    }
-                    
-                    owner.update(m, true);
-                    Filters.saveFilters();
-                    
-                    return;
+                    m = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(str);
                 }
-               
+                else
+                {
+                    m = Modifier.getExplicitFromStr(str);
+                }
+
+                owner.update(m, true);
+                Filters.saveFilters();
+
+                return;
             }
-            ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
+
         }
+        
+        ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
+        owner.update(null, true);
+        Filters.saveFilters();
     }
 }
 
