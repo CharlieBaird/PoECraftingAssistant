@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
+import javax.swing.plaf.basic.BasicComboBoxEditor;
 import poeitem.BaseItem;
 import poeitem.ModifierTier;
 
@@ -84,8 +85,6 @@ public class ModifierPanel extends JPanel {
         
 //        add(Box.createHorizontalGlue());
 
-        if (assocMod != null) assocMod.print();
-
         add(tier, Box.RIGHT_ALIGNMENT);
         add(min, Box.RIGHT_ALIGNMENT);
         add(max, Box.RIGHT_ALIGNMENT);
@@ -104,7 +103,6 @@ public class ModifierPanel extends JPanel {
     
     public ModifierComboBox showSearchBox(Mod mod)
     {
-        System.out.println("--> " + mod.name);
         Modifier aMod;
         if (Filters.singleton.SelectedBase != null)
         {
@@ -135,7 +133,6 @@ public class ModifierPanel extends JPanel {
             if (mod != null)
             {
                 ((JTextField)mcb.getEditor().getEditorComponent()).setText(mod.name);
-                System.out.println(mod.name);
                 ((JTextField)mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
             }
             else
@@ -209,7 +206,6 @@ public class ModifierPanel extends JPanel {
                 Modifier m = mp.updateDD();
                 if (m != null)
                 {
-//                    m.print();
                     errorModifiers.add(m);
                     mp.mcb.setForeground(new Color(238,99,90));
                     mp.hideTierComboBox();
@@ -266,6 +262,8 @@ class TierComboBox extends JComboBox {
                }
             }
         });
+
+        
     }
     
     public void setMin(int whatTier)
@@ -291,8 +289,8 @@ class TierComboBox extends JComboBox {
         tiersStr[tiersStr.length-1] = "Custom";
         for (int i=0; i<tiers.length; i++)
         {
-            int val = (int) m.tiers.get(m.tiers.size()-1-i).getValue();
-            tiersStr[i] = "T" + (i + 1) /*+ " - " + val*/;
+//            int val = (int) m.tiers.get(m.tiers.size()-1-i).getValue();
+            tiersStr[i] = "T" + (i + 1)/* + " - " + val*/;
         }
         
         return tiersStr;
@@ -326,14 +324,6 @@ class TierComboBox extends JComboBox {
                 else
                 {
                     parent.hideTierComboBox();
-                    return;
-                }
-            }
-            else
-            {
-                if (this.getSelectedIndex() != assocModifier.tiers.size())
-                {
-                    setMin(this.getSelectedIndex()+1);
                     return;
                 }
             }
@@ -446,7 +436,8 @@ class MPMinMax extends JTextField {
     public void focusLost()
     {
         
-        if (getText().isEmpty()) {
+        if (getText().isEmpty())
+        {
             setText(placeholder);
             setForeground(new Color(120,120,120));
             if (isMin) parent.mod.ID.min = -100000;
@@ -459,14 +450,12 @@ class MPMinMax extends JTextField {
                 if (isMin) parent.mod.ID.min = Integer.valueOf(parent.min.getText());
                 else       parent.mod.ID.max = Integer.valueOf(parent.max.getText());
             } catch (NumberFormatException e) { }
-            
-            if (isMin && parent.tier.isVisible())
-            {
-                parent.tier.manualUpdate(getText());
-            }
         }
-        
-        
+            
+        if (isMin && parent.tier.isVisible())
+        {
+            parent.tier.manualUpdate(getText());
+        }
         
         Filters.saveFilters();
     }

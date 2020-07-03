@@ -12,6 +12,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import javafx.scene.input.KeyCode;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
@@ -27,6 +28,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.plaf.basic.BasicComboBoxUI;
+import poeitem.BaseItem;
 import poeitem.Modifier;
 
 public class ModifierComboBox extends JComboBox
@@ -36,6 +38,8 @@ public class ModifierComboBox extends JComboBox
     
     public String entry = "";
     public int caretPos = -1;
+    
+    boolean allSelected = false;
     
     public ModifierComboBox(ModifierPanel parent, Object[] types)
     {
@@ -161,8 +165,6 @@ public class ModifierComboBox extends JComboBox
             parent.mod.assocModifier = parent.assocMod;
             parent.showTierComboBox(m);
             if (updateTierViews) ModifierPanel.updateTierViews();
-
-            ((JTextField) parent.mcb.getEditor().getEditorComponent()).setForeground(Color.WHITE);
         }
     }
 }
@@ -171,10 +173,9 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
 
     public ModifierComboBoxRenderer() {
         setOpaque(true);
-//        setFont(Main.mainFrame.getNewFont(18));
         setBackground(new Color(60,60,60));
         setForeground(Color.WHITE);
-        setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+        setBorder(BorderFactory.createEmptyBorder(7, 5, 7, 0));
     }
 
     @Override
@@ -201,7 +202,7 @@ class ModifierComboBoxEditor extends BasicComboBoxEditor {
     public ModifierComboBoxEditor() {
          
         label.setOpaque(false);
-//        label.setFont(Main.mainFrame.getNewFont(30));
+        label.setFont(Main.mainFrame.getNewFont(12));
         label.setForeground(Color.WHITE);
         label.setBackground(new Color(60,60,60));
         label.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
@@ -221,7 +222,6 @@ class ModifierComboBoxEditor extends BasicComboBoxEditor {
         if (item != null)
             label.setText(item.toString());
     }
-     
 }
 
 class ModKeyTypedListenerSJB implements KeyListener
@@ -240,12 +240,22 @@ class ModKeyTypedListenerSJB implements KeyListener
     @Override
     public void keyPressed(KeyEvent e) {
         // Detect backspace key, to update every time even when held down
+        ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
         if (e.getKeyCode() == 8)
         {
-            JTextField editor = (JTextField) owner.getEditor().getEditorComponent();
-            owner.caretPos = editor.getCaretPosition();
-            owner.updateList();
+            if (e.isControlDown() || owner.allSelected)
+            {
+                JTextField editor = (JTextField) owner.getEditor().getEditorComponent();
+                editor.setText("");
+            }
+            else
+            {
+                JTextField editor = (JTextField) owner.getEditor().getEditorComponent();
+                owner.caretPos = editor.getCaretPosition();
+                owner.updateList();
+            }
         }
+        owner.allSelected = false;
     }
 
     // Logic of search box for keys, shortcuts, etc.
@@ -259,12 +269,13 @@ class ModKeyTypedListenerSJB implements KeyListener
             Main.mainFrame.requestFocusInWindow();
         }
         
-        // Ctrl + A
-        // Credit to PR from https://github.com/JamesZoft
-        else if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_A)
+        else if (e.isControlDown())
         {
-            owner.showPopup();
-            owner.getEditor().selectAll();
+            if (e.getKeyCode() == KeyEvent.VK_A)
+            {
+                owner.allSelected = true;
+            }
+            e.consume();
         }
         
         // Up / Down arrow for selecting should not update the list.        
@@ -283,7 +294,7 @@ class ModKeyTypedListenerSJB implements KeyListener
             JTextField editor = (JTextField) owner.getEditor().getEditorComponent();
     //            owner.entry = owner.getEditor().getItem().toString();
             owner.caretPos = editor.getCaretPosition();
-            owner.updateList();
+            owner.updateList(); 
         }
     }
 }
@@ -301,11 +312,43 @@ class ModClickListenerSJB implements FocusListener
     public void focusGained(FocusEvent e) {
         if (owner.getModel().getSize() >= 1)
             owner.showPopup();
+        
+        owner.allSelected = false;
+       ((JTextField) owner.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
     }
 
     @Override
     public void focusLost(FocusEvent e)
     {
+        owner.allSelected = false;
+        ((JTextField) owner.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
+       
+        String content = ((JTextField) owner.getEditor().getEditorComponent()).getText();
+        if (!content.equals(owner.parent.assocMod.getStr()))
+        {
+            for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
+                String str = (String) owner.defaultmodel.getElementAt(i);
+                if (content.equals(str))
+                {
+                    Modifier m;
+                    if (Filters.singleton.SelectedBase != null)
+                    {
+                        m = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(str);
+                    }
+                    else
+                    {
+                        m = Modifier.getExplicitFromStr(str);
+                    }
+                    
+                    owner.update(m, true);
+                    Filters.saveFilters();
+                    
+                    return;
+                }
+               
+            }
+            ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
+        }
     }
 }
 
@@ -321,18 +364,29 @@ class ModSelectionListener implements ItemListener
     
     public void itemStateChanged(ItemEvent event)
     {
-       if (event.getStateChange() == ItemEvent.SELECTED)
-       {
-            Object selected = owner.getSelectedItem();
+        String selected = (String) owner.getSelectedItem();
+        ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
+        
+        if (event.getStateChange() == ItemEvent.SELECTED)
+        {
             if (selected != null)
             {
-                Modifier m = Modifier.getExplicitFromStr(selected.toString());
+                Modifier m;
+                if (Filters.singleton.SelectedBase != null)
+                {
+                    m = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(selected);
+                }
+                else
+                {
+                    m = Modifier.getExplicitFromStr(selected);
+                }
                 
                 owner.update(m, true);
 
                 Filters.saveFilters();
             }
-       }
-       Filters.saveFilters();
+        }
+        Filters.saveFilters();
+        ((JTextField) owner.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
     }
 }
