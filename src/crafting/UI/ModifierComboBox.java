@@ -248,28 +248,36 @@ class ModKeyTypedListenerSJB implements KeyListener
     @Override
     public void keyPressed(KeyEvent e) {
         // Detect backspace key, to update every time even when held down
-        ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
+        if (e.getKeyCode() != 17)
+            ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
+        
         if (e.getKeyCode() == 8)
         {
+            JTextField editor = (JTextField) owner.getEditor().getEditorComponent();
             if (e.isControlDown() || owner.allSelected)
             {
-                JTextField editor = (JTextField) owner.getEditor().getEditorComponent();
                 editor.setText("");
             }
-            else
-            {
-                JTextField editor = (JTextField) owner.getEditor().getEditorComponent();
-                owner.caretPos = editor.getCaretPosition();
-                owner.updateList();
-            }
+            owner.caretPos = editor.getCaretPosition();
+            owner.updateList();
         }
         owner.allSelected = false;
+        ctrlWasPressed = false;
     }
-
+    
+    boolean ctrlWasPressed = false;
+    
     // Logic of search box for keys, shortcuts, etc.
     @Override
     public void keyReleased(KeyEvent e)
     {
+        
+        if (e.getKeyCode() == KeyEvent.VK_CONTROL)
+        {
+            ctrlWasPressed = true;
+            return;
+        }
+        
         // Enter key
         if (e.getKeyCode() == 10)
         {
@@ -302,7 +310,15 @@ class ModKeyTypedListenerSJB implements KeyListener
             JTextField editor = (JTextField) owner.getEditor().getEditorComponent();
     //            owner.entry = owner.getEditor().getItem().toString();
             owner.caretPos = editor.getCaretPosition();
-            owner.updateList(); 
+            
+            if (!ctrlWasPressed)
+                owner.updateList(); 
+        }
+        
+        if (ctrlWasPressed && e.getKeyCode() == KeyEvent.VK_A)
+        {
+            owner.allSelected = true;
+            ctrlWasPressed = false;
         }
     }
 }
@@ -317,7 +333,15 @@ class ModClickListenerSJB implements FocusListener
     }
 
     @Override
-    public void focusGained(FocusEvent e) {
+    public void focusGained(FocusEvent e)
+    {
+        if (((JTextField) owner.getEditor().getEditorComponent()).getText().equals("New Modifier"))
+        {
+            ((JTextField) owner.getEditor().getEditorComponent()).setText("");
+        }
+        owner.caretPos = ((JTextField) owner.getEditor().getEditorComponent()).getCaretPosition();
+        
+        owner.updateList();
         if (owner.getModel().getSize() >= 1)
             owner.showPopup();
         
@@ -355,7 +379,9 @@ class ModClickListenerSJB implements FocusListener
 
         }
         
+        ((JTextField) owner.getEditor().getEditorComponent()).setText("New Modifier");
         ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
+        owner.entry = "";
         owner.update(null, true);
         Filters.saveFilters();
     }
