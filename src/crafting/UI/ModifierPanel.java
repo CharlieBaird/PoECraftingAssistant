@@ -12,12 +12,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
-import javax.swing.plaf.basic.BasicComboBoxEditor;
 import poeitem.BaseItem;
 import poeitem.ModifierTier;
 
@@ -257,7 +254,7 @@ class TierComboBox extends JComboBox {
                {
                     String selection = (String) event.getItem();
                     if (selection.equals("Custom")) return;
-                    int tier = Integer.valueOf((selection).substring(1,2));
+                    int tier = Integer.valueOf((selection).substring(1,selection.length()));
                     setMin(tier);
                }
             }
@@ -311,6 +308,7 @@ class TierComboBox extends JComboBox {
                 {
                     for (int i=0; i<assocModifier.tiers.size(); i++)
                     {
+                        System.out.println(assocModifier.tiers.get(i).getValue());
                         if ((int) assocModifier.tiers.get(i).getValue() == value)
                         {
                             int foundTier = assocModifier.tiers.size() - i - 1;

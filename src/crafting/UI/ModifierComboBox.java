@@ -214,7 +214,6 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
         }
         text.insert(0, "<html>");
         text.insert(text.length(), "</html>");
-        System.out.println(text.toString());
         return text.toString();
     }
 
