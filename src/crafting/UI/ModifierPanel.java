@@ -44,10 +44,16 @@ public class ModifierPanel extends JPanel {
         this.mod = mod;
         this.parent = parent;
         
-        if (mod == null || mod.name == null)
+        if (mod == null)
         {
-            mod = new Mod(null, "New Modifier");
+            mod = new Mod(null, null);
             filterbase.mods.add(mod);
+            min = new MPMinMax(this, "min", true);
+            max = new MPMinMax(this, "max", false);
+        }
+        else if (mod.name == null)
+        {
+            mod = new Mod(null, null);
             min = new MPMinMax(this, "min", true);
             max = new MPMinMax(this, "max", false);
         }
@@ -127,15 +133,11 @@ public class ModifierPanel extends JPanel {
         }
         else
         {
-            if (mod != null)
-            {
-                ((JTextField)mcb.getEditor().getEditorComponent()).setText(mod.name);
-                ((JTextField)mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
-            }
+            if (mod.name == null)
+                ((JTextField)mcb.getEditor().getEditorComponent()).setText("New Modifier");
             else
-            {
-                mcb.setSelectedIndex(-1);
-            }
+                ((JTextField)mcb.getEditor().getEditorComponent()).setText(mod.name);
+            ((JTextField)mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
         }
         
         add(mcb);
@@ -308,7 +310,6 @@ class TierComboBox extends JComboBox {
                 {
                     for (int i=0; i<assocModifier.tiers.size(); i++)
                     {
-                        System.out.println(assocModifier.tiers.get(i).getValue());
                         if ((int) assocModifier.tiers.get(i).getValue() == value)
                         {
                             int foundTier = assocModifier.tiers.size() - i - 1;

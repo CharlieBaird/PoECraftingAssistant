@@ -207,9 +207,7 @@ public class FilterTypePanel extends JPanel {
             this.setVisible(false);
             
             filtertypepanels.remove(this);
-//            Filters.print();
             filter.filters.remove(filterbase);
-//            Filters.print();
 
             Filters.saveFilters();
         }
@@ -315,7 +313,6 @@ class AddButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                
                 ModifierPanel mp = new ModifierPanel(parent.frame, parent, parent.filterbase, null);
                 parent.modifierpanels.add(mp);
                 parent.parent.add(mp);
