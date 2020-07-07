@@ -79,6 +79,13 @@ public class PoECraftingAssistant {
                         }
                     }
                 }
+                
+                @Override
+                public void mouseMoved(GlobalMouseEvent event)
+                {
+                    Point p = MouseInfo.getPointerInfo().getLocation();
+                    activityTooltip.setLocation(p.x-30, p.y-30);
+                }
             });
         } catch (RuntimeException | UnsatisfiedLinkError e) {
             System.out.println("Failed");
@@ -138,12 +145,20 @@ public class PoECraftingAssistant {
     
     public static void stop()
     {
+        System.out.println("Stopping");
+        if (activityTooltip != null) {
+            activityTooltip.setVisible(false);
+            activityTooltip.dispose();
+        }
+        
         run = false;
         if (mouseHook != null)
             mouseHook.shutdownHook();
         mouseHook = null;
         Main.setChaosIcon(Main.mainFrame.getClass().getResource("/resources/images/chaos.png"));
     }
+    
+    private static ActivityTooltip activityTooltip;
         
     public static void runChaosSpam(Main main)
     {
@@ -165,8 +180,10 @@ public class PoECraftingAssistant {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(selection, selection);
         
+        activityTooltip = new ActivityTooltip();
         while (!establishMouseHook());
         Main.setChaosIcon(main.getClass().getResource("/resources/images/chaosrun.png"));
+        
     }
     
     public static void testFilter(Main main, JButton owner)

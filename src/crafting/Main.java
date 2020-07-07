@@ -543,6 +543,11 @@ public class Main extends javax.swing.JFrame {
         jButton2.setMinimumSize(new java.awt.Dimension(60, 60));
         jButton2.setPreferredSize(new java.awt.Dimension(60, 60));
         jButton2.setRequestFocusEnabled(false);
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButton2MousePressed(evt);
+            }
+        });
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runChaosSpam(evt);
@@ -665,7 +670,7 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runChaosSpam
-        PoECraftingAssistant.runChaosSpam(mainFrame);
+//        PoECraftingAssistant.runChaosSpam(mainFrame);
     }//GEN-LAST:event_runChaosSpam
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -846,6 +851,10 @@ public class Main extends javax.swing.JFrame {
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         Filters.print();
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MousePressed
+        PoECraftingAssistant.runChaosSpam(mainFrame);
+    }//GEN-LAST:event_jButton2MousePressed
 
     public void updateLeftTab()
     {
@@ -1055,17 +1064,18 @@ public class Main extends javax.swing.JFrame {
         this.addWindowFocusListener(new WindowFocusListener() {
         @Override
         public void windowGainedFocus(WindowEvent e) {
-            if (e.getOppositeWindow() == null) {
-                if (Settings.singleton.disableOnFocus)
-                    PoECraftingAssistant.stop();
-            }
+//            System.out.println("Window gained focus");
+//            if (e.getOppositeWindow() == null) {
+//                if (Settings.singleton.disableOnFocus)
+//                    PoECraftingAssistant.stop();
+//            }
         }
 
         @Override
         public void windowLostFocus(WindowEvent e) {
-            if (e.getOppositeWindow() != null) {
-                PoECraftingAssistant.stop();
-            }
+//            if (e.getOppositeWindow() != null) {
+//                PoECraftingAssistant.stop();
+//            }
         }
     });
     }
