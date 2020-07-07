@@ -47,7 +47,8 @@ public class ModifierComboBox extends JComboBox
         
         // Code to disable/hide arrow button in dropdown from http://www.java2s.com/Tutorials/Java/Swing_How_to/JComboBox/Hide_arrow_button_from_JComboBox.htm
         UIManager.put("ComboBox.squareButton", Boolean.FALSE);
-            setUI(new BasicComboBoxUI() {
+        setUI(new BasicComboBoxUI() 
+        {
             @Override
             protected JButton createArrowButton()
             {
@@ -59,23 +60,10 @@ public class ModifierComboBox extends JComboBox
         });
         // End code
         
-        this.setSelectedIndex(-1);
         setEditable(true);
         
         this.parent = parent;
         defaultmodel = this.getModel();
-        
-        this.setSelectedIndex(0);
-        
-        String maxLength = "a";
-        for (int i=0; i<getModel().getSize(); i++)
-        {
-            String m = (String) getModel().getElementAt(i);
-            if (m.length() > maxLength.length())
-            {
-                maxLength = m;
-            }
-        }
         
         this.getEditor().getEditorComponent().addKeyListener(new ModKeyTypedListenerSJB(this));
         this.getEditor().getEditorComponent().addFocusListener(new ModClickListenerSJB(this));
@@ -167,6 +155,9 @@ public class ModifierComboBox extends JComboBox
             parent.mod.name = null;
             parent.mod.assocModifier = parent.assocMod;
             parent.hideTierComboBox();
+            
+            
+            
             if (updateTierViews) ModifierPanel.updateTierViews();
         }
     }
@@ -182,6 +173,7 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
         setBackground(new Color(60,60,60));
         setForeground(Color.WHITE);
         setBorder(BorderFactory.createEmptyBorder(7, 5, 7, 0));
+        setFont(Main.mainFrame.getNewFont(12));
     }
     
     private String genHTMLString(String rawtext, String highlight) {
@@ -197,21 +189,15 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
             return rawtext;
         }
         
-        int i=0;
-        while (true)
-        {
-            int index = rawTextLower.indexOf(highlightLower, i);
-            if (index == -1) break;
+        int index = rawTextLower.indexOf(highlightLower);
+        int endIndex = index + highlight.length() + 28;
+
+        text.insert(index, "<span style=\"Color: YELLOW\">");
+        text.insert(endIndex, "</span>");
+        lowertext.insert(index, "<span style=\"Color: YELLOW\">");
+        lowertext.insert(endIndex, "</span>");
+        rawTextLower = lowertext.toString();
             
-            int endIndex = index + highlight.length() + 28;
-            
-            text.insert(index, "<span style=\"Color: YELLOW\">");
-            text.insert(endIndex, "</span>");
-            lowertext.insert(index, "<span style=\"Color: YELLOW\">");
-            lowertext.insert(endIndex, "</span>");
-            rawTextLower = lowertext.toString();
-            i = endIndex + 7;
-        }
         text.insert(0, "<html>");
         text.insert(text.length(), "</html>");
         return text.toString();
@@ -220,12 +206,8 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         
-//        setText(value.toString());
-
         String text = genHTMLString(value.toString(), owner.entry);
         setText(text);
-
-//        setText("<html>    <span style=\"font-family:Arial;font-size:13px;\">Giraffe says :</span>Hi there!    </html>");
         
         if (isSelected)
         {
