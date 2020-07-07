@@ -34,7 +34,7 @@ public class PoECraftingAssistant {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        Utility.SortExplicitModifiers();
+//        Utility.SortExplicitModifiers();
         
         Main.main();
         Settings.load();

@@ -146,16 +146,28 @@ public class FilterTypePanel extends JPanel {
         for (int i=0; i<filterbase.mods.size(); i++)
         {
             Mod m = filterbase.mods.get(i);
-            ModifierPanel mp = m.assocModifierPanel == null
-                    ? new ModifierPanel(frame, this, filterbase, m, null)
-                    : m.assocModifierPanel;
+            
+            ModifierPanel mp;
+            boolean bypass;
+            if (m.assocModifierPanel == null) {
+                mp = new ModifierPanel(frame, this, filterbase, m, null);
+                bypass = true;
+            }
+            else {
+                mp = m.assocModifierPanel;
+                bypass = false;
+            }
+            
             modifierpanels.add(mp);
             parent.add(mp);
             mp.setVisible(true);
             
-            if (Filters.singleton.SelectedBase != null && mp.assocMod != null)
+            System.out.println("Here2");
+            if (!bypass)
             {
-                mp.assocMod = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(mp.assocMod.getStr());
+                System.out.println("Here");
+                if (mp.assocMod != null)
+                    mp.assocMod = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(mp.assocMod.getStr());
                 mp.mcb.update(mp.assocMod, true);
                 
                 String[] types;
@@ -167,6 +179,7 @@ public class FilterTypePanel extends JPanel {
                     types = ModifierComboBox.toArr(BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers);
                 }
                 
+                System.out.println("Here");
                 Object selItem = mp.mcb.getSelectedItem();
                 mp.mcb.setModel(new DefaultComboBoxModel<String>(types));
                 mp.mcb.defaultmodel = mp.mcb.getModel();

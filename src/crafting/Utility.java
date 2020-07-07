@@ -163,44 +163,44 @@ public class Utility {
         }
     }
     
-    public static void SortExplicitModifiers()
-    {
-        String[] priorityMods = new String[] {
-            "+# to maximum Life",
-            "#% increased maximum Energy Shield",
-            "+# to maximum Energy Shield",
-            "+#% total Elemental Resistance",
-            "+#% total Resistance",
-            "Energy Shield: #",
-            "# Empty Suffix Modifiers",
-            "# Empty Prefix Modifiers",
-            "#% increased Movement Speed",
-            "+# to Dexterity",
-            "+# to Intelligence",
-            "+# to Strength",
-            "+#% to Fire Resistance",
-            "+#% to Cold Resistance",
-            "+#% to Lightning Resistance",
-            "+#% to Chaos Resistance"
-        };
-        
-        for (int j=priorityMods.length-1; j>=0; j--)
-        {
-            for (int i=0; i<AllExplicitModifiers.size(); i++)
-            {
-                if (AllExplicitModifiers.get(i).getStr().equals(priorityMods[j]))
-                {
-                    pushToFront(i);
-                    break;
-                }
-            }
-        }
-    }
-    
-    private static void pushToFront(int index)
-    {
-        Modifier m = AllExplicitModifiers.get(index);
-        AllExplicitModifiers.remove(m);
-        AllExplicitModifiers.add(0, m);
-    }
+//    public static void SortExplicitModifiers()
+//    {
+//        String[] priorityMods = new String[] {
+//            "+# to maximum Life",
+//            "#% increased maximum Energy Shield",
+//            "+# to maximum Energy Shield",
+//            "+#% total Elemental Resistance",
+//            "+#% total Resistance",
+//            "Energy Shield: #",
+//            "# Empty Suffix Modifiers",
+//            "# Empty Prefix Modifiers",
+//            "#% increased Movement Speed",
+//            "+# to Dexterity",
+//            "+# to Intelligence",
+//            "+# to Strength",
+//            "+#% to Fire Resistance",
+//            "+#% to Cold Resistance",
+//            "+#% to Lightning Resistance",
+//            "+#% to Chaos Resistance"
+//        };
+//        
+//        for (int j=priorityMods.length-1; j>=0; j--)
+//        {
+//            for (int i=0; i<AllExplicitModifiers.size(); i++)
+//            {
+//                if (AllExplicitModifiers.get(i).getStr().equals(priorityMods[j]))
+//                {
+//                    pushToFront(i);
+//                    break;
+//                }
+//            }
+//        }
+//    }
+//    
+//    private static void pushToFront(int index)
+//    {
+//        Modifier m = AllExplicitModifiers.get(index);
+//        AllExplicitModifiers.remove(m);
+//        AllExplicitModifiers.add(0, m);
+//    }
 }

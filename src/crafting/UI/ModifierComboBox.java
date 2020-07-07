@@ -126,7 +126,7 @@ public class ModifierComboBox extends JComboBox
                     && m.getModGenerationTypeID() != -3
                 )
             {
-                typesList.remove(m);
+                typesList.remove(i);
                 i--;
             }
         }
@@ -143,6 +143,7 @@ public class ModifierComboBox extends JComboBox
     {
         if (m != null && parent.tier != null)
         {
+            System.out.println("1");
             parent.assocMod = m;
             parent.mod.name = m.getStr();
             parent.mod.assocModifier = parent.assocMod;
@@ -151,14 +152,16 @@ public class ModifierComboBox extends JComboBox
         }
         else if (m == null)
         {
+            System.out.println("2");
             parent.assocMod = null;
             parent.mod.name = null;
             parent.mod.assocModifier = parent.assocMod;
             parent.hideTierComboBox();
-            
-            
-            
             if (updateTierViews) ModifierPanel.updateTierViews();
+        }
+        else
+        {
+            System.out.println("3");
         }
     }
 }
