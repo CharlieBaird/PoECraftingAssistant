@@ -147,62 +147,41 @@ public class Filters implements Serializable {
     
     public static void prepItemLoad()
     {
-        Item loadCode = Item.createItem
-        (
-            "Rarity: Rare\n" +
-            "Woe Sanctuary\n" +
-            "Assassin's Garb\n" +
-            "--------\n" +
-            "Quality: +20% (augmented)\n" +
-            "Evasion Rating: 884 (augmented)\n" +
-            "--------\n" +
-            "Requirements:\n" +
-            "Level: 72\n" +
-            "Str: 70\n" +
-            "Dex: 183\n" +
-            "Int: 155\n" +
-            "--------\n" +
-            "Sockets: R-B-B-G-G-G \n" +
-            "--------\n" +
-            "Item Level: 85\n" +
-            "--------\n" +
-            "3% increased Movement Speed (implicit)\n" +
-            "--------\n" +
-            "+79 to maximum Life\n" +
-            "26% increased Stun and Block Recovery\n" +
-            "Attacks have +1.41% to Critical Strike Chance\n" +
-            "You have Consecrated Ground around you while stationary\n" +
-            "Enemies you Kill Explode, dealing 3% of their Life as Physical Damage\n" +
-            "+35% to Fire Resistance (crafted)\n" +
-            "--------\n" +
-            "Elder Item\n" +
-            "Crusader Item"
-        );
-        
-        Item loadCode2 = Item.createItem
-        (
-            "Rarity: Rare\n" +
-            "Beast Spark\n" +
-            "Titan Greaves\n" +
-            "--------\n" +
-            "Quality: +20% (augmented)\n" +
-            "Armour: 324 (augmented)\n" +
-            "--------\n" +
-            "Requirements:\n" +
-            "Level: 68\n" +
-            "Str: 120\n" +
-            "--------\n" +
-            "Sockets: R-R-R-R \n" +
-            "--------\n" +
-            "Item Level: 86\n" +
-            "--------\n" +
-            "+29 to Armour\n" +
-            "Regenerate 13.2 Life per second\n" +
-            "+43% to Fire Resistance\n" +
-            "26% increased Stun and Block Recovery\n" +
-            "--------\n" +
-            "Hunter Item"
-        );
+        for (int i=0; i<5; i++)
+            {
+            Item loadCode = Item.createItem
+            (
+                "Rarity: Rare\n" +
+                "Woe Sanctuary\n" +
+                "Assassin's Garb\n" +
+                "--------\n" +
+                "Quality: +20% (augmented)\n" +
+                "Evasion Rating: 884 (augmented)\n" +
+                "--------\n" +
+                "Requirements:\n" +
+                "Level: 72\n" +
+                "Str: 70\n" +
+                "Dex: 183\n" +
+                "Int: 155\n" +
+                "--------\n" +
+                "Sockets: R-B-B-G-G-G \n" +
+                "--------\n" +
+                "Item Level: 85\n" +
+                "--------\n" +
+                "3% increased Movement Speed (implicit)\n" +
+                "--------\n" +
+                "+79 to maximum Life\n" +
+                "26% increased Stun and Block Recovery\n" +
+                "Attacks have +1.41% to Critical Strike Chance\n" +
+                "You have Consecrated Ground around you while stationary\n" +
+                "Enemies you Kill Explode, dealing 3% of their Life as Physical Damage\n" +
+                "+35% to Fire Resistance (crafted)\n" +
+                "--------\n" +
+                "Elder Item\n" +
+                "Crusader Item"
+            );
+            loadCode.hitFilters(singleton);;
+        }
     }
     
     public static void print()

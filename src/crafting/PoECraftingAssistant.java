@@ -68,15 +68,19 @@ public class PoECraftingAssistant {
                         if (onSwingWindow() || ignore) return;
                         
                         delay(Settings.singleton.delay + 35);
-                        
-                        if(Filters.checkIfHitOne(debug))
+                        double start = System.nanoTime();
+                        boolean b = Filters.checkIfHitOne(debug);
+                        System.out.println("Elapsed: " + (System.nanoTime() - start)/1000000);
+                        if(b)
                         {
-                            Utility.playHitSound();
                             if (Settings.singleton.showPopup)
-                                showPopup();
+                                activityTooltip.modHit();
+                            
+                            Utility.playHitSound();
                             if (Settings.singleton.disableOnHit)
                                 stop();
                         }
+                        
                     }
                 }
                 
@@ -93,37 +97,6 @@ public class PoECraftingAssistant {
         }
         
         return success;
-    }
-    
-    private static void showPopup()
-    {
-        ignore = true;
-        
-        popup = new JFrame();
-        popup.setUndecorated(true);
-        popup.setSize(100,100);
-        
-        JPanel panel = new JPanel();
-        panel.setSize(120,120);
-        panel.setBackground(new Color(80,80,80));
-        popup.add(panel);
-        
-        Point pos = MouseInfo.getPointerInfo().getLocation();
-        popup.setLocation(pos.x - popup.getWidth()/2, pos.y - popup.getHeight()/2);
-        popup.setAlwaysOnTop(true);
-        popup.setVisible(true);
-        
-        
-        new Thread( new Runnable() {
-        @Override
-        public void run()  {
-            try  { Thread.sleep( 2000 ); }
-            catch (InterruptedException ie)  {}
-            popup.dispose();
-            ignore = false;
-        }
-    } ).start();
-        
     }
     
     private static boolean onSwingWindow()
@@ -168,13 +141,14 @@ public class PoECraftingAssistant {
             return;
         }
         
-        Filters.prepItemLoad();
         if (!Filters.verify())
         {
             JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         run = true;
+        
+        Filters.prepItemLoad();
         
         StringSelection selection = new StringSelection("hi");
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -188,12 +162,13 @@ public class PoECraftingAssistant {
     
     public static void testFilter(Main main, JButton owner)
     {
-        Filters.prepItemLoad();
         if (!Filters.verify())
         {
             JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        Filters.prepItemLoad();
         
         String raw = Utility.getClipboard();
         
