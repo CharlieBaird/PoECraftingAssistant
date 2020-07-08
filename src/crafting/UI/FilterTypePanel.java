@@ -23,6 +23,8 @@ import java.io.File;
 import crafting.filtertypes.FilterBase;
 import java.util.ArrayList;
 import crafting.filtertypes.Mod;
+import poeitem.BaseItem;
+import poeitem.Modifier;
 
 public class FilterTypePanel extends JPanel {
     
@@ -144,9 +146,52 @@ public class FilterTypePanel extends JPanel {
         for (int i=0; i<filterbase.mods.size(); i++)
         {
             Mod m = filterbase.mods.get(i);
-            ModifierPanel mp = new ModifierPanel(frame, this, filterbase, m);
+            
+            ModifierPanel mp;
+            boolean bypass;
+            if (m.assocModifierPanel == null) {
+                mp = new ModifierPanel(frame, this, filterbase, m, null);
+                bypass = true;
+            }
+            else {
+                mp = m.assocModifierPanel;
+                bypass = false;
+            }
+            
             modifierpanels.add(mp);
             parent.add(mp);
+            mp.setVisible(true);
+            
+            if (!bypass)
+            {
+                if (mp.assocMod != null && Filters.singleton.SelectedBase != null) {
+                    mp.assocMod = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(mp.assocMod.getStr());
+                }
+                mp.mcb.update(mp.assocMod, true);
+                
+                String[] types;
+        
+                if (Filters.singleton.SelectedBase == null) {
+                    types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
+                }
+                else {
+                    types = ModifierComboBox.toArr(BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers);
+                }
+                
+                Object selItem = mp.mcb.getSelectedItem();
+                mp.mcb.setModel(new DefaultComboBoxModel<String>(types));
+                mp.mcb.defaultmodel = mp.mcb.getModel();
+                mp.mcb.setSelectedItem(selItem);
+                
+                
+                if (mp.assocMod == null)
+                {
+                    mp.mcb.entry = "";
+                    ((JTextField)mp.mcb.getEditor().getEditorComponent()).setText("New Modifier");
+                    ((JTextField)mp.mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
+                }
+            }
+
         }
     }
     
@@ -207,9 +252,7 @@ public class FilterTypePanel extends JPanel {
             this.setVisible(false);
             
             filtertypepanels.remove(this);
-//            Filters.print();
             filter.filters.remove(filterbase);
-//            Filters.print();
 
             Filters.saveFilters();
         }
@@ -217,26 +260,10 @@ public class FilterTypePanel extends JPanel {
     
     public static void reshow()
     {
-        clear(false);
+//        clear(false);
         if (!FilterTypePanel.filtertypepanels.isEmpty()) {
             Filter f = FilterTypePanel.filtertypepanels.get(0).filter;
             frame.genFilterPanel(f);
-        }
-        
-    }
-    
-    private int getIndex()
-    {
-        switch (type)
-        {
-            case "And":
-                return 0;
-            case "Not":
-                return 1;
-            case "Count":
-                return 2;
-            default:
-                return -1;
         }
     }
     
@@ -311,14 +338,15 @@ class AddButton extends JButton {
         setToolTipText("New modifier");
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(50,50,50)));
         
-        ActionListener actionListener = new ActionListener() {
+        addActionListener(new ActionListener()
+        {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                
-                ModifierPanel mp = new ModifierPanel(parent.frame, parent, parent.filterbase, null);
+                ModifierPanel mp = new ModifierPanel(parent.frame, parent, parent.filterbase, null, null);
                 parent.modifierpanels.add(mp);
                 parent.parent.add(mp);
+//                parent.filterbase.mods.add(new Mod(null, null));
                 parent.parent.requestFocusInWindow();
                 parent.dropdown.open();
                 FilterTypePanel.reshow();
@@ -326,8 +354,7 @@ class AddButton extends JButton {
                 
                 Main.mainFrame.pack();
             }
-        };
-        addActionListener(actionListener);
+        });
     }
 }
 

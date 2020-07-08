@@ -40,14 +40,15 @@ public class ModifierComboBox extends JComboBox
     {
         super(types);
         
-        setRenderer(new ModifierComboBoxRenderer());
+        setRenderer(new ModifierComboBoxRenderer(this));
         setEditor(new ModifierComboBoxEditor());
         setBackground(new Color(60,60,60));
         setForeground(new Color(60,60,60));
         
         // Code to disable/hide arrow button in dropdown from http://www.java2s.com/Tutorials/Java/Swing_How_to/JComboBox/Hide_arrow_button_from_JComboBox.htm
         UIManager.put("ComboBox.squareButton", Boolean.FALSE);
-            setUI(new BasicComboBoxUI() {
+        setUI(new BasicComboBoxUI() 
+        {
             @Override
             protected JButton createArrowButton()
             {
@@ -59,23 +60,10 @@ public class ModifierComboBox extends JComboBox
         });
         // End code
         
-        this.setSelectedIndex(-1);
         setEditable(true);
         
         this.parent = parent;
         defaultmodel = this.getModel();
-        
-        this.setSelectedIndex(0);
-        
-        String maxLength = "a";
-        for (int i=0; i<getModel().getSize(); i++)
-        {
-            String m = (String) getModel().getElementAt(i);
-            if (m.length() > maxLength.length())
-            {
-                maxLength = m;
-            }
-        }
         
         this.getEditor().getEditorComponent().addKeyListener(new ModKeyTypedListenerSJB(this));
         this.getEditor().getEditorComponent().addFocusListener(new ModClickListenerSJB(this));
@@ -126,27 +114,31 @@ public class ModifierComboBox extends JComboBox
     
     public static String[] toArr(ArrayList<Modifier> typesList)
     {
+        ArrayList<Modifier> dispList = new ArrayList<>();
+        
         for (int i=0; i<typesList.size(); i++)
         {
             Modifier m = typesList.get(i);
             if (
-                    m.getModGenerationTypeID() != 1
-                    && m.getModGenerationTypeID() != 2
-                    && m.getModGenerationTypeID() != -2
-                    && m.getModGenerationTypeID() != -1
-                    && m.getModGenerationTypeID() != 0
-                    && m.getModGenerationTypeID() != -3
+//                    m.getModGenerationTypeID() != 1
+//                    && m.getModGenerationTypeID() != 2
+//                    && m.getModGenerationTypeID() != -2
+//                    && m.getModGenerationTypeID() != -1
+//                    && m.getModGenerationTypeID() != 0
+//                    && m.getModGenerationTypeID() != -3
+                    m.getModGenerationTypeID() <= 2 && m.getModGenerationTypeID() >= -3 && !m.getCorrectGroup().equals("Crafted")
                 )
             {
-                typesList.remove(m);
-                i--;
+//                typesList.remove(i);
+//                i--;
+                dispList.add(m);
             }
         }
         
-        String[] types = new String[typesList.size()];
+        String[] types = new String[dispList.size()];
         
         for (int i=0; i<types.length; i++)
-            types[i] = typesList.get(i).getStr();
+            types[i] = dispList.get(i).getStr();
         
         return types;
     }
@@ -174,16 +166,49 @@ public class ModifierComboBox extends JComboBox
 
 class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
 
-    public ModifierComboBoxRenderer() {
+    ModifierComboBox owner;
+    
+    public ModifierComboBoxRenderer(ModifierComboBox owner) {
+        this.owner = owner;
         setOpaque(true);
         setBackground(new Color(60,60,60));
         setForeground(Color.WHITE);
         setBorder(BorderFactory.createEmptyBorder(7, 5, 7, 0));
+        setFont(Main.mainFrame.getNewFont(12));
+    }
+    
+    private String genHTMLString(String rawtext, String highlight) {
+        
+        String rawTextLower = rawtext.toLowerCase();
+        String highlightLower = highlight.toLowerCase();
+        
+        StringBuffer text = new StringBuffer(rawtext);
+        StringBuffer lowertext = new StringBuffer(rawTextLower);
+        if (!rawTextLower.contains(highlightLower) || highlight.equals(""))
+        {
+//            System.out.println(rawtext + " did not contain " + highlight);
+            return rawtext;
+        }
+        
+        int index = rawTextLower.indexOf(highlightLower);
+        int endIndex = index + highlight.length() + 28;
+
+        text.insert(index, "<span style=\"Color: YELLOW\">");
+        text.insert(endIndex, "</span>");
+        lowertext.insert(index, "<span style=\"Color: YELLOW\">");
+        lowertext.insert(endIndex, "</span>");
+        rawTextLower = lowertext.toString();
+            
+        text.insert(0, "<html>");
+        text.insert(text.length(), "</html>");
+        return text.toString();
     }
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        setText(value.toString());
+        
+        String text = genHTMLString(value.toString(), owner.entry);
+        setText(text);
         
         if (isSelected)
         {
@@ -212,14 +237,17 @@ class ModifierComboBoxEditor extends BasicComboBoxEditor {
         label.setEditable(true);
     }
      
+    @Override
     public Component getEditorComponent() {
         return this.label;
     }
      
+    @Override
     public Object getItem() {
         return this.selectedItem != null ? this.selectedItem.toString() : null;
     }
      
+    @Override
     public void setItem(Object item) {
         this.selectedItem = item;
         if (item != null)

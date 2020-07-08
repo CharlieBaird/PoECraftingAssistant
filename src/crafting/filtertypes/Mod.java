@@ -5,11 +5,14 @@
  */
 package crafting.filtertypes;
 
+import crafting.UI.ModifierPanel;
 import java.io.Serializable;
 import poeitem.Modifier;
 
 public class Mod implements Serializable {
-    public poeitem.Modifier assocModifier;
+    
+    public transient ModifierPanel assocModifierPanel = null;
+    public Modifier assocModifier;
     public String name; // Form of: #% increased movement speed
     public Id ID = new Id(); // Form of: min 25, max 35
     

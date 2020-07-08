@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -19,6 +20,8 @@ import lc.kra.system.keyboard.event.GlobalKeyEvent;
 import lc.kra.system.mouse.GlobalMouseHook;
 import lc.kra.system.mouse.event.GlobalMouseAdapter;
 import lc.kra.system.mouse.event.GlobalMouseEvent;
+import poeitem.BaseItem;
+import poeitem.Modifier;
 import poeitem.ModifierLoader;
 
 
@@ -34,10 +37,12 @@ public class PoECraftingAssistant {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        Utility.SortExplicitModifiers();
+//        Utility.SortExplicitModifiers();
         
         Main.main();
         Settings.load();
+        
+        Filters.prepItemLoad();
         
     }
     
@@ -68,16 +73,27 @@ public class PoECraftingAssistant {
                         if (onSwingWindow() || ignore) return;
                         
                         delay(Settings.singleton.delay + 35);
-                        
-                        if(Filters.checkIfHitOne(debug))
+                        double start = System.nanoTime();
+                        boolean b = Filters.checkIfHitOne(debug);
+                        System.out.println("Elapsed: " + (System.nanoTime() - start)/1000000);
+                        if(b)
                         {
-                            Utility.playHitSound();
                             if (Settings.singleton.showPopup)
-                                showPopup();
+                                activityTooltip.modHit();
+                            
+                            Utility.playHitSound();
                             if (Settings.singleton.disableOnHit)
                                 stop();
                         }
+                        
                     }
+                }
+                
+                @Override
+                public void mouseMoved(GlobalMouseEvent event)
+                {
+                    Point p = MouseInfo.getPointerInfo().getLocation();
+                    activityTooltip.setLocation(p.x-30, p.y-30);
                 }
             });
         } catch (RuntimeException | UnsatisfiedLinkError e) {
@@ -86,37 +102,6 @@ public class PoECraftingAssistant {
         }
         
         return success;
-    }
-    
-    private static void showPopup()
-    {
-        ignore = true;
-        
-        popup = new JFrame();
-        popup.setUndecorated(true);
-        popup.setSize(100,100);
-        
-        JPanel panel = new JPanel();
-        panel.setSize(120,120);
-        panel.setBackground(new Color(80,80,80));
-        popup.add(panel);
-        
-        Point pos = MouseInfo.getPointerInfo().getLocation();
-        popup.setLocation(pos.x - popup.getWidth()/2, pos.y - popup.getHeight()/2);
-        popup.setAlwaysOnTop(true);
-        popup.setVisible(true);
-        
-        
-        new Thread( new Runnable() {
-        @Override
-        public void run()  {
-            try  { Thread.sleep( 2000 ); }
-            catch (InterruptedException ie)  {}
-            popup.dispose();
-            ignore = false;
-        }
-    } ).start();
-        
     }
     
     private static boolean onSwingWindow()
@@ -138,45 +123,58 @@ public class PoECraftingAssistant {
     
     public static void stop()
     {
+        if (activityTooltip != null) {
+            activityTooltip.setVisible(false);
+            activityTooltip.dispose();
+        }
+        
         run = false;
         if (mouseHook != null)
             mouseHook.shutdownHook();
         mouseHook = null;
         Main.setChaosIcon(Main.mainFrame.getClass().getResource("/resources/images/chaos.png"));
     }
+    
+    private static ActivityTooltip activityTooltip;
         
     public static void runChaosSpam(Main main)
     {
+        
         if (mouseHook != null)
         {
             PoECraftingAssistant.stop();
             return;
         }
         
-        Filters.prepItemLoad();
         if (!Filters.verify())
         {
             JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
         run = true;
+        
+        Filters.prepItemLoad();
         
         StringSelection selection = new StringSelection("hi");
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(selection, selection);
         
+        activityTooltip = new ActivityTooltip();
         while (!establishMouseHook());
         Main.setChaosIcon(main.getClass().getResource("/resources/images/chaosrun.png"));
+        
     }
     
     public static void testFilter(Main main, JButton owner)
     {
-        Filters.prepItemLoad();
         if (!Filters.verify())
         {
             JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        Filters.prepItemLoad();
         
         String raw = Utility.getClipboard();
         

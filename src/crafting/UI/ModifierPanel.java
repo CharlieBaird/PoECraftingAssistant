@@ -12,12 +12,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
-import javax.swing.plaf.basic.BasicComboBoxEditor;
 import poeitem.BaseItem;
 import poeitem.ModifierTier;
 
@@ -34,9 +31,9 @@ public class ModifierPanel extends JPanel {
     public MPMinMax max;
     public ModifierComboBox mcb;
     
-    public Modifier assocMod;
+    public Modifier assocMod = null;
     
-    public ModifierPanel(Main frame, FilterTypePanel parent, FilterBase filterbase, Mod mod)
+    public ModifierPanel(Main frame, FilterTypePanel parent, FilterBase filterbase, Mod mod, ModifierComboBox searchBox)
     {
         String path = "src/resources";
         File file = new File(path);
@@ -44,18 +41,22 @@ public class ModifierPanel extends JPanel {
         this.resourcePath = path;
         this.frame = frame;
         this.filterbase = filterbase;
-        this.mod = mod;
         this.parent = parent;
         
-        if (mod == null || mod.name == null)
+        if (mod == null)
         {
-            mod = new Mod(null, "New Modifier");
+            mod = new Mod(null, null);
             filterbase.mods.add(mod);
             min = new MPMinMax(this, "min", true);
             max = new MPMinMax(this, "max", false);
         }
+        else if (mod.name == null)
+        {
+            min = new MPMinMax(this, "min", true);
+            max = new MPMinMax(this, "max", false);
+        }
         
-        if (Filters.singleton.SelectedBase != null)
+        else if (Filters.singleton.SelectedBase != null)
         {
             assocMod = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(mod.name);
         }
@@ -63,6 +64,7 @@ public class ModifierPanel extends JPanel {
         {
             assocMod = Modifier.getExplicitFromStr(mod.name);
         }
+        this.mod = mod;
         
         Dimension size = new Dimension((int) (parent.getWidth() * 0.95),(int) (40)); // 0.912
         setSize(size);
@@ -72,12 +74,16 @@ public class ModifierPanel extends JPanel {
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setVisible(filterbase.UIVisible);
         
+        
         CloseMPButton cb = new CloseMPButton(this);
-        mcb = showSearchBox(mod);
+        mcb = showSearchBox(mod, assocMod, searchBox);
         mcb.setPreferredSize(new Dimension(140,20));
+        ((JTextField) mcb.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
+        ((JLabel) mcb.getRenderer()).setFont(Main.mainFrame.getNewFont(12));
         min = new MPMinMax(this, String.valueOf(mod.ID.min), true);
         max = new MPMinMax(this, String.valueOf(mod.ID.max), false);
         tier = new TierComboBox(this);
+        
         
         add(cb, Box.LEFT_ALIGNMENT);
         add(Box.createRigidArea(new Dimension(7,0)), Box.LEFT_ALIGNMENT);
@@ -96,54 +102,47 @@ public class ModifierPanel extends JPanel {
             this.tier.manualUpdate(this.min.getText());
         }
         
+        parent.modifierpanels.add(this);
         parent.add(this);
+        mod.assocModifierPanel = this;
         
         Filters.saveFilters();
     }
     
-    public ModifierComboBox showSearchBox(Mod mod)
+    public ModifierComboBox showSearchBox(Mod mod, Modifier aMod, ModifierComboBox searchBox)
     {
-        Modifier aMod;
-        if (Filters.singleton.SelectedBase != null)
+        if (searchBox == null)
         {
-            aMod = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(mod.name);
-        }
-        else
-        {
-            aMod = Modifier.getExplicitFromStr(mod.name);
-        }
+            String[] types;
         
-        String[] types;
-        
-        if (Filters.singleton.SelectedBase == null) {
-            types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
-        }
-        else {
-            types = ModifierComboBox.toArr(BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers);
-        }
-        
-        ModifierComboBox mcb = new ModifierComboBox(this, types);
-        
-        if (aMod != null)
-        {
-            mcb.setSelectedItem((Object) aMod.getStr());
-        }
-        else
-        {
-            if (mod != null)
+            if (Filters.singleton.SelectedBase == null) {
+                types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
+            }
+            else {
+                types = ModifierComboBox.toArr(BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers);
+            }
+            ModifierComboBox mcb = new ModifierComboBox(this, types);
+
+            if (aMod != null)
             {
-                ((JTextField)mcb.getEditor().getEditorComponent()).setText(mod.name);
-                ((JTextField)mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
+                mcb.setSelectedItem((Object) aMod.getStr());
             }
             else
             {
-                mcb.setSelectedIndex(-1);
+                if (mod.name == null)
+                    ((JTextField)mcb.getEditor().getEditorComponent()).setText("New Modifier");
+                else
+                    ((JTextField)mcb.getEditor().getEditorComponent()).setText(mod.name);
+                ((JTextField)mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
             }
+
+            add(mcb);
+
+            return mcb;
         }
         
-        add(mcb);
-        
-        return mcb;
+        add (searchBox);
+        return searchBox;
     }
     
     public void showTierComboBox(Modifier m)
@@ -257,7 +256,7 @@ class TierComboBox extends JComboBox {
                {
                     String selection = (String) event.getItem();
                     if (selection.equals("Custom")) return;
-                    int tier = Integer.valueOf((selection).substring(1,2));
+                    int tier = Integer.valueOf((selection).substring(1,selection.length()));
                     setMin(tier);
                }
             }
@@ -355,8 +354,8 @@ class CloseMPButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                parent.parent.parent.requestFocusInWindow();
-                boolean b = parent.parent.modifierpanels.remove(parent);
+                Main.mainFrame.requestFocusInWindow();
+                parent.parent.modifierpanels.remove(parent);
                 parent.filterbase.mods.remove(parent.mod);
                 FilterTypePanel.reshow();
                 parent.setVisible(false);
