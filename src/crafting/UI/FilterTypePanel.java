@@ -5,9 +5,6 @@
  */
 package crafting.UI;
 
-import crafting.filtertypes.logicgroups.Count;
-import crafting.filtertypes.logicgroups.Not;
-import crafting.filtertypes.logicgroups.And;
 import crafting.Filter;
 import crafting.Filters;
 import crafting.Main;
@@ -23,6 +20,7 @@ import java.io.File;
 import crafting.filtertypes.FilterBase;
 import java.util.ArrayList;
 import crafting.filtertypes.Mod;
+import crafting.filtertypes.logicgroups.*;
 import poeitem.BaseItem;
 import poeitem.Modifier;
 
@@ -39,7 +37,7 @@ public class FilterTypePanel extends JPanel {
     public static Main frame;
     public JPanel parent;
     
-    public TypeLabel typelabel;
+    public LogicGroupComboBox typebox;
     public NumLabel numlabel;
     public DropdownButton dropdown;
     public MinMax min;
@@ -72,10 +70,9 @@ public class FilterTypePanel extends JPanel {
         setPreferredSize(size);
         setBackground(new Color(50,50,50));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 
         CloseFBButton closeButton = new CloseFBButton(this);
-        typelabel = new TypeLabel(this);
+        typebox = new LogicGroupComboBox(this);
         numlabel = new NumLabel(this);
         dropdown = new DropdownButton(this);
         min = new MinMax(this, "min", "min");
@@ -84,7 +81,7 @@ public class FilterTypePanel extends JPanel {
         
         add(closeButton, Box.LEFT_ALIGNMENT);
         add(Box.createRigidArea(new Dimension(15,0)), Box.LEFT_ALIGNMENT);
-        add(typelabel, Box.LEFT_ALIGNMENT);
+        add(typebox, Box.LEFT_ALIGNMENT);
         add(Box.createHorizontalGlue());
         add(numlabel, Box.RIGHT_ALIGNMENT);
         add(Box.createRigidArea(new Dimension(9,0)), Box.RIGHT_ALIGNMENT);
@@ -97,30 +94,6 @@ public class FilterTypePanel extends JPanel {
         add(dropdown, Box.RIGHT_ALIGNMENT);
         add(Box.createRigidArea(new Dimension(4,0)), Box.RIGHT_ALIGNMENT);
         addRemMinMax();
-        
-        MouseListener mouseListener = new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                selectLogicFilter();
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-            
-        };
         
         if (type.equals("Count"))
         {
@@ -136,8 +109,6 @@ public class FilterTypePanel extends JPanel {
                 max.setForeground(new Color(255,255,255));
             }
         }
-        
-        addMouseListener(mouseListener);
         
         filtertypepanels.add(this);
         
@@ -237,7 +208,7 @@ public class FilterTypePanel extends JPanel {
             max.setText("");
             minMaxEnabled = false;
         }
-        typelabel.setPreferredSize(new Dimension((int) (getWidth() * 0.4),(int) ((32))));
+        typebox.setPreferredSize(new Dimension((int) (getWidth() * 0.4),(int) ((32))));
     }
     
     public void remove()
@@ -260,52 +231,41 @@ public class FilterTypePanel extends JPanel {
     
     public static void reshow()
     {
-//        clear(false);
         if (!FilterTypePanel.filtertypepanels.isEmpty()) {
             Filter f = FilterTypePanel.filtertypepanels.get(0).filter;
             frame.genFilterPanel(f);
         }
     }
     
-    public void selectLogicFilter()
+    public void logicGroupChanged(String selected)
     {
-//        SearchBox sb = new SearchBox(types);
-//        
-//        JOptionPane jop = new JOptionPane();
-//        sb.setSelectedIndex(getIndex());        
-//
-//        jop.showMessageDialog(this, sb, "PoE Crafting Assistant", JOptionPane.PLAIN_MESSAGE, null);
-//        
-//        String selected = sb.getSelectedItem().toString();
-//        
-//        if (selected != null && !selected.equals(type))
-//        {
-//            type = selected;
-//            typelabel.setText(type);
-//            addRemMinMax();
-//            
-//            Mod[] modsToAdd = new Mod[filterbase.mods.size()];
-//            for (int i=0; i<modsToAdd.length; i++)
-//            {
-//                modsToAdd[i] = filterbase.mods.get(i);
-//            }
-//            
-//            switch (selected)
-//            {
-//                case "And":
-//                    filterbase = new And(modsToAdd);
-//                    break;
-//                case "Not":
-//                    filterbase = new Not(modsToAdd);
-//                    break;
-//                case "Count":
-//                    filterbase = new Count(-100000, 100000, modsToAdd);
-//                    break;
-//            }
-//            
-//            filter.filters.set(index, filterbase);
-//            Filters.saveFilters();
-//        }        
+        if (selected != null && !selected.equals(type))
+        {
+            type = selected;
+            addRemMinMax();
+            
+            Mod[] modsToAdd = new Mod[filterbase.mods.size()];
+            for (int i=0; i<modsToAdd.length; i++)
+            {
+                modsToAdd[i] = filterbase.mods.get(i);
+            }
+            
+            switch (selected)
+            {
+                case "And":
+                    filterbase = new And(modsToAdd);
+                    break;
+                case "Not":
+                    filterbase = new Not(modsToAdd);
+                    break;
+                case "Count":
+                    filterbase = new Count(-100000, 100000, modsToAdd);
+                    break;
+            }
+            
+            filter.filters.set(index, filterbase);
+            Filters.saveFilters();
+        }        
     }
     
     protected void hideMods()
@@ -337,6 +297,7 @@ class AddButton extends JButton {
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/plusbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("New modifier");
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(50,50,50)));
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
         addActionListener(new ActionListener()
         {
@@ -370,6 +331,7 @@ class CloseFBButton extends JButton {
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/xbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Remove this logic filter");
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(50,50,50)));
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
         ActionListener actionListener = new ActionListener() {
             @Override
@@ -382,19 +344,6 @@ class CloseFBButton extends JButton {
             }
         };
         addActionListener(actionListener);
-    }
-}
-
-class TypeLabel extends JLabel {
-    private FilterTypePanel parent;
-    
-    public TypeLabel(FilterTypePanel parent)
-    {
-        this.parent = parent;
-        
-        setText(parent.type);
-        setFont(parent.frame.getNewFont(14));
-        setForeground(new Color(255,255,255));
     }
 }
 
@@ -430,6 +379,7 @@ class DropdownButton extends JButton {
         setOpaque(true);
         setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
         setBackground(new Color(50,50,50));
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
         if (parent.filterbase.UIVisible)
         {
