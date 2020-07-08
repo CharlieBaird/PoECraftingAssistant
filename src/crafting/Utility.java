@@ -25,8 +25,6 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
-import poeitem.Modifier;
-import static poeitem.Modifier.AllExplicitModifiers;
 
 public class Utility {
    

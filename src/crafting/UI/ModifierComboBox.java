@@ -114,27 +114,31 @@ public class ModifierComboBox extends JComboBox
     
     public static String[] toArr(ArrayList<Modifier> typesList)
     {
+        ArrayList<Modifier> dispList = new ArrayList<>();
+        
         for (int i=0; i<typesList.size(); i++)
         {
             Modifier m = typesList.get(i);
             if (
-                    m.getModGenerationTypeID() != 1
-                    && m.getModGenerationTypeID() != 2
-                    && m.getModGenerationTypeID() != -2
-                    && m.getModGenerationTypeID() != -1
-                    && m.getModGenerationTypeID() != 0
-                    && m.getModGenerationTypeID() != -3
+//                    m.getModGenerationTypeID() != 1
+//                    && m.getModGenerationTypeID() != 2
+//                    && m.getModGenerationTypeID() != -2
+//                    && m.getModGenerationTypeID() != -1
+//                    && m.getModGenerationTypeID() != 0
+//                    && m.getModGenerationTypeID() != -3
+                    m.getModGenerationTypeID() <= 2 && m.getModGenerationTypeID() >= -3 && !m.getCorrectGroup().equals("Crafted")
                 )
             {
-                typesList.remove(i);
-                i--;
+//                typesList.remove(i);
+//                i--;
+                dispList.add(m);
             }
         }
         
-        String[] types = new String[typesList.size()];
+        String[] types = new String[dispList.size()];
         
         for (int i=0; i<types.length; i++)
-            types[i] = typesList.get(i).getStr();
+            types[i] = dispList.get(i).getStr();
         
         return types;
     }
@@ -143,7 +147,6 @@ public class ModifierComboBox extends JComboBox
     {
         if (m != null && parent.tier != null)
         {
-            System.out.println("1");
             parent.assocMod = m;
             parent.mod.name = m.getStr();
             parent.mod.assocModifier = parent.assocMod;
@@ -152,16 +155,11 @@ public class ModifierComboBox extends JComboBox
         }
         else if (m == null)
         {
-            System.out.println("2");
             parent.assocMod = null;
             parent.mod.name = null;
             parent.mod.assocModifier = parent.assocMod;
             parent.hideTierComboBox();
             if (updateTierViews) ModifierPanel.updateTierViews();
-        }
-        else
-        {
-            System.out.println("3");
         }
     }
 }

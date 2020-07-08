@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -19,6 +20,8 @@ import lc.kra.system.keyboard.event.GlobalKeyEvent;
 import lc.kra.system.mouse.GlobalMouseHook;
 import lc.kra.system.mouse.event.GlobalMouseAdapter;
 import lc.kra.system.mouse.event.GlobalMouseEvent;
+import poeitem.BaseItem;
+import poeitem.Modifier;
 import poeitem.ModifierLoader;
 
 
@@ -38,6 +41,8 @@ public class PoECraftingAssistant {
         
         Main.main();
         Settings.load();
+        
+        Filters.prepItemLoad();
         
     }
     
@@ -118,7 +123,6 @@ public class PoECraftingAssistant {
     
     public static void stop()
     {
-        System.out.println("Stopping");
         if (activityTooltip != null) {
             activityTooltip.setVisible(false);
             activityTooltip.dispose();
@@ -135,6 +139,7 @@ public class PoECraftingAssistant {
         
     public static void runChaosSpam(Main main)
     {
+        
         if (mouseHook != null)
         {
             PoECraftingAssistant.stop();
@@ -146,6 +151,7 @@ public class PoECraftingAssistant {
             JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
         run = true;
         
         Filters.prepItemLoad();
