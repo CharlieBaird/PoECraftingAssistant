@@ -109,7 +109,6 @@ public class Main extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(20, 20, 20));
         setMinimumSize(new java.awt.Dimension(1158, 768));
-        setUndecorated(true);
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         Window.setBackground(new java.awt.Color(20, 20, 20));
@@ -1030,18 +1029,18 @@ public class Main extends javax.swing.JFrame {
     
     public ItemType itemType = null;
     
-    private static void addMouseFocusListener(Container c)
-    {
-        for (int i=0; i<c.getComponents().length; i++)
-        {
-            Component comp = c.getComponent(i);
-            if (comp instanceof JPanel || comp instanceof JRootPane || comp instanceof JLayeredPane)
-            {
-                comp.addMouseListener(new MouseFocusListener((JComponent) comp));
-                addMouseFocusListener((Container) comp);
-            }
-        }
-    }
+//    private static void addMouseFocusListener(Container c)
+//    {
+//        for (int i=0; i<c.getComponents().length; i++)
+//        {
+//            Component comp = c.getComponent(i);
+//            if (comp instanceof JPanel || comp instanceof JRootPane || comp instanceof JLayeredPane)
+//            {
+//                comp.addMouseListener(new MouseFocusListener((JComponent) comp));
+//                addMouseFocusListener((Container) comp);
+//            }
+//        }
+//    }
     
     public void postload()
     {
@@ -1062,7 +1061,17 @@ public class Main extends javax.swing.JFrame {
         jButton10.setVisible(false);
         if (!PoECraftingAssistant.debug) jButton6.setVisible(false);
         
-        addMouseFocusListener(this);
+        jPanel6.addMouseListener(new MouseFocusListener(jPanel6));
+        jPanel11.addMouseListener(new MouseFocusListener(jPanel11));
+        ChangeFilterPanel.addMouseListener(new MouseFocusListener(ChangeFilterPanel));
+        jPanel5.addMouseListener(new MouseFocusListener(jPanel5));
+        jPanel10.addMouseListener(new MouseFocusListener(jPanel10));
+        Window.addMouseListener(new MouseFocusListener(Window));
+        jPanel2.addMouseListener(new MouseFocusListener(jPanel2));
+        jPanel7.addMouseListener(new MouseFocusListener(jPanel7));
+        SelectFilterPanel.addMouseListener(new MouseFocusListener(SelectFilterPanel));
+        jPanel9.addMouseListener(new MouseFocusListener(jPanel9));
+        jPanel14.addMouseListener(new MouseFocusListener(jPanel14));
         
         establishHotkeyShortcut();
         

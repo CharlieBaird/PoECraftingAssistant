@@ -93,14 +93,50 @@ public class ModifierComboBox extends JComboBox
     
     protected String[] getCompatObjects()
     {
-        ArrayList<Object> os = new ArrayList<>();
-        for (int i=0; i<defaultmodel.getSize(); i++)
+        ArrayList<Modifier> os = new ArrayList<>();
+        if (entry.length() >= 1 && entry.toCharArray()[0] == '~')
         {
-            Object o = defaultmodel.getElementAt(i);
-            if (containsIgnoreCase(o.toString(), entry))
-                os.add(o);
+            if (Filters.singleton.SelectedBase != null)
+            {
+                for (int i=0; i<defaultmodel.getSize(); i++)
+                {
+                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
+                    if (containsIgnoreCase(o.toString().substring(1,o.toString().length()), entry.substring(1,entry.length())) || o.isCompat(entry.substring(1,entry.length())))
+                        os.add(o);
+                }
+            }
+            else
+            {
+                for (int i=0; i<defaultmodel.getSize(); i++)
+                {
+                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
+                    if (containsIgnoreCase(o.toString(), entry.substring(1,entry.length())))
+                        os.add(o);
+                }
+            }
         }
-        
+        else
+        {
+            if (Filters.singleton.SelectedBase != null)
+            {
+                for (int i=0; i<defaultmodel.getSize(); i++)
+                {
+                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
+                    if (containsIgnoreCase(o.toString(), entry) || o.isCompat(entry))
+                        os.add(o);
+                }
+            }
+            else
+            {
+                for (int i=0; i<defaultmodel.getSize(); i++)
+                {
+                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
+                    if (containsIgnoreCase(o.toString(), entry))
+                        os.add(o);
+                }
+            }
+        }
+            
         String[] objects = new String[os.size()];
         for (int i=0; i<os.size(); i++)
             objects[i] = os.get(i).toString();
