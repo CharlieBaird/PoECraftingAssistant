@@ -25,7 +25,7 @@ public class LogicGroupComboBox extends JComboBox
     DefaultComboBoxModel model;
     public FilterTypePanel parent;
     
-    public LogicGroupComboBox(FilterTypePanel parent)
+    public LogicGroupComboBox(FilterTypePanel parent, String selected)
     {
         String[] options = new String[] {
             "And",
@@ -39,7 +39,7 @@ public class LogicGroupComboBox extends JComboBox
         setEditable(true);
         setRenderer(new LogicGroupComboBoxRenderer(this));
         setEditor(new LogicGroupComboBoxEditor());
-        setSelectedIndex(0);
+        setSelectedItem(selected);
         
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setMaximumSize(new Dimension(40, parent.getHeight()));

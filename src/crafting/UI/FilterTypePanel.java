@@ -72,7 +72,7 @@ public class FilterTypePanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
                 
         CloseFBButton closeButton = new CloseFBButton(this);
-        typebox = new LogicGroupComboBox(this);
+        typebox = new LogicGroupComboBox(this, type);
         numlabel = new NumLabel(this);
         dropdown = new DropdownButton(this);
         min = new MinMax(this, "min", "min");
