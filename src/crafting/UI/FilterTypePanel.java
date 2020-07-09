@@ -13,8 +13,6 @@ import java.awt.event.*;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseEvent;
 import javax.swing.*;
 import java.io.File;
 import crafting.filtertypes.FilterBase;
@@ -65,8 +63,10 @@ public class FilterTypePanel extends JPanel {
         this.resourcePath = path;
         this.frame = frame;
         
-        Dimension size = new Dimension((int) (parent.getWidth() * 0.98),(int) (40));
+        Dimension size = new Dimension((int) (parent.getWidth()),(int) (40));
+//        System.out.println(size);
         setSize(size);
+        setMaximumSize(size);
         setPreferredSize(size);
         setBackground(new Color(50,50,50));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -135,6 +135,7 @@ public class FilterTypePanel extends JPanel {
             
             if (!bypass)
             {
+                System.out.println("UIHGEWIUFDH");
                 if (mp.assocMod != null && Filters.singleton.SelectedBase != null) {
                     mp.assocMod = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(mp.assocMod.getStr());
                 }
@@ -153,6 +154,11 @@ public class FilterTypePanel extends JPanel {
                 mp.mcb.setModel(new DefaultComboBoxModel<>(types));
                 mp.mcb.defaultmodel = mp.mcb.getModel();
                 mp.mcb.setSelectedItem(selItem);
+                Dimension mpsize = new Dimension((int) (getWidth() * 0.95),(int) (40)); // 0.912
+                System.out.println(getWidth());
+                mp.setSize(mpsize);
+                mp.setMaximumSize(mpsize);
+                mp.setPreferredSize(mpsize);
                 
                 
                 if (mp.assocMod == null)
@@ -235,6 +241,8 @@ public class FilterTypePanel extends JPanel {
             Filter f = FilterTypePanel.filtertypepanels.get(0).filter;
             frame.genFilterPanel(f);
         }
+        Main.mainFrame.validate();
+        
     }
     
     public void logicGroupChanged(String selected)
@@ -292,7 +300,9 @@ class AddButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBackground(new Color(50,50,50));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/plusbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("New modifier");
@@ -313,7 +323,7 @@ class AddButton extends JButton {
                 FilterTypePanel.reshow();
                 parent.numlabel.update();
                 
-                Main.mainFrame.pack();
+//                Main.mainFrame.repaint();
             }
         });
     }
@@ -326,7 +336,9 @@ class CloseFBButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBackground(new Color(50,50,50));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/xbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Remove this logic filter");
@@ -377,7 +389,9 @@ class DropdownButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBackground(new Color(50,50,50));
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
@@ -427,7 +441,7 @@ class DropdownButton extends JButton {
         else
             open();
 
-        Main.mainFrame.pack();
+//        Main.mainFrame.repaint();
     }
 }
 

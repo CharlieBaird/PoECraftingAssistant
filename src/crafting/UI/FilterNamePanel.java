@@ -30,6 +30,7 @@ public class FilterNamePanel extends JPanel {
     public FilterTextField ftf;
     public OpenButton ob;
     
+    public boolean active = false;
     
     public FilterNamePanel(Main frame, JPanel parent, Filter filter)
     {
@@ -82,8 +83,10 @@ public class FilterNamePanel extends JPanel {
         for (int i=0; i<filterpanels.size(); i++)
         {
             filterpanels.get(i).setBackground(new Color(40,40,40));
+            filterpanels.get(i).active = false;
         }
         setBackground(new Color(70,70,70));
+        active = true;
     }
 }
 
@@ -177,13 +180,14 @@ class DeleteButton extends JButton
 {
     public DeleteButton(FilterNamePanel parent, Dimension size)
     {
-        Dimension d1 = new Dimension((int)(size.width * 0.15), (int)(size.height * 0.9));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBorderPainted(false);
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        setPreferredSize(d1);
         setBackground(new Color(40,40,40));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/xbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Delete this subfilter");
@@ -208,13 +212,14 @@ class OpenButton extends JButton
     {
         this.parent = parent;
         
-        Dimension d1 = new Dimension((int)(size.width * 0.15), (int)(size.height * 0.9));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBorderPainted(false);
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        setPreferredSize(d1);
         setBackground(new Color(40,40,40));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/arrowbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Open this subfilter");

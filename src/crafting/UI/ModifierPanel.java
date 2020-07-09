@@ -68,6 +68,7 @@ public class ModifierPanel extends JPanel {
         
         Dimension size = new Dimension((int) (parent.getWidth() * 0.95),(int) (40)); // 0.912
         setSize(size);
+        setMaximumSize(size);
         setPreferredSize(size);
         setBackground(new Color(60,60,60));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -77,7 +78,8 @@ public class ModifierPanel extends JPanel {
         
         CloseMPButton cb = new CloseMPButton(this);
         mcb = showSearchBox(mod, assocMod, searchBox);
-        mcb.setPreferredSize(new Dimension(140,20));
+        mcb.setPreferredSize(new Dimension(500,20));
+        mcb.setMaximumSize(new Dimension(500,20));
         ((JTextField) mcb.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
         ((JLabel) mcb.getRenderer()).setFont(Main.mainFrame.getNewFont(12));
         min = new MPMinMax(this, String.valueOf(mod.ID.min), true);
@@ -86,10 +88,10 @@ public class ModifierPanel extends JPanel {
         
         
         add(cb, Box.LEFT_ALIGNMENT);
-        add(Box.createRigidArea(new Dimension(7,0)), Box.LEFT_ALIGNMENT);
+//        add(Box.createRigidArea(new Dimension(7,0)), Box.LEFT_ALIGNMENT);
         add(mcb, Box.LEFT_ALIGNMENT);
         
-//        add(Box.createHorizontalGlue());
+        add(Box.createHorizontalGlue());
 
         add(tier, Box.RIGHT_ALIGNMENT);
         add(min, Box.RIGHT_ALIGNMENT);
@@ -344,7 +346,9 @@ class CloseMPButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.06),(int) ((32))));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBackground(new Color(60,60,60));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/xbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Remove this mod");

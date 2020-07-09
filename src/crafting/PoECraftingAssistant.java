@@ -1,27 +1,22 @@
 package crafting;
 
 import static crafting.Utility.*;
-import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import lc.kra.system.keyboard.GlobalKeyboardHook;
 import lc.kra.system.keyboard.event.GlobalKeyAdapter;
 import lc.kra.system.keyboard.event.GlobalKeyEvent;
 import lc.kra.system.mouse.GlobalMouseHook;
 import lc.kra.system.mouse.event.GlobalMouseAdapter;
 import lc.kra.system.mouse.event.GlobalMouseEvent;
-import poeitem.BaseItem;
-import poeitem.Modifier;
 import poeitem.ModifierLoader;
 
 
@@ -43,6 +38,9 @@ public class PoECraftingAssistant {
         Settings.load();
         
         Filters.prepItemLoad();
+        
+        Utility.delay(5000);
+        System.out.println(Main.mainFrame.getSize());
         
     }
     
