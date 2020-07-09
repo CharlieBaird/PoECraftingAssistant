@@ -578,11 +578,15 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         jPanel6.requestFocusInWindow();
-        if (FilterTypePanel.filtertypepanels.size() >= 1)
+        
+        for (FilterNamePanel fnp : FilterNamePanel.filterpanels)
         {
-            Filter f = FilterTypePanel.filtertypepanels.get(0).filter;
-            f.filters.add(new And());
-            genFilterPanel(f);
+            if (fnp.active)
+            {
+                Filter f = fnp.filter;
+                f.filters.add(new And());
+                genFilterPanel(f);
+            }
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 
@@ -857,8 +861,6 @@ public class Main extends javax.swing.JFrame {
     
     public void genFilterPanel(Filter filter)
     {   
-        System.out.println("Generating");
-        
         int index = 0;
         
         if (filter.filters.isEmpty())

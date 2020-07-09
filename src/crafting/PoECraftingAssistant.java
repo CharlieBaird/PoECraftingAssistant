@@ -39,9 +39,6 @@ public class PoECraftingAssistant {
         
         Filters.prepItemLoad();
         
-        Utility.delay(5000);
-        System.out.println(Main.mainFrame.getSize());
-        
     }
     
     public static boolean run = true;

@@ -64,7 +64,6 @@ public class FilterTypePanel extends JPanel {
         this.frame = frame;
         
         Dimension size = new Dimension((int) (parent.getWidth()),(int) (40));
-//        System.out.println(size);
         setSize(size);
         setMaximumSize(size);
         setPreferredSize(size);
@@ -135,7 +134,6 @@ public class FilterTypePanel extends JPanel {
             
             if (!bypass)
             {
-                System.out.println("UIHGEWIUFDH");
                 if (mp.assocMod != null && Filters.singleton.SelectedBase != null) {
                     mp.assocMod = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(mp.assocMod.getStr());
                 }
@@ -155,7 +153,6 @@ public class FilterTypePanel extends JPanel {
                 mp.mcb.defaultmodel = mp.mcb.getModel();
                 mp.mcb.setSelectedItem(selItem);
                 Dimension mpsize = new Dimension((int) (getWidth() * 0.95),(int) (40)); // 0.912
-                System.out.println(getWidth());
                 mp.setSize(mpsize);
                 mp.setMaximumSize(mpsize);
                 mp.setPreferredSize(mpsize);
@@ -170,6 +167,15 @@ public class FilterTypePanel extends JPanel {
             }
 
         }
+        
+        if (!filterbase.UIVisible)
+        {
+            for (int i=0; i<modifierpanels.size(); i++)
+            {
+                modifierpanels.get(i).setVisible(false);
+            }
+        }
+        
     }
     
     public static void clear(boolean clearLists)
@@ -219,7 +225,7 @@ public class FilterTypePanel extends JPanel {
     
     public void remove()
     {
-        if (filtertypepanels.size() >= 2)
+        if (filtertypepanels.size() >= 1)
         {
             for (int i=0; i<modifierpanels.size(); i++)
             {
@@ -394,18 +400,7 @@ class DropdownButton extends JButton {
         setPreferredSize(new Dimension(40,40));
         setBackground(new Color(50,50,50));
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-        if (parent.filterbase.UIVisible)
-        {
-            setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/closedropdowntransparentsmall.png"))); // NOI18N
-            setToolTipText("Hide mods");
-        }
-        else
-        {
-            setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/opendropdowntransparentsmall.png"))); // NOI18N
-            setToolTipText("Show mods");
-        }
-        
+        act();
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(50,50,50)));
         
         ActionListener actionListener = new ActionListener() {
@@ -416,6 +411,20 @@ class DropdownButton extends JButton {
             }
         };
         addActionListener(actionListener);
+    }
+    
+    public void act()
+    {
+        if (parent.filterbase.UIVisible)
+        {
+            setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/closedropdowntransparentsmall.png"))); // NOI18N
+            setToolTipText("Hide mods");
+        }
+        else
+        {
+            setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/opendropdowntransparentsmall.png"))); // NOI18N
+            setToolTipText("Show mods");
+        }
     }
     
     public void open()
@@ -440,8 +449,6 @@ class DropdownButton extends JButton {
             close();
         else
             open();
-
-//        Main.mainFrame.repaint();
     }
 }
 
