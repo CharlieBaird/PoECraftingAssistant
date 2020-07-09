@@ -148,7 +148,7 @@ public class FilterTypePanel extends JPanel {
                     types = ModifierComboBox.toArr(BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers);
                 }
                 
-                String selItem = (String) mp.mcb.getSelectedItem();
+                Modifier selItem = (Modifier) mp.mcb.getSelectedItem();
                 mp.mcb.setModel(new DefaultComboBoxModel<>(types));
                 mp.mcb.defaultmodel = mp.mcb.getModel();
                 mp.mcb.setSelectedItem(selItem);

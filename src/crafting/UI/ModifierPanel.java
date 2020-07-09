@@ -396,6 +396,9 @@ class MPMinMax extends JTextField {
         }
         
         setText(placeholder);
+        setMaximumSize(new Dimension(80,40));
+        setMinimumSize(new Dimension(80,40));
+        setPreferredSize(new Dimension(80,40));
         
         this.isMin = isMin;
         this.parent = parent;
@@ -413,10 +416,6 @@ class MPMinMax extends JTextField {
             placeholder = isMin ? "min" : "max";
         
         this.placeholder = placeholder;
-        
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.09),(int) (parent.getHeight())));
-        setMinimumSize(new Dimension((int) (parent.getWidth() * 0.09),(int) (parent.getHeight())));
-        setMaximumSize(new Dimension((int) (parent.getWidth() * 0.09),(int) (parent.getHeight())));
         
         setHorizontalAlignment(SwingConstants.CENTER);
         
