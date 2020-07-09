@@ -112,7 +112,7 @@ public class ModifierComboBox extends JComboBox
         return str1.toUpperCase().contains(str2.toUpperCase());
     }
     
-    public static String[] toArr(ArrayList<Modifier> typesList)
+    public static Modifier[] toArr(ArrayList<Modifier> typesList)
     {
         ArrayList<Modifier> dispList = new ArrayList<>();
         
@@ -135,10 +135,10 @@ public class ModifierComboBox extends JComboBox
             }
         }
         
-        String[] types = new String[dispList.size()];
+        Modifier[] types = new Modifier[dispList.size()];
         
         for (int i=0; i<types.length; i++)
-            types[i] = dispList.get(i).getStr();
+            types[i] = dispList.get(i);
         
         return types;
     }
@@ -381,19 +381,9 @@ class ModClickListenerSJB implements FocusListener
         String content = ((JTextField) owner.getEditor().getEditorComponent()).getText();
         
         for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
-            String str = (String) owner.defaultmodel.getElementAt(i);
-            if (content.equals(str))
+            Modifier m = (Modifier) owner.defaultmodel.getElementAt(i);
+            if (content.equals(m.getStr()))
             {
-                Modifier m;
-                if (Filters.singleton.SelectedBase != null)
-                {
-                    m = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(str);
-                }
-                else
-                {
-                    m = Modifier.getExplicitFromStr(str);
-                }
-
                 owner.update(m, true);
                 Filters.saveFilters();
 

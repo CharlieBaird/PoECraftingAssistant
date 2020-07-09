@@ -140,7 +140,7 @@ public class FilterTypePanel extends JPanel {
                 }
                 mp.mcb.update(mp.assocMod, true);
                 
-                String[] types;
+                Modifier[] types;
         
                 if (Filters.singleton.SelectedBase == null) {
                     types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
@@ -149,8 +149,8 @@ public class FilterTypePanel extends JPanel {
                     types = ModifierComboBox.toArr(BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers);
                 }
                 
-                Object selItem = mp.mcb.getSelectedItem();
-                mp.mcb.setModel(new DefaultComboBoxModel<String>(types));
+                String selItem = (String) mp.mcb.getSelectedItem();
+                mp.mcb.setModel(new DefaultComboBoxModel<>(types));
                 mp.mcb.defaultmodel = mp.mcb.getModel();
                 mp.mcb.setSelectedItem(selItem);
                 

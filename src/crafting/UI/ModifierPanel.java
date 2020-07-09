@@ -113,7 +113,7 @@ public class ModifierPanel extends JPanel {
     {
         if (searchBox == null)
         {
-            String[] types;
+            Modifier[] types;
         
             if (Filters.singleton.SelectedBase == null) {
                 types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
