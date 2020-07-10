@@ -66,13 +66,13 @@ public class Main extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         ChangeFilterPanel = new javax.swing.JPanel();
+        jButton9 = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -190,6 +190,24 @@ public class Main extends javax.swing.JFrame {
         ChangeFilterPanel.setBackground(new java.awt.Color(30, 30, 30));
         ChangeFilterPanel.setPreferredSize(new java.awt.Dimension(796, 600));
 
+        jButton9.setBackground(new java.awt.Color(40, 40, 40));
+        jButton9.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(255, 255, 255));
+        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/plusbuttontransparentsmall.png"))); // NOI18N
+        jButton9.setToolTipText("Create new subfilter");
+        jButton9.setContentAreaFilled(false);
+        jButton9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton9.setFocusable(false);
+        jButton9.setMaximumSize(null);
+        jButton9.setMinimumSize(new java.awt.Dimension(32, 32));
+        jButton9.setOpaque(true);
+        jButton9.setPreferredSize(new java.awt.Dimension(32, 32));
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
         jPanel11.setBackground(new java.awt.Color(30, 30, 30));
         jPanel11.setAutoscrolls(true);
         jPanel11.setMinimumSize(new java.awt.Dimension(814, 590));
@@ -199,16 +217,20 @@ public class Main extends javax.swing.JFrame {
         ChangeFilterPanel.setLayout(ChangeFilterPanelLayout);
         ChangeFilterPanelLayout.setHorizontalGroup(
             ChangeFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ChangeFilterPanelLayout.createSequentialGroup()
-                .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, 814, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ChangeFilterPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         ChangeFilterPanelLayout.setVerticalGroup(
             ChangeFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ChangeFilterPanelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
+                .addContainerGap()
                 .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel10.setBackground(new java.awt.Color(88, 0, 0));
@@ -291,25 +313,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jPanel10.add(jButton7);
-
-        jButton9.setBackground(new java.awt.Color(40, 40, 40));
-        jButton9.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/plusbuttontransparentsmall.png"))); // NOI18N
-        jButton9.setToolTipText("Create new subfilter");
-        jButton9.setContentAreaFilled(false);
-        jButton9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton9.setFocusable(false);
-        jButton9.setMaximumSize(null);
-        jButton9.setMinimumSize(new java.awt.Dimension(32, 32));
-        jButton9.setOpaque(true);
-        jButton9.setPreferredSize(new java.awt.Dimension(32, 32));
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
-        jPanel10.add(jButton9);
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -415,9 +418,9 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 954, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -511,6 +514,7 @@ public class Main extends javax.swing.JFrame {
             
             jButton2.setVisible(true);
             jButton10.setVisible(true);
+            jButton7.setVisible(true);
             
             mainFrame.itemType.updateFromFilter();
             ModifierPanel.updateTierViews();
@@ -554,6 +558,7 @@ public class Main extends javax.swing.JFrame {
             jButton8.setVisible(true);
             jButton2.setVisible(true);
             jButton10.setVisible(true);
+            jButton7.setVisible(true);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -582,27 +587,48 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        Filter filter = new Filter();
-        Filters.singleton.filters.add(filter);
-        genPanel(filter);
+        
+        if (Filters.singleton.filters.size() <= 20)
+        {
+            Filter filter = new Filter();
+            Filters.singleton.filters.add(filter);
+            genPanel(filter);
+        }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        requestFocusInWindow();
         Settings.singleton.OpenSettings();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        
         if (Filters.singleton != null)
         {
             Filters.saveFilters();
         }
+        
+        jButton7.setText("Saved!");
+        
+        new Thread(new Runnable() {
+            @Override
+            public void run()  {
+                try  { Thread.sleep( 3000 ); }
+                catch (InterruptedException ie)  {}
+                jButton7.setText("Save");
+            }
+        }).start();
+        
+        
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton10runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10runChaosSpam
+        requestFocusInWindow();
         PoECraftingAssistant.testFilter(this, jButton10);
     }//GEN-LAST:event_jButton10runChaosSpam
 
     private void jButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MousePressed
+        requestFocusInWindow();
         PoECraftingAssistant.runChaosSpam(mainFrame);
     }//GEN-LAST:event_jButton2MousePressed
 
@@ -675,11 +701,8 @@ public class Main extends javax.swing.JFrame {
     
     private void genPanel(Filter filter)
     {
-        if (Filters.singleton.filters.size() <= 12)
-        {
-            new FilterNamePanel(this, jPanel6, filter);
-        }
-        
+        new FilterNamePanel(this, jPanel6, filter);
+
         Filters.saveFilters();
         
         jTextField1.setVisible(true);
@@ -786,6 +809,7 @@ public class Main extends javax.swing.JFrame {
         jButton9.setVisible(false);
         jButton2.setVisible(false);
         jButton10.setVisible(false);
+        jButton7.setVisible(false);
         
         jPanel6.addMouseListener(new MouseFocusListener(jPanel6));
         jPanel11.addMouseListener(new MouseFocusListener(jPanel11));

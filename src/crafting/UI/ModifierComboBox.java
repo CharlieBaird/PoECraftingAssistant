@@ -379,6 +379,19 @@ class ModKeyTypedListenerSJB implements KeyListener
             owner.allSelected = true;
             ctrlWasPressed = false;
         }
+        
+        String content = ((JTextField) owner.getEditor().getEditorComponent()).getText();
+        for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
+            Modifier m = (Modifier) owner.defaultmodel.getElementAt(i);
+            if (content.equals(m.getStr()))
+            {
+                owner.update(m, true);
+                Filters.saveFilters();
+                return;
+            }
+
+        }
+        owner.update(null, true);
     }
 }
 
@@ -411,27 +424,6 @@ class ModClickListenerSJB implements FocusListener
     @Override
     public void focusLost(FocusEvent e)
     {
-        owner.allSelected = false;
-        ((JTextField) owner.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
-       
-        String content = ((JTextField) owner.getEditor().getEditorComponent()).getText();
-        
-        for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
-            Modifier m = (Modifier) owner.defaultmodel.getElementAt(i);
-            if (content.equals(m.getStr()))
-            {
-                owner.update(m, true);
-                Filters.saveFilters();
-
-                return;
-            }
-
-        }
-        
-        ((JTextField) owner.getEditor().getEditorComponent()).setText("New Modifier");
-        ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
-        owner.entry = "";
-        owner.update(null, true);
         Filters.saveFilters();
     }
 }

@@ -28,7 +28,7 @@ public class FilterNamePanel extends JPanel {
     
     public DeleteButton cb;
     public FilterTextField ftf;
-    public OpenButton ob;
+//    public OpenButton ob;
     
     public boolean active = false;
     
@@ -53,11 +53,11 @@ public class FilterNamePanel extends JPanel {
         
         cb = new DeleteButton(this, size);
         ftf = new FilterTextField(this, size, name, savedname);
-        ob = new OpenButton(this,size);
+//        ob = new OpenButton(this,size);
         
         add(cb);
         add(ftf);
-        add(ob);
+//        add(ob);
         
         parent.add(this);
         filterpanels.add(this);
@@ -164,6 +164,7 @@ class FilterTextField extends JTextField
         {
             @Override
             public void focusGained(FocusEvent e) {
+                parent.open();
             }
 
             @Override

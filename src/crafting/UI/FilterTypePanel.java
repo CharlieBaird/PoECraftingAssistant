@@ -148,10 +148,20 @@ public class FilterTypePanel extends JPanel {
                     types = ModifierComboBox.toArr(BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers);
                 }
                 
-                Modifier selItem = (Modifier) mp.mcb.getSelectedItem();
-                mp.mcb.setModel(new DefaultComboBoxModel<>(types));
-                mp.mcb.defaultmodel = mp.mcb.getModel();
-                mp.mcb.setSelectedItem(selItem);
+                if (mp.mcb.getSelectedItem() instanceof Modifier)
+                {
+                    Modifier selItem = (Modifier) mp.mcb.getSelectedItem();
+                    mp.mcb.setModel(new DefaultComboBoxModel<>(types));
+                    mp.mcb.defaultmodel = mp.mcb.getModel();
+                    mp.mcb.setSelectedItem(selItem);
+                }
+                else
+                {
+                    String selItem = (String) mp.mcb.getSelectedItem();
+                    mp.mcb.setModel(new DefaultComboBoxModel<>(types));
+                    mp.mcb.defaultmodel = mp.mcb.getModel();
+                    mp.mcb.setSelectedItem(selItem);
+                }
                 Dimension mpsize = new Dimension((int) (getWidth() * 0.95),(int) (40)); // 0.912
                 mp.setSize(mpsize);
                 mp.setMaximumSize(mpsize);
