@@ -126,14 +126,21 @@ public class Filters implements Serializable {
         
         if (item == null)
         {
-//            JOptionPane.showMessageDialog(null, "Item could not be copied", "Error", JOptionPane.ERROR_MESSAGE);
-//            PoECraftingAssistant.stop();
             return false;
         }
         
+        else if (item.brokenModifiers.size() >= 1)
+        {
+            JOptionPane.showMessageDialog(Main.mainFrame, "Oops, the tool was not able to parse the item. Broken mods:\n" + item.brokenModifiers + ".\nPlease create an issue report at https://github.com/CharlieBaird/PoECraftingAssistant/issues/new. Thanks!", "Error", JOptionPane.ERROR_MESSAGE);
+            PoECraftingAssistant.stop();
+            return false;
+        }
+        
+        item.print();
+        
         if (!debug)
         {
-            if (savedModsRaw.equals(mods)) return false;
+            if (savedModsRaw.equals(mods)) return true;
             
             savedModsRaw = mods;
         }

@@ -73,6 +73,7 @@ public class PoECraftingAssistant {
                         System.out.println("Elapsed: " + (System.nanoTime() - start)/1000000);
                         if(b)
                         {
+                            System.out.println("Hit");
                             if (Settings.singleton.showPopup)
                                 activityTooltip.modHit();
                             

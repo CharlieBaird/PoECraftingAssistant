@@ -423,7 +423,24 @@ class ModClickListenerSJB implements FocusListener
 
     @Override
     public void focusLost(FocusEvent e)
-    {
+    {        
+        owner.allSelected = false;
+        String content = ((JTextField) owner.getEditor().getEditorComponent()).getText();
+        
+        for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
+            Modifier m = (Modifier) owner.defaultmodel.getElementAt(i);
+            if (content.equals(m.getStr()))
+            {
+                Filters.saveFilters();
+                return;
+            }
+
+        }
+        
+        ((JTextField) owner.getEditor().getEditorComponent()).setText("New Modifier");
+        ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
+        owner.entry = "";
+        owner.update(null, true);
         Filters.saveFilters();
     }
 }
