@@ -418,6 +418,8 @@ class ModClickListenerSJB implements FocusListener
         
         owner.allSelected = false;
        ((JTextField) owner.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
+       
+        System.out.println(owner.getSize());
     }
 
     @Override

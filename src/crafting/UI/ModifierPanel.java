@@ -65,7 +65,8 @@ public class ModifierPanel extends JPanel {
         }
         this.mod = mod;
         
-        Dimension size = new Dimension((int) (parent.getWidth() * 0.95),(int) (40)); // 0.912
+        Dimension size = new Dimension((int) (parent.getWidth()),(int) (40)); // 0.912
+        System.out.println(size);
         setSize(size);
         setMaximumSize(size);
         setPreferredSize(size);
@@ -137,11 +138,11 @@ public class ModifierPanel extends JPanel {
                 ((JTextField)mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
             }
 
+            mcb.setMinimumSize(new Dimension(0,0));
             add(mcb);
-
             return mcb;
         }
-        
+        mcb.setMinimumSize(new Dimension(0,0));
         add (searchBox);
         return searchBox;
     }
@@ -395,9 +396,9 @@ class MPMinMax extends JTextField {
         }
         
         setText(placeholder);
-        setMaximumSize(new Dimension(80,40));
-        setMinimumSize(new Dimension(80,40));
-        setPreferredSize(new Dimension(80,40));
+        setMaximumSize(new Dimension(45,40));
+        setMinimumSize(new Dimension(45,40));
+        setPreferredSize(new Dimension(45,40));
         
         this.isMin = isMin;
         this.parent = parent;
