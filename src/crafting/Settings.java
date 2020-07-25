@@ -5,6 +5,7 @@
  */
 package crafting;
 
+import crafting.UI.Main;
 import crafting.UI.NumFieldKeyListener;
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;

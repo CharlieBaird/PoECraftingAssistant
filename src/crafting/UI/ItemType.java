@@ -6,7 +6,6 @@
 package crafting.UI;
 
 import crafting.Filters;
-import crafting.Main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.LinkedHashMap;

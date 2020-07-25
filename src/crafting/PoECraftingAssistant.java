@@ -1,5 +1,6 @@
 package crafting;
 
+import crafting.UI.Main;
 import static crafting.Utility.*;
 import java.awt.MouseInfo;
 import java.awt.Point;

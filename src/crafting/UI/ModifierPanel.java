@@ -1,6 +1,5 @@
 package crafting.UI;
 
-import crafting.Main;
 import crafting.Filters;
 import poeitem.Modifier;
 import crafting.filtertypes.FilterBase;

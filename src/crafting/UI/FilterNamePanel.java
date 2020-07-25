@@ -1,7 +1,6 @@
 package crafting.UI;
 
 import crafting.Filters;
-import crafting.Main;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

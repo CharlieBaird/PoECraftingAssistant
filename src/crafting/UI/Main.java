@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crafting;
+package crafting.UI;
 
+import crafting.Filter;
+import crafting.Filters;
+import crafting.PoECraftingAssistant;
+import crafting.Settings;
 import static crafting.PoECraftingAssistant.establishHotkeyShortcut;
 import crafting.UI.FilterNamePanel;
 import crafting.UI.FilterTypePanel;
@@ -12,6 +16,7 @@ import crafting.UI.ItemType;
 import crafting.UI.ModifierPanel;
 import crafting.UI.MouseFocusListener;
 import crafting.UI.ResizeListener;
+import crafting.Utility;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.logicgroups.And;
 import java.awt.Color;
@@ -84,7 +89,6 @@ public class Main extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(20, 20, 20));
         setMinimumSize(new java.awt.Dimension(1174, 807));
-        setPreferredSize(new java.awt.Dimension(1174, 807));
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         Window.setBackground(new java.awt.Color(255, 0, 0));

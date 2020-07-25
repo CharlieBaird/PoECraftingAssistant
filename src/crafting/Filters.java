@@ -5,6 +5,7 @@
  */
 package crafting;
 
+import crafting.UI.Main;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
 import java.awt.AWTException;

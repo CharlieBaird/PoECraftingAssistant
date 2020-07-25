@@ -6,7 +6,6 @@
 package crafting.UI;
 
 import crafting.Filters;
-import crafting.Main;
 import poeitem.Modifier;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;

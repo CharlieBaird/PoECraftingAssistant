@@ -5,6 +5,7 @@
  */
 package crafting;
 
+import crafting.UI.Main;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.Toolkit;
