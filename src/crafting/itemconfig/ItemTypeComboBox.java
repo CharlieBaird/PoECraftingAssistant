@@ -28,7 +28,7 @@ public class ItemTypeComboBox extends SearchBoxBase
     
     public ItemTypeComboBox(ItemType parent, Object[] types)
     {
-        super(parent, types, "Item Type");
+        super(parent, types);
     }
     
     @Override

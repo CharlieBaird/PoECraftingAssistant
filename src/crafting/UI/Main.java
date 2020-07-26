@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package crafting.UI;
 
 import crafting.Filter;
@@ -10,12 +5,6 @@ import crafting.Filters;
 import crafting.PoECraftingAssistant;
 import crafting.Settings;
 import static crafting.PoECraftingAssistant.establishHotkeyShortcut;
-import crafting.UI.FilterNamePanel;
-import crafting.UI.FilterTypePanel;
-import crafting.itemconfig.ItemType;
-import crafting.UI.ModifierPanel;
-import crafting.UI.MouseFocusListener;
-import crafting.UI.ResizeListener;
 import crafting.Utility;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.logicgroups.And;
@@ -40,7 +29,6 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -240,9 +228,7 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(ChangeFilterPanelLayout.createSequentialGroup()
-                .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         ChangeFilterPanelLayout.setVerticalGroup(
             ChangeFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,7 +244,7 @@ public class Main extends javax.swing.JFrame {
         jPanel15.setMaximumSize(new java.awt.Dimension(200, 0));
         jPanel15.setMinimumSize(new java.awt.Dimension(200, 0));
         jPanel15.setPreferredSize(new java.awt.Dimension(200, 10));
-        jPanel15.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 1, 5));
+        jPanel15.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
 
         jPanel10.setBackground(new java.awt.Color(88, 0, 0));
         jPanel10.setMinimumSize(new java.awt.Dimension(320, 32));
@@ -424,7 +410,6 @@ public class Main extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(30, 30, 30));
         jPanel3.setMaximumSize(new java.awt.Dimension(10, 10));
-        jPanel3.setPreferredSize(new java.awt.Dimension(10, 10));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -458,7 +443,6 @@ public class Main extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(30, 30, 30));
         jPanel4.setMaximumSize(new java.awt.Dimension(10, 10));
-        jPanel4.setPreferredSize(new java.awt.Dimension(10, 10));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -889,8 +873,11 @@ public class Main extends javax.swing.JFrame {
         padding.setMaximumSize(new Dimension(5,10));
         padding.setOpaque(false);
         jPanel15.add(padding);
-        jPanel15.add(new ItemConfigPanel());
+        itemConfigPanel = new ItemConfigPanel();
+        jPanel15.add(itemConfigPanel);
     }
+    
+    public ItemConfigPanel itemConfigPanel;
     
     public void postload()
     {

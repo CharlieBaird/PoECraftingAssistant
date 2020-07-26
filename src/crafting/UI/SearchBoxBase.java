@@ -20,10 +20,9 @@ public class SearchBoxBase extends JComboBox {
     public String entry = "";
     public int caretPos = -1;
     
-    protected SearchBoxBase(JPanel parent, Object[] types, String placeholder)
+    protected SearchBoxBase(JPanel parent, Object[] types)
     {
         super(types);
-        insertItemAt(placeholder, 0);
         
         this.parent = parent;
         

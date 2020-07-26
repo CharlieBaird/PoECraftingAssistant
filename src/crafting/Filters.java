@@ -8,6 +8,7 @@ package crafting;
 import crafting.UI.Main;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
+import crafting.itemconfig.InfluenceConfig;
 import java.awt.AWTException;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
@@ -90,8 +91,14 @@ public class Filters implements Serializable {
         singleton.name = "";
         singleton.filters.clear();
         singleton.SelectedBase = null;
-//        Main.mainFrame.itemType.baseComboBox.setSelectedIndex(-1);
-//        Main.mainFrame.itemType.updateFromFilter();
+        Main.mainFrame.itemConfigPanel.itemType.baseComboBox.setSelectedIndex(-1);
+        Main.mainFrame.itemConfigPanel.itemType.updateFromFilter();
+        Main.mainFrame.itemConfigPanel.itemLevel.levelComboBox.setSelectedIndex(-1);
+        Main.mainFrame.itemConfigPanel.itemLevel.updateFromFilter();
+        for (InfluenceConfig ic: Main.mainFrame.itemConfigPanel.influenceConfigs)
+        {
+            ic.reset();
+        }
         
     }
     
