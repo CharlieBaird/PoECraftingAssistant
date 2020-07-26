@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package crafting.UI;
+package crafting.itemconfig;
 
 import crafting.Filters;
+import crafting.UI.Main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.LinkedHashMap;
@@ -17,7 +13,7 @@ import poeitem.Base;
 
 public class ItemType extends JPanel {
         
-    public SearchJBox baseComboBox = new SearchJBox(this, BaseTypes.keySet().toArray());
+    public ItemTypeComboBox baseComboBox = new ItemTypeComboBox(this, BaseTypes.keySet().toArray());
         
     protected static final LinkedHashMap<String, Base> BaseTypes = new LinkedHashMap<String, Base>()
     {{
@@ -61,16 +57,16 @@ public class ItemType extends JPanel {
         
     public ItemType()
     {
-//        setPreferredSize(new Dimension(300, 32));
-        setBackground(new Color(88,0,0));
+        setMaximumSize(new Dimension(1000, 32));
+        setBackground(new Color(30,30,30));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         
-        add(new TitleLabel("Item Type:"));
-        add(Box.createRigidArea(new Dimension(8,0)), Box.LEFT_ALIGNMENT);
+//        add(new TitleLabel("Item Type:"));
+//        add(Box.createRigidArea(new Dimension(8,0)), Box.LEFT_ALIGNMENT);
         
         add(baseComboBox);
         
-        add(Box.createRigidArea(new Dimension(8,0)), Box.LEFT_ALIGNMENT);
+//        add(Box.createRigidArea(new Dimension(8,0)), Box.LEFT_ALIGNMENT);
         
         Main.mainFrame.requestFocusInWindow();
     }

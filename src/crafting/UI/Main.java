@@ -12,16 +12,18 @@ import crafting.Settings;
 import static crafting.PoECraftingAssistant.establishHotkeyShortcut;
 import crafting.UI.FilterNamePanel;
 import crafting.UI.FilterTypePanel;
-import crafting.UI.ItemType;
+import crafting.itemconfig.ItemType;
 import crafting.UI.ModifierPanel;
 import crafting.UI.MouseFocusListener;
 import crafting.UI.ResizeListener;
 import crafting.Utility;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.logicgroups.And;
+import crafting.itemconfig.ItemConfigPanel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -38,9 +40,11 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -73,12 +77,12 @@ public class Main extends javax.swing.JFrame {
         ChangeFilterPanel = new javax.swing.JPanel();
         jButton9 = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
+        jPanel15 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jPanel15 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -200,7 +204,8 @@ public class Main extends javax.swing.JFrame {
         );
 
         ChangeFilterPanel.setBackground(new java.awt.Color(30, 30, 30));
-        ChangeFilterPanel.setPreferredSize(new java.awt.Dimension(796, 600));
+        ChangeFilterPanel.setMinimumSize(new java.awt.Dimension(723, 638));
+        ChangeFilterPanel.setPreferredSize(new java.awt.Dimension(723, 638));
 
         jButton9.setBackground(new java.awt.Color(40, 40, 40));
         jButton9.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -220,22 +225,24 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jPanel11.setBackground(new java.awt.Color(100, 10, 200));
+        jPanel11.setBackground(new java.awt.Color(30, 30, 30));
         jPanel11.setAutoscrolls(true);
-        jPanel11.setMaximumSize(null);
-        jPanel11.setMinimumSize(null);
-        jPanel11.setPreferredSize(new java.awt.Dimension(796, 2));
+        jPanel11.setMaximumSize(new java.awt.Dimension(3000, 3000));
+        jPanel11.setMinimumSize(new java.awt.Dimension(723, 560));
+        jPanel11.setPreferredSize(new java.awt.Dimension(723, 560));
         jPanel11.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 0, 3));
 
         javax.swing.GroupLayout ChangeFilterPanelLayout = new javax.swing.GroupLayout(ChangeFilterPanel);
         ChangeFilterPanel.setLayout(ChangeFilterPanelLayout);
         ChangeFilterPanelLayout.setHorizontalGroup(
             ChangeFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ChangeFilterPanelLayout.createSequentialGroup()
+            .addGroup(ChangeFilterPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 717, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(ChangeFilterPanelLayout.createSequentialGroup()
+                .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         ChangeFilterPanelLayout.setVerticalGroup(
             ChangeFilterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,6 +253,12 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        jPanel15.setBackground(new java.awt.Color(30, 30, 30));
+        jPanel15.setMaximumSize(new java.awt.Dimension(200, 0));
+        jPanel15.setMinimumSize(new java.awt.Dimension(200, 0));
+        jPanel15.setPreferredSize(new java.awt.Dimension(200, 10));
+        jPanel15.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 1, 5));
 
         jPanel10.setBackground(new java.awt.Color(88, 0, 0));
         jPanel10.setMinimumSize(new java.awt.Dimension(320, 32));
@@ -328,20 +341,6 @@ public class Main extends javax.swing.JFrame {
         });
         jPanel10.add(jButton7);
 
-        jPanel15.setBackground(new java.awt.Color(30, 30, 30));
-        jPanel15.setPreferredSize(new java.awt.Dimension(200, 0));
-
-        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
-        jPanel15.setLayout(jPanel15Layout);
-        jPanel15Layout.setHorizontalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
-        );
-        jPanel15Layout.setVerticalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -350,10 +349,10 @@ public class Main extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(SelectFilterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ChangeFilterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 717, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ChangeFilterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel8Layout.setVerticalGroup(
@@ -362,9 +361,9 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ChangeFilterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
+                    .addComponent(ChangeFilterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(SelectFilterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
-                    .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)))
+                    .addComponent(jPanel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -614,7 +613,7 @@ public class Main extends javax.swing.JFrame {
             jButton10.setVisible(true);
             jButton7.setVisible(true);
             
-            mainFrame.itemType.updateFromFilter();
+//            mainFrame.itemType.updateFromFilter();
             ModifierPanel.updateTierViews();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -731,9 +730,10 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2MousePressed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        validate();
-        jPanel11.validate();
-        System.out.println(jPanel11.getWidth());
+//        validate();
+//        jPanel11.validate();
+//        System.out.println(jPanel11.getWidth());
+        System.out.println(jPanel15.getSize());
     }//GEN-LAST:event_jButton6ActionPerformed
 
     public void updateLeftTab()
@@ -884,24 +884,13 @@ public class Main extends javax.swing.JFrame {
         });
         
         jPanel10.add(Box.createHorizontalGlue());
-        itemType = new ItemType();
-        jPanel10.add(itemType, Box.LEFT_ALIGNMENT);
+        
+        JPanel padding = new JPanel();
+        padding.setMaximumSize(new Dimension(5,10));
+        padding.setOpaque(false);
+        jPanel15.add(padding);
+        jPanel15.add(new ItemConfigPanel());
     }
-    
-    public ItemType itemType = null;
-    
-//    private static void addMouseFocusListener(Container c)
-//    {
-//        for (int i=0; i<c.getComponents().length; i++)
-//        {
-//            Component comp = c.getComponent(i);
-//            if (comp instanceof JPanel || comp instanceof JRootPane || comp instanceof JLayeredPane)
-//            {
-//                comp.addMouseListener(new MouseFocusListener((JComponent) comp));
-//                addMouseFocusListener((Container) comp);
-//            }
-//        }
-//    }
     
     public void postload()
     {

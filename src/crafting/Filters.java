@@ -90,8 +90,8 @@ public class Filters implements Serializable {
         singleton.name = "";
         singleton.filters.clear();
         singleton.SelectedBase = null;
-        Main.mainFrame.itemType.baseComboBox.setSelectedIndex(-1);
-        Main.mainFrame.itemType.updateFromFilter();
+//        Main.mainFrame.itemType.baseComboBox.setSelectedIndex(-1);
+//        Main.mainFrame.itemType.updateFromFilter();
         
     }
     
