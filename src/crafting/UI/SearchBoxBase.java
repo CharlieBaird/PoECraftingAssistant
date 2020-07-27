@@ -1,5 +1,6 @@
 package crafting.UI;
 
+import crafting.Filters;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
@@ -12,6 +13,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import poeitem.Modifier;
 
 public class SearchBoxBase extends JComboBox {
     
@@ -83,6 +85,14 @@ public class SearchBoxBase extends JComboBox {
     }
     
     protected void itemUpdate(ItemEvent event) {}
+    
+    public void reset()
+    {
+        setModel(defaultmodel);
+        setSelectedIndex(-1);
+        entry = "";
+        Filters.saveFilters();
+    }
     
 }
 
@@ -159,6 +169,18 @@ class IL_ClickListener implements FocusListener
     @Override
     public void focusLost(FocusEvent e) {
         
+        String content = ((JTextField) owner.getEditor().getEditorComponent()).getText();
+        
+        for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
+            String m = (String) owner.defaultmodel.getElementAt(i);
+            if (content.equals(m))
+            {
+                Filters.saveFilters();
+                return;
+            }
+        }
+        
+        owner.reset();
     }
 }
 

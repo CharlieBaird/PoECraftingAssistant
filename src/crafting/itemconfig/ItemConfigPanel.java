@@ -12,7 +12,13 @@ public class ItemConfigPanel extends JPanel {
     
     public ItemType itemType;
     public ItemLevel itemLevel;
-    public ArrayList<InfluenceConfig> influenceConfigs;
+    
+    public InfluenceConfig shaper;
+    public InfluenceConfig elder;
+    public InfluenceConfig hunter;
+    public InfluenceConfig crusader;
+    public InfluenceConfig warlord;
+    public InfluenceConfig redeemer;
     
     public ItemConfigPanel()
     {
@@ -25,15 +31,29 @@ public class ItemConfigPanel extends JPanel {
         itemLevel = new ItemLevel();
         add(itemLevel);
         
-        influenceConfigs = new ArrayList<>();
+        add(Box.createRigidArea(new Dimension(0,7)));
+        shaper = new InfluenceConfig(Influence.SHAPER);
+        add(shaper);
         
-        for (Influence inf : Influence.values())
-        {
-            add(Box.createRigidArea(new Dimension(0,7)));
-            InfluenceConfig a = new InfluenceConfig(inf);
-            add(a);
-            influenceConfigs.add(a);
-        }
+        add(Box.createRigidArea(new Dimension(0,7)));
+        elder = new InfluenceConfig(Influence.ELDER);
+        add(elder);
+        
+        add(Box.createRigidArea(new Dimension(0,7)));
+        hunter = new InfluenceConfig(Influence.HUNTER);
+        add(hunter);
+        
+        add(Box.createRigidArea(new Dimension(0,7)));
+        crusader = new InfluenceConfig(Influence.CRUSADER);
+        add(crusader);
+        
+        add(Box.createRigidArea(new Dimension(0,7)));
+        warlord = new InfluenceConfig(Influence.WARLORD);
+        add(warlord);
+        
+        add(Box.createRigidArea(new Dimension(0,7)));
+        redeemer = new InfluenceConfig(Influence.REDEEMER);
+        add(redeemer);
     }
     
 }

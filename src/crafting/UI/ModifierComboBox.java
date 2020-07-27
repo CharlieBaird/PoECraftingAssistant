@@ -1,6 +1,7 @@
 package crafting.UI;
 
 import crafting.Filters;
+import crafting.itemconfig.InfluenceConfig;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.FocusEvent;
@@ -17,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
@@ -93,35 +95,53 @@ public class ModifierComboBox extends JComboBox
     protected String[] getCompatObjects()
     {
         ArrayList<Modifier> os = new ArrayList<>();
-        if (entry.length() >= 1 && entry.toCharArray()[0] == '~')
-        {
+//        if (entry.length() >= 1 && entry.toCharArray()[0] == '~')
+//        {
+//            if (Filters.singleton.SelectedBase != null)
+//            {
+//                for (int i=0; i<defaultmodel.getSize(); i++)
+//                {
+//                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
+//                    if (containsIgnoreCase(o.toString().substring(1,o.toString().length()), entry.substring(1,entry.length())) || o.isCompat(entry.substring(1,entry.length())))
+//                        os.add(o);
+//                }
+//            }
+//            else
+//            {
+//                for (int i=0; i<defaultmodel.getSize(); i++)
+//                {
+//                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
+//                    if (containsIgnoreCase(o.toString(), entry.substring(1,entry.length())))
+//                        os.add(o);
+//                }
+//            }
+//        }
+//        else
+//        {
             if (Filters.singleton.SelectedBase != null)
             {
                 for (int i=0; i<defaultmodel.getSize(); i++)
                 {
                     Modifier o = (Modifier) defaultmodel.getElementAt(i);
-                    if (containsIgnoreCase(o.toString().substring(1,o.toString().length()), entry.substring(1,entry.length())) || o.isCompat(entry.substring(1,entry.length())))
-                        os.add(o);
-                }
-            }
-            else
-            {
-                for (int i=0; i<defaultmodel.getSize(); i++)
-                {
-                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
-                    if (containsIgnoreCase(o.toString(), entry.substring(1,entry.length())))
-                        os.add(o);
-                }
-            }
-        }
-        else
-        {
-            if (Filters.singleton.SelectedBase != null)
-            {
-                for (int i=0; i<defaultmodel.getSize(); i++)
-                {
-                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
-                    if (containsIgnoreCase(o.toString(), entry) || o.isCompat(entry))
+                    if (o.isInfluenced)
+                    {
+                        InfluenceConfig assoc = null;
+                        switch (o.influence)
+                        {
+                            case SHAPER: assoc = Main.mainFrame.itemConfigPanel.shaper; break;
+                            case ELDER: assoc = Main.mainFrame.itemConfigPanel.elder; break;
+                            case CRUSADER: assoc = Main.mainFrame.itemConfigPanel.crusader; break;
+                            case WARLORD: assoc = Main.mainFrame.itemConfigPanel.warlord; break;
+                            case HUNTER: assoc = Main.mainFrame.itemConfigPanel.hunter; break;
+                            case REDEEMER: assoc = Main.mainFrame.itemConfigPanel.redeemer; break;
+                        }
+                        
+                        if (assoc == null) os.add(o);
+                        
+                        else if (!assoc.isSelected()) continue; 
+                        
+                    }
+                    if (containsIgnoreCase(o.toString(), entry))
                         os.add(o);
                 }
             }
@@ -134,7 +154,7 @@ public class ModifierComboBox extends JComboBox
                         os.add(o);
                 }
             }
-        }
+//        }
             
         String[] objects = new String[os.size()];
         for (int i=0; i<os.size(); i++)
@@ -406,6 +426,12 @@ class ModClickListenerSJB implements FocusListener
     @Override
     public void focusGained(FocusEvent e)
     {
+        if (Filters.singleton.SelectedBase == null || Filters.singleton.SelectedItemLevel == 0) {
+            Main.mainFrame.requestFocusInWindow();
+            JOptionPane.showMessageDialog(Main.mainFrame, "Please select an item base and item level", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         if (((JTextField) owner.getEditor().getEditorComponent()).getText().equals("New Modifier"))
         {
             ((JTextField) owner.getEditor().getEditorComponent()).setText("");

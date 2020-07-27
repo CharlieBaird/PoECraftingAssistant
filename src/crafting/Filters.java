@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package crafting;
 
 import crafting.UI.Main;
@@ -42,6 +37,7 @@ public class Filters implements Serializable {
     public static Filters singleton = new Filters(false);
     
     public Base SelectedBase = null;
+    public int SelectedItemLevel = 0;
     public int SelectedIndex = -1;
     
     public static String getName()
@@ -91,14 +87,15 @@ public class Filters implements Serializable {
         singleton.name = "";
         singleton.filters.clear();
         singleton.SelectedBase = null;
-        Main.mainFrame.itemConfigPanel.itemType.baseComboBox.setSelectedIndex(-1);
-        Main.mainFrame.itemConfigPanel.itemType.updateFromFilter();
-        Main.mainFrame.itemConfigPanel.itemLevel.levelComboBox.setSelectedIndex(-1);
-        Main.mainFrame.itemConfigPanel.itemLevel.updateFromFilter();
-        for (InfluenceConfig ic: Main.mainFrame.itemConfigPanel.influenceConfigs)
-        {
-            ic.reset();
-        }
+        singleton.SelectedItemLevel = 86;
+        Main.mainFrame.itemConfigPanel.itemType.baseComboBox.reset();
+        Main.mainFrame.itemConfigPanel.itemLevel.levelComboBox.reset();
+        Main.mainFrame.itemConfigPanel.shaper.reset();
+        Main.mainFrame.itemConfigPanel.elder.reset();
+        Main.mainFrame.itemConfigPanel.hunter.reset();
+        Main.mainFrame.itemConfigPanel.warlord.reset();
+        Main.mainFrame.itemConfigPanel.redeemer.reset();
+        Main.mainFrame.itemConfigPanel.crusader.reset();
         
     }
     

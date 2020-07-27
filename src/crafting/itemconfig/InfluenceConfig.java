@@ -3,7 +3,6 @@ package crafting.itemconfig;
 import crafting.UI.Main;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import poeitem.Influence;
@@ -28,6 +27,10 @@ public class InfluenceConfig extends JPanel {
     public void reset()
     {
         influenceCheckBox.reset();
+    }
+
+    public boolean isSelected() {
+        return influenceCheckBox.isSelected();
     }
 }
 
