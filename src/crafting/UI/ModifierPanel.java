@@ -14,6 +14,7 @@ import java.awt.event.ItemListener;
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
+import poeitem.Base;
 import poeitem.BaseItem;
 import poeitem.ModifierTier;
 
@@ -66,7 +67,6 @@ public class ModifierPanel extends JPanel {
         this.mod = mod;
         
         Dimension size = new Dimension((int) (parent.getWidth()),(int) (40)); // 0.912
-        System.out.println(size);
         setSize(size);
         setMaximumSize(size);
         setPreferredSize(size);
@@ -149,7 +149,7 @@ public class ModifierPanel extends JPanel {
     
     public void showTierComboBox(Modifier m)
     {
-        DefaultComboBoxModel model = new DefaultComboBoxModel(tier.modelToString(m));
+        DefaultComboBoxModel model = new DefaultComboBoxModel(tier.modelToString(m, Filters.singleton.SelectedItemLevel));
         if (model.getSize() == 1)
         {
             hideTierComboBox();
@@ -169,7 +169,6 @@ public class ModifierPanel extends JPanel {
     public void hideTierComboBox()
     {
         tier.setVisible(false);
-        if (assocMod != null) assocMod = Modifier.getExplicitFromStr(assocMod.getStr());
     }
     
     public Modifier updateDD()
@@ -280,10 +279,10 @@ class TierComboBox extends JComboBox {
         }
     }
     
-    public String[] modelToString(Modifier m)
+    public String[] modelToString(Modifier m, int itemLevel)
     {
         this.assocModifier = m;
-        ModifierTier[] tiers = m.getTiersWithLevel(100);
+        ModifierTier[] tiers = m.getTiersWithLevel(itemLevel);
                 
         String[] tiersStr = new String[1+tiers.length];
         
@@ -298,6 +297,7 @@ class TierComboBox extends JComboBox {
     }
 
     public void manualUpdate(String text) {
+        Base b = Filters.singleton.SelectedBase;
         if (Filters.singleton.SelectedBase != null)
         {
             if (!text.equals("min") && !text.equals(""))
@@ -317,7 +317,7 @@ class TierComboBox extends JComboBox {
                             int foundTier = assocModifier.tiers.size() - i - 1;
                             if (foundTier < this.getModel().getSize() && foundTier != -1)
                                 this.setSelectedIndex(foundTier);
-                            else this.setSelectedIndex(assocModifier.tiers.size());
+                            else this.setSelectedIndex(this.getModel().getSize()-1);
                             return;
                         }
                     }
@@ -330,7 +330,7 @@ class TierComboBox extends JComboBox {
             }
         }
         if (assocModifier.tiers.size() >= 1)
-            this.setSelectedIndex(assocModifier.tiers.size());
+            this.setSelectedIndex(this.getModel().getSize()-1);
     }
 }
 

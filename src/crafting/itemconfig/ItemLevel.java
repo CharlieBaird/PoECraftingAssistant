@@ -1,5 +1,6 @@
 package crafting.itemconfig;
 
+import crafting.Filters;
 import crafting.UI.Main;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -26,6 +27,7 @@ public class ItemLevel extends JPanel {
     }
 
     public void updateFromFilter() {
-//        this.baseComboBox.setSelectedIndex(Filters.singleton.);
+        this.levelComboBox.setSelectedIndex(Filters.singleton.SelectedItemLevelIndex);
+
     }
 }

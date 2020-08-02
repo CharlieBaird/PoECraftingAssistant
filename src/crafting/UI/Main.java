@@ -717,7 +717,7 @@ public class Main extends javax.swing.JFrame {
 //        validate();
 //        jPanel11.validate();
 //        System.out.println(jPanel11.getWidth());
-        System.out.println(jPanel15.getSize());
+//        System.out.println(jPanel15.getSize());
     }//GEN-LAST:event_jButton6ActionPerformed
 
     public void updateLeftTab()

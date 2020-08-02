@@ -37,8 +37,9 @@ public class Filters implements Serializable {
     public static Filters singleton = new Filters(false);
     
     public Base SelectedBase = null;
-    public int SelectedItemLevel = 0;
-    public int SelectedIndex = -1;
+    public int SelectedBaseIndex = -1;
+    public int SelectedItemLevel = 86;
+    public int SelectedItemLevelIndex = 0;
     
     public static String getName()
     {
@@ -89,7 +90,7 @@ public class Filters implements Serializable {
         singleton.SelectedBase = null;
         singleton.SelectedItemLevel = 86;
         Main.mainFrame.itemConfigPanel.itemType.baseComboBox.reset();
-        Main.mainFrame.itemConfigPanel.itemLevel.levelComboBox.reset();
+//        Main.mainFrame.itemConfigPanel.itemLevel.levelComboBox.reset();
         Main.mainFrame.itemConfigPanel.shaper.reset();
         Main.mainFrame.itemConfigPanel.elder.reset();
         Main.mainFrame.itemConfigPanel.hunter.reset();

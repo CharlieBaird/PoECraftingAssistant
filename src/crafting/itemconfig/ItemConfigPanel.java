@@ -28,8 +28,9 @@ public class ItemConfigPanel extends JPanel {
         itemType = new ItemType();
         add(itemType);
         add(Box.createRigidArea(new Dimension(0,10)));
-        itemLevel = new ItemLevel();
-        add(itemLevel);
+        
+//        itemLevel = new ItemLevel();
+//        add(itemLevel);
         
         add(Box.createRigidArea(new Dimension(0,7)));
         shaper = new InfluenceConfig(Influence.SHAPER);

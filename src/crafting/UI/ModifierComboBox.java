@@ -428,7 +428,7 @@ class ModClickListenerSJB implements FocusListener
     {
         if (Filters.singleton.SelectedBase == null || Filters.singleton.SelectedItemLevel == 0) {
             Main.mainFrame.requestFocusInWindow();
-            JOptionPane.showMessageDialog(Main.mainFrame, "Please select an item base and item level", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Main.mainFrame, "Please select an item base", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         

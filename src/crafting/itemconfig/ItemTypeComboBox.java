@@ -1,22 +1,12 @@
 package crafting.itemconfig;
 
-import crafting.itemconfig.ItemType;
 import crafting.Filters;
 import crafting.UI.FilterTypePanel;
-import crafting.UI.Main;
 import crafting.UI.SearchBoxBase;
 import poeitem.Modifier;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
 
 public class ItemTypeComboBox extends SearchBoxBase
 {
@@ -37,8 +27,10 @@ public class ItemTypeComboBox extends SearchBoxBase
        if (event.getStateChange() == ItemEvent.SELECTED)
        {
             Filters.singleton.SelectedBase = ItemType.BaseTypes.get((String) getSelectedItem());
-            Filters.singleton.SelectedIndex = getSelectedIndex();
+            Filters.singleton.SelectedBaseIndex = getSelectedIndex();
             FilterTypePanel.reshow();
+            
+            System.out.println(Filters.singleton.SelectedBase);
        }
        Filters.saveFilters();
     }

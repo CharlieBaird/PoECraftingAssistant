@@ -72,7 +72,7 @@ public class ItemType extends JPanel {
     }
 
     public void updateFromFilter() {
-        this.baseComboBox.setSelectedIndex(Filters.singleton.SelectedIndex);
+        this.baseComboBox.setSelectedIndex(Filters.singleton.SelectedBaseIndex);
     }
 }
 
