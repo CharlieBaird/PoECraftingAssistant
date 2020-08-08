@@ -603,14 +603,13 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Object[] possibilities = null;
         String name = (String)JOptionPane.showInputDialog(
             this,
             "Enter the New Filter's Name",
             "PoE Crafting Assistant",
             JOptionPane.PLAIN_MESSAGE,
             null,
-            possibilities,
+            null,
             "New Filter");
 
         if (name != null && !name.equals(""))
@@ -630,10 +629,6 @@ public class Main extends javax.swing.JFrame {
 
             Filters.singleton.setName(name);
             Filters.saveFilters();
-            
-//            Filters.singleton.SelectedBase = null;
-//            Filters.singleton.SelectedIndex = -1;
-//            mainFrame.itemType.updateFromFilter();
 
             jTextField1.setVisible(true);
             jButton8.setVisible(true);

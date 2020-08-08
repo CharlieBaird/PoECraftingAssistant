@@ -87,16 +87,16 @@ public class Filters implements Serializable {
     {
         singleton.name = "";
         singleton.filters.clear();
-        singleton.SelectedBase = null;
+//        singleton.SelectedBase = null;
         singleton.SelectedItemLevel = 86;
-        Main.mainFrame.itemConfigPanel.itemType.baseComboBox.reset();
+//        Main.mainFrame.itemConfigPanel.itemType.baseComboBox.reset();
 //        Main.mainFrame.itemConfigPanel.itemLevel.levelComboBox.reset();
-        Main.mainFrame.itemConfigPanel.shaper.reset();
-        Main.mainFrame.itemConfigPanel.elder.reset();
-        Main.mainFrame.itemConfigPanel.hunter.reset();
-        Main.mainFrame.itemConfigPanel.warlord.reset();
-        Main.mainFrame.itemConfigPanel.redeemer.reset();
-        Main.mainFrame.itemConfigPanel.crusader.reset();
+//        Main.mainFrame.itemConfigPanel.shaper.reset();
+//        Main.mainFrame.itemConfigPanel.elder.reset();
+//        Main.mainFrame.itemConfigPanel.hunter.reset();
+//        Main.mainFrame.itemConfigPanel.warlord.reset();
+//        Main.mainFrame.itemConfigPanel.redeemer.reset();
+//        Main.mainFrame.itemConfigPanel.crusader.reset();
         
     }
     

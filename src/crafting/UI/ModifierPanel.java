@@ -88,7 +88,6 @@ public class ModifierPanel extends JPanel {
         
         
         add(cb, Box.LEFT_ALIGNMENT);
-//        add(Box.createRigidArea(new Dimension(7,0)), Box.LEFT_ALIGNMENT);
         add(mcb, Box.LEFT_ALIGNMENT);
         
         add(Box.createHorizontalGlue());
@@ -121,7 +120,9 @@ public class ModifierPanel extends JPanel {
                 types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
             }
             else {
-                types = ModifierComboBox.toArr(BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers);
+                ArrayList<Modifier> modifiers = BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers;
+                for (Modifier m : modifiers) m.print();
+                types = ModifierComboBox.toArr(modifiers);
             }
             ModifierComboBox mcb = new ModifierComboBox(this, types);
 

@@ -5,7 +5,6 @@ import crafting.UI.Main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.LinkedHashMap;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -61,12 +60,7 @@ public class ItemType extends JPanel {
         setBackground(new Color(30,30,30));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         
-//        add(new TitleLabel("Item Type:"));
-//        add(Box.createRigidArea(new Dimension(8,0)), Box.LEFT_ALIGNMENT);
-        
         add(baseComboBox);
-        
-//        add(Box.createRigidArea(new Dimension(8,0)), Box.LEFT_ALIGNMENT);
         
         Main.mainFrame.requestFocusInWindow();
     }

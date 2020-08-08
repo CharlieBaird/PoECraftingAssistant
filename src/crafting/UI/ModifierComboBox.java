@@ -95,66 +95,44 @@ public class ModifierComboBox extends JComboBox
     protected String[] getCompatObjects()
     {
         ArrayList<Modifier> os = new ArrayList<>();
-//        if (entry.length() >= 1 && entry.toCharArray()[0] == '~')
-//        {
-//            if (Filters.singleton.SelectedBase != null)
-//            {
-//                for (int i=0; i<defaultmodel.getSize(); i++)
-//                {
-//                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
-//                    if (containsIgnoreCase(o.toString().substring(1,o.toString().length()), entry.substring(1,entry.length())) || o.isCompat(entry.substring(1,entry.length())))
-//                        os.add(o);
-//                }
-//            }
-//            else
-//            {
-//                for (int i=0; i<defaultmodel.getSize(); i++)
-//                {
-//                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
-//                    if (containsIgnoreCase(o.toString(), entry.substring(1,entry.length())))
-//                        os.add(o);
-//                }
-//            }
-//        }
-//        else
-//        {
-            if (Filters.singleton.SelectedBase != null)
+        
+        if (Filters.singleton.SelectedBase != null)
+        {
+            for (int i=0; i<defaultmodel.getSize(); i++)
             {
-                for (int i=0; i<defaultmodel.getSize(); i++)
+                Modifier o = (Modifier) defaultmodel.getElementAt(i);
+                if (o.isInfluenced)
                 {
-                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
-                    if (o.isInfluenced)
+                    InfluenceConfig assoc = null;
+                    switch (o.influence)
                     {
-                        InfluenceConfig assoc = null;
-                        switch (o.influence)
-                        {
-                            case SHAPER: assoc = Main.mainFrame.itemConfigPanel.shaper; break;
-                            case ELDER: assoc = Main.mainFrame.itemConfigPanel.elder; break;
-                            case CRUSADER: assoc = Main.mainFrame.itemConfigPanel.crusader; break;
-                            case WARLORD: assoc = Main.mainFrame.itemConfigPanel.warlord; break;
-                            case HUNTER: assoc = Main.mainFrame.itemConfigPanel.hunter; break;
-                            case REDEEMER: assoc = Main.mainFrame.itemConfigPanel.redeemer; break;
-                        }
-                        
-                        if (assoc == null) os.add(o);
-                        
-                        else if (!assoc.isSelected()) continue; 
-                        
+                        case SHAPER: assoc = Main.mainFrame.itemConfigPanel.shaper; break;
+                        case ELDER: assoc = Main.mainFrame.itemConfigPanel.elder; break;
+                        case CRUSADER: assoc = Main.mainFrame.itemConfigPanel.crusader; break;
+                        case WARLORD: assoc = Main.mainFrame.itemConfigPanel.warlord; break;
+                        case HUNTER: assoc = Main.mainFrame.itemConfigPanel.hunter; break;
+                        case REDEEMER: assoc = Main.mainFrame.itemConfigPanel.redeemer; break;
                     }
-                    if (containsIgnoreCase(o.toString(), entry))
-                        os.add(o);
+
+                    if (assoc == null) os.add(o);
+
+                    else if (!assoc.isSelected()) continue; 
+
                 }
+                System.out.println(o.toString());
+                if (containsIgnoreCase(o.toString(), entry))
+                    os.add(o);
             }
-            else
+        }
+        else
+        {
+            for (int i=0; i<defaultmodel.getSize(); i++)
             {
-                for (int i=0; i<defaultmodel.getSize(); i++)
-                {
-                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
-                    if (containsIgnoreCase(o.toString(), entry))
-                        os.add(o);
-                }
+                Modifier o = (Modifier) defaultmodel.getElementAt(i);
+                if (containsIgnoreCase(o.toString(), entry))
+                    os.add(o);
             }
-//        }
+        }
             
         String[] objects = new String[os.size()];
         for (int i=0; i<os.size(); i++)
@@ -174,18 +152,8 @@ public class ModifierComboBox extends JComboBox
         for (int i=0; i<typesList.size(); i++)
         {
             Modifier m = typesList.get(i);
-            if (
-//                    m.getModGenerationTypeID() != 1
-//                    && m.getModGenerationTypeID() != 2
-//                    && m.getModGenerationTypeID() != -2
-//                    && m.getModGenerationTypeID() != -1
-//                    && m.getModGenerationTypeID() != 0
-//                    && m.getModGenerationTypeID() != -3
-                    m.getModGenerationTypeID() <= 2 && m.getModGenerationTypeID() >= -3 && !m.getCorrectGroup().equals("Crafted")
-                )
+            if (m.getModGenerationTypeID() <= 2 && m.getModGenerationTypeID() >= -3 && !m.getCorrectGroup().equals("Crafted"))
             {
-//                typesList.remove(i);
-//                i--;
                 dispList.add(m);
             }
         }

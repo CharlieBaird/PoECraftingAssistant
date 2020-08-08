@@ -19,20 +19,24 @@ public class ItemTypeComboBox extends SearchBoxBase
     public ItemTypeComboBox(ItemType parent, Object[] types)
     {
         super(parent, types);
+        setSelectedIndex(0);
+        update();
+        Filters.saveFilters();
     }
     
     @Override
     public void itemUpdate(ItemEvent event)
     {
        if (event.getStateChange() == ItemEvent.SELECTED)
-       {
-            Filters.singleton.SelectedBase = ItemType.BaseTypes.get((String) getSelectedItem());
-            Filters.singleton.SelectedBaseIndex = getSelectedIndex();
-            FilterTypePanel.reshow();
-            
-            System.out.println(Filters.singleton.SelectedBase);
-       }
+            update();
        Filters.saveFilters();
+    }
+    
+    private void update()
+    {
+        Filters.singleton.SelectedBase = ItemType.BaseTypes.get((String) getSelectedItem());
+        Filters.singleton.SelectedBaseIndex = getSelectedIndex();
+        FilterTypePanel.reshow();
     }
     
     public static String[] toArr(ArrayList<Modifier> typesList)
