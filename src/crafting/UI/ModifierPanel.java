@@ -121,7 +121,6 @@ public class ModifierPanel extends JPanel {
             }
             else {
                 ArrayList<Modifier> modifiers = BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers;
-                for (Modifier m : modifiers) m.print();
                 types = ModifierComboBox.toArr(modifiers);
             }
             ModifierComboBox mcb = new ModifierComboBox(this, types);

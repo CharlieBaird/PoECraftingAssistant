@@ -119,7 +119,6 @@ public class ModifierComboBox extends JComboBox
                     else if (!assoc.isSelected()) continue; 
 
                 }
-                System.out.println(o.toString());
                 if (containsIgnoreCase(o.toString(), entry))
                     os.add(o);
             }
