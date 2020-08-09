@@ -16,9 +16,9 @@ public class Item extends PoEItem {
         super(input);
     }
     
-    public boolean hitFilters(Filters filters)
+    public boolean hitFilters(Filter filters)
     {
-        for (Filter f : filters.filters)
+        for (Subfilter f : filters.filters)
         {
             if (this.hitFilter(f))
                 return true;
@@ -27,7 +27,7 @@ public class Item extends PoEItem {
         return false;
     }
     
-    private boolean hitFilter(Filter f)
+    private boolean hitFilter(Subfilter f)
     {
         int goal = f.filters.size();
         int numhit = 0;

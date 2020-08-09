@@ -1,6 +1,6 @@
 package crafting.UI;
 
-import crafting.Filters;
+import crafting.Filter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +9,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
-import crafting.Filter;
+import crafting.Subfilter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class FilterNamePanel extends JPanel {
     public static ArrayList<FilterNamePanel> filterpanels = new ArrayList<FilterNamePanel>();
     public String name = null;
     public String savedname = null;
-    public Filter filter;
+    public Subfilter filter;
     public JPanel parent;
     public String resourcePath;
     public Main frame;
@@ -31,7 +31,7 @@ public class FilterNamePanel extends JPanel {
     
     public boolean active = false;
     
-    public FilterNamePanel(Main frame, JPanel parent, Filter filter)
+    public FilterNamePanel(Main frame, JPanel parent, Subfilter filter)
     {
         String path = "src/resources";
         File file = new File(path);
@@ -71,8 +71,8 @@ public class FilterNamePanel extends JPanel {
             frame.hideAddButton();
         }
         setVisible(false);
-        Filters.singleton.remove(name);
-        Filters.saveFilters();
+        Filter.singleton.remove(name);
+        Filter.saveFilters();
         
     }
     
@@ -168,8 +168,8 @@ class FilterTextField extends JTextField
 
             @Override
             public void focusLost(FocusEvent e) {
-                Filters.singleton.rename(parent.filter, getText());
-                Filters.saveFilters();
+                Filter.singleton.rename(parent.filter, getText());
+                Filter.saveFilters();
                 parent.savedname = getText();
             }
         });

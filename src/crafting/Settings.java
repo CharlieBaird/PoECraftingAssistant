@@ -81,31 +81,31 @@ public class Settings implements Serializable {
         try {
             f = new FileOutputStream(new File(Utility.getResourcesPath() + "/src/resources/settings.cbsettings"));
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
         ObjectOutputStream o = null;
         try {
             o = new ObjectOutputStream(f);
         } catch (IOException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
             // Write objects to file
             o.writeObject(singleton);
         } catch (IOException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
             o.close();
         } catch (IOException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             f.close();
         } catch (IOException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

@@ -5,8 +5,8 @@
  */
 package crafting.UI;
 
+import crafting.Subfilter;
 import crafting.Filter;
-import crafting.Filters;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.ActionListener;
@@ -43,10 +43,10 @@ public class FilterTypePanel extends JPanel {
     public boolean minMaxEnabled = false;
     
     public FilterBase filterbase;
-    public Filter filter;
+    public Subfilter filter;
     public int index;
     
-    public FilterTypePanel(Main frame, JPanel parent, FilterBase filterbase, Filter filter, int index)
+    public FilterTypePanel(Main frame, JPanel parent, FilterBase filterbase, Subfilter filter, int index)
     {
         this.filterbase = filterbase;
         this.filter = filter;
@@ -137,11 +137,11 @@ public class FilterTypePanel extends JPanel {
                 
                 Modifier[] types;
         
-                if (Filters.singleton.SelectedBase == null) {
+                if (Filter.singleton.SelectedBase == null) {
                     types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
                 }
                 else {
-                    types = ModifierComboBox.toArr(BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers);
+                    types = ModifierComboBox.toArr(BaseItem.getFromBase(Filter.singleton.SelectedBase).assocModifiers);
                 }
                 
                 if (mp.mcb.getSelectedItem() instanceof Modifier)
@@ -256,19 +256,19 @@ public class FilterTypePanel extends JPanel {
             filtertypepanels.remove(this);
             filter.filters.remove(filterbase);
 
-            Filters.saveFilters();
+            Filter.saveFilters();
         }
     }
     
     public static void reshow()
     {
         if (!FilterTypePanel.filtertypepanels.isEmpty()) {
-            Filter f = FilterTypePanel.filtertypepanels.get(0).filter;
+            Subfilter f = FilterTypePanel.filtertypepanels.get(0).filter;
             frame.genFilterPanel(f);
         }
         Main.mainFrame.validate();
         
-        Filters.saveFilters();
+        Filter.saveFilters();
     }
     
     public void logicGroupChanged(String selected)
@@ -298,7 +298,7 @@ public class FilterTypePanel extends JPanel {
             }
             
             filter.filters.set(index, filterbase);
-            Filters.saveFilters();
+            Filter.saveFilters();
         }        
     }
     
@@ -378,7 +378,7 @@ class CloseFBButton extends JButton {
                 parent.parent.requestFocusInWindow();
                 parent.remove();
                 parent.numlabel.update();
-                Filters.saveFilters();
+                Filter.saveFilters();
             }
         };
         addActionListener(actionListener);
@@ -543,7 +543,7 @@ class MinMax extends JTextField {
             else
                 c.neededMax = 100000;
             parent.filterbase = c;
-            Filters.saveFilters();
+            Filter.saveFilters();
         }
     }
     

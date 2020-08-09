@@ -1,6 +1,6 @@
 package crafting.UI;
 
-import crafting.Filters;
+import crafting.Filter;
 import crafting.itemconfig.InfluenceConfig;
 import java.awt.Color;
 import java.awt.Component;
@@ -96,7 +96,7 @@ public class ModifierComboBox extends JComboBox
     {
         ArrayList<Modifier> os = new ArrayList<>();
         
-        if (Filters.singleton.SelectedBase != null)
+        if (Filter.singleton.SelectedBase != null)
         {
             for (int i=0; i<defaultmodel.getSize(); i++)
             {
@@ -376,7 +376,7 @@ class ModKeyTypedListenerSJB implements KeyListener
             if (content.equals(m.getStr()))
             {
                 owner.update(m, true);
-                Filters.saveFilters();
+                Filter.saveFilters();
                 return;
             }
 
@@ -397,7 +397,7 @@ class ModClickListenerSJB implements FocusListener
     @Override
     public void focusGained(FocusEvent e)
     {
-        if (Filters.singleton.SelectedBase == null || Filters.singleton.SelectedItemLevel == 0) {
+        if (Filter.singleton.SelectedBase == null || Filter.singleton.SelectedItemLevel == 0) {
             Main.mainFrame.requestFocusInWindow();
             JOptionPane.showMessageDialog(Main.mainFrame, "Please select an item base", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -427,7 +427,7 @@ class ModClickListenerSJB implements FocusListener
             Modifier m = (Modifier) owner.defaultmodel.getElementAt(i);
             if (content.equals(m.getStr()))
             {
-                Filters.saveFilters();
+                Filter.saveFilters();
                 return;
             }
         }
@@ -436,7 +436,7 @@ class ModClickListenerSJB implements FocusListener
         ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
         owner.entry = "";
         owner.update(null, true);
-        Filters.saveFilters();
+        Filter.saveFilters();
     }
 }
 
@@ -463,14 +463,14 @@ class ModSelectionListener implements ItemListener
                 if (selected != null)
                 {
                     owner.update(selected, true);
-                    Filters.saveFilters();
+                    Filter.saveFilters();
                 }
             }
         } catch (ClassCastException e) {
             
         } finally {
             ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
-            Filters.saveFilters();
+            Filter.saveFilters();
             ((JTextField) owner.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
         }
     }

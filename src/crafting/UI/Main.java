@@ -1,7 +1,7 @@
 package crafting.UI;
 
+import crafting.Subfilter;
 import crafting.Filter;
-import crafting.Filters;
 import crafting.PoECraftingAssistant;
 import crafting.Settings;
 import static crafting.PoECraftingAssistant.establishHotkeyShortcut;
@@ -529,8 +529,8 @@ public class Main extends javax.swing.JFrame {
             File file = chooser.getSelectedFile();
             String path = file.toPath().toString();
             
-            Filters loaded = null;
-            loaded = Filters.loadFilters(path);
+            Filter loaded = null;
+            loaded = Filter.loadFilters(path);
             
             if (loaded == null) // Errored, wrong serial ID
             {
@@ -538,8 +538,8 @@ public class Main extends javax.swing.JFrame {
                 return;
             }
 
-            Filters.saveFilters();
-            Filters.reset();
+            Filter.saveFilters();
+            Filter.reset();
             updateLeftTab();
 
             for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
@@ -549,7 +549,7 @@ public class Main extends javax.swing.JFrame {
 
             FilterNamePanel.filterpanels.clear();
             
-            Filters.singleton = loaded;
+            Filter.singleton = loaded;
 
             updateLeftTab();
             
@@ -579,9 +579,9 @@ public class Main extends javax.swing.JFrame {
 
         if (name != null && !name.equals(""))
         {
-            Filters.saveFilters();
+            Filter.saveFilters();
 
-            Filters.reset();
+            Filter.reset();
 
             for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
             {
@@ -592,8 +592,8 @@ public class Main extends javax.swing.JFrame {
 
             jTextField1.setText(name);
 
-            Filters.singleton.setName(name);
-            Filters.saveFilters();
+            Filter.singleton.setName(name);
+            Filter.saveFilters();
 
             jTextField1.setVisible(true);
             jButton8.setVisible(true);
@@ -620,7 +620,7 @@ public class Main extends javax.swing.JFrame {
         {
             if (fnp.active)
             {
-                Filter f = fnp.filter;
+                Subfilter f = fnp.filter;
                 f.filters.add(new And());
                 genFilterPanel(f);
             }
@@ -629,10 +629,10 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         
-        if (Filters.singleton.filters.size() <= 20)
+        if (Filter.singleton.filters.size() <= 20)
         {
-            Filter filter = new Filter();
-            Filters.singleton.filters.add(filter);
+            Subfilter filter = new Subfilter();
+            Filter.singleton.filters.add(filter);
             genPanel(filter);
         }
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -644,9 +644,9 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         
-        if (Filters.singleton != null)
+        if (Filter.singleton != null)
         {
-            Filters.saveFilters();
+            Filter.saveFilters();
         }
         
         jButton7.setText("Saved!");
@@ -675,12 +675,12 @@ public class Main extends javax.swing.JFrame {
 
     public void updateLeftTab()
     {
-        jTextField1.setText(Filters.getName());
+        jTextField1.setText(Filter.getName());
         
         jTextField1.setVisible(true);
         jButton8.setVisible(true);
         
-        for (Filter f : Filters.singleton.filters)
+        for (Subfilter f : Filter.singleton.filters)
         {
             genPanel(f);
         }
@@ -745,11 +745,11 @@ public class Main extends javax.swing.JFrame {
         return this.font;
     }
     
-    private void genPanel(Filter filter)
+    private void genPanel(Subfilter filter)
     {
         new FilterNamePanel(this, jPanel6, filter);
 
-        Filters.saveFilters();
+        Filter.saveFilters();
         
         jTextField1.setVisible(true);
         jButton8.setVisible(true);
@@ -810,11 +810,11 @@ public class Main extends javax.swing.JFrame {
 
             @Override
             public void focusLost(FocusEvent e) {
-                File old = new File(Utility.getResourcesPath() + "/src/resources/filters/" + Filters.getName() + ".cbfilter");
+                File old = new File(Utility.getResourcesPath() + "/src/resources/filters/" + Filter.getName() + ".cbfilter");
                 old.delete();
 
-                Filters.singleton.setName(jTextField1.getText());
-                Filters.saveFilters();
+                Filter.singleton.setName(jTextField1.getText());
+                Filter.saveFilters();
             }
         });
         
@@ -913,7 +913,7 @@ public class Main extends javax.swing.JFrame {
     
     
     
-    public void genFilterPanel(Filter filter)
+    public void genFilterPanel(Subfilter filter)
     {   
         int index = 0;
         

@@ -38,7 +38,7 @@ public class PoECraftingAssistant {
         Main.main();
         Settings.load();
         
-        Filters.prepItemLoad();
+        Filter.prepItemLoad();
         
     }
     
@@ -70,7 +70,7 @@ public class PoECraftingAssistant {
                         
                         delay(Settings.singleton.delay + 35);
                         double start = System.nanoTime();
-                        boolean b = Filters.checkIfHitOne(debug);
+                        boolean b = Filter.checkIfHitOne(debug);
                         System.out.println("Elapsed: " + (System.nanoTime() - start)/1000000);
                         if(b)
                         {
@@ -143,7 +143,7 @@ public class PoECraftingAssistant {
             return;
         }
         
-        if (!Filters.verify())
+        if (!Filter.verify())
         {
             JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -151,7 +151,7 @@ public class PoECraftingAssistant {
         
         run = true;
         
-        Filters.prepItemLoad();
+        Filter.prepItemLoad();
         
         StringSelection selection = new StringSelection("hi");
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -165,20 +165,20 @@ public class PoECraftingAssistant {
     
     public static void testFilter(Main main, JButton owner)
     {
-        if (!Filters.verify())
+        if (!Filter.verify())
         {
             JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Mod", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        Filters.prepItemLoad();
+        Filter.prepItemLoad();
         
         String raw = Utility.getClipboard();
         
         if (raw != null && !raw.equals(""))
         {
-            Filters.testMods = raw;
-            if (Filters.checkIfHitOne(true))
+            Filter.testMods = raw;
+            if (Filter.checkIfHitOne(true))
             {
                 JOptionPane.showMessageDialog(Main.mainFrame, "The item hit the filter!", "Success", JOptionPane.INFORMATION_MESSAGE);
             }
