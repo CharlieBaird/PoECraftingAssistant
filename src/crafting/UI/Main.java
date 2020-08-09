@@ -48,6 +48,7 @@ public class Main extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jFileChooser1 = new javax.swing.JFileChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -67,10 +68,13 @@ public class Main extends javax.swing.JFrame {
         jPanel11 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jPanel16 = new javax.swing.JPanel();
+        jButton11 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -126,7 +130,7 @@ public class Main extends javax.swing.JFrame {
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 11, Short.MAX_VALUE)
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,7 +251,13 @@ public class Main extends javax.swing.JFrame {
         jPanel10.setBackground(new java.awt.Color(88, 0, 0));
         jPanel10.setMinimumSize(new java.awt.Dimension(320, 32));
         jPanel10.setPreferredSize(new java.awt.Dimension(320, 32));
-        jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        jPanel10.setLayout(new java.awt.BorderLayout());
+
+        jPanel13.setBackground(new java.awt.Color(88, 0, 0));
+        jPanel13.setMaximumSize(new java.awt.Dimension(1100, 40));
+        jPanel13.setMinimumSize(new java.awt.Dimension(1050, 40));
+        jPanel13.setPreferredSize(null);
+        jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jButton5.setBackground(new java.awt.Color(127, 3, 3));
         jButton5.setFont(getNewFont(12f));
@@ -266,7 +276,7 @@ public class Main extends javax.swing.JFrame {
                 jButton5ActionPerformed(evt);
             }
         });
-        jPanel10.add(jButton5);
+        jPanel13.add(jButton5);
 
         jButton4.setBackground(new java.awt.Color(127, 3, 3));
         jButton4.setFont(getNewFont(12f));
@@ -285,7 +295,7 @@ public class Main extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel10.add(jButton4);
+        jPanel13.add(jButton4);
 
         jButton1.setBackground(new java.awt.Color(127, 3, 3));
         jButton1.setFont(getNewFont(12f));
@@ -304,7 +314,7 @@ public class Main extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel10.add(jButton1);
+        jPanel13.add(jButton1);
 
         jButton7.setBackground(new java.awt.Color(127, 3, 3));
         jButton7.setFont(getNewFont(12f));
@@ -323,7 +333,35 @@ public class Main extends javax.swing.JFrame {
                 jButton7ActionPerformed(evt);
             }
         });
-        jPanel10.add(jButton7);
+        jPanel13.add(jButton7);
+
+        jPanel10.add(jPanel13, java.awt.BorderLayout.WEST);
+
+        jPanel16.setBackground(new java.awt.Color(88, 0, 0));
+        jPanel16.setMaximumSize(new java.awt.Dimension(100, 40));
+        jPanel16.setMinimumSize(new java.awt.Dimension(10, 40));
+        jPanel16.setPreferredSize(new java.awt.Dimension(120, 40));
+        jPanel16.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        jButton11.setBackground(new java.awt.Color(127, 3, 3));
+        jButton11.setFont(getNewFont(12f));
+        jButton11.setForeground(new java.awt.Color(255, 255, 255));
+        jButton11.setText("Mod list");
+        jButton11.setToolTipText("Open list of mods");
+        jButton11.setContentAreaFilled(false);
+        jButton11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton11.setFocusable(false);
+        jButton11.setMinimumSize(new java.awt.Dimension(100, 32));
+        jButton11.setPreferredSize(new java.awt.Dimension(100, 32));
+        jButton11.setRequestFocusEnabled(false);
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+        jPanel16.add(jButton11);
+
+        jPanel10.add(jPanel16, java.awt.BorderLayout.EAST);
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -413,7 +451,7 @@ public class Main extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 10, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -446,7 +484,7 @@ public class Main extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 10, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -681,6 +719,10 @@ public class Main extends javax.swing.JFrame {
         PoECraftingAssistant.runChaosSpam(mainFrame);
     }//GEN-LAST:event_jButton2MousePressed
 
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton11ActionPerformed
+
     public void updateLeftTab()
     {
         jTextField1.setText(Filter.getName());
@@ -704,6 +746,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel Window;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -717,8 +760,10 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
