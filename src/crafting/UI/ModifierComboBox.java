@@ -37,7 +37,7 @@ public class ModifierComboBox extends JComboBox
     
     boolean allSelected = false;
     
-    public ModifierComboBox(ModifierPanel parent, Object[] types)
+    public ModifierComboBox(ModifierPanel parent, Modifier[] types)
     {
         super(types);
         
@@ -78,7 +78,7 @@ public class ModifierComboBox extends JComboBox
     {
         entry = ((JTextField) this.getEditor().getEditorComponent()).getText();
         
-        String[] compat = getCompatObjects();
+        Modifier[] compat = getCompatObjects();
         DefaultComboBoxModel model = new DefaultComboBoxModel(compat);
         this.setModel(model);
                 
@@ -92,7 +92,7 @@ public class ModifierComboBox extends JComboBox
             hidePopup();
     }
     
-    protected String[] getCompatObjects()
+    protected Modifier[] getCompatObjects()
     {
         ArrayList<Modifier> os = new ArrayList<>();
         
@@ -103,20 +103,28 @@ public class ModifierComboBox extends JComboBox
                 Modifier o = (Modifier) defaultmodel.getElementAt(i);
                 if (o.isInfluenced)
                 {
-                    InfluenceConfig assoc = null;
+                    ArrayList<InfluenceConfig> assoc = new ArrayList<>();
                     switch (o.influence)
                     {
-                        case SHAPER: assoc = Main.mainFrame.itemConfigPanel.shaper; break;
-                        case ELDER: assoc = Main.mainFrame.itemConfigPanel.elder; break;
-                        case CRUSADER: assoc = Main.mainFrame.itemConfigPanel.crusader; break;
-                        case WARLORD: assoc = Main.mainFrame.itemConfigPanel.warlord; break;
-                        case HUNTER: assoc = Main.mainFrame.itemConfigPanel.hunter; break;
-                        case REDEEMER: assoc = Main.mainFrame.itemConfigPanel.redeemer; break;
+                        case SHAPER: assoc.add(Main.mainFrame.itemConfigPanel.shaper); break;
+                        case ELDER: assoc.add(Main.mainFrame.itemConfigPanel.elder); break;
+                        case CRUSADER: assoc.add(Main.mainFrame.itemConfigPanel.crusader); break;
+                        case WARLORD: assoc.add(Main.mainFrame.itemConfigPanel.warlord); break;
+                        case HUNTER: assoc.add(Main.mainFrame.itemConfigPanel.hunter); break;
+                        case REDEEMER: assoc.add(Main.mainFrame.itemConfigPanel.redeemer); break;
                     }
 
-                    if (assoc == null) os.add(o);
+                    if (assoc.isEmpty()) os.add(o);
 
-                    else if (!assoc.isSelected()) continue; 
+//                    o.print();
+//                    System.out.println(o.influence);
+                    
+                    boolean selectedOne = false;
+                    for (InfluenceConfig config : assoc) {
+                        if (config.isSelected()) selectedOne = true;
+                    }
+                    
+                    if (!selectedOne) continue;
 
                 }
                 if (containsIgnoreCase(o.toString(), entry))
@@ -133,9 +141,9 @@ public class ModifierComboBox extends JComboBox
             }
         }
             
-        String[] objects = new String[os.size()];
+        Modifier[] objects = new Modifier[os.size()];
         for (int i=0; i<os.size(); i++)
-            objects[i] = os.get(i).toString();
+            objects[i] = os.get(i);
         
         return objects;
     }
@@ -169,6 +177,7 @@ public class ModifierComboBox extends JComboBox
     {
         if (m != null && parent.tier != null)
         {
+//            m.print();
             parent.assocMod = m;
             parent.mod.name = m.getStr();
             parent.mod.assocModifier = parent.assocMod;
@@ -426,7 +435,6 @@ class ModClickListenerSJB implements FocusListener
                 Filters.saveFilters();
                 return;
             }
-
         }
         
         ((JTextField) owner.getEditor().getEditorComponent()).setText("New Modifier");
@@ -448,30 +456,28 @@ class ModSelectionListener implements ItemListener
     }
     
     public void itemStateChanged(ItemEvent event)
-    {
-        String selected = (String) owner.getSelectedItem();
-        ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
-        
-        if (event.getStateChange() == ItemEvent.SELECTED)
-        {
-            if (selected != null)
-            {
-                Modifier m;
-                if (Filters.singleton.SelectedBase != null)
-                {
-                    m = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(selected);
-                }
-                else
-                {
-                    m = Modifier.getExplicitFromStr(selected);
-                }
-                
-                owner.update(m, true);
-
-                Filters.saveFilters();
-            }
+    {        
+        if (event.getStateChange() != ItemEvent.SELECTED) {
+            return;
         }
-        Filters.saveFilters();
-        ((JTextField) owner.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
+        
+        try {
+            Modifier selected = (Modifier) event.getItem();
+            selected.print();
+            if (event.getStateChange() == ItemEvent.SELECTED)
+            {
+                if (selected != null)
+                {
+                    owner.update(selected, true);
+                    Filters.saveFilters();
+                }
+            }
+        } catch (ClassCastException e) {
+            
+        } finally {
+            ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
+            Filters.saveFilters();
+            ((JTextField) owner.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
+        }
     }
 }

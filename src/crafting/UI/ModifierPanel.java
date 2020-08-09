@@ -121,6 +121,10 @@ public class ModifierPanel extends JPanel {
             }
             else {
                 ArrayList<Modifier> modifiers = BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers;
+//                for (Modifier m : modifiers)
+//                {
+//                    if (m.isInfluenced) m.print();
+//                }
                 types = ModifierComboBox.toArr(modifiers);
             }
             ModifierComboBox mcb = new ModifierComboBox(this, types);
@@ -149,15 +153,15 @@ public class ModifierPanel extends JPanel {
     
     public void showTierComboBox(Modifier m)
     {
-        DefaultComboBoxModel model = new DefaultComboBoxModel(tier.modelToString(m, Filters.singleton.SelectedItemLevel));
-        if (model.getSize() == 1)
+        DefaultComboBoxModel model = new DefaultComboBoxModel(tier.modelToTiers(m, Filters.singleton.SelectedItemLevel));
+        if (model.getSize() <= 1)
         {
             hideTierComboBox();
             return;
         }
         tier.setModel(model);
         
-        if (this.min.getText().equals("min") && model.getSize() >= 2)
+        if (this.min.getText().equals("min"))
         {
             this.tier.setSelectedIndex(0);
             tier.manualUpdate(min.getText());
@@ -177,7 +181,7 @@ public class ModifierPanel extends JPanel {
         
         if (assocMod != null)
         {
-            Modifier result = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(assocMod.getStr());
+            Modifier result = (Modifier) this.mcb.getSelectedItem();
 
             if (result != null)
             {
@@ -279,9 +283,11 @@ class TierComboBox extends JComboBox {
         }
     }
     
-    public String[] modelToString(Modifier m, int itemLevel)
+    public String[] modelToTiers(Modifier m, int itemLevel)
     {
+        System.out.println("_____________________________");
         this.assocModifier = m;
+        m.print();
         ModifierTier[] tiers = m.getTiersWithLevel(itemLevel);
                 
         String[] tiersStr = new String[1+tiers.length];
@@ -290,10 +296,12 @@ class TierComboBox extends JComboBox {
         for (int i=0; i<tiers.length; i++)
         {
 //            int val = (int) m.tiers.get(m.tiers.size()-1-i).getValue();
+//            tiers[i].print();
             tiersStr[i] = "T" + (i + 1)/* + " - " + val*/;
-        }
-        
+        }        
+        System.out.println("_____________________________");
         return tiersStr;
+        
     }
 
     public void manualUpdate(String text) {
