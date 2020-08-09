@@ -46,7 +46,7 @@ public class SearchBoxBase extends JComboBox {
         this.getEditor().getEditorComponent().addFocusListener(new IL_ClickListener(this));
         this.addItemListener(new IL_SelectionListener(this));
         
-        this.setSelectedIndex(0);
+        this.setSelectedIndex(-1);
     }
     
     public void updateList()

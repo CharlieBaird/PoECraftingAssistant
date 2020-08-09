@@ -121,10 +121,6 @@ public class ModifierPanel extends JPanel {
             }
             else {
                 ArrayList<Modifier> modifiers = BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers;
-//                for (Modifier m : modifiers)
-//                {
-//                    if (m.isInfluenced) m.print();
-//                }
                 types = ModifierComboBox.toArr(modifiers);
             }
             ModifierComboBox mcb = new ModifierComboBox(this, types);
@@ -285,9 +281,7 @@ class TierComboBox extends JComboBox {
     
     public String[] modelToTiers(Modifier m, int itemLevel)
     {
-        System.out.println("_____________________________");
         this.assocModifier = m;
-        m.print();
         ModifierTier[] tiers = m.getTiersWithLevel(itemLevel);
                 
         String[] tiersStr = new String[1+tiers.length];
@@ -296,10 +290,8 @@ class TierComboBox extends JComboBox {
         for (int i=0; i<tiers.length; i++)
         {
 //            int val = (int) m.tiers.get(m.tiers.size()-1-i).getValue();
-//            tiers[i].print();
             tiersStr[i] = "T" + (i + 1)/* + " - " + val*/;
         }        
-        System.out.println("_____________________________");
         return tiersStr;
         
     }

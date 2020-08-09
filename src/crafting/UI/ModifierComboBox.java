@@ -115,9 +115,6 @@ public class ModifierComboBox extends JComboBox
                     }
 
                     if (assoc.isEmpty()) os.add(o);
-
-//                    o.print();
-//                    System.out.println(o.influence);
                     
                     boolean selectedOne = false;
                     for (InfluenceConfig config : assoc) {
@@ -177,7 +174,6 @@ public class ModifierComboBox extends JComboBox
     {
         if (m != null && parent.tier != null)
         {
-//            m.print();
             parent.assocMod = m;
             parent.mod.name = m.getStr();
             parent.mod.assocModifier = parent.assocMod;
@@ -217,7 +213,6 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
         StringBuffer lowertext = new StringBuffer(rawTextLower);
         if (!rawTextLower.contains(highlightLower) || highlight.equals(""))
         {
-//            System.out.println(rawtext + " did not contain " + highlight);
             return rawtext;
         }
         
@@ -463,7 +458,6 @@ class ModSelectionListener implements ItemListener
         
         try {
             Modifier selected = (Modifier) event.getItem();
-            selected.print();
             if (event.getStateChange() == ItemEvent.SELECTED)
             {
                 if (selected != null)

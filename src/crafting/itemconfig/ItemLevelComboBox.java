@@ -11,6 +11,7 @@ public class ItemLevelComboBox extends SearchBoxBase {
     public ItemLevelComboBox(ItemLevel parent, Object[] types)
     {
         super(parent, types);
+        setSelectedIndex(0);
     }
     
     @Override

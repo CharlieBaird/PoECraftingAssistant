@@ -133,9 +133,6 @@ public class FilterTypePanel extends JPanel {
             
             if (!bypass)
             {
-                if (mp.assocMod != null && Filters.singleton.SelectedBase != null) {
-                    mp.assocMod = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(mp.assocMod.getStr());
-                }
                 mp.mcb.update(mp.assocMod, true);
                 
                 Modifier[] types;
@@ -149,10 +146,17 @@ public class FilterTypePanel extends JPanel {
                 
                 if (mp.mcb.getSelectedItem() instanceof Modifier)
                 {
+                    Modifier[] validModifiersArr = mp.mcb.getCompatObjects();
+                    ArrayList<Modifier> validModifiers = new ArrayList<>();
+                    for (Modifier modi : validModifiersArr) validModifiers.add(modi);
+                    
                     Modifier selItem = (Modifier) mp.mcb.getSelectedItem();
                     mp.mcb.setModel(new DefaultComboBoxModel<>(types));
                     mp.mcb.defaultmodel = mp.mcb.getModel();
-                    mp.mcb.setSelectedItem(selItem);
+                    if (validModifiers.contains(selItem))
+                        mp.mcb.setSelectedItem(selItem);
+                    else
+                        setDefault(mp);
                 }
                 else
                 {
@@ -169,12 +173,9 @@ public class FilterTypePanel extends JPanel {
                 
                 if (mp.assocMod == null)
                 {
-                    mp.mcb.entry = "";
-                    ((JTextField)mp.mcb.getEditor().getEditorComponent()).setText("New Modifier");
-                    ((JTextField)mp.mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
+                    setDefault(mp);
                 }
             }
-
         }
         
         if (!filterbase.UIVisible)
@@ -184,7 +185,15 @@ public class FilterTypePanel extends JPanel {
                 modifierpanels.get(i).setVisible(false);
             }
         }
-        
+    }
+    
+    private void setDefault(ModifierPanel mp)
+    {
+        mp.assocMod = null;
+        mp.mcb.entry = "";
+        mp.hideTierComboBox();
+        ((JTextField)mp.mcb.getEditor().getEditorComponent()).setText("New Modifier");
+        ((JTextField)mp.mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
     }
     
     public static void clear(boolean clearLists)
