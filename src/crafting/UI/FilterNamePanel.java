@@ -1,6 +1,6 @@
 package crafting.UI;
 
-import crafting.Filter;
+import crafting.filters.Filter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +9,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
-import crafting.Subfilter;
+import crafting.filters.Subfilter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;

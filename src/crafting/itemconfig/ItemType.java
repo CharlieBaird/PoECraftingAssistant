@@ -1,6 +1,6 @@
 package crafting.itemconfig;
 
-import crafting.Filter;
+import crafting.filters.Filter;
 import crafting.UI.Main;
 import java.awt.Color;
 import java.awt.Dimension;

@@ -1,6 +1,6 @@
 package crafting.UI;
 
-import crafting.Filter;
+import crafting.filters.Filter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;

@@ -5,8 +5,8 @@
  */
 package crafting.UI;
 
-import crafting.Subfilter;
-import crafting.Filter;
+import crafting.filters.Subfilter;
+import crafting.filters.Filter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.ActionListener;

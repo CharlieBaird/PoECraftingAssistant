@@ -1,6 +1,6 @@
 package crafting.UI;
 
-import crafting.Filter;
+import crafting.filters.Filter;
 import crafting.itemconfig.InfluenceConfig;
 import java.awt.Color;
 import java.awt.Component;

@@ -1,6 +1,6 @@
 package crafting.UI;
 
-import crafting.Filter;
+import crafting.filters.Filter;
 import poeitem.Modifier;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;

@@ -1,7 +1,7 @@
 package crafting.UI;
 
-import crafting.Subfilter;
-import crafting.Filter;
+import crafting.filters.Subfilter;
+import crafting.filters.Filter;
 import crafting.PoECraftingAssistant;
 import crafting.Settings;
 import static crafting.PoECraftingAssistant.establishHotkeyShortcut;

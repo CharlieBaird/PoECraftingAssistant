@@ -1,5 +1,7 @@
 package crafting;
 
+import crafting.filters.Subfilter;
+import crafting.filters.Filter;
 import crafting.filtertypes.FilterBase;
 import poeitem.PoEItem;
 

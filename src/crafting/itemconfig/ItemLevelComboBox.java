@@ -1,6 +1,6 @@
 package crafting.itemconfig;
 
-import crafting.Filter;
+import crafting.filters.Filter;
 import crafting.UI.FilterTypePanel;
 import crafting.UI.SearchBoxBase;
 import java.awt.event.ItemEvent;

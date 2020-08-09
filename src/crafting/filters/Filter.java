@@ -1,6 +1,9 @@
-package crafting;
+package crafting.filters;
 
+import crafting.Item;
+import crafting.PoECraftingAssistant;
 import crafting.UI.Main;
+import crafting.Utility;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
 import java.awt.AWTException;
