@@ -565,6 +565,14 @@ public class Main extends javax.swing.JFrame {
 //            mainFrame.itemType.updateFromFilter();
             ModifierPanel.updateTierViews();
         }
+        
+        for (FilterNamePanel fnp : FilterNamePanel.filterpanels)
+        {
+            if (fnp.active)
+            {
+                fnp.open();
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

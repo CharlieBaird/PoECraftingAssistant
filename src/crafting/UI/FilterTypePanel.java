@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package crafting.UI;
 
 import crafting.filters.Subfilter;
@@ -343,13 +338,10 @@ class AddButton extends JButton {
                 ModifierPanel mp = new ModifierPanel(parent.frame, parent, parent.filterbase, null, null);
                 parent.modifierpanels.add(mp);
                 parent.parent.add(mp);
-//                parent.filterbase.mods.add(new Mod(null, null));
                 parent.parent.requestFocusInWindow();
                 parent.dropdown.open();
                 FilterTypePanel.reshow();
                 parent.numlabel.update();
-                
-//                Main.mainFrame.repaint();
             }
         });
     }

@@ -56,14 +56,25 @@ public class ModifierPanel extends JPanel {
             max = new MPMinMax(this, "max", false);
         }
         
-        else if (Filter.singleton.SelectedBase != null)
-        {
-            assocMod = BaseItem.getFromBase(Filter.singleton.SelectedBase).getExplicitFromStr(mod.name);
-        }
         else
         {
-            assocMod = Modifier.getExplicitFromStr(mod.name);
+            if (mod.assocModifier == null)
+            {
+                if (Filter.singleton.SelectedBase != null)
+                {
+                    assocMod = BaseItem.getFromBase(Filter.singleton.SelectedBase).getExplicitFromStr(mod.name);
+                }
+                else
+                {
+                    assocMod = Modifier.getExplicitFromStr(mod.name);
+                }
+            }
+            else
+            {
+                assocMod = mod.assocModifier;
+            }
         }
+        
         this.mod = mod;
         
         Dimension size = new Dimension((int) (parent.getWidth()),(int) (40)); // 0.912
@@ -126,7 +137,7 @@ public class ModifierPanel extends JPanel {
 
             if (aMod != null)
             {
-                mcb.setSelectedItem((Object) aMod.getStr());
+                mcb.setSelectedItem(aMod);
             }
             else
             {
