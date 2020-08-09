@@ -27,7 +27,6 @@ public class FilterNamePanel extends JPanel {
     
     public DeleteButton cb;
     public FilterTextField ftf;
-//    public OpenButton ob;
     
     public boolean active = false;
     

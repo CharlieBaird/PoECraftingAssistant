@@ -563,7 +563,6 @@ public class Main extends javax.swing.JFrame {
             jButton10.setVisible(true);
             jButton7.setVisible(true);
             
-//            mainFrame.itemType.updateFromFilter();
             ModifierPanel.updateTierViews();
         }
         

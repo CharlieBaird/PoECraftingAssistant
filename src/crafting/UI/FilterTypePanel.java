@@ -107,6 +107,7 @@ public class FilterTypePanel extends JPanel {
         
         parent.add(this);
         
+        System.out.println("Entered");
         for (int i=0; i<filterbase.mods.size(); i++)
         {
             Mod m = filterbase.mods.get(i);
@@ -160,17 +161,17 @@ public class FilterTypePanel extends JPanel {
                     mp.mcb.defaultmodel = mp.mcb.getModel();
                     mp.mcb.setSelectedItem(selItem);
                 }
-                Dimension mpsize = new Dimension((int) (getWidth() * 0.95),(int) (40)); // 0.912
-                mp.setSize(mpsize);
-                mp.setMaximumSize(mpsize);
-                mp.setPreferredSize(mpsize);
-                
                 
                 if (mp.assocMod == null)
                 {
                     setDefault(mp);
                 }
             }
+            
+            Dimension mpsize = new Dimension((int) (getWidth() * 0.95),(int) (40)); // 0.912
+            mp.setSize(mpsize);
+            mp.setMaximumSize(mpsize);
+            mp.setPreferredSize(mpsize);
         }
         
         if (!filterbase.UIVisible)
