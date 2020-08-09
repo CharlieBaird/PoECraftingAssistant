@@ -7,14 +7,11 @@ package crafting.UI;
 
 import crafting.Filter;
 import crafting.Filters;
-import crafting.Main;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseEvent;
 import javax.swing.*;
 import java.io.File;
 import crafting.filtertypes.FilterBase;
@@ -65,8 +62,9 @@ public class FilterTypePanel extends JPanel {
         this.resourcePath = path;
         this.frame = frame;
         
-        Dimension size = new Dimension((int) (parent.getWidth() * 0.98),(int) (40));
+        Dimension size = new Dimension((int) (parent.getWidth()),(int) (40));
         setSize(size);
+        setMaximumSize(size);
         setPreferredSize(size);
         setBackground(new Color(50,50,50));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -135,9 +133,6 @@ public class FilterTypePanel extends JPanel {
             
             if (!bypass)
             {
-                if (mp.assocMod != null && Filters.singleton.SelectedBase != null) {
-                    mp.assocMod = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(mp.assocMod.getStr());
-                }
                 mp.mcb.update(mp.assocMod, true);
                 
                 Modifier[] types;
@@ -149,21 +144,57 @@ public class FilterTypePanel extends JPanel {
                     types = ModifierComboBox.toArr(BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers);
                 }
                 
-                String selItem = (String) mp.mcb.getSelectedItem();
-                mp.mcb.setModel(new DefaultComboBoxModel<>(types));
-                mp.mcb.defaultmodel = mp.mcb.getModel();
-                mp.mcb.setSelectedItem(selItem);
+                if (mp.mcb.getSelectedItem() instanceof Modifier)
+                {
+                    Modifier[] validModifiersArr = mp.mcb.getCompatObjects();
+                    ArrayList<Modifier> validModifiers = new ArrayList<>();
+                    for (Modifier modi : validModifiersArr) validModifiers.add(modi);
+                    
+                    Modifier selItem = (Modifier) mp.mcb.getSelectedItem();
+                    mp.mcb.setModel(new DefaultComboBoxModel<>(types));
+                    mp.mcb.defaultmodel = mp.mcb.getModel();
+                    if (validModifiers.contains(selItem))
+                        mp.mcb.setSelectedItem(selItem);
+                    else
+                        setDefault(mp);
+                }
+                else
+                {
+                    String selItem = (String) mp.mcb.getSelectedItem();
+                    mp.mcb.setModel(new DefaultComboBoxModel<>(types));
+                    mp.mcb.defaultmodel = mp.mcb.getModel();
+                    mp.mcb.setSelectedItem(selItem);
+                }
+                Dimension mpsize = new Dimension((int) (getWidth() * 0.95),(int) (40)); // 0.912
+                mp.setSize(mpsize);
+                mp.setMaximumSize(mpsize);
+                mp.setPreferredSize(mpsize);
                 
                 
                 if (mp.assocMod == null)
                 {
-                    mp.mcb.entry = "";
-                    ((JTextField)mp.mcb.getEditor().getEditorComponent()).setText("New Modifier");
-                    ((JTextField)mp.mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
+                    setDefault(mp);
                 }
             }
-
         }
+        
+        if (!filterbase.UIVisible)
+        {
+            for (int i=0; i<modifierpanels.size(); i++)
+            {
+                modifierpanels.get(i).setVisible(false);
+            }
+        }
+    }
+    
+    private void setDefault(ModifierPanel mp)
+    {
+        mp.assocMod = null;
+        mp.mod.name = "New Modifier";
+        mp.mcb.entry = "";
+        mp.hideTierComboBox();
+        ((JTextField)mp.mcb.getEditor().getEditorComponent()).setText("New Modifier");
+        ((JTextField)mp.mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
     }
     
     public static void clear(boolean clearLists)
@@ -213,7 +244,7 @@ public class FilterTypePanel extends JPanel {
     
     public void remove()
     {
-        if (filtertypepanels.size() >= 2)
+        if (filtertypepanels.size() >= 1)
         {
             for (int i=0; i<modifierpanels.size(); i++)
             {
@@ -235,6 +266,9 @@ public class FilterTypePanel extends JPanel {
             Filter f = FilterTypePanel.filtertypepanels.get(0).filter;
             frame.genFilterPanel(f);
         }
+        Main.mainFrame.validate();
+        
+        Filters.saveFilters();
     }
     
     public void logicGroupChanged(String selected)
@@ -292,7 +326,9 @@ class AddButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBackground(new Color(50,50,50));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/plusbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("New modifier");
@@ -313,7 +349,7 @@ class AddButton extends JButton {
                 FilterTypePanel.reshow();
                 parent.numlabel.update();
                 
-                Main.mainFrame.pack();
+//                Main.mainFrame.repaint();
             }
         });
     }
@@ -326,7 +362,9 @@ class CloseFBButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBackground(new Color(50,50,50));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/xbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Remove this logic filter");
@@ -377,21 +415,12 @@ class DropdownButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBackground(new Color(50,50,50));
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-        if (parent.filterbase.UIVisible)
-        {
-            setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/closedropdowntransparentsmall.png"))); // NOI18N
-            setToolTipText("Hide mods");
-        }
-        else
-        {
-            setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/opendropdowntransparentsmall.png"))); // NOI18N
-            setToolTipText("Show mods");
-        }
-        
+        act();
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(50,50,50)));
         
         ActionListener actionListener = new ActionListener() {
@@ -402,6 +431,20 @@ class DropdownButton extends JButton {
             }
         };
         addActionListener(actionListener);
+    }
+    
+    public void act()
+    {
+        if (parent.filterbase.UIVisible)
+        {
+            setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/closedropdowntransparentsmall.png"))); // NOI18N
+            setToolTipText("Hide mods");
+        }
+        else
+        {
+            setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/opendropdowntransparentsmall.png"))); // NOI18N
+            setToolTipText("Show mods");
+        }
     }
     
     public void open()
@@ -426,8 +469,6 @@ class DropdownButton extends JButton {
             close();
         else
             open();
-
-        Main.mainFrame.pack();
     }
 }
 

@@ -1,12 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package crafting;
 
+import crafting.UI.Main;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
+import crafting.itemconfig.InfluenceConfig;
 import java.awt.AWTException;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
@@ -40,7 +37,9 @@ public class Filters implements Serializable {
     public static Filters singleton = new Filters(false);
     
     public Base SelectedBase = null;
-    public int SelectedIndex = -1;
+    public int SelectedBaseIndex = -1;
+    public int SelectedItemLevel = 86;
+    public int SelectedItemLevelIndex = 0;
     
     public static String getName()
     {
@@ -88,9 +87,16 @@ public class Filters implements Serializable {
     {
         singleton.name = "";
         singleton.filters.clear();
-        singleton.SelectedBase = null;
-        Main.mainFrame.itemType.baseComboBox.setSelectedIndex(-1);
-        Main.mainFrame.itemType.updateFromFilter();
+//        singleton.SelectedBase = null;
+        singleton.SelectedItemLevel = 86;
+//        Main.mainFrame.itemConfigPanel.itemType.baseComboBox.reset();
+//        Main.mainFrame.itemConfigPanel.itemLevel.levelComboBox.reset();
+//        Main.mainFrame.itemConfigPanel.shaper.reset();
+//        Main.mainFrame.itemConfigPanel.elder.reset();
+//        Main.mainFrame.itemConfigPanel.hunter.reset();
+//        Main.mainFrame.itemConfigPanel.warlord.reset();
+//        Main.mainFrame.itemConfigPanel.redeemer.reset();
+//        Main.mainFrame.itemConfigPanel.crusader.reset();
         
     }
     
@@ -126,14 +132,21 @@ public class Filters implements Serializable {
         
         if (item == null)
         {
-//            JOptionPane.showMessageDialog(null, "Item could not be copied", "Error", JOptionPane.ERROR_MESSAGE);
-//            PoECraftingAssistant.stop();
             return false;
         }
         
+        else if (item.brokenModifiers.size() >= 1)
+        {
+            JOptionPane.showMessageDialog(Main.mainFrame, "Oops, the tool was not able to parse the item. Broken mods:\n" + item.brokenModifiers + ".\nPlease create an issue report at https://github.com/CharlieBaird/PoECraftingAssistant/issues/new. Thanks!", "Error", JOptionPane.ERROR_MESSAGE);
+            PoECraftingAssistant.stop();
+            return false;
+        }
+        
+        item.print();
+        
         if (!debug)
         {
-            if (savedModsRaw.equals(mods)) return false;
+            if (savedModsRaw.equals(mods)) return true;
             
             savedModsRaw = mods;
         }

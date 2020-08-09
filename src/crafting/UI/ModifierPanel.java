@@ -1,6 +1,5 @@
 package crafting.UI;
 
-import crafting.Main;
 import crafting.Filters;
 import poeitem.Modifier;
 import crafting.filtertypes.FilterBase;
@@ -15,6 +14,7 @@ import java.awt.event.ItemListener;
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
+import poeitem.Base;
 import poeitem.BaseItem;
 import poeitem.ModifierTier;
 
@@ -66,18 +66,19 @@ public class ModifierPanel extends JPanel {
         }
         this.mod = mod;
         
-        Dimension size = new Dimension((int) (parent.getWidth() * 0.95),(int) (40)); // 0.912
+        Dimension size = new Dimension((int) (parent.getWidth()),(int) (40)); // 0.912
         setSize(size);
+        setMaximumSize(size);
         setPreferredSize(size);
         setBackground(new Color(60,60,60));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setVisible(filterbase.UIVisible);
         
         
         CloseMPButton cb = new CloseMPButton(this);
         mcb = showSearchBox(mod, assocMod, searchBox);
-        mcb.setPreferredSize(new Dimension(140,20));
+        mcb.setPreferredSize(new Dimension(500,20));
+        mcb.setMaximumSize(new Dimension(500,20));
         ((JTextField) mcb.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
         ((JLabel) mcb.getRenderer()).setFont(Main.mainFrame.getNewFont(12));
         min = new MPMinMax(this, String.valueOf(mod.ID.min), true);
@@ -86,10 +87,9 @@ public class ModifierPanel extends JPanel {
         
         
         add(cb, Box.LEFT_ALIGNMENT);
-        add(Box.createRigidArea(new Dimension(7,0)), Box.LEFT_ALIGNMENT);
         add(mcb, Box.LEFT_ALIGNMENT);
         
-//        add(Box.createHorizontalGlue());
+        add(Box.createHorizontalGlue());
 
         add(tier, Box.RIGHT_ALIGNMENT);
         add(min, Box.RIGHT_ALIGNMENT);
@@ -119,7 +119,8 @@ public class ModifierPanel extends JPanel {
                 types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
             }
             else {
-                types = ModifierComboBox.toArr(BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers);
+                ArrayList<Modifier> modifiers = BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers;
+                types = ModifierComboBox.toArr(modifiers);
             }
             ModifierComboBox mcb = new ModifierComboBox(this, types);
 
@@ -136,26 +137,26 @@ public class ModifierPanel extends JPanel {
                 ((JTextField)mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
             }
 
+            mcb.setMinimumSize(new Dimension(0,0));
             add(mcb);
-
             return mcb;
         }
-        
+        mcb.setMinimumSize(new Dimension(0,0));
         add (searchBox);
         return searchBox;
     }
     
     public void showTierComboBox(Modifier m)
     {
-        DefaultComboBoxModel model = new DefaultComboBoxModel(tier.modelToString(m));
-        if (model.getSize() == 1)
+        DefaultComboBoxModel model = new DefaultComboBoxModel(tier.modelToTiers(m, Filters.singleton.SelectedItemLevel));
+        if (model.getSize() <= 1)
         {
             hideTierComboBox();
             return;
         }
         tier.setModel(model);
         
-        if (this.min.getText().equals("min") && model.getSize() >= 2)
+        if (this.min.getText().equals("min"))
         {
             this.tier.setSelectedIndex(0);
             tier.manualUpdate(min.getText());
@@ -167,7 +168,6 @@ public class ModifierPanel extends JPanel {
     public void hideTierComboBox()
     {
         tier.setVisible(false);
-        if (assocMod != null) assocMod = Modifier.getExplicitFromStr(assocMod.getStr());
     }
     
     public Modifier updateDD()
@@ -176,7 +176,7 @@ public class ModifierPanel extends JPanel {
         
         if (assocMod != null)
         {
-            Modifier result = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(assocMod.getStr());
+            Modifier result = (Modifier) this.mcb.getSelectedItem();
 
             if (result != null)
             {
@@ -278,10 +278,10 @@ class TierComboBox extends JComboBox {
         }
     }
     
-    public String[] modelToString(Modifier m)
+    public String[] modelToTiers(Modifier m, int itemLevel)
     {
         this.assocModifier = m;
-        ModifierTier[] tiers = m.getTiersWithLevel(100);
+        ModifierTier[] tiers = m.getTiersWithLevel(itemLevel);
                 
         String[] tiersStr = new String[1+tiers.length];
         
@@ -290,12 +290,13 @@ class TierComboBox extends JComboBox {
         {
 //            int val = (int) m.tiers.get(m.tiers.size()-1-i).getValue();
             tiersStr[i] = "T" + (i + 1)/* + " - " + val*/;
-        }
-        
+        }        
         return tiersStr;
+        
     }
 
     public void manualUpdate(String text) {
+        Base b = Filters.singleton.SelectedBase;
         if (Filters.singleton.SelectedBase != null)
         {
             if (!text.equals("min") && !text.equals(""))
@@ -315,7 +316,7 @@ class TierComboBox extends JComboBox {
                             int foundTier = assocModifier.tiers.size() - i - 1;
                             if (foundTier < this.getModel().getSize() && foundTier != -1)
                                 this.setSelectedIndex(foundTier);
-                            else this.setSelectedIndex(assocModifier.tiers.size());
+                            else this.setSelectedIndex(this.getModel().getSize()-1);
                             return;
                         }
                     }
@@ -328,7 +329,7 @@ class TierComboBox extends JComboBox {
             }
         }
         if (assocModifier.tiers.size() >= 1)
-            this.setSelectedIndex(assocModifier.tiers.size());
+            this.setSelectedIndex(this.getModel().getSize()-1);
     }
 }
 
@@ -344,7 +345,9 @@ class CloseMPButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.06),(int) ((32))));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBackground(new Color(60,60,60));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/xbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Remove this mod");
@@ -392,6 +395,9 @@ class MPMinMax extends JTextField {
         }
         
         setText(placeholder);
+        setMaximumSize(new Dimension(45,40));
+        setMinimumSize(new Dimension(45,40));
+        setPreferredSize(new Dimension(45,40));
         
         this.isMin = isMin;
         this.parent = parent;
@@ -409,10 +415,6 @@ class MPMinMax extends JTextField {
             placeholder = isMin ? "min" : "max";
         
         this.placeholder = placeholder;
-        
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.09),(int) (parent.getHeight())));
-        setMinimumSize(new Dimension((int) (parent.getWidth() * 0.09),(int) (parent.getHeight())));
-        setMaximumSize(new Dimension((int) (parent.getWidth() * 0.09),(int) (parent.getHeight())));
         
         setHorizontalAlignment(SwingConstants.CENTER);
         

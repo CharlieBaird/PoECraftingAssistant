@@ -1,7 +1,7 @@
 package crafting.UI;
 
 import crafting.Filters;
-import crafting.Main;
+import crafting.itemconfig.InfluenceConfig;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.FocusEvent;
@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
@@ -36,7 +37,7 @@ public class ModifierComboBox extends JComboBox
     
     boolean allSelected = false;
     
-    public ModifierComboBox(ModifierPanel parent, Object[] types)
+    public ModifierComboBox(ModifierPanel parent, Modifier[] types)
     {
         super(types);
         
@@ -77,7 +78,7 @@ public class ModifierComboBox extends JComboBox
     {
         entry = ((JTextField) this.getEditor().getEditorComponent()).getText();
         
-        String[] compat = getCompatObjects();
+        Modifier[] compat = getCompatObjects();
         DefaultComboBoxModel model = new DefaultComboBoxModel(compat);
         this.setModel(model);
                 
@@ -91,55 +92,55 @@ public class ModifierComboBox extends JComboBox
             hidePopup();
     }
     
-    protected String[] getCompatObjects()
+    protected Modifier[] getCompatObjects()
     {
         ArrayList<Modifier> os = new ArrayList<>();
-        if (entry.length() >= 1 && entry.toCharArray()[0] == '~')
+        
+        if (Filters.singleton.SelectedBase != null)
         {
-            if (Filters.singleton.SelectedBase != null)
+            for (int i=0; i<defaultmodel.getSize(); i++)
             {
-                for (int i=0; i<defaultmodel.getSize(); i++)
+                Modifier o = (Modifier) defaultmodel.getElementAt(i);
+                if (o.isInfluenced)
                 {
-                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
-                    if (containsIgnoreCase(o.toString().substring(1,o.toString().length()), entry.substring(1,entry.length())) || o.isCompat(entry.substring(1,entry.length())))
-                        os.add(o);
+                    ArrayList<InfluenceConfig> assoc = new ArrayList<>();
+                    switch (o.influence)
+                    {
+                        case SHAPER: assoc.add(Main.mainFrame.itemConfigPanel.shaper); break;
+                        case ELDER: assoc.add(Main.mainFrame.itemConfigPanel.elder); break;
+                        case CRUSADER: assoc.add(Main.mainFrame.itemConfigPanel.crusader); break;
+                        case WARLORD: assoc.add(Main.mainFrame.itemConfigPanel.warlord); break;
+                        case HUNTER: assoc.add(Main.mainFrame.itemConfigPanel.hunter); break;
+                        case REDEEMER: assoc.add(Main.mainFrame.itemConfigPanel.redeemer); break;
+                    }
+
+                    if (assoc.isEmpty()) os.add(o);
+                    
+                    boolean selectedOne = false;
+                    for (InfluenceConfig config : assoc) {
+                        if (config.isSelected()) selectedOne = true;
+                    }
+                    
+                    if (!selectedOne) continue;
+
                 }
-            }
-            else
-            {
-                for (int i=0; i<defaultmodel.getSize(); i++)
-                {
-                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
-                    if (containsIgnoreCase(o.toString(), entry.substring(1,entry.length())))
-                        os.add(o);
-                }
+                if (containsIgnoreCase(o.toString(), entry))
+                    os.add(o);
             }
         }
         else
         {
-            if (Filters.singleton.SelectedBase != null)
+            for (int i=0; i<defaultmodel.getSize(); i++)
             {
-                for (int i=0; i<defaultmodel.getSize(); i++)
-                {
-                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
-                    if (containsIgnoreCase(o.toString(), entry) || o.isCompat(entry))
-                        os.add(o);
-                }
-            }
-            else
-            {
-                for (int i=0; i<defaultmodel.getSize(); i++)
-                {
-                    Modifier o = (Modifier) defaultmodel.getElementAt(i);
-                    if (containsIgnoreCase(o.toString(), entry))
-                        os.add(o);
-                }
+                Modifier o = (Modifier) defaultmodel.getElementAt(i);
+                if (containsIgnoreCase(o.toString(), entry))
+                    os.add(o);
             }
         }
             
-        String[] objects = new String[os.size()];
+        Modifier[] objects = new Modifier[os.size()];
         for (int i=0; i<os.size(); i++)
-            objects[i] = os.get(i).toString();
+            objects[i] = os.get(i);
         
         return objects;
     }
@@ -155,18 +156,8 @@ public class ModifierComboBox extends JComboBox
         for (int i=0; i<typesList.size(); i++)
         {
             Modifier m = typesList.get(i);
-            if (
-//                    m.getModGenerationTypeID() != 1
-//                    && m.getModGenerationTypeID() != 2
-//                    && m.getModGenerationTypeID() != -2
-//                    && m.getModGenerationTypeID() != -1
-//                    && m.getModGenerationTypeID() != 0
-//                    && m.getModGenerationTypeID() != -3
-                    m.getModGenerationTypeID() <= 2 && m.getModGenerationTypeID() >= -3 && !m.getCorrectGroup().equals("Crafted")
-                )
+            if (m.getModGenerationTypeID() <= 2 && m.getModGenerationTypeID() >= -3 && !m.getCorrectGroup().equals("Crafted"))
             {
-//                typesList.remove(i);
-//                i--;
                 dispList.add(m);
             }
         }
@@ -222,7 +213,6 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
         StringBuffer lowertext = new StringBuffer(rawTextLower);
         if (!rawTextLower.contains(highlightLower) || highlight.equals(""))
         {
-//            System.out.println(rawtext + " did not contain " + highlight);
             return rawtext;
         }
         
@@ -379,6 +369,19 @@ class ModKeyTypedListenerSJB implements KeyListener
             owner.allSelected = true;
             ctrlWasPressed = false;
         }
+        
+        String content = ((JTextField) owner.getEditor().getEditorComponent()).getText();
+        for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
+            Modifier m = (Modifier) owner.defaultmodel.getElementAt(i);
+            if (content.equals(m.getStr()))
+            {
+                owner.update(m, true);
+                Filters.saveFilters();
+                return;
+            }
+
+        }
+        owner.update(null, true);
     }
 }
 
@@ -394,6 +397,12 @@ class ModClickListenerSJB implements FocusListener
     @Override
     public void focusGained(FocusEvent e)
     {
+        if (Filters.singleton.SelectedBase == null || Filters.singleton.SelectedItemLevel == 0) {
+            Main.mainFrame.requestFocusInWindow();
+            JOptionPane.showMessageDialog(Main.mainFrame, "Please select an item base", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         if (((JTextField) owner.getEditor().getEditorComponent()).getText().equals("New Modifier"))
         {
             ((JTextField) owner.getEditor().getEditorComponent()).setText("");
@@ -410,22 +419,17 @@ class ModClickListenerSJB implements FocusListener
 
     @Override
     public void focusLost(FocusEvent e)
-    {
+    {        
         owner.allSelected = false;
-        ((JTextField) owner.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
-       
         String content = ((JTextField) owner.getEditor().getEditorComponent()).getText();
         
         for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
             Modifier m = (Modifier) owner.defaultmodel.getElementAt(i);
             if (content.equals(m.getStr()))
             {
-                owner.update(m, true);
                 Filters.saveFilters();
-
                 return;
             }
-
         }
         
         ((JTextField) owner.getEditor().getEditorComponent()).setText("New Modifier");
@@ -447,30 +451,27 @@ class ModSelectionListener implements ItemListener
     }
     
     public void itemStateChanged(ItemEvent event)
-    {
-        String selected = (String) owner.getSelectedItem();
-        ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
-        
-        if (event.getStateChange() == ItemEvent.SELECTED)
-        {
-            if (selected != null)
-            {
-                Modifier m;
-                if (Filters.singleton.SelectedBase != null)
-                {
-                    m = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(selected);
-                }
-                else
-                {
-                    m = Modifier.getExplicitFromStr(selected);
-                }
-                
-                owner.update(m, true);
-
-                Filters.saveFilters();
-            }
+    {        
+        if (event.getStateChange() != ItemEvent.SELECTED) {
+            return;
         }
-        Filters.saveFilters();
-        ((JTextField) owner.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
+        
+        try {
+            Modifier selected = (Modifier) event.getItem();
+            if (event.getStateChange() == ItemEvent.SELECTED)
+            {
+                if (selected != null)
+                {
+                    owner.update(selected, true);
+                    Filters.saveFilters();
+                }
+            }
+        } catch (ClassCastException e) {
+            
+        } finally {
+            ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
+            Filters.saveFilters();
+            ((JTextField) owner.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
+        }
     }
 }

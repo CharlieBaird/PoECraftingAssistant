@@ -1,7 +1,6 @@
 package crafting;
 
 import crafting.filtertypes.FilterBase;
-import poeitem.Modifier;
 import poeitem.PoEItem;
 
 public class Item extends PoEItem {

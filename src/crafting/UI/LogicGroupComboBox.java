@@ -1,6 +1,5 @@
 package crafting.UI;
 
-import crafting.Main;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -42,8 +41,7 @@ public class LogicGroupComboBox extends JComboBox
         setSelectedItem(selected);
         
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        setMaximumSize(new Dimension(40, parent.getHeight()));
-        setMinimumSize(new Dimension(40, parent.getHeight()));
+        setMaximumSize(new Dimension(200, parent.getHeight()));
         
         this.setBackground(new Color(50,50,50));
         this.setForeground(Color.white);
