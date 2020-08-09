@@ -1,14 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package crafting.UI;
 
-import crafting.Filters;
-import crafting.Main;
-import java.awt.Color;
-import poeitem.Modifier;
+import crafting.filters.Filter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
@@ -16,33 +8,24 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class SearchJBox extends JComboBox
-{
-    ComboBoxModel defaultmodel;
-    public ItemType parent;
+public class SearchBoxBase extends JComboBox {
     
+    public ComboBoxModel defaultmodel;
+    public JPanel parent;
     public String entry = "";
     public int caretPos = -1;
     
-    public SearchJBox(ItemType parent, Object[] types)
+    protected SearchBoxBase(JPanel parent, Object[] types)
     {
         super(types);
-        this.setSelectedIndex(-1);
-        setEditable(true);
         
         this.parent = parent;
-        defaultmodel = this.getModel();
-        
-        this.setSelectedIndex(0);
-        
-        this.setFont(Main.mainFrame.getNewFont(12));
         
         String maxLength = "a";
         for (int i=0; i<getModel().getSize(); i++)
@@ -54,13 +37,16 @@ public class SearchJBox extends JComboBox
             }
         }
         setPrototypeDisplayValue(maxLength);
+        setEditable(true);
+        defaultmodel = this.getModel();
         
-        this.getEditor().getEditorComponent().addKeyListener(new KeyTypedListenerSJB(this));
-        this.getEditor().getEditorComponent().addFocusListener(new ClickListenerSJB(this));
-        this.addItemListener(new SelectionListener(this));
+        this.setFont(Main.mainFrame.getNewFont(12));
+        
+        this.getEditor().getEditorComponent().addKeyListener(new IL_KeyTypedListener(this));
+        this.getEditor().getEditorComponent().addFocusListener(new IL_ClickListener(this));
+        this.addItemListener(new IL_SelectionListener(this));
         
         this.setSelectedIndex(-1);
-
     }
     
     public void updateList()
@@ -92,43 +78,28 @@ public class SearchJBox extends JComboBox
         return objects;
     }
     
-    private boolean containsIgnoreCase(String str1, String str2) {
+    private boolean containsIgnoreCase(String str1, String str2)
+    {
         return str1.toUpperCase().contains(str2.toUpperCase());
     }
     
-    public static String[] toArr(ArrayList<Modifier> typesList)
+    protected void itemUpdate(ItemEvent event) {}
+    
+    public void reset()
     {
-        for (int i=0; i<typesList.size(); i++)
-        {
-            Modifier m = typesList.get(i);
-            if (
-                    m.getModGenerationTypeID() != 1
-                    && m.getModGenerationTypeID() != 2
-                    && m.getModGenerationTypeID() != -2
-                    && m.getModGenerationTypeID() != -1
-                    && m.getModGenerationTypeID() != 0
-                    && m.getModGenerationTypeID() != -3
-                )
-            {
-                typesList.remove(m);
-                i--;
-            }
-        }
-        
-        String[] types = new String[typesList.size()];
-        
-        for (int i=0; i<types.length; i++)
-            types[i] = typesList.get(i).getStr();
-        
-        return types;
+        setModel(defaultmodel);
+        setSelectedIndex(-1);
+        entry = "";
+        Filter.saveFilters();
     }
+    
 }
 
-class KeyTypedListenerSJB implements KeyListener
+class IL_KeyTypedListener implements KeyListener
 {
-    SearchJBox owner;
+    SearchBoxBase owner;
 
-    public KeyTypedListenerSJB(SearchJBox owner)
+    public IL_KeyTypedListener(SearchBoxBase owner)
     {
         this.owner = owner;
     }
@@ -180,11 +151,11 @@ class KeyTypedListenerSJB implements KeyListener
     }
 }
 
-class ClickListenerSJB implements FocusListener
+class IL_ClickListener implements FocusListener
 {
-    SearchJBox owner;
+    SearchBoxBase owner;
     
-    public ClickListenerSJB(SearchJBox owner)
+    public IL_ClickListener(SearchBoxBase owner)
     {
         this.owner = owner;
     }
@@ -197,51 +168,33 @@ class ClickListenerSJB implements FocusListener
     @Override
     public void focusLost(FocusEvent e) {
         
-        Main.mainFrame.requestFocusInWindow();
+        String content = ((JTextField) owner.getEditor().getEditorComponent()).getText();
         
-        if (owner.getSelectedIndex() == -1)
-        {
-            ((JTextField) owner.getEditor().getEditorComponent()).setText("");
-            owner.entry = "";
-            
-            String[] compat = owner.getCompatObjects();
-            DefaultComboBoxModel model = new DefaultComboBoxModel(compat);
-            owner.setModel(model);
-            
-            owner.setSelectedIndex(-1);
-            
-            Filters.singleton.SelectedBase = null;
-            Filters.singleton.SelectedIndex = -1;
-            ModifierPanel.updateTierViews();
+        for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
+            String m = (String) owner.defaultmodel.getElementAt(i);
+            if (content.equals(m))
+            {
+                Filter.saveFilters();
+                return;
+            }
         }
-        else
-        {
-            Filters.singleton.SelectedBase = ItemType.BaseTypes.get((String) owner.getSelectedItem());
-            Filters.singleton.SelectedIndex = owner.getSelectedIndex();
-            ModifierPanel.updateTierViews();
-        }
-        Filters.saveFilters();
+        
+        owner.reset();
     }
 }
 
-class SelectionListener implements ItemListener
+class IL_SelectionListener implements ItemListener
 {
     
-    SearchJBox owner;
+    SearchBoxBase owner;
     
-    public SelectionListener(SearchJBox owner)
+    public IL_SelectionListener(SearchBoxBase owner)
     {
         this.owner = owner;
     }
     
     public void itemStateChanged(ItemEvent event)
     {
-       if (event.getStateChange() == ItemEvent.SELECTED)
-       {
-            Filters.singleton.SelectedBase = ItemType.BaseTypes.get((String) owner.getSelectedItem());
-            Filters.singleton.SelectedIndex = owner.getSelectedIndex();
-            ModifierPanel.updateTierViews();
-       }
-       Filters.saveFilters();
+       owner.itemUpdate(event);
     }
 }

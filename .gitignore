@@ -32,6 +32,7 @@ hs_err_pid*
 PoECraftingAssistant/
 build/
 build/build-jar.properties
+build/built-jar.properties
 nbbuild/
 dist/*
 nbdist/

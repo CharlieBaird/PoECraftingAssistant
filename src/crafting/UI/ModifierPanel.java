@@ -1,7 +1,6 @@
 package crafting.UI;
 
-import crafting.Main;
-import crafting.Filters;
+import crafting.filters.Filter;
 import poeitem.Modifier;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
@@ -12,16 +11,11 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.KeyAdapter;
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
+import poeitem.Base;
 import poeitem.BaseItem;
-import poeitem.ModifierLoader;
 import poeitem.ModifierTier;
 
 public class ModifierPanel extends JPanel {
@@ -35,11 +29,11 @@ public class ModifierPanel extends JPanel {
     public TierComboBox tier;
     public MPMinMax min;
     public MPMinMax max;
-    public ModLabel ml;
+    public ModifierComboBox mcb;
     
-    public Modifier assocMod;
+    public Modifier assocMod = null;
     
-    public ModifierPanel(Main frame, FilterTypePanel parent, FilterBase filterbase, Mod mod)
+    public ModifierPanel(Main frame, FilterTypePanel parent, FilterBase filterbase, Mod mod, ModifierComboBox searchBox)
     {
         String path = "src/resources";
         File file = new File(path);
@@ -47,125 +41,133 @@ public class ModifierPanel extends JPanel {
         this.resourcePath = path;
         this.frame = frame;
         this.filterbase = filterbase;
-        this.mod = mod;
         this.parent = parent;
         
         if (mod == null)
         {
-            mod = new Mod(null, "New Modifier");
+            mod = new Mod(null, null);
             filterbase.mods.add(mod);
             min = new MPMinMax(this, "min", true);
             max = new MPMinMax(this, "max", false);
         }
+        else if (mod.name == null)
+        {
+            min = new MPMinMax(this, "min", true);
+            max = new MPMinMax(this, "max", false);
+        }
         
-        assocMod = Modifier.getExplicitFromStr(mod.name);
+        else
+        {
+            if (mod.assocModifier == null)
+            {
+                if (Filter.singleton.SelectedBase != null)
+                {
+                    assocMod = BaseItem.getFromBase(Filter.singleton.SelectedBase).getExplicitFromStr(mod.name);
+                }
+                else
+                {
+                    assocMod = Modifier.getExplicitFromStr(mod.name);
+                }
+            }
+            else
+            {
+                assocMod = mod.assocModifier;
+            }
+        }
         
-        Dimension size = new Dimension((int) (parent.getWidth() * 0.95),(int) (40)); // 0.912
+        this.mod = mod;
+        
+        Dimension size = new Dimension((int) (parent.getWidth()),(int) (40)); // 0.912
         setSize(size);
+        setMaximumSize(size);
         setPreferredSize(size);
         setBackground(new Color(60,60,60));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setVisible(filterbase.UIVisible);
         
+        
         CloseMPButton cb = new CloseMPButton(this);
-        ml = new ModLabel(this, mod.name);
+        mcb = showSearchBox(mod, assocMod, searchBox);
+        mcb.setPreferredSize(new Dimension(500,20));
+        mcb.setMaximumSize(new Dimension(500,20));
+        ((JTextField) mcb.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
+        ((JLabel) mcb.getRenderer()).setFont(Main.mainFrame.getNewFont(12));
         min = new MPMinMax(this, String.valueOf(mod.ID.min), true);
         max = new MPMinMax(this, String.valueOf(mod.ID.max), false);
         tier = new TierComboBox(this);
         
+        
         add(cb, Box.LEFT_ALIGNMENT);
-        add(Box.createRigidArea(new Dimension(15,0)), Box.LEFT_ALIGNMENT);
-        add(ml, Box.LEFT_ALIGNMENT);
+        add(mcb, Box.LEFT_ALIGNMENT);
         
         add(Box.createHorizontalGlue());
+
         add(tier, Box.RIGHT_ALIGNMENT);
         add(min, Box.RIGHT_ALIGNMENT);
         add(max, Box.RIGHT_ALIGNMENT);
         
-        addMouseListener(new ModMouseListener(this));
-        
-        if (Filters.singleton.SelectedBase != null && assocMod != null && assocMod.tiers.size() >= 1)
+        if (Filter.singleton.SelectedBase != null && assocMod != null && assocMod.tiers.size() >= 1)
         {
             this.showTierComboBox(assocMod);
             this.updateDD();
             this.tier.manualUpdate(this.min.getText());
         }
         
+        parent.modifierpanels.add(this);
         parent.add(this);
+        mod.assocModifierPanel = this;
         
-        Filters.saveFilters();
+        Filter.saveFilters();
     }
     
-    public void showSearchBox()
+    public ModifierComboBox showSearchBox(Mod mod, Modifier aMod, ModifierComboBox searchBox)
     {
-        String[] types = SearchBox.toArr(Modifier.AllExplicitModifiers);
-        SearchBox sb = new SearchBox(types);
-        
-        sb.setSelectedIndex(-1);
-        
-        JPanel msgPanel = new JPanel();
-        msgPanel.add(sb);
-        
-        JOptionPane message = new JOptionPane(msgPanel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION) {
-            @Override
-            public void selectInitialValue() {
-                sb.requestFocusInWindow();
-            }
-        };
-        message.createDialog(this, "PoE Crafting Assistant").setVisible(true);
-        
-        Object selected = sb.getSelectedItem();
-        
-        if (selected != null && !selected.toString().equals(""))
+        if (searchBox == null)
         {
-            if (Filters.singleton.SelectedBase == null)
-            {
-                Modifier m = Modifier.getExplicitFromStr(selected.toString());
-                if (m != null)
-                {
-                    assocMod = m;
-                    mod.name = m.getStr();
-                    mod.assocModifier = assocMod;
-                    ml.setText(m.getStr());
-                    hideTierComboBox();
+            Modifier[] types;
+        
+            if (Filter.singleton.SelectedBase == null) {
+                types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
+            }
+            else {
+                ArrayList<Modifier> modifiers = BaseItem.getFromBase(Filter.singleton.SelectedBase).assocModifiers;
+                types = ModifierComboBox.toArr(modifiers);
+            }
+            ModifierComboBox mcb = new ModifierComboBox(this, types);
 
-                    Filters.saveFilters();
-                    ml.setForeground(new Color(255,255,255));
-                }
+            if (aMod != null)
+            {
+                mcb.setSelectedItem(aMod);
             }
             else
             {
-                Modifier m = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(selected.toString());
-                if (m != null)
-                {
-                    assocMod = m;
-                    mod.name = m.getStr();
-                    mod.assocModifier = assocMod;
-                    ml.setText(m.getStr());
-                    
-                    showTierComboBox(m);
-
-                    Filters.saveFilters();
-                    ml.setForeground(new Color(255,255,255));
-                }
+                if (mod.name == null)
+                    ((JTextField)mcb.getEditor().getEditorComponent()).setText("New Modifier");
+                else
+                    ((JTextField)mcb.getEditor().getEditorComponent()).setText(mod.name);
+                ((JTextField)mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
             }
+
+            mcb.setMinimumSize(new Dimension(0,0));
+            add(mcb);
+            return mcb;
         }
-        
-        ModifierLoader.loadModifiers();
+        mcb.setMinimumSize(new Dimension(0,0));
+        add (searchBox);
+        return searchBox;
     }
     
     public void showTierComboBox(Modifier m)
     {
-        DefaultComboBoxModel model = new DefaultComboBoxModel(tier.modelToString(m));
-        if (model.getSize() == 1)
+        DefaultComboBoxModel model = new DefaultComboBoxModel(tier.modelToTiers(m, Filter.singleton.SelectedItemLevel));
+        if (model.getSize() <= 1)
         {
             hideTierComboBox();
             return;
         }
         tier.setModel(model);
         
-        if (this.min.getText().equals("min") && model.getSize() >= 2)
+        if (this.min.getText().equals("min"))
         {
             this.tier.setSelectedIndex(0);
             tier.manualUpdate(min.getText());
@@ -177,7 +179,6 @@ public class ModifierPanel extends JPanel {
     public void hideTierComboBox()
     {
         tier.setVisible(false);
-        if (assocMod != null) assocMod = Modifier.getExplicitFromStr(assocMod.getStr());
     }
     
     public Modifier updateDD()
@@ -186,7 +187,7 @@ public class ModifierPanel extends JPanel {
         
         if (assocMod != null)
         {
-            Modifier result = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(assocMod.getStr());
+            Modifier result = (Modifier) this.mcb.getSelectedItem();
 
             if (result != null)
             {
@@ -203,7 +204,7 @@ public class ModifierPanel extends JPanel {
     }
     
     public static void updateTierViews() {
-        if (Filters.singleton.SelectedBase == null) return;
+        if (Filter.singleton.SelectedBase == null) return;
                 
         ArrayList<Modifier> errorModifiers = new ArrayList<>();
         
@@ -211,16 +212,17 @@ public class ModifierPanel extends JPanel {
         {
             for (ModifierPanel mp : ftp.modifierpanels)
             {
+                mp.mcb.update(mp.assocMod, false);
                 Modifier m = mp.updateDD();
                 if (m != null)
                 {
                     errorModifiers.add(m);
-                    mp.ml.setForeground(new Color(238,99,90));
+                    mp.mcb.setForeground(new Color(238,99,90));
                     mp.hideTierComboBox();
                 }
                 else
                 {
-                    mp.ml.setForeground(new Color(255,255,255));
+                    mp.mcb.setForeground(new Color(255,255,255));
                     if (!mp.min.getText().equals("min"))
                     {
                         mp.tier.manualUpdate(mp.min.getText());
@@ -228,17 +230,11 @@ public class ModifierPanel extends JPanel {
                 }
             }
         }
-//        System.out.println(errorModifiers.size());
-//        if (errorModifiers.size() >= 1)
-//        {
-//            String errorMsg = genErrorMsg(errorModifiers);
-//            JOptionPane.showMessageDialog(Main.mainFrame, errorMsg, "Warning", JOptionPane.WARNING_MESSAGE);
-//        }
     }
     
     private static String genErrorMsg(ArrayList<Modifier> mods)
     {
-        String s = "The following modifiers in your filters cannot be hit on Item Type \"" + Filters.singleton.SelectedBase + "\"\n";
+        String s = "The following modifiers in your filters cannot be hit on Item Type \"" + Filter.singleton.SelectedBase + "\"\n";
         for (int i=0; i<mods.size(); i++)
         {
             s += (i+1) + ". " + mods.get(i).getStr() + "\n";
@@ -271,11 +267,13 @@ class TierComboBox extends JComboBox {
                {
                     String selection = (String) event.getItem();
                     if (selection.equals("Custom")) return;
-                    int tier = Integer.valueOf((selection).substring(1,2));
+                    int tier = Integer.valueOf((selection).substring(1,selection.length()));
                     setMin(tier);
                }
             }
         });
+
+        
     }
     
     public void setMin(int whatTier)
@@ -291,30 +289,36 @@ class TierComboBox extends JComboBox {
         }
     }
     
-    public String[] modelToString(Modifier m)
+    public String[] modelToTiers(Modifier m, int itemLevel)
     {
         this.assocModifier = m;
-        ModifierTier[] tiers = m.getTiersWithLevel(100);
+        ModifierTier[] tiers = m.getTiersWithLevel(itemLevel);
                 
         String[] tiersStr = new String[1+tiers.length];
         
         tiersStr[tiersStr.length-1] = "Custom";
         for (int i=0; i<tiers.length; i++)
         {
-            int val = (int) m.tiers.get(m.tiers.size()-1-i).getValue();
-            tiersStr[i] = "T" + (i + 1) /*+ " - " + val*/;
-        }
-        
+//            int val = (int) m.tiers.get(m.tiers.size()-1-i).getValue();
+            tiersStr[i] = "T" + (i + 1)/* + " - " + val*/;
+        }        
         return tiersStr;
+        
     }
 
     public void manualUpdate(String text) {
-        if (Filters.singleton.SelectedBase != null)
+        Base b = Filter.singleton.SelectedBase;
+        if (Filter.singleton.SelectedBase != null)
         {
             if (!text.equals("min") && !text.equals(""))
             {
                 Integer value = Integer.valueOf(text);
-                if (assocModifier.tiers.size() >= 1)
+                if (assocModifier == null)
+                {
+                    parent.hideTierComboBox();
+                    return;
+                }
+                else if (assocModifier.tiers.size() >= 1)
                 {
                     for (int i=0; i<assocModifier.tiers.size(); i++)
                     {
@@ -323,7 +327,7 @@ class TierComboBox extends JComboBox {
                             int foundTier = assocModifier.tiers.size() - i - 1;
                             if (foundTier < this.getModel().getSize() && foundTier != -1)
                                 this.setSelectedIndex(foundTier);
-                            else this.setSelectedIndex(assocModifier.tiers.size());
+                            else this.setSelectedIndex(this.getModel().getSize()-1);
                             return;
                         }
                     }
@@ -334,48 +338,9 @@ class TierComboBox extends JComboBox {
                     return;
                 }
             }
-            else
-            {
-                if (this.getSelectedIndex() != assocModifier.tiers.size())
-                {
-                    setMin(this.getSelectedIndex()+1);
-                    return;
-                }
-            }
         }
         if (assocModifier.tiers.size() >= 1)
-            this.setSelectedIndex(assocModifier.tiers.size());
-    }
-}
-
-class ModMouseListener implements MouseListener {
-    
-    ModifierPanel owner;
-    
-    public ModMouseListener(ModifierPanel owner)
-    {
-        this.owner = owner;
-    }
-    
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        owner.showSearchBox();
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
+            this.setSelectedIndex(this.getModel().getSize()-1);
     }
 }
 
@@ -391,7 +356,9 @@ class CloseMPButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.06),(int) ((32))));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBackground(new Color(60,60,60));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/xbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Remove this mod");
@@ -401,13 +368,13 @@ class CloseMPButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                parent.parent.parent.requestFocusInWindow();
-                boolean b = parent.parent.modifierpanels.remove(parent);
+                Main.mainFrame.requestFocusInWindow();
+                parent.parent.modifierpanels.remove(parent);
                 parent.filterbase.mods.remove(parent.mod);
                 FilterTypePanel.reshow();
                 parent.setVisible(false);
         
-                Filters.saveFilters();
+                Filter.saveFilters();
             }
         };
         addActionListener(actionListener);
@@ -439,6 +406,9 @@ class MPMinMax extends JTextField {
         }
         
         setText(placeholder);
+        setMaximumSize(new Dimension(45,40));
+        setMinimumSize(new Dimension(45,40));
+        setPreferredSize(new Dimension(45,40));
         
         this.isMin = isMin;
         this.parent = parent;
@@ -456,10 +426,6 @@ class MPMinMax extends JTextField {
             placeholder = isMin ? "min" : "max";
         
         this.placeholder = placeholder;
-        
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.09),(int) (parent.getHeight())));
-        setMinimumSize(new Dimension((int) (parent.getWidth() * 0.09),(int) (parent.getHeight())));
-        setMaximumSize(new Dimension((int) (parent.getWidth() * 0.09),(int) (parent.getHeight())));
         
         setHorizontalAlignment(SwingConstants.CENTER);
         
@@ -482,7 +448,8 @@ class MPMinMax extends JTextField {
     public void focusLost()
     {
         
-        if (getText().isEmpty()) {
+        if (getText().isEmpty())
+        {
             setText(placeholder);
             setForeground(new Color(120,120,120));
             if (isMin) parent.mod.ID.min = -100000;
@@ -495,23 +462,21 @@ class MPMinMax extends JTextField {
                 if (isMin) parent.mod.ID.min = Integer.valueOf(parent.min.getText());
                 else       parent.mod.ID.max = Integer.valueOf(parent.max.getText());
             } catch (NumberFormatException e) { }
+        }
             
-            if (isMin && parent.tier.isVisible())
-            {
-                parent.tier.manualUpdate(getText());
-            }
+        if (isMin && parent.tier.isVisible())
+        {
+            parent.tier.manualUpdate(getText());
         }
         
-        
-        
-        Filters.saveFilters();
+        Filter.saveFilters();
     }
 
     void textUpdate(double val) {
         setForeground(new Color(255,255,255));
         setText(String.valueOf((int) val));
         parent.mod.ID.min = (int) val;
-        Filters.saveFilters();
+        Filter.saveFilters();
     }
 }
 

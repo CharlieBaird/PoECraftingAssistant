@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crafting;
+package crafting.filters;
 
 import crafting.filtertypes.FilterBase;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Filter implements Serializable
+public class Subfilter implements Serializable
 {
     public ArrayList<FilterBase> filters = new ArrayList<>();
     public String name;
@@ -17,7 +17,7 @@ public class Filter implements Serializable
     
     public static int counter = 1;
     
-    public Filter()
+    public Subfilter()
     {
         name = "Filter " + counter;
         counter++;

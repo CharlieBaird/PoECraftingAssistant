@@ -1,28 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package crafting.UI;
 
-import crafting.filtertypes.logicgroups.Count;
-import crafting.filtertypes.logicgroups.Not;
-import crafting.filtertypes.logicgroups.And;
-import crafting.Filter;
-import crafting.Filters;
-import crafting.Main;
+import crafting.filters.Subfilter;
+import crafting.filters.Filter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseEvent;
 import javax.swing.*;
 import java.io.File;
 import crafting.filtertypes.FilterBase;
 import java.util.ArrayList;
 import crafting.filtertypes.Mod;
+import crafting.filtertypes.logicgroups.*;
+import poeitem.BaseItem;
+import poeitem.Modifier;
 
 public class FilterTypePanel extends JPanel {
     
@@ -37,7 +29,7 @@ public class FilterTypePanel extends JPanel {
     public static Main frame;
     public JPanel parent;
     
-    public TypeLabel typelabel;
+    public LogicGroupComboBox typebox;
     public NumLabel numlabel;
     public DropdownButton dropdown;
     public MinMax min;
@@ -46,10 +38,10 @@ public class FilterTypePanel extends JPanel {
     public boolean minMaxEnabled = false;
     
     public FilterBase filterbase;
-    public Filter filter;
+    public Subfilter filter;
     public int index;
     
-    public FilterTypePanel(Main frame, JPanel parent, FilterBase filterbase, Filter filter, int index)
+    public FilterTypePanel(Main frame, JPanel parent, FilterBase filterbase, Subfilter filter, int index)
     {
         this.filterbase = filterbase;
         this.filter = filter;
@@ -65,15 +57,15 @@ public class FilterTypePanel extends JPanel {
         this.resourcePath = path;
         this.frame = frame;
         
-        Dimension size = new Dimension((int) (parent.getWidth() * 0.98),(int) (40));
+        Dimension size = new Dimension((int) (parent.getWidth()),(int) (40));
         setSize(size);
+        setMaximumSize(size);
         setPreferredSize(size);
         setBackground(new Color(50,50,50));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 
         CloseFBButton closeButton = new CloseFBButton(this);
-        typelabel = new TypeLabel(this);
+        typebox = new LogicGroupComboBox(this, type);
         numlabel = new NumLabel(this);
         dropdown = new DropdownButton(this);
         min = new MinMax(this, "min", "min");
@@ -82,7 +74,7 @@ public class FilterTypePanel extends JPanel {
         
         add(closeButton, Box.LEFT_ALIGNMENT);
         add(Box.createRigidArea(new Dimension(15,0)), Box.LEFT_ALIGNMENT);
-        add(typelabel, Box.LEFT_ALIGNMENT);
+        add(typebox, Box.LEFT_ALIGNMENT);
         add(Box.createHorizontalGlue());
         add(numlabel, Box.RIGHT_ALIGNMENT);
         add(Box.createRigidArea(new Dimension(9,0)), Box.RIGHT_ALIGNMENT);
@@ -95,30 +87,6 @@ public class FilterTypePanel extends JPanel {
         add(dropdown, Box.RIGHT_ALIGNMENT);
         add(Box.createRigidArea(new Dimension(4,0)), Box.RIGHT_ALIGNMENT);
         addRemMinMax();
-        
-        MouseListener mouseListener = new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                selectLogicFilter();
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-            
-        };
         
         if (type.equals("Count"))
         {
@@ -135,18 +103,93 @@ public class FilterTypePanel extends JPanel {
             }
         }
         
-        addMouseListener(mouseListener);
-        
         filtertypepanels.add(this);
         
         parent.add(this);
         
-        for (Mod m: filterbase.mods)
+        for (int i=0; i<filterbase.mods.size(); i++)
         {
-            ModifierPanel mp = new ModifierPanel(frame, this, filterbase, m);
+            Mod m = filterbase.mods.get(i);
+            
+            ModifierPanel mp;
+            boolean bypass;
+            if (m.assocModifierPanel == null) {
+                mp = new ModifierPanel(frame, this, filterbase, m, null);
+                bypass = true;
+            }
+            else {
+                mp = m.assocModifierPanel;
+                bypass = false;
+            }
+            
             modifierpanels.add(mp);
             parent.add(mp);
+            mp.setVisible(true);
+            
+            if (!bypass)
+            {
+                mp.mcb.update(mp.assocMod, true);
+                
+                Modifier[] types;
+        
+                if (Filter.singleton.SelectedBase == null) {
+                    types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
+                }
+                else {
+                    types = ModifierComboBox.toArr(BaseItem.getFromBase(Filter.singleton.SelectedBase).assocModifiers);
+                }
+                
+                if (mp.mcb.getSelectedItem() instanceof Modifier)
+                {
+                    Modifier[] validModifiersArr = mp.mcb.getCompatObjects();
+                    ArrayList<Modifier> validModifiers = new ArrayList<>();
+                    for (Modifier modi : validModifiersArr) validModifiers.add(modi);
+                    
+                    Modifier selItem = (Modifier) mp.mcb.getSelectedItem();
+                    mp.mcb.setModel(new DefaultComboBoxModel<>(types));
+                    mp.mcb.defaultmodel = mp.mcb.getModel();
+                    if (validModifiers.contains(selItem))
+                        mp.mcb.setSelectedItem(selItem);
+                    else
+                        setDefault(mp);
+                }
+                else
+                {
+                    String selItem = (String) mp.mcb.getSelectedItem();
+                    mp.mcb.setModel(new DefaultComboBoxModel<>(types));
+                    mp.mcb.defaultmodel = mp.mcb.getModel();
+                    mp.mcb.setSelectedItem(selItem);
+                }
+                Dimension mpsize = new Dimension((int) (getWidth() * 0.95),(int) (40)); // 0.912
+                mp.setSize(mpsize);
+                mp.setMaximumSize(mpsize);
+                mp.setPreferredSize(mpsize);
+                
+                
+                if (mp.assocMod == null)
+                {
+                    setDefault(mp);
+                }
+            }
         }
+        
+        if (!filterbase.UIVisible)
+        {
+            for (int i=0; i<modifierpanels.size(); i++)
+            {
+                modifierpanels.get(i).setVisible(false);
+            }
+        }
+    }
+    
+    private void setDefault(ModifierPanel mp)
+    {
+        mp.assocMod = null;
+        mp.mod.name = "New Modifier";
+        mp.mcb.entry = "";
+        mp.hideTierComboBox();
+        ((JTextField)mp.mcb.getEditor().getEditorComponent()).setText("New Modifier");
+        ((JTextField)mp.mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
     }
     
     public static void clear(boolean clearLists)
@@ -191,12 +234,12 @@ public class FilterTypePanel extends JPanel {
             max.setText("");
             minMaxEnabled = false;
         }
-        typelabel.setPreferredSize(new Dimension((int) (getWidth() * 0.4),(int) ((32))));
+        typebox.setPreferredSize(new Dimension((int) (getWidth() * 0.4),(int) ((32))));
     }
     
     public void remove()
     {
-        if (filtertypepanels.size() >= 2)
+        if (filtertypepanels.size() >= 1)
         {
             for (int i=0; i<modifierpanels.size(); i++)
             {
@@ -206,51 +249,28 @@ public class FilterTypePanel extends JPanel {
             this.setVisible(false);
             
             filtertypepanels.remove(this);
-//            Filters.print();
             filter.filters.remove(filterbase);
-//            Filters.print();
 
-            Filters.saveFilters();
+            Filter.saveFilters();
         }
     }
     
     public static void reshow()
     {
-        clear(false);
-        Filter f = FilterTypePanel.filtertypepanels.get(0).filter;
-        frame.genFilterPanel(f);
-    }
-    
-    private int getIndex()
-    {
-        switch (type)
-        {
-            case "And":
-                return 0;
-            case "Not":
-                return 1;
-            case "Count":
-                return 2;
-            default:
-                return -1;
+        if (!FilterTypePanel.filtertypepanels.isEmpty()) {
+            Subfilter f = FilterTypePanel.filtertypepanels.get(0).filter;
+            frame.genFilterPanel(f);
         }
+        Main.mainFrame.validate();
+        
+        Filter.saveFilters();
     }
     
-    public void selectLogicFilter()
+    public void logicGroupChanged(String selected)
     {
-        SearchBox sb = new SearchBox(types);
-        
-        JOptionPane jop = new JOptionPane();
-        sb.setSelectedIndex(getIndex());        
-
-        jop.showMessageDialog(this, sb, "PoE Crafting Assistant", JOptionPane.PLAIN_MESSAGE, null);
-        
-        String selected = sb.getSelectedItem().toString();
-        
         if (selected != null && !selected.equals(type))
         {
             type = selected;
-            typelabel.setText(type);
             addRemMinMax();
             
             Mod[] modsToAdd = new Mod[filterbase.mods.size()];
@@ -273,7 +293,7 @@ public class FilterTypePanel extends JPanel {
             }
             
             filter.filters.set(index, filterbase);
-            Filters.saveFilters();
+            Filter.saveFilters();
         }        
     }
     
@@ -301,29 +321,29 @@ class AddButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBackground(new Color(50,50,50));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/plusbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("New modifier");
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(50,50,50)));
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
-        ActionListener actionListener = new ActionListener() {
+        addActionListener(new ActionListener()
+        {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                
-                ModifierPanel mp = new ModifierPanel(parent.frame, parent, parent.filterbase, null);
+                ModifierPanel mp = new ModifierPanel(parent.frame, parent, parent.filterbase, null, null);
                 parent.modifierpanels.add(mp);
                 parent.parent.add(mp);
                 parent.parent.requestFocusInWindow();
                 parent.dropdown.open();
                 FilterTypePanel.reshow();
                 parent.numlabel.update();
-                
-                Main.mainFrame.pack();
             }
-        };
-        addActionListener(actionListener);
+        });
     }
 }
 
@@ -334,11 +354,14 @@ class CloseFBButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBackground(new Color(50,50,50));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/xbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Remove this logic filter");
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(50,50,50)));
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
         ActionListener actionListener = new ActionListener() {
             @Override
@@ -347,23 +370,10 @@ class CloseFBButton extends JButton {
                 parent.parent.requestFocusInWindow();
                 parent.remove();
                 parent.numlabel.update();
-                Filters.saveFilters();
+                Filter.saveFilters();
             }
         };
         addActionListener(actionListener);
-    }
-}
-
-class TypeLabel extends JLabel {
-    private FilterTypePanel parent;
-    
-    public TypeLabel(FilterTypePanel parent)
-    {
-        this.parent = parent;
-        
-        setText(parent.type);
-        setFont(parent.frame.getNewFont(14));
-        setForeground(new Color(255,255,255));
     }
 }
 
@@ -397,20 +407,12 @@ class DropdownButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
-        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.05),(int) ((32))));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBackground(new Color(50,50,50));
-        
-        if (parent.filterbase.UIVisible)
-        {
-            setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/closedropdowntransparentsmall.png"))); // NOI18N
-            setToolTipText("Hide mods");
-        }
-        else
-        {
-            setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/opendropdowntransparentsmall.png"))); // NOI18N
-            setToolTipText("Show mods");
-        }
-        
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        act();
         addMouseListener(new BackgroundListener(this, new Color(80,80,80), new Color(50,50,50)));
         
         ActionListener actionListener = new ActionListener() {
@@ -421,6 +423,20 @@ class DropdownButton extends JButton {
             }
         };
         addActionListener(actionListener);
+    }
+    
+    public void act()
+    {
+        if (parent.filterbase.UIVisible)
+        {
+            setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/closedropdowntransparentsmall.png"))); // NOI18N
+            setToolTipText("Hide mods");
+        }
+        else
+        {
+            setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/opendropdowntransparentsmall.png"))); // NOI18N
+            setToolTipText("Show mods");
+        }
     }
     
     public void open()
@@ -445,8 +461,6 @@ class DropdownButton extends JButton {
             close();
         else
             open();
-
-        Main.mainFrame.pack();
     }
 }
 
@@ -521,7 +535,7 @@ class MinMax extends JTextField {
             else
                 c.neededMax = 100000;
             parent.filterbase = c;
-            Filters.saveFilters();
+            Filter.saveFilters();
         }
     }
     

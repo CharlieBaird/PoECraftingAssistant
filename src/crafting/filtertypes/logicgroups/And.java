@@ -18,7 +18,6 @@ public class And extends FilterBase {
     
     public boolean hit(Item item)
     {
-//        item.print();
         
         int numHit = 0;
         int goal = this.mods.size();

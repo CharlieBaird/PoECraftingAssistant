@@ -1,7 +1,6 @@
 package crafting.UI;
 
-import crafting.Filters;
-import crafting.Main;
+import crafting.filters.Filter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +9,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
-import crafting.Filter;
+import crafting.filters.Subfilter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
@@ -21,17 +20,18 @@ public class FilterNamePanel extends JPanel {
     public static ArrayList<FilterNamePanel> filterpanels = new ArrayList<FilterNamePanel>();
     public String name = null;
     public String savedname = null;
-    public Filter filter;
+    public Subfilter filter;
     public JPanel parent;
     public String resourcePath;
     public Main frame;
     
     public DeleteButton cb;
     public FilterTextField ftf;
-    public OpenButton ob;
+//    public OpenButton ob;
     
+    public boolean active = false;
     
-    public FilterNamePanel(Main frame, JPanel parent, Filter filter)
+    public FilterNamePanel(Main frame, JPanel parent, Subfilter filter)
     {
         String path = "src/resources";
         File file = new File(path);
@@ -52,11 +52,11 @@ public class FilterNamePanel extends JPanel {
         
         cb = new DeleteButton(this, size);
         ftf = new FilterTextField(this, size, name, savedname);
-        ob = new OpenButton(this,size);
+//        ob = new OpenButton(this,size);
         
         add(cb);
         add(ftf);
-        add(ob);
+//        add(ob);
         
         parent.add(this);
         filterpanels.add(this);
@@ -71,8 +71,8 @@ public class FilterNamePanel extends JPanel {
             frame.hideAddButton();
         }
         setVisible(false);
-        Filters.singleton.remove(name);
-        Filters.saveFilters();
+        Filter.singleton.remove(name);
+        Filter.saveFilters();
         
     }
     
@@ -82,8 +82,10 @@ public class FilterNamePanel extends JPanel {
         for (int i=0; i<filterpanels.size(); i++)
         {
             filterpanels.get(i).setBackground(new Color(40,40,40));
+            filterpanels.get(i).active = false;
         }
         setBackground(new Color(70,70,70));
+        active = true;
     }
 }
 
@@ -161,12 +163,13 @@ class FilterTextField extends JTextField
         {
             @Override
             public void focusGained(FocusEvent e) {
+                parent.open();
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                Filters.singleton.rename(parent.filter, getText());
-                Filters.saveFilters();
+                Filter.singleton.rename(parent.filter, getText());
+                Filter.saveFilters();
                 parent.savedname = getText();
             }
         });
@@ -177,13 +180,14 @@ class DeleteButton extends JButton
 {
     public DeleteButton(FilterNamePanel parent, Dimension size)
     {
-        Dimension d1 = new Dimension((int)(size.width * 0.15), (int)(size.height * 0.9));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBorderPainted(false);
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        setPreferredSize(d1);
         setBackground(new Color(40,40,40));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/xbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Delete this subfilter");
@@ -208,13 +212,14 @@ class OpenButton extends JButton
     {
         this.parent = parent;
         
-        Dimension d1 = new Dimension((int)(size.width * 0.15), (int)(size.height * 0.9));
+        setMaximumSize(new Dimension(40,40));
+        setMinimumSize(new Dimension(40,40));
+        setPreferredSize(new Dimension(40,40));
         setBorderPainted(false);
         setFocusPainted(false);
         setContentAreaFilled(true);
         setOpaque(true);
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        setPreferredSize(d1);
         setBackground(new Color(40,40,40));
         setIcon(new javax.swing.ImageIcon(parent.frame.getClass().getResource("/resources/images/arrowbuttontransparentsmall.png"))); // NOI18N
         setToolTipText("Open this subfilter");
