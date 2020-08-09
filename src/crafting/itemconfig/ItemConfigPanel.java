@@ -1,5 +1,6 @@
 package crafting.itemconfig;
 
+import crafting.filters.Filter;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -55,6 +56,16 @@ public class ItemConfigPanel extends JPanel {
         add(Box.createRigidArea(new Dimension(0,7)));
         redeemer = new InfluenceConfig(Influence.REDEEMER);
         add(redeemer);
+    }
+
+    public void updateFromFilter() {
+        itemType.baseComboBox.setSelectedIndex(Filter.singleton.SelectedBaseIndex);
+        shaper.influenceCheckBox.setSelected(Filter.singleton.shaper);
+        elder.influenceCheckBox.setSelected(Filter.singleton.elder);
+        hunter.influenceCheckBox.setSelected(Filter.singleton.hunter);
+        warlord.influenceCheckBox.setSelected(Filter.singleton.warlord);
+        redeemer.influenceCheckBox.setSelected(Filter.singleton.redeemer);
+        crusader.influenceCheckBox.setSelected(Filter.singleton.crusader);
     }
     
 }

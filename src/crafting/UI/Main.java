@@ -539,7 +539,7 @@ public class Main extends javax.swing.JFrame {
             }
 
             Filter.saveFilters();
-            Filter.reset();
+            Filter.reset_openFilter();
             updateLeftTab();
 
             for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
@@ -552,6 +552,7 @@ public class Main extends javax.swing.JFrame {
             Filter.singleton = loaded;
 
             updateLeftTab();
+            itemConfigPanel.updateFromFilter();
             
             if (FilterNamePanel.filterpanels.size() >= 1)
             {
@@ -589,7 +590,7 @@ public class Main extends javax.swing.JFrame {
         {
             Filter.saveFilters();
 
-            Filter.reset();
+            Filter.reset_newFilter();
 
             for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
             {

@@ -2,6 +2,7 @@ package crafting.itemconfig;
 
 import crafting.UI.FilterTypePanel;
 import crafting.UI.Main;
+import crafting.filters.Filter;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ItemEvent;
@@ -54,6 +55,19 @@ class InfluenceCheckBox extends JCheckBox
             @Override
             public void itemStateChanged(ItemEvent e)
             {
+                boolean selected = isSelected();
+                switch (parent.influence)
+                {
+                    case SHAPER: Filter.singleton.shaper = selected; break;
+                    case ELDER: Filter.singleton.elder = selected; break;
+                    case HUNTER: Filter.singleton.hunter = selected; break;
+                    case WARLORD: Filter.singleton.warlord = selected; break;
+                    case REDEEMER: Filter.singleton.redeemer = selected; break;
+                    case CRUSADER: Filter.singleton.crusader = selected; break;
+                }
+                        
+                        
+                        
                 FilterTypePanel.reshow();
             }
         });

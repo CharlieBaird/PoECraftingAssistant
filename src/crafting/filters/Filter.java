@@ -42,6 +42,12 @@ public class Filter implements Serializable {
     public int SelectedBaseIndex = -1;
     public int SelectedItemLevel = 86;
     public int SelectedItemLevelIndex = 0;
+    public boolean shaper = false;
+    public boolean elder = false;
+    public boolean hunter = false;
+    public boolean warlord = false;
+    public boolean redeemer = false;
+    public boolean crusader = false;
     
     public static String getName()
     {
@@ -85,21 +91,27 @@ public class Filter implements Serializable {
         }
     }
     
-    public static void reset()
+    public static void reset_newFilter()
     {
         singleton.name = "";
         singleton.filters.clear();
-//        singleton.SelectedBase = null;
         singleton.SelectedItemLevel = 86;
-//        Main.mainFrame.itemConfigPanel.itemType.baseComboBox.reset();
-//        Main.mainFrame.itemConfigPanel.itemLevel.levelComboBox.reset();
-//        Main.mainFrame.itemConfigPanel.shaper.reset();
-//        Main.mainFrame.itemConfigPanel.elder.reset();
-//        Main.mainFrame.itemConfigPanel.hunter.reset();
-//        Main.mainFrame.itemConfigPanel.warlord.reset();
-//        Main.mainFrame.itemConfigPanel.redeemer.reset();
-//        Main.mainFrame.itemConfigPanel.crusader.reset();
+    }
+    
+    public static void reset_openFilter()
+    {
+        singleton.name = "";
+        singleton.filters.clear();
+        singleton.SelectedItemLevel = 86;
         
+        Main.mainFrame.itemConfigPanel.itemType.baseComboBox.reset();
+        
+        Main.mainFrame.itemConfigPanel.shaper.reset();
+        Main.mainFrame.itemConfigPanel.elder.reset();
+        Main.mainFrame.itemConfigPanel.hunter.reset();
+        Main.mainFrame.itemConfigPanel.warlord.reset();
+        Main.mainFrame.itemConfigPanel.redeemer.reset();
+        Main.mainFrame.itemConfigPanel.crusader.reset();
     }
     
     public static void add(Subfilter f)
