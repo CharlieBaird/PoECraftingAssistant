@@ -1,6 +1,6 @@
 package crafting.itemconfig;
 
-import crafting.Filters;
+import crafting.filters.Filter;
 import crafting.UI.Main;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -66,7 +66,7 @@ public class ItemType extends JPanel {
     }
 
     public void updateFromFilter() {
-        this.baseComboBox.setSelectedIndex(Filters.singleton.SelectedBaseIndex);
+        this.baseComboBox.setSelectedIndex(Filter.singleton.SelectedBaseIndex);
     }
 }
 

@@ -1,6 +1,6 @@
 package crafting.itemconfig;
 
-import crafting.Filters;
+import crafting.filters.Filter;
 import crafting.UI.FilterTypePanel;
 import crafting.UI.SearchBoxBase;
 import poeitem.Modifier;
@@ -21,7 +21,7 @@ public class ItemTypeComboBox extends SearchBoxBase
         super(parent, types);
         setSelectedIndex(0);
         update();
-        Filters.saveFilters();
+        Filter.saveFilters();
     }
     
     @Override
@@ -29,13 +29,13 @@ public class ItemTypeComboBox extends SearchBoxBase
     {
        if (event.getStateChange() == ItemEvent.SELECTED)
             update();
-       Filters.saveFilters();
+       Filter.saveFilters();
     }
     
     private void update()
     {
-        Filters.singleton.SelectedBase = ItemType.BaseTypes.get((String) getSelectedItem());
-        Filters.singleton.SelectedBaseIndex = getSelectedIndex();
+        Filter.singleton.SelectedBase = ItemType.BaseTypes.get((String) getSelectedItem());
+        Filter.singleton.SelectedBaseIndex = getSelectedIndex();
         FilterTypePanel.reshow();
     }
     

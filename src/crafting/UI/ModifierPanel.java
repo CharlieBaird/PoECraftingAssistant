@@ -1,6 +1,6 @@
 package crafting.UI;
 
-import crafting.Filters;
+import crafting.filters.Filter;
 import poeitem.Modifier;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
@@ -56,14 +56,25 @@ public class ModifierPanel extends JPanel {
             max = new MPMinMax(this, "max", false);
         }
         
-        else if (Filters.singleton.SelectedBase != null)
-        {
-            assocMod = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(mod.name);
-        }
         else
         {
-            assocMod = Modifier.getExplicitFromStr(mod.name);
+            if (mod.assocModifier == null)
+            {
+                if (Filter.singleton.SelectedBase != null)
+                {
+                    assocMod = BaseItem.getFromBase(Filter.singleton.SelectedBase).getExplicitFromStr(mod.name);
+                }
+                else
+                {
+                    assocMod = Modifier.getExplicitFromStr(mod.name);
+                }
+            }
+            else
+            {
+                assocMod = mod.assocModifier;
+            }
         }
+        
         this.mod = mod;
         
         Dimension size = new Dimension((int) (parent.getWidth()),(int) (40)); // 0.912
@@ -95,7 +106,7 @@ public class ModifierPanel extends JPanel {
         add(min, Box.RIGHT_ALIGNMENT);
         add(max, Box.RIGHT_ALIGNMENT);
         
-        if (Filters.singleton.SelectedBase != null && assocMod != null && assocMod.tiers.size() >= 1)
+        if (Filter.singleton.SelectedBase != null && assocMod != null && assocMod.tiers.size() >= 1)
         {
             this.showTierComboBox(assocMod);
             this.updateDD();
@@ -106,7 +117,7 @@ public class ModifierPanel extends JPanel {
         parent.add(this);
         mod.assocModifierPanel = this;
         
-        Filters.saveFilters();
+        Filter.saveFilters();
     }
     
     public ModifierComboBox showSearchBox(Mod mod, Modifier aMod, ModifierComboBox searchBox)
@@ -115,18 +126,18 @@ public class ModifierPanel extends JPanel {
         {
             Modifier[] types;
         
-            if (Filters.singleton.SelectedBase == null) {
+            if (Filter.singleton.SelectedBase == null) {
                 types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
             }
             else {
-                ArrayList<Modifier> modifiers = BaseItem.getFromBase(Filters.singleton.SelectedBase).assocModifiers;
+                ArrayList<Modifier> modifiers = BaseItem.getFromBase(Filter.singleton.SelectedBase).assocModifiers;
                 types = ModifierComboBox.toArr(modifiers);
             }
             ModifierComboBox mcb = new ModifierComboBox(this, types);
 
             if (aMod != null)
             {
-                mcb.setSelectedItem((Object) aMod.getStr());
+                mcb.setSelectedItem(aMod);
             }
             else
             {
@@ -148,7 +159,7 @@ public class ModifierPanel extends JPanel {
     
     public void showTierComboBox(Modifier m)
     {
-        DefaultComboBoxModel model = new DefaultComboBoxModel(tier.modelToTiers(m, Filters.singleton.SelectedItemLevel));
+        DefaultComboBoxModel model = new DefaultComboBoxModel(tier.modelToTiers(m, Filter.singleton.SelectedItemLevel));
         if (model.getSize() <= 1)
         {
             hideTierComboBox();
@@ -193,7 +204,7 @@ public class ModifierPanel extends JPanel {
     }
     
     public static void updateTierViews() {
-        if (Filters.singleton.SelectedBase == null) return;
+        if (Filter.singleton.SelectedBase == null) return;
                 
         ArrayList<Modifier> errorModifiers = new ArrayList<>();
         
@@ -223,7 +234,7 @@ public class ModifierPanel extends JPanel {
     
     private static String genErrorMsg(ArrayList<Modifier> mods)
     {
-        String s = "The following modifiers in your filters cannot be hit on Item Type \"" + Filters.singleton.SelectedBase + "\"\n";
+        String s = "The following modifiers in your filters cannot be hit on Item Type \"" + Filter.singleton.SelectedBase + "\"\n";
         for (int i=0; i<mods.size(); i++)
         {
             s += (i+1) + ". " + mods.get(i).getStr() + "\n";
@@ -296,8 +307,8 @@ class TierComboBox extends JComboBox {
     }
 
     public void manualUpdate(String text) {
-        Base b = Filters.singleton.SelectedBase;
-        if (Filters.singleton.SelectedBase != null)
+        Base b = Filter.singleton.SelectedBase;
+        if (Filter.singleton.SelectedBase != null)
         {
             if (!text.equals("min") && !text.equals(""))
             {
@@ -363,7 +374,7 @@ class CloseMPButton extends JButton {
                 FilterTypePanel.reshow();
                 parent.setVisible(false);
         
-                Filters.saveFilters();
+                Filter.saveFilters();
             }
         };
         addActionListener(actionListener);
@@ -458,14 +469,14 @@ class MPMinMax extends JTextField {
             parent.tier.manualUpdate(getText());
         }
         
-        Filters.saveFilters();
+        Filter.saveFilters();
     }
 
     void textUpdate(double val) {
         setForeground(new Color(255,255,255));
         setText(String.valueOf((int) val));
         parent.mod.ID.min = (int) val;
-        Filters.saveFilters();
+        Filter.saveFilters();
     }
 }
 

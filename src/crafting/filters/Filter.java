@@ -1,9 +1,11 @@
-package crafting;
+package crafting.filters;
 
+import crafting.Item;
+import crafting.PoECraftingAssistant;
 import crafting.UI.Main;
+import crafting.Utility;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
-import crafting.itemconfig.InfluenceConfig;
 import java.awt.AWTException;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
@@ -23,7 +25,7 @@ import poeitem.Base;
 import poeitem.BaseItem;
 import poeitem.Modifier;
 
-public class Filters implements Serializable {
+public class Filter implements Serializable {
     
     public static String testMods = null;
     
@@ -32,21 +34,27 @@ public class Filters implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    public ArrayList<Filter> filters = new ArrayList<>();
+    public ArrayList<Subfilter> filters = new ArrayList<>();
     
-    public static Filters singleton = new Filters(false);
+    public static Filter singleton = new Filter(false);
     
     public Base SelectedBase = null;
     public int SelectedBaseIndex = -1;
     public int SelectedItemLevel = 86;
     public int SelectedItemLevelIndex = 0;
+    public boolean shaper = false;
+    public boolean elder = false;
+    public boolean hunter = false;
+    public boolean warlord = false;
+    public boolean redeemer = false;
+    public boolean crusader = false;
     
     public static String getName()
     {
         return singleton.name;
     }
     
-    public Filters(boolean x)
+    public Filter(boolean x)
     {
         filters.clear();
     }
@@ -63,7 +71,7 @@ public class Filters implements Serializable {
         }
     }
     
-    public void rename(Filter filter, String newname)
+    public void rename(Subfilter filter, String newname)
     {
         for (int i=0; i<filters.size(); i++)
         {
@@ -74,33 +82,39 @@ public class Filters implements Serializable {
         }
     }
     
-    public Filters(ArrayList<Filter> filters)
+    public Filter(ArrayList<Subfilter> filters)
     {
         this.filters.clear();
-        for (Filter f : filters)
+        for (Subfilter f : filters)
         {
             this.filters.add(f);
         }
     }
     
-    public static void reset()
+    public static void reset_newFilter()
     {
         singleton.name = "";
         singleton.filters.clear();
-//        singleton.SelectedBase = null;
         singleton.SelectedItemLevel = 86;
-//        Main.mainFrame.itemConfigPanel.itemType.baseComboBox.reset();
-//        Main.mainFrame.itemConfigPanel.itemLevel.levelComboBox.reset();
-//        Main.mainFrame.itemConfigPanel.shaper.reset();
-//        Main.mainFrame.itemConfigPanel.elder.reset();
-//        Main.mainFrame.itemConfigPanel.hunter.reset();
-//        Main.mainFrame.itemConfigPanel.warlord.reset();
-//        Main.mainFrame.itemConfigPanel.redeemer.reset();
-//        Main.mainFrame.itemConfigPanel.crusader.reset();
-        
     }
     
-    public static void add(Filter f)
+    public static void reset_openFilter()
+    {
+        singleton.name = "";
+        singleton.filters.clear();
+        singleton.SelectedItemLevel = 86;
+        
+        Main.mainFrame.itemConfigPanel.itemType.baseComboBox.reset();
+        
+        Main.mainFrame.itemConfigPanel.shaper.reset();
+        Main.mainFrame.itemConfigPanel.elder.reset();
+        Main.mainFrame.itemConfigPanel.hunter.reset();
+        Main.mainFrame.itemConfigPanel.warlord.reset();
+        Main.mainFrame.itemConfigPanel.redeemer.reset();
+        Main.mainFrame.itemConfigPanel.crusader.reset();
+    }
+    
+    public static void add(Subfilter f)
     {
         singleton.filters.add(f);
     }
@@ -115,7 +129,7 @@ public class Filters implements Serializable {
             try {
                 mods = Utility.copy();
             } catch (AWTException | UnsupportedFlavorException | IOException ex) {
-                Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (mods == null)
             {
@@ -200,7 +214,7 @@ public class Filters implements Serializable {
     public static void print()
     {
         System.out.println(singleton.name + ":");
-        for (Filter f : singleton.filters)
+        for (Subfilter f : singleton.filters)
         {
             f.print();
         }
@@ -210,14 +224,14 @@ public class Filters implements Serializable {
     public static String view()
     {
         String str = "";
-        for (Filter f : singleton.filters)
+        for (Subfilter f : singleton.filters)
         {
             str += f.view() + "\n";
         }
         return str;
     }
     
-    public static Filters loadFilters(String path)
+    public static Filter loadFilters(String path)
     {
         singleton.filters.clear();
         
@@ -225,32 +239,32 @@ public class Filters implements Serializable {
         try {
             fi = new FileInputStream(new File(path));
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
         ObjectInputStream oi = null;
         try {
             oi = new ObjectInputStream(fi);
         } catch (IOException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Filters input = null;
+        Filter input = null;
         try {
-            input = (Filters) oi.readObject();
+            input = (Filter) oi.readObject();
         } catch (InvalidClassException | ClassNotFoundException ex) {
             return null;
         } catch (IOException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
                 
         try {
             fi.close();
         } catch (IOException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             oi.close();
         } catch (IOException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
         return input;
     }
@@ -265,31 +279,31 @@ public class Filters implements Serializable {
         try {
             f = new FileOutputStream(new File(Utility.getResourcesPath() + "/src/resources/filters" + "/" + singleton.name + ".cbfilter"));
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
         ObjectOutputStream o = null;
         try {
             o = new ObjectOutputStream(f);
         } catch (IOException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
             // Write objects to file
             o.writeObject(singleton);
         } catch (IOException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
             o.close();
         } catch (IOException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             f.close();
         } catch (IOException ex) {
-            Logger.getLogger(Filters.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -301,7 +315,7 @@ public class Filters implements Serializable {
     
     public static boolean verify()
     {
-        for (Filter f : singleton.filters)
+        for (Subfilter f : singleton.filters)
         {
             for (FilterBase fb : f.filters)
             {
@@ -311,9 +325,9 @@ public class Filters implements Serializable {
                         return false;
                     
                     Modifier m2;
-                    if (Filters.singleton.SelectedBase != null)
+                    if (Filter.singleton.SelectedBase != null)
                     {
-                        m2 = BaseItem.getFromBase(Filters.singleton.SelectedBase).getExplicitFromStr(m.name);
+                        m2 = BaseItem.getFromBase(Filter.singleton.SelectedBase).getExplicitFromStr(m.name);
                     }
                     else
                     {

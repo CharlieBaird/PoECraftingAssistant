@@ -1,6 +1,6 @@
 package crafting.UI;
 
-import crafting.Filters;
+import crafting.filters.Filter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
@@ -90,7 +90,7 @@ public class SearchBoxBase extends JComboBox {
         setModel(defaultmodel);
         setSelectedIndex(-1);
         entry = "";
-        Filters.saveFilters();
+        Filter.saveFilters();
     }
     
 }
@@ -174,7 +174,7 @@ class IL_ClickListener implements FocusListener
             String m = (String) owner.defaultmodel.getElementAt(i);
             if (content.equals(m))
             {
-                Filters.saveFilters();
+                Filter.saveFilters();
                 return;
             }
         }

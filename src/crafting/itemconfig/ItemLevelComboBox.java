@@ -1,6 +1,6 @@
 package crafting.itemconfig;
 
-import crafting.Filters;
+import crafting.filters.Filter;
 import crafting.UI.FilterTypePanel;
 import crafting.UI.SearchBoxBase;
 import java.awt.event.ItemEvent;
@@ -20,14 +20,14 @@ public class ItemLevelComboBox extends SearchBoxBase {
        if (event.getStateChange() == ItemEvent.SELECTED)
        {
            try {
-               Filters.singleton.SelectedItemLevel = Integer.valueOf(this.getSelectedItem().toString());
+               Filter.singleton.SelectedItemLevel = Integer.valueOf(this.getSelectedItem().toString());
            } catch (NumberFormatException e) {
                return;
            }
-           Filters.singleton.SelectedItemLevelIndex = getSelectedIndex();
+           Filter.singleton.SelectedItemLevelIndex = getSelectedIndex();
            FilterTypePanel.reshow();
        }
-       Filters.saveFilters();
+       Filter.saveFilters();
     }
     
     @Override
@@ -36,6 +36,6 @@ public class ItemLevelComboBox extends SearchBoxBase {
         setModel(defaultmodel);
         setSelectedIndex(0);
         entry = "86";
-        Filters.saveFilters();
+        Filter.saveFilters();
     }
 }
