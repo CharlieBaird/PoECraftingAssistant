@@ -14,7 +14,7 @@ public class ItemType extends JPanel {
         
     public ItemTypeComboBox baseComboBox = new ItemTypeComboBox(this, BaseTypes.keySet().toArray());
         
-    protected static final LinkedHashMap<String, Base> BaseTypes = new LinkedHashMap<String, Base>()
+    public static final LinkedHashMap<String, Base> BaseTypes = new LinkedHashMap<String, Base>()
     {{
         put ("Amulet", Base.AMULET);
         put ("Belt", Base.BELT);

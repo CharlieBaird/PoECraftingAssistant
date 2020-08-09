@@ -9,12 +9,14 @@ import crafting.Utility;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.logicgroups.And;
 import crafting.itemconfig.ItemConfigPanel;
+import crafting.modplanner.PlannerFrame;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -720,7 +722,15 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2MousePressed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
+        Frame f = this;
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                Frame f = new PlannerFrame();
+                f.setLocationRelativeTo(f);
+                f.setVisible(true);
+                f.requestFocusInWindow();
+            }
+        });
     }//GEN-LAST:event_jButton11ActionPerformed
 
     public void updateLeftTab()
