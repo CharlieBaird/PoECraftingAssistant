@@ -66,8 +66,6 @@ class InfluenceCheckBox extends JCheckBox
                     case CRUSADER: Filter.singleton.crusader = selected; break;
                 }
                         
-                        
-                        
                 FilterTypePanel.reshow();
             }
         });
