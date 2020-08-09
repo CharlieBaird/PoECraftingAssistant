@@ -190,6 +190,7 @@ public class FilterTypePanel extends JPanel {
     private void setDefault(ModifierPanel mp)
     {
         mp.assocMod = null;
+        mp.mod.name = "New Modifier";
         mp.mcb.entry = "";
         mp.hideTierComboBox();
         ((JTextField)mp.mcb.getEditor().getEditorComponent()).setText("New Modifier");
@@ -267,6 +268,7 @@ public class FilterTypePanel extends JPanel {
         }
         Main.mainFrame.validate();
         
+        Filters.saveFilters();
     }
     
     public void logicGroupChanged(String selected)

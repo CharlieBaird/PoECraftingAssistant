@@ -72,7 +72,6 @@ public class ModifierPanel extends JPanel {
         setPreferredSize(size);
         setBackground(new Color(60,60,60));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setVisible(filterbase.UIVisible);
         
         
