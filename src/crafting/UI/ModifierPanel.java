@@ -122,6 +122,7 @@ public class ModifierPanel extends JPanel {
     
     public ModifierComboBox showSearchBox(Mod mod, Modifier aMod, ModifierComboBox searchBox)
     {
+        
         if (searchBox == null)
         {
             Modifier[] types;

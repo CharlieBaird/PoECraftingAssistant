@@ -32,6 +32,10 @@ public class Console extends JFrame {
     public static void close() {
         loadingFrame.setVisible(false);
     }
+
+    public static void open() {
+        loadingFrame.setVisible(true);
+    }
     
     private Console()
     {
