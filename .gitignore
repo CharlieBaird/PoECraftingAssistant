@@ -39,6 +39,7 @@ nbdist/
 other/*
 store/*
 *.stackdump
+build/classes/resources/
 
 .idea
 *.iml
