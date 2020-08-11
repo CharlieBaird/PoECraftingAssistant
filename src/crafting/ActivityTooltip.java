@@ -40,14 +40,17 @@ public class ActivityTooltip extends JFrame {
             }
         };
         contents.setPreferredSize(new Dimension(60, 60));
+        contents.setOpaque(false);
+        
         getContentPane().add(contents);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
-        setVisible(true);
-        com.sun.awt.AWTUtilities.setWindowOpaque(this,false);
-        Point p = MouseInfo.getPointerInfo().getLocation();
+        setBackground(new Color(0,0,0,0));
         setFocusable(false);
+        Point p = MouseInfo.getPointerInfo().getLocation();
         setLocation(p.x-30, p.y-30);
+        setVisible(true);
+//        com.sun.awt.AWTUtilities.setWindowOpaque(this,false);
     }
     
     public void modHit()
