@@ -1,5 +1,6 @@
 package crafting;
 
+import crafting.UI.console.Console;
 import crafting.filters.Filter;
 import crafting.UI.Main;
 import static crafting.Utility.*;
@@ -28,19 +29,33 @@ public class PoECraftingAssistant {
     
     public static void main(String[] args)
     {
+        Console.launch();
+        
+        
+        System.out.println("> Loading UI Window... <");
+        Utility.delay(100);
+        Main.main();
+        System.out.println("> Finished! <");
+        
+        System.out.println();
+        
+        System.out.println("> Loading Modifiers... <");
         try {
             ModifierLoader.loadModifiers();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println("> Finished! <");
         
-//        Utility.SortExplicitModifiers();
-        
-        Main.main();
+        System.out.println();
+
+        System.out.println("> Loading Settings... <");
         Settings.load();
+        System.out.println("> Finished! <");
         
-//        Filter.prepItemLoad();
-        
+        System.out.println();
+                
+        Console.close();
     }
     
     public static boolean run = true;

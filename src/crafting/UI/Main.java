@@ -910,7 +910,6 @@ public class Main extends javax.swing.JFrame {
             mainFrame.preload();
             mainFrame.setVisible(true);
             mainFrame.postload();
-//            mainFrame.repaint();
         });
     }
     
