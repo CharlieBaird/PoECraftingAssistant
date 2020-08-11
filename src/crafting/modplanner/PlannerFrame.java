@@ -10,7 +10,12 @@ public class PlannerFrame extends javax.swing.JFrame {
         jPanel1.addMouseListener(new MouseFocusListener(jPanel1));
         jPanel2.addMouseListener(new MouseFocusListener(jPanel2));
         
-        jPanel2.add(new ItemBaseComboBox(jPanel2));
+        ItemBaseComboBox box = new ItemBaseComboBox(jPanel2);
+        jPanel2.add(box);
+        
+        ModViewerPanel viewer = new ModViewerPanel();
+        viewer.generate(box.getSelectedItem());
+        
         this.requestFocusInWindow();
     }
 
