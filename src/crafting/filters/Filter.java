@@ -119,8 +119,6 @@ public class Filter implements Serializable {
         singleton.filters.add(f);
     }
     
-    static String savedModsRaw = "";
-    
     public static boolean checkIfHitOne(boolean debug)
     {
         String mods = null;
@@ -151,23 +149,10 @@ public class Filter implements Serializable {
         
         else if (item.brokenModifiers.size() >= 1)
         {
-            JOptionPane.showMessageDialog(Main.mainFrame, "Oops, the tool was not able to parse the item. Broken mods:\n" + item.brokenModifiers + ".\nPlease create an issue report at https://github.com/CharlieBaird/PoECraftingAssistant/issues/new. Thanks!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Main.mainFrame, "The tool was not able to parse the item. Broken mods:\n" + item.brokenModifiers + ".\nPlease create an issue report at https://github.com/CharlieBaird/PoECraftingAssistant/issues/new. Thanks!", "Error", JOptionPane.ERROR_MESSAGE);
             PoECraftingAssistant.stop();
             return false;
         }
-        
-        item.print();
-        
-        if (!debug)
-        {
-            if (savedModsRaw.equals(mods)) return true;
-            
-            savedModsRaw = mods;
-        }
-        
-//        if (debug) item.print();
-
-//        item.print();
         
         return item.hitFilters(singleton);
     }

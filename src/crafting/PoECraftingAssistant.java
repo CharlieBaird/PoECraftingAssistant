@@ -39,7 +39,7 @@ public class PoECraftingAssistant {
         Main.main();
         Settings.load();
         
-        Filter.prepItemLoad();
+//        Filter.prepItemLoad();
         
     }
     
@@ -150,9 +150,11 @@ public class PoECraftingAssistant {
             return;
         }
         
+//        Filter.print();
+        
         run = true;
         
-        Filter.prepItemLoad();
+//        Filter.prepItemLoad();
         
         StringSelection selection = new StringSelection("hi");
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -172,7 +174,9 @@ public class PoECraftingAssistant {
             return;
         }
         
-        Filter.prepItemLoad();
+        Filter.print();
+        
+//        Filter.prepItemLoad();
         
         String raw = Utility.getClipboard();
         

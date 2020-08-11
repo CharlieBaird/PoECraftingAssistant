@@ -107,7 +107,6 @@ public class FilterTypePanel extends JPanel {
         
         parent.add(this);
         
-        System.out.println("Entered");
         for (int i=0; i<filterbase.mods.size(); i++)
         {
             Mod m = filterbase.mods.get(i);
