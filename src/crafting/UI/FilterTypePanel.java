@@ -165,6 +165,10 @@ public class FilterTypePanel extends JPanel {
                 {
                     setDefault(mp);
                 }
+                
+                BaseItem b = BaseItem.getFromBase(Filter.singleton.SelectedBase);
+                if (!b.assocModifiers.contains(mp.assocMod))
+                    setDefault(mp);
             }
             
             Dimension mpsize = new Dimension((int) (getWidth() * 0.95),(int) (40)); // 0.912
