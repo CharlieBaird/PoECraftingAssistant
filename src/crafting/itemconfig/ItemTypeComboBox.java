@@ -25,15 +25,26 @@ public class ItemTypeComboBox extends SearchBoxBase
     }
     
     @Override
+    public void reset()
+    {
+        super.reset();
+        update();
+        Filter.saveFilters();
+    }
+    
+    @Override
     public void itemUpdate(ItemEvent event)
     {
-       if (event.getStateChange() == ItemEvent.SELECTED)
-            update();
+       if (event.getStateChange() == ItemEvent.SELECTED && ItemType.BaseTypes.get((String) event.getItem()) != null)
+       {
+           update();
+       }
        Filter.saveFilters();
     }
     
     private void update()
     {
+        System.out.println("Reshowing with " + ItemType.BaseTypes.get((String) getSelectedItem()));
         Filter.singleton.SelectedBase = ItemType.BaseTypes.get((String) getSelectedItem());
         Filter.singleton.SelectedBaseIndex = getSelectedIndex();
         FilterTypePanel.reshow();

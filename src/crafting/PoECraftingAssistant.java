@@ -63,7 +63,7 @@ public class PoECraftingAssistant {
         
         System.out.println();
                 
-        Console.close();
+//        Console.close();
     }
     
     public static boolean run = true;

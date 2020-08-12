@@ -146,6 +146,7 @@ public class FilterTypePanel extends JPanel {
                     for (Modifier modi : validModifiersArr) validModifiers.add(modi);
                     
                     Modifier selItem = (Modifier) mp.mcb.getSelectedItem();
+                    selItem.print();
                     mp.mcb.setModel(new DefaultComboBoxModel<>(types));
                     mp.mcb.defaultmodel = mp.mcb.getModel();
                     if (validModifiers.contains(selItem))
@@ -161,13 +162,13 @@ public class FilterTypePanel extends JPanel {
                     mp.mcb.setSelectedItem(selItem);
                 }
                 
-                if (mp.assocMod == null)
+                if (mp.assocMod == null || Filter.singleton.SelectedBase == null)
                 {
                     setDefault(mp);
                 }
                 
                 BaseItem b = BaseItem.getFromBase(Filter.singleton.SelectedBase);
-                if (!b.assocModifiers.contains(mp.assocMod))
+                if (b != null && !b.containsExact(mp.assocMod))
                     setDefault(mp);
             }
             
@@ -191,6 +192,7 @@ public class FilterTypePanel extends JPanel {
         mp.assocMod = null;
         mp.mod.name = "New Modifier";
         mp.mcb.entry = "";
+        mp.mcb.setSelectedIndex(-1);
         mp.hideTierComboBox();
         ((JTextField)mp.mcb.getEditor().getEditorComponent()).setText("New Modifier");
         ((JTextField)mp.mcb.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
