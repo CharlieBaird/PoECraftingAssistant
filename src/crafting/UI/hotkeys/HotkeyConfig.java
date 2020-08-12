@@ -2,6 +2,7 @@ package crafting.UI.hotkeys;
 
 import static crafting.PoECraftingAssistant.runChaosSpam;
 import crafting.UI.Main;
+import java.awt.Frame;
 import java.io.Serializable;
 import java.util.ArrayList;
 import lc.kra.system.keyboard.event.GlobalKeyEvent;
@@ -19,6 +20,7 @@ public class HotkeyConfig implements Serializable {
         hotkeys.add(new Hotkey(Ctrl.CTRL, Key.N, Task.NEW_FILTER, true));
         hotkeys.add(new Hotkey(Ctrl.CTRL, Key.F, Task.FOCUS_WINDOW, false));
         hotkeys.add(new Hotkey(Ctrl.CTRL, Key.S, Task.SAVE_FILTER, true));
+        hotkeys.add(new Hotkey(Ctrl.CTRL, Key.O, Task.OPEN_FILTER, true));
     }
     
     public void checkHotkeys(Ctrl ctrl, GlobalKeyEvent event)
@@ -40,17 +42,21 @@ public class HotkeyConfig implements Serializable {
         switch (task)
         {
             case SAVE_FILTER:
-                System.out.println("save");
+                Main.mainFrame.saveFilters();
                 break;
             case RUN_FILTER:
-                System.out.println("run");
                 runChaosSpam(Main.mainFrame);
                 break;
             case FOCUS_WINDOW:
-                System.out.println("focus");
+                Main.mainFrame.setState(Frame.NORMAL);
+                Main.mainFrame.toFront();
+                Main.mainFrame.repaint();
                 break;
             case NEW_FILTER:
-                System.out.println("new");
+                Main.mainFrame.createNewFilter();
+                break;
+            case OPEN_FILTER:
+                Main.mainFrame.openFilter();
                 break;
         }
     }
@@ -91,16 +97,16 @@ class Hotkey
 
 enum Key
 {
-    ZERO(48),
-    ONE(49),
-    TWO(50),
-    THREE(51),
-    FOUR(52),
-    FIVE(53),
-    SIX(54),
-    SEVEN(55),
-    EIGHT(56),
-    NINE(57),
+    ZERO(48, "0"),
+    ONE(49, "1"),
+    TWO(50, "2"),
+    THREE(51, "3"),
+    FOUR(52, "4"),
+    FIVE(53, "5"),
+    SIX(54, "6"),
+    SEVEN(55, "7"),
+    EIGHT(56, "8"),
+    NINE(57, "9"),
     A(65),
     B(66),
     C(67),
@@ -129,10 +135,18 @@ enum Key
     Z(90);
     
     public final int keycode;
+    public final String pretty;
+    
+    private Key(int keycode, String pretty)
+    {
+        this.keycode = keycode;
+        this.pretty = pretty;
+    }
     
     private Key(int keycode)
     {
         this.keycode = keycode;
+        this.pretty = this.toString();
     }
 }
 
@@ -141,5 +155,6 @@ enum Task
     SAVE_FILTER,
     RUN_FILTER,
     FOCUS_WINDOW,
-    NEW_FILTER
+    NEW_FILTER,
+    OPEN_FILTER
 }

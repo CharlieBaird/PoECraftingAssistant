@@ -224,8 +224,11 @@ public class PoECraftingAssistant {
                 @Override 
                 public void keyPressed(GlobalKeyEvent event) {
                     Ctrl ctrl = null;
-                    if (event.isControlPressed()) ctrl = Ctrl.CTRL;
-                    else if (event.isShiftPressed()) ctrl = Ctrl.SHIFT;
+                    boolean ctrlPressed = event.isControlPressed();
+                    boolean shiftPressed = event.isShiftPressed();
+                    if (ctrlPressed && shiftPressed) ctrl = Ctrl.CTRL_SHIFT;
+                    else if (ctrlPressed) ctrl = Ctrl.CTRL;
+                    else if (shiftPressed) ctrl = Ctrl.SHIFT;
                     
                     HotkeyConfig.instance.checkHotkeys(ctrl, event);
                 }

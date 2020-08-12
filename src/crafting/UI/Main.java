@@ -576,7 +576,8 @@ public class Main extends javax.swing.JFrame {
 //        PoECraftingAssistant.runChaosSpam(mainFrame);
     }//GEN-LAST:event_runChaosSpam
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    public void openFilter()
+    {
         JFileChooser chooser = new JFileChooser(Utility.getResourcesPath() + "/src/resources/filters");
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
@@ -626,9 +627,14 @@ public class Main extends javax.swing.JFrame {
                 fnp.open();
             }
         }
+    }
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        openFilter();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    public void createNewFilter()
+    {   
         String name = (String)JOptionPane.showInputDialog(
             this,
             "Enter the New Filter's Name",
@@ -662,6 +668,10 @@ public class Main extends javax.swing.JFrame {
             jButton10.setVisible(true);
             jButton7.setVisible(true);
         }
+    }
+    
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        createNewFilter();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -703,8 +713,8 @@ public class Main extends javax.swing.JFrame {
         Settings.singleton.OpenSettings();
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        
+    public void saveFilters()
+    {
         if (Filter.singleton != null)
         {
             Filter.saveFilters();
@@ -720,8 +730,10 @@ public class Main extends javax.swing.JFrame {
                 jButton7.setText("Save");
             }
         }).start();
-        
-        
+    }
+    
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        saveFilters();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton10runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10runChaosSpam

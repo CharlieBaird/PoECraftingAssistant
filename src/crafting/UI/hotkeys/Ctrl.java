@@ -2,6 +2,14 @@ package crafting.UI.hotkeys;
 
 public enum Ctrl
 {
-    CTRL,
-    SHIFT
+    CTRL("Ctrl"),
+    SHIFT("Shift"),
+    CTRL_SHIFT("Ctrl+Shift");
+    
+    public final String pretty;
+    
+    private Ctrl(String pretty)
+    {
+        this.pretty = pretty;
+    }
 }
