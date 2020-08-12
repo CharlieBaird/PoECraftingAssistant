@@ -18,6 +18,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class HotkeyConfig implements Serializable {
     
@@ -106,6 +107,7 @@ public class HotkeyConfig implements Serializable {
         try {
             instance = (HotkeyConfig) oi.readObject();
         } catch (ClassNotFoundException | InvalidClassException ex) {
+            JOptionPane.showMessageDialog(Main.mainFrame, "The hotkey configuration file could not be loaded. It has been\nautomatically recreated. You will have to reconfigure the hotkeys. Sorry!", "Error", JOptionPane.ERROR_MESSAGE);
             hotkeysFile.delete();
             save();
             load();

@@ -52,6 +52,7 @@ public class Settings implements Serializable {
         try {
             singleton = (Settings) oi.readObject();
         } catch (ClassNotFoundException | InvalidClassException ex) {
+            JOptionPane.showMessageDialog(Main.mainFrame, "The settings configuration file could not be loaded. It has been\nautomatically recreated. You will have to reconfigure your settings. Sorry!", "Error", JOptionPane.ERROR_MESSAGE);
             settingsFile.delete();
             save();
             load();
