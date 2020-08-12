@@ -56,6 +56,12 @@ public class PoECraftingAssistant {
         System.out.println("> Finished! <");
         
         System.out.println();
+        
+        System.out.println("> Loading Hotkeys... <");
+        HotkeyConfig.load();
+        System.out.println("> Finished! <");
+        
+        System.out.println();
                 
         Console.close();
     }

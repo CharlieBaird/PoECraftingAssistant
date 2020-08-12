@@ -26,6 +26,7 @@ hs_err_pid*
 *.cbfilter
 *.cmd
 *.cbsettings
+*.cbhotkeys
 **/nbproject/private/
 **/nbproject/Makefile-*.mk
 **/nbproject/Package-*.bash

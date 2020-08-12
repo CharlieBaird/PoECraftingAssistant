@@ -12,4 +12,10 @@ public enum Ctrl
     {
         this.pretty = pretty;
     }
+    
+    @Override
+    public String toString()
+    {
+        return this.pretty;
+    }
 }

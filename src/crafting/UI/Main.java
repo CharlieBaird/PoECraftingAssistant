@@ -6,6 +6,7 @@ import crafting.PoECraftingAssistant;
 import crafting.Settings;
 import static crafting.PoECraftingAssistant.establishHotkeyShortcut;
 import crafting.UI.console.Console;
+import crafting.UI.hotkeys.HotkeyEditor;
 import crafting.Utility;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.logicgroups.And;
@@ -747,7 +748,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2MousePressed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        
+        HotkeyEditor.show(new HotkeyEditor());
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed

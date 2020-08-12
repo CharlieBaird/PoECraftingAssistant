@@ -2,16 +2,28 @@ package crafting.UI.hotkeys;
 
 import static crafting.PoECraftingAssistant.runChaosSpam;
 import crafting.UI.Main;
+import crafting.Utility;
+import crafting.filters.Filter;
 import java.awt.Frame;
 import java.io.Serializable;
 import java.util.ArrayList;
 import lc.kra.system.keyboard.event.GlobalKeyEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class HotkeyConfig implements Serializable {
     
     public static HotkeyConfig instance = new HotkeyConfig();
     
-    private ArrayList<Hotkey> hotkeys;
+    public ArrayList<Hotkey> hotkeys;
     
     private HotkeyConfig()
     {
@@ -21,6 +33,17 @@ public class HotkeyConfig implements Serializable {
         hotkeys.add(new Hotkey(Ctrl.CTRL, Key.F, Task.FOCUS_WINDOW, false));
         hotkeys.add(new Hotkey(Ctrl.CTRL, Key.S, Task.SAVE_FILTER, true));
         hotkeys.add(new Hotkey(Ctrl.CTRL, Key.O, Task.OPEN_FILTER, true));
+    }
+    
+    public Hotkey getHotkeyByTask(Task task)
+    {
+        for (Hotkey hotkey : hotkeys)
+        {
+            if (hotkey.task == task)
+                return hotkey;
+        }
+        
+        return null;
     }
     
     public void checkHotkeys(Ctrl ctrl, GlobalKeyEvent event)
@@ -60,13 +83,88 @@ public class HotkeyConfig implements Serializable {
                 break;
         }
     }
+    
+    public static void load()
+    {
+        File hotkeysFile = null;
+        FileInputStream fi = null;
+        try {
+            hotkeysFile = new File(Utility.getResourcesPath() + "/src/resources/hotkeys.cbhotkeys");
+            fi = new FileInputStream(hotkeysFile);
+        } catch (FileNotFoundException ex) {
+            save();
+            load();
+            return;
+        }
+        ObjectInputStream oi = null;
+        try {
+            oi = new ObjectInputStream(fi);
+        } catch (IOException ex) {
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            instance = (HotkeyConfig) oi.readObject();
+        } catch (ClassNotFoundException | InvalidClassException ex) {
+            hotkeysFile.delete();
+            save();
+            load();
+            return;
+        } catch (IOException ex) {
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+        try {
+            fi.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            oi.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void save()
+    {
+        FileOutputStream f = null;
+        try {
+            f = new FileOutputStream(new File(Utility.getResourcesPath() + "/src/resources/hotkeys.cbhotkeys"));
+        } catch (FileNotFoundException ex) {
+        }
+        ObjectOutputStream o = null;
+        try {
+            o = new ObjectOutputStream(f);
+        } catch (IOException ex) {
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            // Write objects to file
+            o.writeObject(instance);
+        } catch (IOException ex) {
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            o.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            f.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
 
-class Hotkey
+class Hotkey implements Serializable
 {
-    private Ctrl ctrl;
-    private Key key;
-    private Task task;
+    public Ctrl ctrl;
+    public Key key;
+    public Task task;
     private boolean onlyWhenFrameActive;
     
     
@@ -112,7 +210,7 @@ enum Key
     C(67),
     D(68),
     E(69),
-    F(70),
+    F(70), 
     G(71),
     H(72),
     I(73),
@@ -146,15 +244,28 @@ enum Key
     private Key(int keycode)
     {
         this.keycode = keycode;
-        this.pretty = this.toString();
+        this.pretty = this.name();
+    }
+    
+    @Override
+    public String toString()
+    {
+        return this.pretty;
     }
 }
 
 enum Task
 {
-    SAVE_FILTER,
-    RUN_FILTER,
-    FOCUS_WINDOW,
-    NEW_FILTER,
-    OPEN_FILTER
+    SAVE_FILTER("Save filter"),
+    RUN_FILTER("Run/stop filter (Global hotkey)"),
+    FOCUS_WINDOW("Bring window to focus/front (Global hotkey)"),
+    NEW_FILTER("Create new filter"),
+    OPEN_FILTER("Open an existing filter");
+    
+    public final String pretty;
+    
+    private Task(String pretty)
+    {
+        this.pretty = pretty;
+    }
 }
