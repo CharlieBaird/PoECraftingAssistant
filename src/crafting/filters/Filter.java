@@ -300,6 +300,8 @@ public class Filter implements Serializable {
     
     public static boolean verify()
     {
+        if (singleton.filters.isEmpty()) return false;
+        
         for (Subfilter f : singleton.filters)
         {
             for (FilterBase fb : f.filters)

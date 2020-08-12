@@ -75,6 +75,7 @@ public class Main extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jPanel16 = new javax.swing.JPanel();
         jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -342,8 +343,8 @@ public class Main extends javax.swing.JFrame {
         jButton11.setBackground(new java.awt.Color(127, 3, 3));
         jButton11.setFont(getNewFont(12f));
         jButton11.setForeground(new java.awt.Color(255, 255, 255));
-        jButton11.setText("Console");
-        jButton11.setToolTipText("Open console");
+        jButton11.setText("Hotkeys");
+        jButton11.setToolTipText("Configure hotkeys");
         jButton11.setContentAreaFilled(false);
         jButton11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton11.setFocusable(false);
@@ -356,6 +357,24 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jPanel16.add(jButton11);
+
+        jButton12.setBackground(new java.awt.Color(127, 3, 3));
+        jButton12.setFont(getNewFont(12f));
+        jButton12.setForeground(new java.awt.Color(255, 255, 255));
+        jButton12.setText("Console");
+        jButton12.setToolTipText("Open console");
+        jButton12.setContentAreaFilled(false);
+        jButton12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton12.setFocusable(false);
+        jButton12.setMinimumSize(new java.awt.Dimension(100, 32));
+        jButton12.setPreferredSize(new java.awt.Dimension(100, 32));
+        jButton12.setRequestFocusEnabled(false);
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+        jPanel16.add(jButton12);
 
         jPanel10.add(jPanel16, java.awt.BorderLayout.EAST);
 
@@ -716,8 +735,12 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2MousePressed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        Console.open();
+        
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        Console.open();
+    }//GEN-LAST:event_jButton12ActionPerformed
 
     public void updateLeftTab()
     {
@@ -743,6 +766,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -989,5 +1013,10 @@ public class Main extends javax.swing.JFrame {
     public static void setChaosIcon(URL path)
     {
         mainFrame.jButton2.setIcon(new javax.swing.ImageIcon(path)); // NOI18N
+    }
+    
+    public static boolean isFocus()
+    {
+        return mainFrame.isActive() && mainFrame.isFocused();
     }
 }

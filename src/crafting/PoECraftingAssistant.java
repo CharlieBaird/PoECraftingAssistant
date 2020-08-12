@@ -3,6 +3,8 @@ package crafting;
 import crafting.UI.console.Console;
 import crafting.filters.Filter;
 import crafting.UI.Main;
+import crafting.UI.hotkeys.Ctrl;
+import crafting.UI.hotkeys.HotkeyConfig;
 import static crafting.Utility.*;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -207,8 +209,6 @@ public class PoECraftingAssistant {
                 JOptionPane.showMessageDialog(Main.mainFrame, "The item did not hit the filter.", "Failure", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
-            
     }
     
     
@@ -223,9 +223,11 @@ public class PoECraftingAssistant {
             hotkeyHook.addKeyListener(new GlobalKeyAdapter() {
                 @Override 
                 public void keyPressed(GlobalKeyEvent event) {
-                    if (event.getKeyChar()=='1' && event.isControlPressed()) {
-                        runChaosSpam(Main.mainFrame);
-                    }
+                    Ctrl ctrl = null;
+                    if (event.isControlPressed()) ctrl = Ctrl.CTRL;
+                    else if (event.isShiftPressed()) ctrl = Ctrl.SHIFT;
+                    
+                    HotkeyConfig.instance.checkHotkeys(ctrl, event);
                 }
 			
                 @Override 
