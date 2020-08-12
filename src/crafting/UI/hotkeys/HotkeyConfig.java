@@ -2,6 +2,7 @@ package crafting.UI.hotkeys;
 
 import static crafting.PoECraftingAssistant.runChaosSpam;
 import crafting.UI.Main;
+import crafting.UI.console.Console;
 import crafting.Utility;
 import crafting.filters.Filter;
 import java.awt.Frame;
@@ -107,7 +108,9 @@ public class HotkeyConfig implements Serializable {
         try {
             instance = (HotkeyConfig) oi.readObject();
         } catch (ClassNotFoundException | InvalidClassException ex) {
+            Console.loadingFrame.setAlwaysOnTop(false);
             JOptionPane.showMessageDialog(Main.mainFrame, "The hotkey configuration file could not be loaded. It has been\nautomatically recreated. You will have to reconfigure the hotkeys. Sorry!", "Error", JOptionPane.ERROR_MESSAGE);
+            Console.loadingFrame.setAlwaysOnTop(true);
             hotkeysFile.delete();
             save();
             load();

@@ -40,8 +40,24 @@ public class HotkeyEditor {
             Object ctrlComboBox = editor.message[i+1];
             Object keyComboBox = editor.message[i+2];
             Hotkey hotkey = HotkeyConfig.instance.hotkeys.get(i/3);
-            hotkey.ctrl = (Ctrl) ((JComboBox) ctrlComboBox).getSelectedItem();
-            hotkey.key = (Key) ((JComboBox) keyComboBox).getSelectedItem();
+            Ctrl newCtrl = (Ctrl) ((JComboBox) ctrlComboBox).getSelectedItem();
+            Key newKey = (Key) ((JComboBox) keyComboBox).getSelectedItem();
+            boolean skip = false;
+            for (int j=0; j<HotkeyConfig.instance.hotkeys.size(); j++)
+            {
+                if (i/3 == j)
+                    continue;
+                
+                Hotkey hk = HotkeyConfig.instance.hotkeys.get(j);
+                if (newCtrl == hk.ctrl && newKey == hk.key)
+                {
+                    skip = true;
+                    JOptionPane.showMessageDialog(Main.mainFrame, "A hotkey is a duplicate of another hotkey", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            if (skip) continue;
+            hotkey.ctrl = newCtrl;
+            hotkey.key = newKey;
         }
         
         HotkeyConfig.save();

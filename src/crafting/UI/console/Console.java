@@ -11,7 +11,7 @@ import javax.swing.text.StyledDocument;
 
 public class Console extends JFrame {
     
-    private static Console loadingFrame;
+    public static Console loadingFrame;
     public static StyledDocument doc;
     
     public static void launch()

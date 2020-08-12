@@ -3,6 +3,7 @@ package crafting;
 import crafting.filters.Filter;
 import crafting.UI.Main;
 import crafting.UI.NumFieldKeyListener;
+import crafting.UI.console.Console;
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -52,7 +53,9 @@ public class Settings implements Serializable {
         try {
             singleton = (Settings) oi.readObject();
         } catch (ClassNotFoundException | InvalidClassException ex) {
+            Console.loadingFrame.setAlwaysOnTop(false);
             JOptionPane.showMessageDialog(Main.mainFrame, "The settings configuration file could not be loaded. It has been\nautomatically recreated. You will have to reconfigure your settings. Sorry!", "Error", JOptionPane.ERROR_MESSAGE);
+            Console.loadingFrame.setAlwaysOnTop(true);
             settingsFile.delete();
             save();
             load();
