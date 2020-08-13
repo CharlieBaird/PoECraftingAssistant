@@ -6,6 +6,8 @@ import crafting.UI.Main;
 import crafting.UI.hotkeys.Ctrl;
 import crafting.UI.hotkeys.HotkeyConfig;
 import static crafting.Utility.*;
+import crafting.update.Release;
+import crafting.update.UpdateCheck;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -28,6 +30,8 @@ import poeitem.ModifierLoader;
 public class PoECraftingAssistant {
     
     public static boolean debug = false;
+    
+    private static final Release RELEASE = new Release("1.0.1");
     
     public static void main(String[] args)
     {
@@ -59,6 +63,16 @@ public class PoECraftingAssistant {
         
         System.out.println("> Loading Hotkeys... <");
         HotkeyConfig.load();
+        System.out.println("> Finished! <");
+        
+        System.out.println();
+        
+        System.out.println("> Checking for updates... <");
+        Release release = UpdateCheck.checkForNewRelease();
+        int comp = release.compareTo(RELEASE);
+        if (comp < 0) System.out.println("You have a newer release than the latest release.");
+        else if (comp > 0) System.out.println("There is a new version available! Version " + release.toString() + " can now be downloaded at https://github.com/CharlieBaird/PoECraftingAssistant/releases");
+        if (comp == 0) System.out.println("You are up to date with the latest release.");
         System.out.println("> Finished! <");
         
         System.out.println();
