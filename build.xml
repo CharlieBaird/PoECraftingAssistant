@@ -71,7 +71,7 @@
 
     -->
     
-    <target name="package-for-store" depends="jar">
+    <target name="-post-jar">
         <property name="store.jar.name" value="PoECraftingAssistant"/>
         <property name="store.dir" value="store"/>
         <property name="store.jar" value="${store.dir}/${store.jar.name}.jar"/>
@@ -90,6 +90,12 @@
             excludes="META-INF/*.SF, META-INF/*.DSA, META-INF/*.RSA"/>
         </zip>
         <delete file="${store.dir}/temp_final.jar"/>
+        
+        <echo message="Building folders by running script"/>
+        <exec executable="cmd">
+            <arg value="/c"/>
+            <arg value="genrelease.cmd"/>
+        </exec>
     </target>
     
 </project>
