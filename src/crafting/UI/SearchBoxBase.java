@@ -83,7 +83,8 @@ public class SearchBoxBase extends JComboBox {
         return str1.toUpperCase().contains(str2.toUpperCase());
     }
     
-    protected void itemUpdate(ItemEvent event) {}
+    protected void itemUpdate(ItemEvent event) {
+    }
     
     public void reset()
     {
@@ -195,6 +196,6 @@ class IL_SelectionListener implements ItemListener
     
     public void itemStateChanged(ItemEvent event)
     {
-       owner.itemUpdate(event);
+        owner.itemUpdate(event);
     }
 }

@@ -613,7 +613,6 @@ public class Main extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Filter. Filters from previous PoE Crafting Assistant\nversions cannot be opened.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
             Filter.saveFilters();
             Filter.reset_openFilter();
             updateLeftTab();

@@ -54,6 +54,21 @@ public class ItemType extends JPanel {
         put ("Warstaff", Base.WARSTAFF);
         put ("Map", Base.MAP);
     }};
+    
+    public static String getKey(Base base)
+    {
+        Object[] keys = BaseTypes.keySet().toArray();
+        
+        for (int i=0; i<BaseTypes.size(); i++)
+        {
+            if (BaseTypes.get((String) keys[i]) == base)
+            {
+                return (String) keys[i];
+            }
+        }
+        
+        return null;
+    }
         
     public ItemType()
     {
@@ -67,7 +82,7 @@ public class ItemType extends JPanel {
     }
 
     public void updateFromFilter() {
-        this.baseComboBox.setSelectedIndex(Filter.singleton.SelectedBaseIndex);
+        this.baseComboBox.setSelectedItem(ItemType.getKey(Filter.singleton.SelectedBase));
     }
 }
 

@@ -39,7 +39,6 @@ public class Filter implements Serializable {
     public static Filter singleton = new Filter(false);
     
     public Base SelectedBase = null;
-    public int SelectedBaseIndex = -1;
     public int SelectedItemLevel = 86;
     public int SelectedItemLevelIndex = 0;
     public boolean shaper = false;
@@ -218,8 +217,6 @@ public class Filter implements Serializable {
     
     public static Filter loadFilters(String path)
     {
-        singleton.filters.clear();
-        
         FileInputStream fi = null;
         try {
             fi = new FileInputStream(new File(path));

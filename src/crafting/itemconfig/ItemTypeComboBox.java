@@ -46,7 +46,8 @@ public class ItemTypeComboBox extends SearchBoxBase
     {
         System.out.println("Reshowing with " + ItemType.BaseTypes.get((String) getSelectedItem()));
         Filter.singleton.SelectedBase = ItemType.BaseTypes.get((String) getSelectedItem());
-        Filter.singleton.SelectedBaseIndex = getSelectedIndex();
+//        System.out.println("Index" + getSelectedIndex());
+//        Filter.singleton.SelectedBaseIndex = getSelectedIndex();
         FilterTypePanel.reshow();
     }
     

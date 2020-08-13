@@ -59,7 +59,7 @@ public class ItemConfigPanel extends JPanel {
     }
 
     public void updateFromFilter() {
-        itemType.baseComboBox.setSelectedIndex(Filter.singleton.SelectedBaseIndex);
+        itemType.baseComboBox.setSelectedItem(ItemType.getKey(Filter.singleton.SelectedBase));
         shaper.influenceCheckBox.setSelected(Filter.singleton.shaper);
         elder.influenceCheckBox.setSelected(Filter.singleton.elder);
         hunter.influenceCheckBox.setSelected(Filter.singleton.hunter);
