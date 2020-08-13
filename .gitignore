@@ -31,6 +31,7 @@ hs_err_pid*
 **/nbproject/Makefile-*.mk
 **/nbproject/Package-*.bash
 PoECraftingAssistant/
+PoECraftingAssistant_Test/
 PoECraftingAssistant.jar
 build/
 build/build-jar.properties
