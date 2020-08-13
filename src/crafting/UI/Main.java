@@ -27,6 +27,8 @@ import java.awt.event.WindowFocusListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -75,6 +77,7 @@ public class Main extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jPanel16 = new javax.swing.JPanel();
+        jButton13 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
@@ -340,6 +343,24 @@ public class Main extends javax.swing.JFrame {
         jPanel16.setBackground(new java.awt.Color(88, 0, 0));
         jPanel16.setPreferredSize(new java.awt.Dimension(400, 40));
         jPanel16.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        jButton13.setBackground(new java.awt.Color(127, 3, 3));
+        jButton13.setFont(getNewFont(12f));
+        jButton13.setForeground(new java.awt.Color(255, 255, 255));
+        jButton13.setText("Wiki");
+        jButton13.setToolTipText("Open the wiki");
+        jButton13.setContentAreaFilled(false);
+        jButton13.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton13.setFocusable(false);
+        jButton13.setMinimumSize(new java.awt.Dimension(100, 32));
+        jButton13.setPreferredSize(new java.awt.Dimension(100, 32));
+        jButton13.setRequestFocusEnabled(false);
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+        jPanel16.add(jButton13);
 
         jButton11.setBackground(new java.awt.Color(127, 3, 3));
         jButton11.setFont(getNewFont(12f));
@@ -755,6 +776,17 @@ public class Main extends javax.swing.JFrame {
         Console.open();
     }//GEN-LAST:event_jButton12ActionPerformed
 
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE))
+        {
+            try {
+                Desktop.getDesktop().browse(new URI("https://github.com/CharlieBaird/PoECraftingAssistant/wiki"));
+            } catch (URISyntaxException | IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton13ActionPerformed
+
     public void updateLeftTab()
     {
         jTextField1.setText(Filter.getName());
@@ -767,10 +799,6 @@ public class Main extends javax.swing.JFrame {
             genPanel(f);
         }
     }
-    
-    /**
-     * @param args the command line arguments
-     */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ChangeFilterPanel;
@@ -780,6 +808,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

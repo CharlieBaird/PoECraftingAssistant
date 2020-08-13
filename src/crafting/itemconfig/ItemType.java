@@ -52,6 +52,7 @@ public class ItemType extends JPanel {
         put ("Viridian Jewel", Base.VIRIDIAN_JEWEL);
         put ("Wand", Base.WAND);
         put ("Warstaff", Base.WARSTAFF);
+        put ("Map", Base.MAP);
     }};
         
     public ItemType()
