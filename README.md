@@ -4,6 +4,8 @@ A lightweight and intuitive crafting assistant for Path of Exile. This tool was 
 
 The Crafting Assistant comes with a UI to assist users in creating filters. This program is entirely standalone, and does not come with an installer. It runs off of a single .jar file, using resources that come in the downloaded folder. Currently it is only tested and functional on Windows 10. Support for  other platforms may come in the future.
 
+![Image](https://i.imgur.com/QSLlMso.jpg)
+
 # Getting Started
 
 ## Download
