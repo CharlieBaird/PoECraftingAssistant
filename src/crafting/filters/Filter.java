@@ -154,8 +154,6 @@ public class Filter implements Serializable {
             return false;
         }
         
-        item.print();
-        
         return hitFilters(item, singleton);
     }
     
