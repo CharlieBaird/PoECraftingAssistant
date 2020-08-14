@@ -2,7 +2,7 @@ package crafting.filtertypes.logicgroups;
 
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
-import crafting.Item;
+import poeitem.PoEItem;
 import poeitem.Modifier;
 
 public class Count extends FilterBase {
@@ -16,7 +16,7 @@ public class Count extends FilterBase {
         this.neededMax = neededMax;
     }
     
-    public boolean hit(Item item)
+    public boolean hit(PoEItem item)
     {
         int numHit = 0;
         int goal = this.mods.size();

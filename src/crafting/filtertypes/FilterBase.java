@@ -5,9 +5,9 @@
  */
 package crafting.filtertypes;
 
-import crafting.Item;
 import java.io.Serializable;
 import java.util.ArrayList;
+import poeitem.PoEItem;
 
 public class FilterBase implements IFilter, Serializable {
     
@@ -26,7 +26,7 @@ public class FilterBase implements IFilter, Serializable {
         }
     }
     
-    public boolean hit (Item item)
+    public boolean hit (PoEItem item)
     {
         return true;
     }

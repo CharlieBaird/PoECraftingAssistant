@@ -7,7 +7,7 @@ package crafting.filtertypes.logicgroups;
 
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
-import crafting.Item;
+import poeitem.PoEItem;
 import poeitem.Modifier;
 
 public class And extends FilterBase {
@@ -16,7 +16,7 @@ public class And extends FilterBase {
         super(mods);
     }
     
-    public boolean hit(Item item)
+    public boolean hit(PoEItem item)
     {
         
         int numHit = 0;

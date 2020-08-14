@@ -248,28 +248,13 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
         if (value instanceof Modifier)
         {
             Modifier mod = (Modifier) value;
-            
-//            switch (mod.getModGenerationTypeID())
-//            {
-//                case 1: text.insert(0, "P | "); break;
-//                case 2: text.insert(0, "S | "); break;
-//            }
-            
-            if (mod.isInfluenced)
-            {
-//                text.append(" | ").append(mod.influence.friendly);
-                setIcon(iconMap.get(mod.influence));
-            }
-            else
-            {
-                setIcon(iconMap.get(Influence.NORMAL));
-            }
+            setIcon(iconMap.get(mod.influence));
         }
         
-        text.insert(0, "<html>");
-        text.insert(text.length(), "</html>");
+        text.insert(0, "<html><p style=\"" + getParagraphStyle() + "\">");
+        text.insert(text.length(), "</p></html>");
         
-        setText(text.toString());
+        setText(text.toString().replaceAll("\n", " | "));
         
         if (isSelected)
         {
@@ -281,6 +266,16 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
         }
         
         return this;
+    }
+    
+    private String getParagraphStyle()
+    {
+        StringBuilder sb = new StringBuilder(100);
+	sb.append("word-wrap: break-word;");
+	sb.append("width: ");
+	sb.append((int) owner.getWidth()*0.7);
+	sb.append("px;");
+	return sb.toString();
     }
 }
 
@@ -455,22 +450,14 @@ class ModClickListenerSJB implements FocusListener
     @Override
     public void focusLost(FocusEvent e)
     {        
-        owner.allSelected = false;
-        String content = ((JTextField) owner.getEditor().getEditorComponent()).getText();
-        
-        for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
-            Modifier m = (Modifier) owner.defaultmodel.getElementAt(i);
-            if (content.equals(m.getStr()))
-            {
-                Filter.saveFilters();
-                return;
-            }
+        if (owner.parent.assocMod == null)
+        {
+            ((JTextField) owner.getEditor().getEditorComponent()).setText("New Modifier");
+            ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
+            owner.entry = "";
+            owner.update(null, true);
         }
         
-        ((JTextField) owner.getEditor().getEditorComponent()).setText("New Modifier");
-        ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
-        owner.entry = "";
-        owner.update(null, true);
         Filter.saveFilters();
     }
 }
@@ -486,23 +473,20 @@ class ModSelectionListener implements ItemListener
     }
     
     public void itemStateChanged(ItemEvent event)
-    {        
+    {                
         if (event.getStateChange() != ItemEvent.SELECTED) {
             return;
         }
         
         try {
             Modifier selected = (Modifier) event.getItem();
-            if (event.getStateChange() == ItemEvent.SELECTED)
+            if (selected != null)
             {
-                if (selected != null)
-                {
-                    owner.update(selected, true);
-                    Filter.saveFilters();
-                }
+                owner.update(selected, true);
+                Filter.saveFilters();
             }
         } catch (ClassCastException e) {
-            
+            owner.update(null, true);
         } finally {
             ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
             Filter.saveFilters();

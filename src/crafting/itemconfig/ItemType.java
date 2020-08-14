@@ -53,6 +53,7 @@ public class ItemType extends JPanel {
         put ("Wand", Base.WAND);
         put ("Warstaff", Base.WARSTAFF);
         put ("Map", Base.MAP);
+        put ("Watchstone", Base.WATCHSTONE);
     }};
     
     public static String getKey(Base base)

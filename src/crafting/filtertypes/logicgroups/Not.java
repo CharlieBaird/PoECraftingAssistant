@@ -8,7 +8,7 @@ package crafting.filtertypes.logicgroups;
 import poeitem.Modifier;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
-import crafting.Item;
+import poeitem.PoEItem;
 
 public class Not extends FilterBase {
     public Not(Mod... mods)
@@ -16,7 +16,7 @@ public class Not extends FilterBase {
         super(mods);
     }
     
-    public boolean hit(Item item)
+    public boolean hit(PoEItem item)
     {
 //        item.print();
         

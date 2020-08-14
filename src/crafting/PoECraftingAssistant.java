@@ -211,7 +211,7 @@ public class PoECraftingAssistant {
             return;
         }
         
-        Filter.print();
+//        Filter.print();
         
 //        Filter.prepItemLoad();
         

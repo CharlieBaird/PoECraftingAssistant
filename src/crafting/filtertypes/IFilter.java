@@ -5,11 +5,12 @@
  */
 package crafting.filtertypes;
 
-import crafting.Item;
+import poeitem.PoEItem;
+
 
 
 public interface IFilter {
-    public boolean hit(Item item);
+    public boolean hit(PoEItem item);
     
     public void print();
     

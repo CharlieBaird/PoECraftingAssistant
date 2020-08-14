@@ -48,8 +48,8 @@ public class Console extends JFrame {
         ta.setForeground(Color.WHITE);
         TextAreaOutputStream taos = new TextAreaOutputStream( ta, 60 );
         PrintStream ps = new PrintStream( taos );
-        System.setOut( ps );
-        System.setErr( ps );
+//        System.setOut( ps );
+//        System.setErr( ps );
 
 
         add( new JScrollPane( ta )  );

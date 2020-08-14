@@ -1,6 +1,5 @@
 package crafting.filters;
 
-import crafting.Item;
 import crafting.PoECraftingAssistant;
 import crafting.UI.Main;
 import crafting.Utility;
@@ -24,6 +23,7 @@ import javax.swing.JOptionPane;
 import poeitem.Base;
 import poeitem.BaseItem;
 import poeitem.Modifier;
+import poeitem.PoEItem;
 
 public class Filter implements Serializable {
     
@@ -139,10 +139,11 @@ public class Filter implements Serializable {
         {
             mods = testMods;
         }
-        Item item = Item.createItem(mods);
+        PoEItem item = PoEItem.createItem(mods);
         
         if (item == null)
         {
+            System.out.println("null");
             return false;
         }
         
@@ -153,14 +154,41 @@ public class Filter implements Serializable {
             return false;
         }
         
-        return item.hitFilters(singleton);
+        item.print();
+        
+        return hitFilters(item, singleton);
+    }
+    
+    public static boolean hitFilters(PoEItem item, Filter filters)
+    {
+        for (Subfilter f : filters.filters)
+        {
+            if (hitFilter(item, f))
+                return true;
+        }
+        
+        return false;
+    }
+    
+    private static boolean hitFilter(PoEItem item, Subfilter f)
+    {
+        int goal = f.filters.size();
+        int numhit = 0;
+            
+        for (FilterBase fb : f.filters)
+        {
+            if (fb.hit(item)) numhit++;
+        }
+        
+        if (numhit >= goal) return true;
+        return false;
     }
     
     public static void prepItemLoad()
     {
         for (int i=0; i<5; i++)
             {
-            Item loadCode = Item.createItem
+            PoEItem loadCode = PoEItem.createItem
             (
                 "Rarity: Rare\n" +
                 "Woe Sanctuary\n" +
@@ -191,7 +219,7 @@ public class Filter implements Serializable {
                 "Elder Item\n" +
                 "Crusader Item"
             );
-            loadCode.hitFilters(singleton);;
+            hitFilters(loadCode, singleton);
         }
     }
     
