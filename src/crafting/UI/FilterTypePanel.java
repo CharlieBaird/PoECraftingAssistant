@@ -175,6 +175,7 @@ public class FilterTypePanel extends JPanel {
             mp.setSize(mpsize);
             mp.setMaximumSize(mpsize);
             mp.setPreferredSize(mpsize);
+            mp.updateMCBSize();
         }
         
         if (!filterbase.UIVisible)

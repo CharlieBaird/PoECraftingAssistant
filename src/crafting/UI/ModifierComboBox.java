@@ -426,7 +426,9 @@ class ModClickListenerSJB implements FocusListener
 
     @Override
     public void focusGained(FocusEvent e)
-    {
+    {        
+        System.out.println(owner.getWidth());
+
         if (Filter.singleton.SelectedBase == null || Filter.singleton.SelectedItemLevel == 0) {
             Main.mainFrame.requestFocusInWindow();
             JOptionPane.showMessageDialog(Main.mainFrame, "Please select an item base", "Error", JOptionPane.ERROR_MESSAGE);

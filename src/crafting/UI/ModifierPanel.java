@@ -88,8 +88,8 @@ public class ModifierPanel extends JPanel {
         
         CloseMPButton cb = new CloseMPButton(this);
         mcb = showSearchBox(mod, assocMod, searchBox);
-        mcb.setPreferredSize(new Dimension(500,20));
-        mcb.setMaximumSize(new Dimension(500,20));
+        mcb.setPreferredSize(new Dimension(this.getWidth(), 20));
+        mcb.setMaximumSize(new Dimension(this.getWidth(), 20));
         ((JTextField) mcb.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
         ((JLabel) mcb.getRenderer()).setFont(Main.mainFrame.getNewFont(12));
         min = new MPMinMax(this, String.valueOf(mod.ID.min), true);
@@ -118,6 +118,12 @@ public class ModifierPanel extends JPanel {
         mod.assocModifierPanel = this;
         
         Filter.saveFilters();
+    }
+    
+    public void updateMCBSize()
+    {
+        this.mcb.setPreferredSize(new Dimension(this.getWidth(), 20));
+        this.mcb.setMaximumSize(new Dimension(this.getWidth(), 20));
     }
     
     public ModifierComboBox showSearchBox(Mod mod, Modifier aMod, ModifierComboBox searchBox)
