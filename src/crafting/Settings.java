@@ -54,9 +54,9 @@ public class Settings implements Serializable {
         try {
             singleton = (Settings) oi.readObject();
         } catch (ClassNotFoundException | InvalidClassException ex) {
-//            Console.loadingFrame.setAlwaysOnTop(false);
+            if (Console.loadingFrame != null) Console.loadingFrame.setAlwaysOnTop(false);
             JOptionPane.showMessageDialog(Main.mainFrame, "The settings configuration file could not be loaded. It has been\nautomatically recreated. You will have to reconfigure your settings. Sorry!", "Error", JOptionPane.ERROR_MESSAGE);
-//            Console.loadingFrame.setAlwaysOnTop(true);
+            if (Console.loadingFrame != null) Console.loadingFrame.setAlwaysOnTop(true);
             settingsFile.delete();
             save();
             load();
@@ -114,10 +114,8 @@ public class Settings implements Serializable {
     public String pathToSound = Utility.getResourcesPath() + "/src/resources/HitSFX1.wav";
     public int volume = 80;
     public int ctrlKey = KeyEvent.VK_CONTROL; // left control
-//    public boolean invertTool = false;
     public boolean showPopup = true;
     public boolean disableOnHit = true;
-    public boolean disableOnFocus = false;
     public String pastebinKey = "";
     
     public void OpenSettings()
@@ -146,20 +144,11 @@ public class Settings implements Serializable {
         volumeField.setText(String.valueOf(Settings.singleton.volume));
         volumeField.addKeyListener(new NumFieldKeyListener(false));
         
-//        JCheckBox useAltGr = new JCheckBox();
-//        useAltGr.setSelected(ctrlKey != KeyEvent.VK_CONTROL);
-
-//        JCheckBox invertToolBox = new JCheckBox();
-//        invertToolBox.setSelected(invertTool);
-        
         JCheckBox showPopupBox = new JCheckBox();
         showPopupBox.setSelected(showPopup);
         
         JCheckBox disableOnHitBox = new JCheckBox();
         disableOnHitBox.setSelected(disableOnHit);
-        
-        JCheckBox disableOnFocusBox = new JCheckBox();
-        disableOnFocusBox.setSelected(disableOnFocus);
         
         JTextField pastebinKeyField = new JTextField();
         pastebinKeyField.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
@@ -171,10 +160,7 @@ public class Settings implements Serializable {
             "Delay after left click to run Ctrl+C:", delayField,
             "Sound to play on filter hit:", pathToSoundField,
             "Volume: (0-100)", volumeField,
-//            "Invert tool to ping on not hitting the filter", invertToolBox,
-            "Disable tool on window focus", disableOnFocusBox,
-//            "Use \"AltGr\" instead of \"Ctrl\" (For non-UK/American keyboards)", useAltGr
-            "Pastebin developer key for importing/exporting filters", pastebinKeyField
+            "Pastebin developer key for exporting filters", pastebinKeyField
         };
 
         int n = JOptionPane.showConfirmDialog(Main.mainFrame, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
@@ -188,14 +174,7 @@ public class Settings implements Serializable {
                 Settings.singleton.volume = Integer.valueOf(volumeField.getText());
             else
                 Settings.singleton.volume = 80;
-//            Settings.singleton.invertTool = invertToolBox.isSelected();
-            Settings.singleton.disableOnFocus = disableOnFocusBox.isSelected();
             Settings.singleton.pastebinKey = pastebinKeyField.getText();
-            
-//            if (useAltGr.isSelected())
-//                Settings.singleton.ctrlKey = KeyEvent.ctrl
-//            else
-//                Settings.singleton.ctrlKey = KeyEvent.VK_CONTROL;
 
             Settings.save();
             Main.mainFrame.updateImportExport(Settings.singleton.pastebinKey);

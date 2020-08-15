@@ -1,7 +1,9 @@
 package crafting.filters;
 
 import crafting.PoECraftingAssistant;
+import crafting.UI.FilterNamePanel;
 import crafting.UI.Main;
+import crafting.UI.ModifierPanel;
 import crafting.utility.Utility;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
@@ -19,6 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import poeitem.Base;
 import poeitem.BaseItem;
@@ -28,6 +31,38 @@ import poeitem.PoEItem;
 public class Filter implements Serializable {
     
     public static String testMods = null;
+
+    public static void createNewFilter()
+    {   
+        String name = (String)JOptionPane.showInputDialog(
+            Main.mainFrame,
+            "Enter the New Filter's Name",
+            "PoE Crafting Assistant",
+            JOptionPane.PLAIN_MESSAGE,
+            null,
+            null,
+            "New Filter");
+
+        if (name != null && !name.equals(""))
+        {
+            saveFilters();
+
+            reset_newFilter();
+
+            for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
+            {
+                FilterNamePanel.filterpanels.get(i).remove();
+            }
+
+            FilterNamePanel.filterpanels.clear();
+
+
+            Filter.singleton.setName(name);
+            Filter.saveFilters();
+
+            Main.mainFrame.onCreateNewFilter(name);
+        }
+    }
     
     private String name = "";
 
@@ -56,6 +91,69 @@ public class Filter implements Serializable {
     public Filter(boolean x)
     {
         filters.clear();
+    }
+    
+    public static void openFilter()
+    {
+        JFileChooser chooser = new JFileChooser(Utility.getResourcesPath() + "/src/resources/filters");
+        if (chooser.showOpenDialog(Main.mainFrame) == JFileChooser.APPROVE_OPTION) {
+            File file = chooser.getSelectedFile();
+            String path = file.toPath().toString();
+            
+            Filter loaded = null;
+            loaded = Filter.loadFilters(path);
+            openFilter(loaded);
+            return;
+        }
+        
+        for (FilterNamePanel fnp : FilterNamePanel.filterpanels)
+        {
+            if (fnp.active)
+            {
+                fnp.open();
+            }
+        }
+    }
+    
+    public static void openFilter(Filter loaded)
+    {
+        if (loaded == null) // Errored, wrong serial ID
+        {
+            JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Filter. Filters from previous PoE Crafting Assistant\nversions cannot be opened.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Filter.saveFilters();
+        Filter.reset_openFilter();
+        Main.mainFrame.updateLeftTab();
+
+        for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
+        {
+            FilterNamePanel.filterpanels.get(i).remove();
+        }
+
+        FilterNamePanel.filterpanels.clear();
+
+        Filter.singleton = loaded;
+
+        Main.mainFrame.updateLeftTab();
+        Main.mainFrame.itemConfigPanel.updateFromFilter();
+
+        if (FilterNamePanel.filterpanels.size() >= 1)
+        {
+            FilterNamePanel.filterpanels.get(0).open();
+        }
+
+        Main.mainFrame.onOpenFilter();
+
+        ModifierPanel.updateTierViews();
+        
+        for (FilterNamePanel fnp : FilterNamePanel.filterpanels)
+        {
+            if (fnp.active)
+            {
+                fnp.open();
+            }
+        }
     }
     
     public void remove(String name)

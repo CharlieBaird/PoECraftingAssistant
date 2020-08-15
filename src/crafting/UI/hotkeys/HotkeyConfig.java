@@ -78,10 +78,10 @@ public class HotkeyConfig implements Serializable {
                 Main.mainFrame.repaint();
                 break;
             case NEW_FILTER:
-                Main.mainFrame.createNewFilter();
+                Filter.createNewFilter();
                 break;
             case OPEN_FILTER:
-                Main.mainFrame.openFilter();
+                Filter.openFilter();
                 break;
         }
     }
