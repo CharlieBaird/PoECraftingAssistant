@@ -1,5 +1,6 @@
-package crafting;
+package crafting.persistence;
 
+import crafting.PoECraftingAssistant;
 import crafting.utility.Utility;
 import crafting.filters.Filter;
 import crafting.UI.Main;

@@ -7,6 +7,7 @@ import crafting.UI.ModifierPanel;
 import crafting.utility.Utility;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
+import crafting.persistence.FilterPersistence;
 import java.awt.AWTException;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
@@ -45,7 +46,9 @@ public class Filter implements Serializable {
 
         if (name != null && !name.equals(""))
         {
-            saveFilters();
+            
+            
+            FilterPersistence.saveFilters();
 
             reset_newFilter();
 
@@ -58,13 +61,13 @@ public class Filter implements Serializable {
 
 
             Filter.singleton.setName(name);
-            Filter.saveFilters();
+            FilterPersistence.saveFilters();
 
             Main.mainFrame.onCreateNewFilter(name);
         }
     }
     
-    private String name = "";
+    public String name = "";
 
     public void setName(String name) {
         this.name = name;
@@ -91,69 +94,6 @@ public class Filter implements Serializable {
     public Filter(boolean x)
     {
         filters.clear();
-    }
-    
-    public static void openFilter()
-    {
-        JFileChooser chooser = new JFileChooser(Utility.getResourcesPath() + "/src/resources/filters");
-        if (chooser.showOpenDialog(Main.mainFrame) == JFileChooser.APPROVE_OPTION) {
-            File file = chooser.getSelectedFile();
-            String path = file.toPath().toString();
-            
-            Filter loaded = null;
-            loaded = Filter.loadFilters(path);
-            openFilter(loaded);
-            return;
-        }
-        
-        for (FilterNamePanel fnp : FilterNamePanel.filterpanels)
-        {
-            if (fnp.active)
-            {
-                fnp.open();
-            }
-        }
-    }
-    
-    public static void openFilter(Filter loaded)
-    {
-        if (loaded == null) // Errored, wrong serial ID
-        {
-            JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Filter. Filters from previous PoE Crafting Assistant\nversions cannot be opened.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        Filter.saveFilters();
-        Filter.reset_openFilter();
-        Main.mainFrame.updateLeftTab();
-
-        for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
-        {
-            FilterNamePanel.filterpanels.get(i).remove();
-        }
-
-        FilterNamePanel.filterpanels.clear();
-
-        Filter.singleton = loaded;
-
-        Main.mainFrame.updateLeftTab();
-        Main.mainFrame.itemConfigPanel.updateFromFilter();
-
-        if (FilterNamePanel.filterpanels.size() >= 1)
-        {
-            FilterNamePanel.filterpanels.get(0).open();
-        }
-
-        Main.mainFrame.onOpenFilter();
-
-        ModifierPanel.updateTierViews();
-        
-        for (FilterNamePanel fnp : FilterNamePanel.filterpanels)
-        {
-            if (fnp.active)
-            {
-                fnp.open();
-            }
-        }
     }
     
     public void remove(String name)
@@ -342,86 +282,6 @@ public class Filter implements Serializable {
             str += f.view() + "\n";
         }
         return str;
-    }
-    
-    public static Filter loadFilters(String path)
-    {
-        FileInputStream fi = null;
-        try {
-            fi = new FileInputStream(new File(path));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        ObjectInputStream oi = null;
-        try {
-            oi = new ObjectInputStream(fi);
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Filter input = null;
-        try {
-            input = (Filter) oi.readObject();
-        } catch (InvalidClassException | ClassNotFoundException ex) {
-            return null;
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-                
-        try {
-            fi.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            oi.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return input;
-    }
-    
-    public static void saveFilters()
-    {
-        
-        if (singleton.name.equals("") || singleton.name == null)
-            return;
-        
-        FileOutputStream f = null;
-        try {
-            f = new FileOutputStream(new File(Utility.getResourcesPath() + "/src/resources/filters" + "/" + singleton.name + ".cbfilter"));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        ObjectOutputStream o = null;
-        try {
-            o = new ObjectOutputStream(f);
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try {
-            // Write objects to file
-            o.writeObject(singleton);
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try {
-            o.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            f.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public static void deleteFilters(String name)
-    {
-        File f = new File(Utility.getResourcesPath() + "/src/resources/filters" + "/" + name + ".cbfilter");
-        f.delete();
     }
     
     public static boolean verify()

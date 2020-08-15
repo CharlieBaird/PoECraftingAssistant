@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import poeitem.Base;
 import poeitem.BaseItem;
 import poeitem.ModifierTier;
+import crafting.persistence.FilterPersistence;
 
 public class ModifierPanel extends JPanel {
      
@@ -117,7 +118,7 @@ public class ModifierPanel extends JPanel {
         parent.add(this);
         mod.assocModifierPanel = this;
         
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
     }
     
     public void updateMCBSize()
@@ -381,7 +382,7 @@ class CloseMPButton extends JButton {
                 FilterTypePanel.reshow();
                 parent.setVisible(false);
         
-                Filter.saveFilters();
+                FilterPersistence.saveFilters();
             }
         };
         addActionListener(actionListener);
@@ -476,14 +477,14 @@ class MPMinMax extends JTextField {
             parent.tier.manualUpdate(getText());
         }
         
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
     }
 
     void textUpdate(double val) {
         setForeground(new Color(255,255,255));
         setText(String.valueOf((int) val));
         parent.mod.ID.min = (int) val;
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
     }
 }
 

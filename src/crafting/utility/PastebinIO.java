@@ -1,6 +1,6 @@
 package crafting.utility;
 
-import crafting.Settings;
+import crafting.persistence.Settings;
 import crafting.UI.Main;
 import crafting.filters.Filter;
 import java.awt.Toolkit;
@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import org.jpaste.exceptions.PasteException;
 import org.jpaste.pastebin.Pastebin;
+import crafting.persistence.FilterPersistence;
 
 public class PastebinIO {
 
@@ -35,7 +36,7 @@ public class PastebinIO {
             
             try {
                 Filter filter = SerializationUtils.deserialize(content);
-                Filter.openFilter(filter);
+                FilterPersistence.openFilter(filter);
             } catch (IOException | ClassNotFoundException e) {
                 JOptionPane.showMessageDialog(Main.mainFrame, "Failed to import filter from Pastebin", "Error", JOptionPane.ERROR_MESSAGE);
                 return;

@@ -13,6 +13,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import crafting.persistence.FilterPersistence;
 
 public class SearchBoxBase extends JComboBox {
     
@@ -91,7 +92,7 @@ public class SearchBoxBase extends JComboBox {
         setModel(defaultmodel);
         setSelectedIndex(-1);
         entry = "";
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
     }
     
 }
@@ -175,7 +176,7 @@ class IL_ClickListener implements FocusListener
             String m = (String) owner.defaultmodel.getElementAt(i);
             if (content.equals(m))
             {
-                Filter.saveFilters();
+                FilterPersistence.saveFilters();
                 return;
             }
         }

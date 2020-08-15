@@ -1,6 +1,7 @@
 package crafting.UI.hotkeys;
 
 import crafting.UI.Main;
+import crafting.persistence.HotkeyPersistence;
 import javax.swing.*;
 
 public class HotkeyEditor {
@@ -60,6 +61,6 @@ public class HotkeyEditor {
             hotkey.key = newKey;
         }
         
-        HotkeyConfig.save();
+        HotkeyPersistence.save();
     }
 }

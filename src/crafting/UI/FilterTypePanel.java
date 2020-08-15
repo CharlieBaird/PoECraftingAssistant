@@ -15,6 +15,7 @@ import crafting.filtertypes.Mod;
 import crafting.filtertypes.logicgroups.*;
 import poeitem.BaseItem;
 import poeitem.Modifier;
+import crafting.persistence.FilterPersistence;
 
 public class FilterTypePanel extends JPanel {
     
@@ -257,7 +258,7 @@ public class FilterTypePanel extends JPanel {
             filtertypepanels.remove(this);
             filter.filters.remove(filterbase);
 
-            Filter.saveFilters();
+            FilterPersistence.saveFilters();
         }
     }
     
@@ -269,7 +270,7 @@ public class FilterTypePanel extends JPanel {
         }
         Main.mainFrame.validate();
         
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
     }
     
     public void logicGroupChanged(String selected)
@@ -299,7 +300,7 @@ public class FilterTypePanel extends JPanel {
             }
             
             filter.filters.set(index, filterbase);
-            Filter.saveFilters();
+            FilterPersistence.saveFilters();
         }        
     }
     
@@ -376,7 +377,7 @@ class CloseFBButton extends JButton {
                 parent.parent.requestFocusInWindow();
                 parent.remove();
                 parent.numlabel.update();
-                Filter.saveFilters();
+                FilterPersistence.saveFilters();
             }
         };
         addActionListener(actionListener);
@@ -541,7 +542,7 @@ class MinMax extends JTextField {
             else
                 c.neededMax = 100000;
             parent.filterbase = c;
-            Filter.saveFilters();
+            FilterPersistence.saveFilters();
         }
     }
     

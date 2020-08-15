@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 import crafting.filters.Subfilter;
+import crafting.persistence.FilterPersistence;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class FilterNamePanel extends JPanel {
         }
         setVisible(false);
         Filter.singleton.remove(name);
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
         
     }
     
@@ -168,7 +169,7 @@ class FilterTextField extends JTextField
             @Override
             public void focusLost(FocusEvent e) {
                 Filter.singleton.rename(parent.filter, getText());
-                Filter.saveFilters();
+                FilterPersistence.saveFilters();
                 parent.savedname = getText();
             }
         });

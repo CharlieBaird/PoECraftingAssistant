@@ -3,7 +3,7 @@ package crafting.UI;
 import crafting.filters.Subfilter;
 import crafting.filters.Filter;
 import crafting.PoECraftingAssistant;
-import crafting.Settings;
+import crafting.persistence.Settings;
 import static crafting.PoECraftingAssistant.establishHotkeyShortcut;
 import crafting.UI.console.Console;
 import crafting.UI.hotkeys.HotkeyEditor;
@@ -23,8 +23,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,12 +33,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import crafting.persistence.FilterPersistence;
 
 public class Main extends javax.swing.JFrame {
     
@@ -631,7 +628,7 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Filter.openFilter();
+        FilterPersistence.openFilter();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     
@@ -682,7 +679,7 @@ public class Main extends javax.swing.JFrame {
     {
         if (Filter.singleton != null)
         {
-            Filter.saveFilters();
+            FilterPersistence.saveFilters();
         }
         
         jButton7.setText("Saved!");
@@ -817,7 +814,7 @@ public class Main extends javax.swing.JFrame {
     {
         new FilterNamePanel(this, jPanel6, filter);
 
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
         
         jTextField1.setVisible(true);
         jButton8.setVisible(true);
@@ -882,7 +879,7 @@ public class Main extends javax.swing.JFrame {
                 old.delete();
 
                 Filter.singleton.setName(jTextField1.getText());
-                Filter.saveFilters();
+                FilterPersistence.saveFilters();
             }
         });
         

@@ -1,11 +1,13 @@
 package crafting;
 
+import crafting.persistence.Settings;
 import crafting.utility.Utility;
 import crafting.UI.console.Console;
 import crafting.filters.Filter;
 import crafting.UI.Main;
 import crafting.UI.hotkeys.Ctrl;
 import crafting.UI.hotkeys.HotkeyConfig;
+import crafting.persistence.HotkeyPersistence;
 import crafting.update.Release;
 import crafting.update.UpdateCheck;
 import java.awt.MouseInfo;
@@ -61,7 +63,7 @@ public class PoECraftingAssistant {
         System.out.println();
         
         System.out.println("> Loading Hotkeys... <");
-        HotkeyConfig.load();
+        HotkeyPersistence.load();
         System.out.println("> Finished! <");
         
         System.out.println();

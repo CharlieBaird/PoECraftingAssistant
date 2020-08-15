@@ -29,6 +29,7 @@ import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import poeitem.Influence;
 import poeitem.Modifier;
+import crafting.persistence.FilterPersistence;
 
 public class ModifierComboBox extends JComboBox
 {
@@ -406,7 +407,7 @@ class ModKeyTypedListenerSJB implements KeyListener
             if (content.equals(m.getStr()))
             {
                 owner.update(m, true);
-                Filter.saveFilters();
+                FilterPersistence.saveFilters();
                 return;
             }
 
@@ -458,7 +459,7 @@ class ModClickListenerSJB implements FocusListener
             owner.update(null, true);
         }
         
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
     }
 }
 
@@ -483,13 +484,13 @@ class ModSelectionListener implements ItemListener
             if (selected != null)
             {
                 owner.update(selected, true);
-                Filter.saveFilters();
+                FilterPersistence.saveFilters();
             }
         } catch (ClassCastException e) {
             owner.update(null, true);
         } finally {
             ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
-            Filter.saveFilters();
+            FilterPersistence.saveFilters();
             ((JTextField) owner.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
         }
     }
