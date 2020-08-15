@@ -16,10 +16,11 @@ public class Console extends JFrame {
     
     public static void launch()
     {
+        if (true) return;
         loadingFrame = new Console();
         loadingFrame.setTitle("PoE Crafting Assistant Console");
         loadingFrame.setBackground(Color.BLACK);
-        loadingFrame.setAlwaysOnTop(true);
+//        loadingFrame.setAlwaysOnTop(true);
         
         Point p = loadingFrame.getLocation();
         loadingFrame.setLocation(p.x-loadingFrame.getWidth()/2, p.y-loadingFrame.getHeight()/2);
