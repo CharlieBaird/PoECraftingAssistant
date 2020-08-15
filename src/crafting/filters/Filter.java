@@ -1,28 +1,20 @@
 package crafting.filters;
 
-import crafting.PoECraftingAssistant;
+import crafting.Main;
 import crafting.UI.FilterNamePanel;
-import crafting.UI.Main;
-import crafting.UI.ModifierPanel;
+import crafting.UI.Frame;
 import crafting.utility.Utility;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
 import crafting.persistence.FilterPersistence;
+import crafting.run.Run;
 import java.awt.AWTException;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InvalidClassException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import poeitem.Base;
 import poeitem.BaseItem;
@@ -35,8 +27,7 @@ public class Filter implements Serializable {
 
     public static void createNewFilter()
     {   
-        String name = (String)JOptionPane.showInputDialog(
-            Main.mainFrame,
+        String name = (String)JOptionPane.showInputDialog(Frame.mainFrame,
             "Enter the New Filter's Name",
             "PoE Crafting Assistant",
             JOptionPane.PLAIN_MESSAGE,
@@ -63,7 +54,7 @@ public class Filter implements Serializable {
             Filter.singleton.setName(name);
             FilterPersistence.saveFilters();
 
-            Main.mainFrame.onCreateNewFilter(name);
+            Frame.mainFrame.onCreateNewFilter(name);
         }
     }
     
@@ -141,14 +132,14 @@ public class Filter implements Serializable {
         singleton.filters.clear();
         singleton.SelectedItemLevel = 86;
         
-        Main.mainFrame.itemConfigPanel.itemType.baseComboBox.reset();
+        Frame.mainFrame.itemConfigPanel.itemType.baseComboBox.reset();
         
-        Main.mainFrame.itemConfigPanel.shaper.reset();
-        Main.mainFrame.itemConfigPanel.elder.reset();
-        Main.mainFrame.itemConfigPanel.hunter.reset();
-        Main.mainFrame.itemConfigPanel.warlord.reset();
-        Main.mainFrame.itemConfigPanel.redeemer.reset();
-        Main.mainFrame.itemConfigPanel.crusader.reset();
+        Frame.mainFrame.itemConfigPanel.shaper.reset();
+        Frame.mainFrame.itemConfigPanel.elder.reset();
+        Frame.mainFrame.itemConfigPanel.hunter.reset();
+        Frame.mainFrame.itemConfigPanel.warlord.reset();
+        Frame.mainFrame.itemConfigPanel.redeemer.reset();
+        Frame.mainFrame.itemConfigPanel.crusader.reset();
     }
     
     public static void add(Subfilter f)
@@ -168,8 +159,8 @@ public class Filter implements Serializable {
             }
             if (mods == null)
             {
-                JOptionPane.showMessageDialog(Main.mainFrame, "Failed to access clipboard", "Error", JOptionPane.ERROR_MESSAGE);
-                PoECraftingAssistant.stop();
+                JOptionPane.showMessageDialog(Frame.mainFrame, "Failed to access clipboard", "Error", JOptionPane.ERROR_MESSAGE);
+                Run.stop();
                 return false;
             }
         }
@@ -187,8 +178,8 @@ public class Filter implements Serializable {
         
         else if (item.brokenModifiers.size() >= 1)
         {
-            JOptionPane.showMessageDialog(Main.mainFrame, "The tool was not able to parse the item. Broken mods:\n" + item.brokenModifiers + ".\nPlease create an issue report at https://github.com/CharlieBaird/PoECraftingAssistant/issues/new. Thanks!", "Error", JOptionPane.ERROR_MESSAGE);
-            PoECraftingAssistant.stop();
+            JOptionPane.showMessageDialog(Frame.mainFrame, "The tool was not able to parse the item. Broken mods:\n" + item.brokenModifiers + ".\nPlease create an issue report at https://github.com/CharlieBaird/PoECraftingAssistant/issues/new. Thanks!", "Error", JOptionPane.ERROR_MESSAGE);
+            Run.stop();
             return false;
         }
         

@@ -63,7 +63,7 @@ public class LogicGroupComboBox extends JComboBox
         // End code
         
         this.parent = parent;
-        setFont(Main.mainFrame.getNewFont(12));
+        setFont(Frame.mainFrame.getNewFont(12));
         
         this.getEditor().getEditorComponent().addFocusListener(new LogicGroupClickListenerSJB(this));
         this.addItemListener(new LogicGroupSelectionListener(this));
@@ -79,7 +79,7 @@ class LogicGroupComboBoxRenderer extends JLabel implements ListCellRenderer {
 //        setOpaque(true);
 //        setForeground(Color.white);
 //        setBorder(BorderFactory.createEmptyBorder(7, 5, 7, 0));
-//        setFont(Main.mainFrame.getNewFont(12));
+//        setFont(Frame.mainFrame.getNewFont(12));
         setOpaque(true);        
         setForeground(Color.white);
         setBorder(BorderFactory.createEmptyBorder(7, 5, 7, 0));
@@ -115,7 +115,7 @@ class LogicGroupComboBoxEditor extends BasicComboBoxEditor {
     public LogicGroupComboBoxEditor() {
          
         label.setOpaque(false);
-        label.setFont(Main.mainFrame.getNewFont(12));
+        label.setFont(Frame.mainFrame.getNewFont(12));
         label.setForeground(Color.WHITE);
         label.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
     }

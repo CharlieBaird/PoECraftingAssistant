@@ -1,11 +1,12 @@
 package crafting.persistence;
 
-import crafting.PoECraftingAssistant;
+import crafting.Main;
 import crafting.utility.Utility;
 import crafting.filters.Filter;
-import crafting.UI.Main;
+import crafting.UI.Frame;
 import crafting.UI.NumFieldKeyListener;
 import crafting.UI.console.Console;
+import crafting.run.Run;
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -56,7 +57,7 @@ public class Settings implements Serializable {
             singleton = (Settings) oi.readObject();
         } catch (ClassNotFoundException | InvalidClassException ex) {
             if (Console.loadingFrame != null) Console.loadingFrame.setAlwaysOnTop(false);
-            JOptionPane.showMessageDialog(Main.mainFrame, "The settings configuration file could not be loaded. It has been\nautomatically recreated. You will have to reconfigure your settings. Sorry!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Frame.mainFrame, "The settings configuration file could not be loaded. It has been\nautomatically recreated. You will have to reconfigure your settings. Sorry!", "Error", JOptionPane.ERROR_MESSAGE);
             if (Console.loadingFrame != null) Console.loadingFrame.setAlwaysOnTop(true);
             settingsFile.delete();
             save();
@@ -121,7 +122,7 @@ public class Settings implements Serializable {
     
     public void OpenSettings()
     {
-        PoECraftingAssistant.stop();
+        Run.stop();
         
         JTextField delayField = new JTextField()
         {
@@ -164,7 +165,7 @@ public class Settings implements Serializable {
             "Pastebin developer key for exporting filters", pastebinKeyField
         };
 
-        int n = JOptionPane.showConfirmDialog(Main.mainFrame, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
+        int n = JOptionPane.showConfirmDialog(Frame.mainFrame, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
         if (n == JOptionPane.OK_OPTION)
         {
             Settings.singleton.showPopup = showPopupBox.isSelected();
@@ -178,7 +179,7 @@ public class Settings implements Serializable {
             Settings.singleton.pastebinKey = pastebinKeyField.getText();
 
             Settings.save();
-            Main.mainFrame.updateImportExport(Settings.singleton.pastebinKey);
+            Frame.mainFrame.updateImportExport(Settings.singleton.pastebinKey);
         }
     }
 }

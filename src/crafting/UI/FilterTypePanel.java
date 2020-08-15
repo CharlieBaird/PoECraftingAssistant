@@ -27,7 +27,7 @@ public class FilterTypePanel extends JPanel {
     
     public String type;
     public String resourcePath;
-    public static Main frame;
+    public static Frame frame;
     public JPanel parent;
     
     public LogicGroupComboBox typebox;
@@ -42,7 +42,7 @@ public class FilterTypePanel extends JPanel {
     public Subfilter filter;
     public int index;
     
-    public FilterTypePanel(Main frame, JPanel parent, FilterBase filterbase, Subfilter filter, int index)
+    public FilterTypePanel(Frame frame, JPanel parent, FilterBase filterbase, Subfilter filter, int index)
     {
         this.filterbase = filterbase;
         this.filter = filter;
@@ -268,7 +268,7 @@ public class FilterTypePanel extends JPanel {
             Subfilter f = FilterTypePanel.filtertypepanels.get(0).filter;
             frame.genFilterPanel(f);
         }
-        Main.mainFrame.validate();
+        Frame.mainFrame.validate();
         
         FilterPersistence.saveFilters();
     }

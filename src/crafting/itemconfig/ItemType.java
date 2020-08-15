@@ -1,7 +1,7 @@
 package crafting.itemconfig;
 
 import crafting.filters.Filter;
-import crafting.UI.Main;
+import crafting.UI.Frame;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.LinkedHashMap;
@@ -79,7 +79,7 @@ public class ItemType extends JPanel {
         
         add(baseComboBox);
         
-        Main.mainFrame.requestFocusInWindow();
+        Frame.mainFrame.requestFocusInWindow();
     }
 
     public void updateFromFilter() {
@@ -92,7 +92,7 @@ class TitleLabel extends JLabel
     public TitleLabel(String text)
     {
         super(text);
-        setFont(Main.mainFrame.getNewFont(12));
+        setFont(Frame.mainFrame.getNewFont(12));
         setForeground(new Color(255,255,255));
     }
 }

@@ -1,7 +1,7 @@
 package crafting.itemconfig;
 
 import crafting.UI.FilterTypePanel;
-import crafting.UI.Main;
+import crafting.UI.Frame;
 import crafting.filters.Filter;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -47,7 +47,7 @@ class InfluenceCheckBox extends JCheckBox
     {
         this.parent = parent;
         this.setText(parent.influence.friendly + " influence");
-        setFont(Main.mainFrame.getNewFont(12));
+        setFont(Frame.mainFrame.getNewFont(12));
         setForeground(new Color(255,255,255));
         
         this.addItemListener(new ItemListener()

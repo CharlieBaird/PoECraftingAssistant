@@ -39,7 +39,7 @@ public class NumFieldKeyListener implements KeyListener {
     {
         if (e.getKeyCode() == 10 && loseFocus)
         {
-            Main.mainFrame.requestFocusInWindow();
+            Frame.mainFrame.requestFocusInWindow();
         }
     }
 }

@@ -24,14 +24,14 @@ public class FilterNamePanel extends JPanel {
     public Subfilter filter;
     public JPanel parent;
     public String resourcePath;
-    public Main frame;
+    public Frame frame;
     
     public DeleteButton cb;
     public FilterTextField ftf;
     
     public boolean active = false;
     
-    public FilterNamePanel(Main frame, JPanel parent, Subfilter filter)
+    public FilterNamePanel(Frame frame, JPanel parent, Subfilter filter)
     {
         String path = "src/resources";
         File file = new File(path);

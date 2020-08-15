@@ -31,11 +31,13 @@ public class Console extends JFrame {
     }
 
     public static void close() {
-        loadingFrame.setVisible(false);
+        if (loadingFrame != null)
+            loadingFrame.setVisible(false);
     }
 
     public static void open() {
-        loadingFrame.setVisible(true);
+        if (loadingFrame != null)
+            loadingFrame.setVisible(true);
     }
     
     private Console()

@@ -2,9 +2,7 @@ package crafting.UI;
 
 import crafting.filters.Subfilter;
 import crafting.filters.Filter;
-import crafting.PoECraftingAssistant;
 import crafting.persistence.Settings;
-import static crafting.PoECraftingAssistant.establishHotkeyShortcut;
 import crafting.UI.console.Console;
 import crafting.UI.hotkeys.HotkeyEditor;
 import crafting.utility.Utility;
@@ -38,12 +36,14 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import crafting.persistence.FilterPersistence;
+import crafting.run.HookEstablisher;
+import crafting.run.Run;
 
-public class Main extends javax.swing.JFrame {
+public class Frame extends javax.swing.JFrame {
     
     Font font = null;   
         
-    public Main() {
+    public Frame() {
         initComponents();
     }
     
@@ -642,7 +642,7 @@ public class Main extends javax.swing.JFrame {
         try {
             Desktop.getDesktop().open(file);
         } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -700,12 +700,12 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton10runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10runChaosSpam
         requestFocusInWindow();
-        PoECraftingAssistant.testFilter(this, jButton10);
+        Run.testFilter(this, jButton10);
     }//GEN-LAST:event_jButton10runChaosSpam
 
     private void jButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MousePressed
         requestFocusInWindow();
-        PoECraftingAssistant.runChaosSpam(mainFrame);
+        Run.runFilter();
     }//GEN-LAST:event_jButton2MousePressed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
@@ -722,7 +722,7 @@ public class Main extends javax.swing.JFrame {
             try {
                 Desktop.getDesktop().browse(new URI("https://github.com/CharlieBaird/PoECraftingAssistant/wiki"));
             } catch (URISyntaxException | IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jButton13ActionPerformed
@@ -801,7 +801,7 @@ public class Main extends javax.swing.JFrame {
             font = Font.createFont(Font.TRUETYPE_FONT, is);
             is.close();
         } catch (FontFormatException | IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
         }
         GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
         genv.registerFont(font);
@@ -837,14 +837,15 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
         
         
@@ -904,7 +905,7 @@ public class Main extends javax.swing.JFrame {
                 public void provideErrorFeedback(Component component) {}
             });
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         jTextField1.setVisible(false);
@@ -926,25 +927,25 @@ public class Main extends javax.swing.JFrame {
         jPanel9.addMouseListener(new MouseFocusListener(jPanel9));
         jPanel14.addMouseListener(new MouseFocusListener(jPanel14));
         
-        establishHotkeyShortcut();
+        HookEstablisher.establishHotkeyListener();
         
         addComponentListener(new ResizeListener());
         
         requestFocusInWindow();
     }
     
-    public Main(String title)
+    public Frame(String title)
     {
         super(title);
         
         initComponents();
     }
     
-    public static Main mainFrame = null;
+    public static Frame mainFrame = null;
     
     public static void main() {
         java.awt.EventQueue.invokeLater(() -> {
-            mainFrame = new Main("PoE Crafting Assistant");
+            mainFrame = new Frame("PoE Crafting Assistant");
             mainFrame.setLocationRelativeTo(null);
             mainFrame.preload();
             mainFrame.setVisible(true);

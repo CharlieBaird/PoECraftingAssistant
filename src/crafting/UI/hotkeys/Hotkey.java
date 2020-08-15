@@ -1,6 +1,6 @@
 package crafting.UI.hotkeys;
 
-import crafting.UI.Main;
+import crafting.UI.Frame;
 import java.io.Serializable;
 import lc.kra.system.keyboard.event.GlobalKeyEvent;
 
@@ -25,7 +25,7 @@ public class Hotkey implements Serializable
     {
         if (this.ctrl == ctrl && event.getVirtualKeyCode() == key.keycode)
         {            
-            if (onlyWhenFrameActive && !Main.isFocus())
+            if (onlyWhenFrameActive && !Frame.isFocus())
             {
                  return null;
             }

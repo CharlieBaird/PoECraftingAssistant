@@ -1,6 +1,6 @@
 package crafting.persistence;
 
-import crafting.UI.Main;
+import crafting.UI.Frame;
 import crafting.UI.console.Console;
 import crafting.UI.hotkeys.HotkeyConfig;
 import static crafting.UI.hotkeys.HotkeyConfig.instance;
@@ -43,7 +43,7 @@ public class HotkeyPersistence {
             instance = (HotkeyConfig) oi.readObject();
         } catch (ClassNotFoundException | InvalidClassException ex) {
             Console.loadingFrame.setAlwaysOnTop(false);
-            JOptionPane.showMessageDialog(Main.mainFrame, "The hotkey configuration file could not be loaded. It has been\nautomatically recreated. You will have to reconfigure the hotkeys. Sorry!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Frame.mainFrame, "The hotkey configuration file could not be loaded. It has been\nautomatically recreated. You will have to reconfigure the hotkeys. Sorry!", "Error", JOptionPane.ERROR_MESSAGE);
             Console.loadingFrame.setAlwaysOnTop(true);
             hotkeysFile.delete();
             save();

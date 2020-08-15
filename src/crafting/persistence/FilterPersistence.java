@@ -1,7 +1,7 @@
 package crafting.persistence;
 
 import crafting.UI.FilterNamePanel;
-import crafting.UI.Main;
+import crafting.UI.Frame;
 import crafting.UI.ModifierPanel;
 import crafting.filters.Filter;
 import static crafting.filters.Filter.singleton;
@@ -23,7 +23,7 @@ public class FilterPersistence {
     public static void openFilter()
     {
         JFileChooser chooser = new JFileChooser(Utility.getResourcesPath() + "/src/resources/filters");
-        if (chooser.showOpenDialog(Main.mainFrame) == JFileChooser.APPROVE_OPTION) {
+        if (chooser.showOpenDialog(Frame.mainFrame) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
             String path = file.toPath().toString();
             
@@ -46,12 +46,12 @@ public class FilterPersistence {
     {
         if (loaded == null) // Errored, wrong serial ID
         {
-            JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Filter. Filters from previous PoE Crafting Assistant\nversions cannot be opened.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Frame.mainFrame, "Invalid Filter. Filters from previous PoE Crafting Assistant\nversions cannot be opened.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         saveFilters();
         Filter.reset_openFilter();
-        Main.mainFrame.updateLeftTab();
+        Frame.mainFrame.updateLeftTab();
 
         for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
         {
@@ -62,15 +62,15 @@ public class FilterPersistence {
 
         Filter.singleton = loaded;
 
-        Main.mainFrame.updateLeftTab();
-        Main.mainFrame.itemConfigPanel.updateFromFilter();
+        Frame.mainFrame.updateLeftTab();
+        Frame.mainFrame.itemConfigPanel.updateFromFilter();
 
         if (FilterNamePanel.filterpanels.size() >= 1)
         {
             FilterNamePanel.filterpanels.get(0).open();
         }
 
-        Main.mainFrame.onOpenFilter();
+        Frame.mainFrame.onOpenFilter();
 
         ModifierPanel.updateTierViews();
         

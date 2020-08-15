@@ -1,7 +1,7 @@
 package crafting.utility;
 
 import crafting.persistence.Settings;
-import crafting.UI.Main;
+import crafting.UI.Frame;
 import crafting.filters.Filter;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -25,7 +25,7 @@ public class PastebinIO {
             pastebinURL
         };
         
-        int n = JOptionPane.showConfirmDialog(Main.mainFrame, message, "Import filter from Pastebin", JOptionPane.OK_CANCEL_OPTION);
+        int n = JOptionPane.showConfirmDialog(Frame.mainFrame, message, "Import filter from Pastebin", JOptionPane.OK_CANCEL_OPTION);
         
         if (n == JOptionPane.OK_OPTION)
         {
@@ -38,7 +38,7 @@ public class PastebinIO {
                 Filter filter = SerializationUtils.deserialize(content);
                 FilterPersistence.openFilter(filter);
             } catch (IOException | ClassNotFoundException e) {
-                JOptionPane.showMessageDialog(Main.mainFrame, "Failed to import filter from Pastebin", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(Frame.mainFrame, "Failed to import filter from Pastebin", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         }
@@ -75,7 +75,7 @@ public class PastebinIO {
         try {
             return Pastebin.getContents(url);
         } catch (RuntimeException e) {
-            JOptionPane.showMessageDialog(Main.mainFrame, "Failed to import filter from Pastebin", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Frame.mainFrame, "Failed to import filter from Pastebin", "Error", JOptionPane.ERROR_MESSAGE);
         }
             
         return null;
@@ -87,16 +87,16 @@ public class PastebinIO {
         try {
             s = SerializationUtils.serialize(Filter.singleton);
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(Main.mainFrame, "Failed to export filter to Pastebin. Please check your\n developer key and Internet connection.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Frame.mainFrame, "Failed to export filter to Pastebin. Please check your\n developer key and Internet connection.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         try {
             String link = Pastebin.pastePaste(Settings.singleton.pastebinKey, s).toString();
             StringSelection selection = new StringSelection(link);
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(selection, selection);
-            JOptionPane.showMessageDialog(Main.mainFrame, "Export to Pastebin succeeded.\nThe link has been copied to your clipboard.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(Frame.mainFrame, "Export to Pastebin succeeded.\nThe link has been copied to your clipboard.", "Success", JOptionPane.INFORMATION_MESSAGE);
         } catch (PasteException ex) {
-            JOptionPane.showMessageDialog(Main.mainFrame, "Failed to export filter to Pastebin. Please check your\n developer key and Internet connection.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Frame.mainFrame, "Failed to export filter to Pastebin. Please check your\n developer key and Internet connection.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     

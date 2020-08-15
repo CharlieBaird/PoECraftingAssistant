@@ -1,10 +1,9 @@
 package crafting.UI.hotkeys;
 
-import static crafting.PoECraftingAssistant.runChaosSpam;
-import crafting.UI.Main;
+import crafting.UI.Frame;
 import crafting.filters.Filter;
 import crafting.persistence.FilterPersistence;
-import java.awt.Frame;
+import crafting.run.Run;
 import java.io.Serializable;
 import java.util.ArrayList;
 import lc.kra.system.keyboard.event.GlobalKeyEvent;
@@ -55,15 +54,15 @@ public class HotkeyConfig implements Serializable {
         switch (task)
         {
             case SAVE_FILTER:
-                Main.mainFrame.saveFilters();
+                Frame.mainFrame.saveFilters();
                 break;
             case RUN_FILTER:
-                runChaosSpam(Main.mainFrame);
+                Run.runFilter();
                 break;
             case FOCUS_WINDOW:
-                Main.mainFrame.setState(Frame.NORMAL);
-                Main.mainFrame.toFront();
-                Main.mainFrame.repaint();
+                Frame.mainFrame.setState(Frame.NORMAL);
+                Frame.mainFrame.toFront();
+                Frame.mainFrame.repaint();
                 break;
             case NEW_FILTER:
                 Filter.createNewFilter();
