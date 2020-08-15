@@ -1,5 +1,6 @@
 package crafting;
 
+import crafting.utility.Utility;
 import crafting.UI.console.Console;
 import crafting.filters.Filter;
 import crafting.UI.Main;
@@ -35,7 +36,6 @@ public class PoECraftingAssistant {
     public static void main(String[] args)
     {
         Console.launch();
-        
         
         System.out.println("> Loading UI Window... <");
         Utility.delay(100);
@@ -74,9 +74,9 @@ public class PoECraftingAssistant {
         if (comp == 0) System.out.println("You are up to date with the latest release.");
         System.out.println("> Finished! <");
         
+        Main.mainFrame.updateImportExport(Settings.singleton.pastebinKey);
+        
         System.out.println();
-                
-//        Console.close();
     }
     
     public static boolean run = true;

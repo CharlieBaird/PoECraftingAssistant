@@ -1,5 +1,7 @@
-package crafting;
+package crafting.utility;
 
+import crafting.PoECraftingAssistant;
+import crafting.Settings;
 import crafting.UI.Main;
 import java.awt.AWTException;
 import java.awt.Robot;

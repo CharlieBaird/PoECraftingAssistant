@@ -2,7 +2,7 @@ package crafting.filters;
 
 import crafting.PoECraftingAssistant;
 import crafting.UI.Main;
-import crafting.Utility;
+import crafting.utility.Utility;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
 import java.awt.AWTException;
@@ -223,8 +223,13 @@ public class Filter implements Serializable {
     
     public static void print()
     {
-        System.out.println(singleton.name + ":");
-        for (Subfilter f : singleton.filters)
+        singleton.printFilter();
+    }
+    
+    public void printFilter()
+    {
+        System.out.println(name + ":");
+        for (Subfilter f : filters)
         {
             f.print();
         }

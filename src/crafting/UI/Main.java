@@ -7,10 +7,11 @@ import crafting.Settings;
 import static crafting.PoECraftingAssistant.establishHotkeyShortcut;
 import crafting.UI.console.Console;
 import crafting.UI.hotkeys.HotkeyEditor;
-import crafting.Utility;
+import crafting.utility.Utility;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.logicgroups.And;
 import crafting.itemconfig.ItemConfigPanel;
+import crafting.utility.SerializationUtils;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
@@ -18,6 +19,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -32,14 +36,21 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import org.jpaste.exceptions.PasteException;
+import org.jpaste.pastebin.Pastebin;
+import org.jpaste.pastebin.PastebinLink;
+import org.jpaste.pastebin.PastebinPaste;
 
 public class Main extends javax.swing.JFrame {
     
@@ -75,8 +86,10 @@ public class Main extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        importButton = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jPanel16 = new javax.swing.JPanel();
+        exportButton = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
@@ -259,7 +272,7 @@ public class Main extends javax.swing.JFrame {
         jPanel10.setLayout(new java.awt.BorderLayout());
 
         jPanel13.setBackground(new java.awt.Color(88, 0, 0));
-        jPanel13.setPreferredSize(new java.awt.Dimension(500, 40));
+        jPanel13.setPreferredSize(new java.awt.Dimension(550, 40));
         jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jButton5.setBackground(new java.awt.Color(127, 3, 3));
@@ -319,6 +332,25 @@ public class Main extends javax.swing.JFrame {
         });
         jPanel13.add(jButton1);
 
+        importButton.setBackground(new java.awt.Color(127, 3, 3));
+        importButton.setFont(getNewFont(12f));
+        importButton.setForeground(new java.awt.Color(255, 255, 255));
+        importButton.setText("Import");
+        importButton.setToolTipText("Import filter from pastebin");
+        importButton.setContentAreaFilled(false);
+        importButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        importButton.setEnabled(false);
+        importButton.setFocusable(false);
+        importButton.setMinimumSize(new java.awt.Dimension(100, 32));
+        importButton.setPreferredSize(new java.awt.Dimension(100, 32));
+        importButton.setRequestFocusEnabled(false);
+        importButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importButtonActionPerformed(evt);
+            }
+        });
+        jPanel13.add(importButton);
+
         jButton7.setBackground(new java.awt.Color(127, 3, 3));
         jButton7.setFont(getNewFont(12f));
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
@@ -341,8 +373,27 @@ public class Main extends javax.swing.JFrame {
         jPanel10.add(jPanel13, java.awt.BorderLayout.WEST);
 
         jPanel16.setBackground(new java.awt.Color(88, 0, 0));
-        jPanel16.setPreferredSize(new java.awt.Dimension(400, 40));
+        jPanel16.setPreferredSize(new java.awt.Dimension(600, 40));
         jPanel16.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        exportButton.setBackground(new java.awt.Color(127, 3, 3));
+        exportButton.setFont(getNewFont(12f));
+        exportButton.setForeground(new java.awt.Color(255, 255, 255));
+        exportButton.setText("Export");
+        exportButton.setToolTipText("Export filter to pastebin");
+        exportButton.setContentAreaFilled(false);
+        exportButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        exportButton.setEnabled(false);
+        exportButton.setFocusable(false);
+        exportButton.setMinimumSize(new java.awt.Dimension(100, 32));
+        exportButton.setPreferredSize(new java.awt.Dimension(100, 32));
+        exportButton.setRequestFocusEnabled(false);
+        exportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportButtonActionPerformed(evt);
+            }
+        });
+        jPanel16.add(exportButton);
 
         jButton13.setBackground(new java.awt.Color(127, 3, 3));
         jButton13.setFont(getNewFont(12f));
@@ -607,39 +658,52 @@ public class Main extends javax.swing.JFrame {
             
             Filter loaded = null;
             loaded = Filter.loadFilters(path);
-            
-            if (loaded == null) // Errored, wrong serial ID
-            {
-                JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Filter. Filters from previous PoE Crafting Assistant\nversions cannot be opened.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            Filter.saveFilters();
-            Filter.reset_openFilter();
-            updateLeftTab();
-
-            for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
-            {
-                FilterNamePanel.filterpanels.get(i).remove();
-            }
-
-            FilterNamePanel.filterpanels.clear();
-            
-            Filter.singleton = loaded;
-
-            updateLeftTab();
-            itemConfigPanel.updateFromFilter();
-            
-            if (FilterNamePanel.filterpanels.size() >= 1)
-            {
-                FilterNamePanel.filterpanels.get(0).open();
-            }
-            
-            jButton2.setVisible(true);
-            jButton10.setVisible(true);
-            jButton7.setVisible(true);
-            
-            ModifierPanel.updateTierViews();
+            openFilter(loaded);
+            return;
         }
+        
+        for (FilterNamePanel fnp : FilterNamePanel.filterpanels)
+        {
+            if (fnp.active)
+            {
+                fnp.open();
+            }
+        }
+    }
+    
+    private void openFilter(Filter loaded)
+    {
+        if (loaded == null) // Errored, wrong serial ID
+        {
+            JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Filter. Filters from previous PoE Crafting Assistant\nversions cannot be opened.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Filter.saveFilters();
+        Filter.reset_openFilter();
+        updateLeftTab();
+
+        for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
+        {
+            FilterNamePanel.filterpanels.get(i).remove();
+        }
+
+        FilterNamePanel.filterpanels.clear();
+
+        Filter.singleton = loaded;
+
+        updateLeftTab();
+        itemConfigPanel.updateFromFilter();
+
+        if (FilterNamePanel.filterpanels.size() >= 1)
+        {
+            FilterNamePanel.filterpanels.get(0).open();
+        }
+
+        jButton2.setVisible(true);
+        jButton10.setVisible(true);
+        jButton7.setVisible(true);
+
+        ModifierPanel.updateTierViews();
         
         for (FilterNamePanel fnp : FilterNamePanel.filterpanels)
         {
@@ -786,6 +850,94 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton13ActionPerformed
 
+    private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
+        // Export
+        
+        String s = "";
+        try {
+            s = SerializationUtils.serialize(Filter.singleton);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(Main.mainFrame, "Failed to export filter to Pastebin. Please check your\n developer key and Internet connection.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        try {
+            String link = Pastebin.pastePaste(Settings.singleton.pastebinKey, s).toString();
+            StringSelection selection = new StringSelection(link);
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(selection, selection);
+            JOptionPane.showMessageDialog(Main.mainFrame, "Export to Pastebin succeeded.\nThe link has been copied to your clipboard.", "Success", JOptionPane.INFORMATION_MESSAGE);
+        } catch (PasteException ex) {
+            JOptionPane.showMessageDialog(Main.mainFrame, "Failed to export filter to Pastebin. Please check your\n developer key and Internet connection.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_exportButtonActionPerformed
+
+    private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importButtonActionPerformed
+        // Import
+        
+        JTextField pastebinURL = new JTextField();
+        
+        Object[] message =  {
+            "Pastebin URL",
+            pastebinURL
+        };
+        
+        int n = JOptionPane.showConfirmDialog(Main.mainFrame, message, "Import filter from Pastebin", JOptionPane.OK_CANCEL_OPTION);
+        
+        if (n == JOptionPane.OK_OPTION)
+        {
+            String content = parseTextForImport(pastebinURL.getText());
+            
+            if (content == null)
+                return;
+            
+            try {
+                Filter filter = SerializationUtils.deserialize(content);
+                openFilter(filter);
+            } catch (IOException | ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(Main.mainFrame, "Failed to import filter from Pastebin", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            
+        }
+    }//GEN-LAST:event_importButtonActionPerformed
+
+    private String parseTextForImport(String pastebinURL)
+    {
+        Pattern p = Pattern.compile("[com/]{4}([a-zA-Z0-9]{0,20})");
+        Matcher m = p.matcher(pastebinURL);
+        if (m.find())
+        {
+            return getPastebinContent(m.group(1));
+        }
+        
+        p = Pattern.compile("([a-zA-Z0-9]{0,20})");
+        m = p.matcher(pastebinURL);
+        if (m.lookingAt())
+        {
+            return getPastebinContent(pastebinURL);
+        }
+        
+        p = Pattern.compile("[^-A-Za-z0-9+/=]|=[^=]|={3,}$");
+        m = p.matcher(pastebinURL);
+        if (m.lookingAt())
+        {
+            return pastebinURL;
+        }
+        
+        return null;
+    }
+    
+    private String getPastebinContent(String url)
+    {
+        try {
+            return Pastebin.getContents(url);
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(Main.mainFrame, "Failed to import filter from Pastebin", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+            
+        return null;
+    }
+    
     public void updateLeftTab()
     {
         jTextField1.setText(Filter.getName());
@@ -803,6 +955,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel ChangeFilterPanel;
     private javax.swing.JPanel SelectFilterPanel;
     private javax.swing.JPanel Window;
+    private javax.swing.JButton exportButton;
+    private javax.swing.JButton importButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -1016,6 +1170,7 @@ public class Main extends javax.swing.JFrame {
             mainFrame.preload();
             mainFrame.setVisible(true);
             mainFrame.postload();
+            mainFrame.updateImportExport(Settings.singleton.pastebinKey);
         });
     }
     
@@ -1059,5 +1214,18 @@ public class Main extends javax.swing.JFrame {
     public static boolean isFocus()
     {
         return mainFrame.isActive() && mainFrame.isFocused();
+    }
+
+    public void updateImportExport(String pastebinKey) {
+        if (pastebinKey != null && !pastebinKey.isEmpty())
+        {
+            importButton.setEnabled(true);
+            exportButton.setEnabled(true);
+        }
+        else
+        {
+            importButton.setEnabled(false);
+            exportButton.setEnabled(false);
+        }
     }
 }

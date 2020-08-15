@@ -3,7 +3,7 @@ package crafting.UI.hotkeys;
 import static crafting.PoECraftingAssistant.runChaosSpam;
 import crafting.UI.Main;
 import crafting.UI.console.Console;
-import crafting.Utility;
+import crafting.utility.Utility;
 import crafting.filters.Filter;
 import java.awt.Frame;
 import java.io.Serializable;
