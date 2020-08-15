@@ -8,8 +8,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,14 +19,21 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.plaf.basic.BasicComboBoxUI;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultFormatter;
+import javax.swing.text.PlainDocument;
 import poeitem.Influence;
 import poeitem.Modifier;
 
@@ -44,6 +51,7 @@ public class ModifierComboBox extends JComboBox
     {
         super(types);
         
+        setVisible(false);
         setRenderer(new ModifierComboBoxRenderer(this));
         setEditor(new ModifierComboBoxEditor());
         setBackground(new Color(60,60,60));
@@ -68,8 +76,9 @@ public class ModifierComboBox extends JComboBox
         
         this.parent = parent;
         defaultmodel = this.getModel();
+        System.out.println("default size " + defaultmodel.getSize());
         
-        this.getEditor().getEditorComponent().addKeyListener(new ModKeyTypedListenerSJB(this));
+        ((JTextField) this.getEditor().getEditorComponent()).addPropertyChangeListener("value", new MCBDocListener(this));
         this.getEditor().getEditorComponent().addFocusListener(new ModClickListenerSJB(this));
         this.addItemListener(new ModSelectionListener(this));
         
@@ -79,9 +88,13 @@ public class ModifierComboBox extends JComboBox
     
     public void updateList()
     {
-        entry = ((JTextField) this.getEditor().getEditorComponent()).getText();
+        if (!isVisible()) return;
         
+        entry = ((JTextField) this.getEditor().getEditorComponent()).getText();
+        System.out.println("'" + entry + "'");
         Modifier[] compat = getCompatObjects();
+        System.out.println("model" + defaultmodel.getSize());
+        System.out.println("size " + compat.length);
         DefaultComboBoxModel model = new DefaultComboBoxModel(compat);
         this.setModel(model);
                 
@@ -97,6 +110,8 @@ public class ModifierComboBox extends JComboBox
     
     protected Modifier[] getCompatObjects()
     {
+        if (entry.equals("New Modifier")) entry = "";
+        
         ArrayList<Modifier> os = new ArrayList<>();
         
         if (Filter.singleton.SelectedBase != null)
@@ -280,11 +295,11 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
 }
 
 class ModifierComboBoxEditor extends BasicComboBoxEditor {
-    private JTextField label = new JTextField();
+    private JFormattedTextField label;
     private Object selectedItem;
      
     public ModifierComboBoxEditor() {
-         
+        label = new JFormattedTextField(new MCBEditorFormatter());
         label.setOpaque(false);
         label.setFont(Main.mainFrame.getNewFont(12));
         label.setForeground(Color.WHITE);
@@ -311,109 +326,47 @@ class ModifierComboBoxEditor extends BasicComboBoxEditor {
     }
 }
 
-class ModKeyTypedListenerSJB implements KeyListener
+class MCBEditorFormatter extends DefaultFormatter
+{
+    public MCBEditorFormatter()
+    {
+        super();
+        setCommitsOnValidEdit(true);
+    }
+}
+
+class MCBDocListener implements PropertyChangeListener
 {
     ModifierComboBox owner;
 
-    public ModKeyTypedListenerSJB(ModifierComboBox owner)
+    public MCBDocListener(ModifierComboBox owner)
     {
         this.owner = owner;
     }
     
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        // Detect backspace key, to update every time even when held down
-        if (e.getKeyCode() != 17)
-            ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
-        
-        if (e.getKeyCode() == 8)
-        {
-            JTextField editor = (JTextField) owner.getEditor().getEditorComponent();
-            if (e.isControlDown() || owner.allSelected)
-            {
-                editor.setText("");
-            }
-            owner.caretPos = editor.getCaretPosition();
-            owner.updateList();
-        }
-        owner.allSelected = false;
-        ctrlWasPressed = false;
-    }
+    int counter = 0;
     
-    boolean ctrlWasPressed = false;
-    
-    // Logic of search box for keys, shortcuts, etc.
     @Override
-    public void keyReleased(KeyEvent e)
-    {
-        
-        if (e.getKeyCode() == KeyEvent.VK_CONTROL)
-        {
-            ctrlWasPressed = true;
-            return;
-        }
-        
-        // Enter key
-        if (e.getKeyCode() == 10)
-        {
-            e.consume();
-            Main.mainFrame.requestFocusInWindow();
-        }
-        
-        else if (e.isControlDown())
-        {
-            if (e.getKeyCode() == KeyEvent.VK_A)
-            {
-                owner.allSelected = true;
-            }
-            e.consume();
-        }
-        
-        // Up / Down arrow for selecting should not update the list.        
-        else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_UP)
-        {
-            e.consume();
-        }
-        
-        // Anything else, normal key
-        else
-        {
-            if (e.getKeyCode() == KeyEvent.VK_CONTROL || e.getKeyCode() == KeyEvent.VK_SHIFT) 
-            {
-                return;
-            }
-            JTextField editor = (JTextField) owner.getEditor().getEditorComponent();
-    //            owner.entry = owner.getEditor().getItem().toString();
-            owner.caretPos = editor.getCaretPosition();
-            
-            if (!ctrlWasPressed)
-                owner.updateList(); 
-        }
-        
-        if (ctrlWasPressed && e.getKeyCode() == KeyEvent.VK_A)
-        {
-            owner.allSelected = true;
-            ctrlWasPressed = false;
-        }
-        
-        String content = ((JTextField) owner.getEditor().getEditorComponent()).getText();
-        for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
-            Modifier m = (Modifier) owner.defaultmodel.getElementAt(i);
-            if (content.equals(m.getStr()))
-            {
-                owner.update(m, true);
-                Filter.saveFilters();
-                return;
-            }
-
-        }
-        owner.update(null, true);
+    public void propertyChange(PropertyChangeEvent evt) {
+        System.out.println("Called");
+        if (counter++ <= 2) return;
+        owner.updateList(); 
+//        String content = ((JTextField) owner.getEditor().getEditorComponent()).getText();
+//        for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
+//            Modifier m = (Modifier) owner.defaultmodel.getElementAt(i);
+//            if (content.equals(m.getStr()))
+//            {
+//                owner.update(m, true);
+//                Filter.saveFilters();
+//                return;
+//            }
+//
+//        }
+//        owner.update(null, true);
     }
 }
+
+
 
 class ModClickListenerSJB implements FocusListener
 {
@@ -442,6 +395,7 @@ class ModClickListenerSJB implements FocusListener
         owner.caretPos = ((JTextField) owner.getEditor().getEditorComponent()).getCaretPosition();
         
         owner.updateList();
+        System.out.println("SIZE" + owner.getModel().getSize());
         if (owner.getModel().getSize() >= 1)
             owner.showPopup();
         

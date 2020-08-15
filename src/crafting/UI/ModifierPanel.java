@@ -156,6 +156,7 @@ public class ModifierPanel extends JPanel {
             }
 
             mcb.setMinimumSize(new Dimension(0,0));
+            mcb.setVisible(true);
             add(mcb);
             return mcb;
         }
@@ -185,7 +186,8 @@ public class ModifierPanel extends JPanel {
     
     public void hideTierComboBox()
     {
-        tier.setVisible(false);
+        if (tier != null)
+            tier.setVisible(false);
     }
     
     public Modifier updateDD()
