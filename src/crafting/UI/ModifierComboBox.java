@@ -29,6 +29,7 @@ import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import poeitem.Influence;
 import poeitem.Modifier;
+import crafting.persistence.FilterPersistence;
 
 public class ModifierComboBox extends JComboBox
 {
@@ -109,12 +110,12 @@ public class ModifierComboBox extends JComboBox
                     ArrayList<InfluenceConfig> assoc = new ArrayList<>();
                     switch (o.influence)
                     {
-                        case SHAPER: assoc.add(Main.mainFrame.itemConfigPanel.shaper); break;
-                        case ELDER: assoc.add(Main.mainFrame.itemConfigPanel.elder); break;
-                        case CRUSADER: assoc.add(Main.mainFrame.itemConfigPanel.crusader); break;
-                        case WARLORD: assoc.add(Main.mainFrame.itemConfigPanel.warlord); break;
-                        case HUNTER: assoc.add(Main.mainFrame.itemConfigPanel.hunter); break;
-                        case REDEEMER: assoc.add(Main.mainFrame.itemConfigPanel.redeemer); break;
+                        case SHAPER: assoc.add(Frame.mainFrame.itemConfigPanel.shaper); break;
+                        case ELDER: assoc.add(Frame.mainFrame.itemConfigPanel.elder); break;
+                        case CRUSADER: assoc.add(Frame.mainFrame.itemConfigPanel.crusader); break;
+                        case WARLORD: assoc.add(Frame.mainFrame.itemConfigPanel.warlord); break;
+                        case HUNTER: assoc.add(Frame.mainFrame.itemConfigPanel.hunter); break;
+                        case REDEEMER: assoc.add(Frame.mainFrame.itemConfigPanel.redeemer); break;
                     }
 
                     if (assoc.isEmpty()) os.add(o);
@@ -205,16 +206,16 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
         setBackground(new Color(60,60,60));
         setForeground(Color.WHITE);
         setBorder(BorderFactory.createEmptyBorder(7, 5, 7, 0));
-        setFont(Main.mainFrame.getNewFont(12));
+        setFont(Frame.mainFrame.getNewFont(12));
         
-        iconMap.put(Influence.NORMAL, new ImageIcon(Main.mainFrame.getClass().getResource("/resources/images/transparent.png")));
+        iconMap.put(Influence.NORMAL, new ImageIcon(Frame.mainFrame.getClass().getResource("/resources/images/transparent.png")));
         
-        iconMap.put(Influence.SHAPER, new ImageIcon(Main.mainFrame.getClass().getResource("/resources/images/shaper-symbol.png")));
-        iconMap.put(Influence.ELDER, new ImageIcon(Main.mainFrame.getClass().getResource("/resources/images/elder-symbol.png")));
-        iconMap.put(Influence.HUNTER, new ImageIcon(Main.mainFrame.getClass().getResource("/resources/images/hunter-symbol.png")));
-        iconMap.put(Influence.WARLORD, new ImageIcon(Main.mainFrame.getClass().getResource("/resources/images/warlord-symbol.png")));
-        iconMap.put(Influence.REDEEMER, new ImageIcon(Main.mainFrame.getClass().getResource("/resources/images/redeemer-symbol.png")));
-        iconMap.put(Influence.CRUSADER, new ImageIcon(Main.mainFrame.getClass().getResource("/resources/images/crusader-symbol.png")));
+        iconMap.put(Influence.SHAPER, new ImageIcon(Frame.mainFrame.getClass().getResource("/resources/images/shaper-symbol.png")));
+        iconMap.put(Influence.ELDER, new ImageIcon(Frame.mainFrame.getClass().getResource("/resources/images/elder-symbol.png")));
+        iconMap.put(Influence.HUNTER, new ImageIcon(Frame.mainFrame.getClass().getResource("/resources/images/hunter-symbol.png")));
+        iconMap.put(Influence.WARLORD, new ImageIcon(Frame.mainFrame.getClass().getResource("/resources/images/warlord-symbol.png")));
+        iconMap.put(Influence.REDEEMER, new ImageIcon(Frame.mainFrame.getClass().getResource("/resources/images/redeemer-symbol.png")));
+        iconMap.put(Influence.CRUSADER, new ImageIcon(Frame.mainFrame.getClass().getResource("/resources/images/crusader-symbol.png")));
     }
     
     private StringBuffer genHTMLString(String rawtext, String highlight) {
@@ -286,7 +287,7 @@ class ModifierComboBoxEditor extends BasicComboBoxEditor {
     public ModifierComboBoxEditor() {
          
         label.setOpaque(false);
-        label.setFont(Main.mainFrame.getNewFont(12));
+        label.setFont(Frame.mainFrame.getNewFont(12));
         label.setForeground(Color.WHITE);
         label.setBackground(new Color(60,60,60));
         label.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
@@ -361,7 +362,7 @@ class ModKeyTypedListenerSJB implements KeyListener
         if (e.getKeyCode() == 10)
         {
             e.consume();
-            Main.mainFrame.requestFocusInWindow();
+            Frame.mainFrame.requestFocusInWindow();
         }
         
         else if (e.isControlDown())
@@ -406,7 +407,7 @@ class ModKeyTypedListenerSJB implements KeyListener
             if (content.equals(m.getStr()))
             {
                 owner.update(m, true);
-                Filter.saveFilters();
+                FilterPersistence.saveFilters();
                 return;
             }
 
@@ -427,11 +428,9 @@ class ModClickListenerSJB implements FocusListener
     @Override
     public void focusGained(FocusEvent e)
     {        
-        System.out.println(owner.getWidth());
-
         if (Filter.singleton.SelectedBase == null || Filter.singleton.SelectedItemLevel == 0) {
-            Main.mainFrame.requestFocusInWindow();
-            JOptionPane.showMessageDialog(Main.mainFrame, "Please select an item base", "Error", JOptionPane.ERROR_MESSAGE);
+            Frame.mainFrame.requestFocusInWindow();
+            JOptionPane.showMessageDialog(Frame.mainFrame, "Please select an item base", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
@@ -446,7 +445,7 @@ class ModClickListenerSJB implements FocusListener
             owner.showPopup();
         
         owner.allSelected = false;
-       ((JTextField) owner.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
+       ((JTextField) owner.getEditor().getEditorComponent()).setFont(Frame.mainFrame.getNewFont(12));
     }
 
     @Override
@@ -460,7 +459,7 @@ class ModClickListenerSJB implements FocusListener
             owner.update(null, true);
         }
         
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
     }
 }
 
@@ -485,14 +484,14 @@ class ModSelectionListener implements ItemListener
             if (selected != null)
             {
                 owner.update(selected, true);
-                Filter.saveFilters();
+                FilterPersistence.saveFilters();
             }
         } catch (ClassCastException e) {
             owner.update(null, true);
         } finally {
             ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
-            Filter.saveFilters();
-            ((JTextField) owner.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
+            FilterPersistence.saveFilters();
+            ((JTextField) owner.getEditor().getEditorComponent()).setFont(Frame.mainFrame.getNewFont(12));
         }
     }
 }

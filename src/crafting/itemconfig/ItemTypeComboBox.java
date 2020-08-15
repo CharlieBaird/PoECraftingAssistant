@@ -7,6 +7,7 @@ import poeitem.Modifier;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import javax.swing.ComboBoxModel;
+import crafting.persistence.FilterPersistence;
 
 public class ItemTypeComboBox extends SearchBoxBase
 {
@@ -21,7 +22,7 @@ public class ItemTypeComboBox extends SearchBoxBase
         super(parent, types);
         setSelectedIndex(0);
         update();
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
     }
     
     @Override
@@ -29,7 +30,7 @@ public class ItemTypeComboBox extends SearchBoxBase
     {
         super.reset();
         update();
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
     }
     
     @Override
@@ -39,7 +40,7 @@ public class ItemTypeComboBox extends SearchBoxBase
        {
            update();
        }
-       Filter.saveFilters();
+       FilterPersistence.saveFilters();
     }
     
     private void update()

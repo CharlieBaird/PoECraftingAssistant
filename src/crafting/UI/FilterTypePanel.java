@@ -15,6 +15,7 @@ import crafting.filtertypes.Mod;
 import crafting.filtertypes.logicgroups.*;
 import poeitem.BaseItem;
 import poeitem.Modifier;
+import crafting.persistence.FilterPersistence;
 
 public class FilterTypePanel extends JPanel {
     
@@ -26,7 +27,7 @@ public class FilterTypePanel extends JPanel {
     
     public String type;
     public String resourcePath;
-    public static Main frame;
+    public static Frame frame;
     public JPanel parent;
     
     public LogicGroupComboBox typebox;
@@ -41,7 +42,7 @@ public class FilterTypePanel extends JPanel {
     public Subfilter filter;
     public int index;
     
-    public FilterTypePanel(Main frame, JPanel parent, FilterBase filterbase, Subfilter filter, int index)
+    public FilterTypePanel(Frame frame, JPanel parent, FilterBase filterbase, Subfilter filter, int index)
     {
         this.filterbase = filterbase;
         this.filter = filter;
@@ -257,7 +258,7 @@ public class FilterTypePanel extends JPanel {
             filtertypepanels.remove(this);
             filter.filters.remove(filterbase);
 
-            Filter.saveFilters();
+            FilterPersistence.saveFilters();
         }
     }
     
@@ -267,9 +268,9 @@ public class FilterTypePanel extends JPanel {
             Subfilter f = FilterTypePanel.filtertypepanels.get(0).filter;
             frame.genFilterPanel(f);
         }
-        Main.mainFrame.validate();
+        Frame.mainFrame.validate();
         
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
     }
     
     public void logicGroupChanged(String selected)
@@ -299,7 +300,7 @@ public class FilterTypePanel extends JPanel {
             }
             
             filter.filters.set(index, filterbase);
-            Filter.saveFilters();
+            FilterPersistence.saveFilters();
         }        
     }
     
@@ -376,7 +377,7 @@ class CloseFBButton extends JButton {
                 parent.parent.requestFocusInWindow();
                 parent.remove();
                 parent.numlabel.update();
-                Filter.saveFilters();
+                FilterPersistence.saveFilters();
             }
         };
         addActionListener(actionListener);
@@ -541,7 +542,7 @@ class MinMax extends JTextField {
             else
                 c.neededMax = 100000;
             parent.filterbase = c;
-            Filter.saveFilters();
+            FilterPersistence.saveFilters();
         }
     }
     

@@ -13,6 +13,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import crafting.persistence.FilterPersistence;
 
 public class SearchBoxBase extends JComboBox {
     
@@ -40,7 +41,7 @@ public class SearchBoxBase extends JComboBox {
         setEditable(true);
         defaultmodel = this.getModel();
         
-        this.setFont(Main.mainFrame.getNewFont(12));
+        this.setFont(Frame.mainFrame.getNewFont(12));
         
         this.getEditor().getEditorComponent().addKeyListener(new IL_KeyTypedListener(this));
         this.getEditor().getEditorComponent().addFocusListener(new IL_ClickListener(this));
@@ -91,7 +92,7 @@ public class SearchBoxBase extends JComboBox {
         setModel(defaultmodel);
         setSelectedIndex(-1);
         entry = "";
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
     }
     
 }
@@ -128,7 +129,7 @@ class IL_KeyTypedListener implements KeyListener
         else if (e.getKeyCode() == 10)
         {
             e.consume();
-//            Main.mainFrame.requestFocusInWindow();
+//            Frame.mainFrame.requestFocusInWindow();
         }
         
         // Ctrl + A
@@ -175,7 +176,7 @@ class IL_ClickListener implements FocusListener
             String m = (String) owner.defaultmodel.getElementAt(i);
             if (content.equals(m))
             {
-                Filter.saveFilters();
+                FilterPersistence.saveFilters();
                 return;
             }
         }

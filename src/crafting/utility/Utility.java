@@ -1,6 +1,8 @@
-package crafting;
+package crafting.utility;
 
-import crafting.UI.Main;
+import crafting.Main;
+import crafting.persistence.Settings;
+import crafting.UI.Frame;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.Toolkit;
@@ -32,7 +34,7 @@ public class Utility {
         }
         catch (InterruptedException ex)
         {
-            Logger.getLogger(PoECraftingAssistant.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -44,11 +46,11 @@ public class Utility {
         } catch (IllegalArgumentException ex) {
             if (Settings.singleton.ctrlKey == KeyEvent.VK_CONTROL)
             {
-                JOptionPane.showMessageDialog(Main.mainFrame, "Unable to fire the CTRL key.\nTry changing to the ALTGR key in settings.", "Failure", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(Frame.mainFrame, "Unable to fire the CTRL key.\nTry changing to the ALTGR key in settings.", "Failure", JOptionPane.ERROR_MESSAGE);
             }
             else
             {
-                JOptionPane.showMessageDialog(Main.mainFrame, "Unable to fire the ALTGR key.\nTry changing to the CTRL key in settings.", "Failure", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(Frame.mainFrame, "Unable to fire the ALTGR key.\nTry changing to the CTRL key in settings.", "Failure", JOptionPane.ERROR_MESSAGE);
             }
             return null;
         }
@@ -70,7 +72,7 @@ public class Utility {
         try {
             cc = (String) cb.getData(DataFlavor.stringFlavor);
         } catch (UnsupportedFlavorException | IOException | IllegalStateException e) {
-            JOptionPane.showMessageDialog(Main.mainFrame, "An error occurred while trying to access the clipboard.", "Failure", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Frame.mainFrame, "An error occurred while trying to access the clipboard.", "Failure", JOptionPane.ERROR_MESSAGE);
             System.out.println(e);
         }
         
@@ -92,7 +94,7 @@ public class Utility {
             clip = AudioSystem.getClip();
         } catch (LineUnavailableException ex) {
             playPrebuiltSound();
-            JOptionPane.showMessageDialog(Main.mainFrame, "An error occurred with your custom sound."
+            JOptionPane.showMessageDialog(Frame.mainFrame, "An error occurred with your custom sound."
                     + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -101,12 +103,12 @@ public class Utility {
             ais = AudioSystem.getAudioInputStream(clipFile);
         } catch (UnsupportedAudioFileException ex) {
             playPrebuiltSound();
-            JOptionPane.showMessageDialog(Main.mainFrame, "An error occurred. The audio file you have selected is in the wrong format. Please use the .wav format."
+            JOptionPane.showMessageDialog(Frame.mainFrame, "An error occurred. The audio file you have selected is in the wrong format. Please use the .wav format."
                     + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         } catch (IOException ex) {
             playPrebuiltSound();
-            JOptionPane.showMessageDialog(Main.mainFrame, "Your sound file could not found. Please check the path again."
+            JOptionPane.showMessageDialog(Frame.mainFrame, "Your sound file could not found. Please check the path again."
                     + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -121,7 +123,7 @@ public class Utility {
             clip.start();
         } catch (LineUnavailableException | NullPointerException | IOException ex) {
             playPrebuiltSound();
-            JOptionPane.showMessageDialog(Main.mainFrame, "An error occurred, and the sound could not be played. The file might be corrupted."
+            JOptionPane.showMessageDialog(Frame.mainFrame, "An error occurred, and the sound could not be played. The file might be corrupted."
                     + "\nThe default sound was played instead.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -133,7 +135,7 @@ public class Utility {
     
     private static void playPrebuiltSound()
     {
-        InputStream is = Main.mainFrame.getClass().getResourceAsStream("/resources/HitSFX1.wav");
+        InputStream is = Frame.mainFrame.getClass().getResourceAsStream("/resources/HitSFX1.wav");
         InputStream bufferedIn = new BufferedInputStream(is);
         
         Clip clip = null;

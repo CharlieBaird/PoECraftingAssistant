@@ -1,6 +1,7 @@
 package crafting.UI.hotkeys;
 
-import crafting.UI.Main;
+import crafting.UI.Frame;
+import crafting.persistence.HotkeyPersistence;
 import javax.swing.*;
 
 public class HotkeyEditor {
@@ -26,7 +27,7 @@ public class HotkeyEditor {
     
     public static void show(HotkeyEditor editor)
     {
-        int n = JOptionPane.showConfirmDialog(Main.mainFrame, editor.message, "Hotkey configuration", JOptionPane.OK_CANCEL_OPTION);
+        int n = JOptionPane.showConfirmDialog(Frame.mainFrame, editor.message, "Hotkey configuration", JOptionPane.OK_CANCEL_OPTION);
         if (n == JOptionPane.OK_OPTION)
         {
             handleResult(editor);
@@ -52,7 +53,7 @@ public class HotkeyEditor {
                 if (newCtrl == hk.ctrl && newKey == hk.key)
                 {
                     skip = true;
-                    JOptionPane.showMessageDialog(Main.mainFrame, "A hotkey is a duplicate of another hotkey", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Frame.mainFrame, "A hotkey is a duplicate of another hotkey", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
             if (skip) continue;
@@ -60,6 +61,6 @@ public class HotkeyEditor {
             hotkey.key = newKey;
         }
         
-        HotkeyConfig.save();
+        HotkeyPersistence.save();
     }
 }

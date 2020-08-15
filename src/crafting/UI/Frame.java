@@ -2,15 +2,14 @@ package crafting.UI;
 
 import crafting.filters.Subfilter;
 import crafting.filters.Filter;
-import crafting.PoECraftingAssistant;
-import crafting.Settings;
-import static crafting.PoECraftingAssistant.establishHotkeyShortcut;
+import crafting.persistence.Settings;
 import crafting.UI.console.Console;
 import crafting.UI.hotkeys.HotkeyEditor;
-import crafting.Utility;
+import crafting.utility.Utility;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.logicgroups.And;
 import crafting.itemconfig.ItemConfigPanel;
+import crafting.utility.PastebinIO;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
@@ -22,8 +21,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,18 +31,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import crafting.persistence.FilterPersistence;
+import crafting.run.HookEstablisher;
+import crafting.run.Run;
+import javax.swing.JOptionPane;
 
-public class Main extends javax.swing.JFrame {
+public class Frame extends javax.swing.JFrame {
     
     Font font = null;   
         
-    public Main() {
+    public Frame() {
         initComponents();
     }
     
@@ -72,18 +71,20 @@ public class Main extends javax.swing.JFrame {
         jPanel15 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        folderButton = new javax.swing.JButton();
+        newFilterButton = new javax.swing.JButton();
+        openFilterButton = new javax.swing.JButton();
+        importButton = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jPanel16 = new javax.swing.JPanel();
+        exportButton = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
+        hotkeysButton = new javax.swing.JButton();
+        consoleButton = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
+        settingsButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jButton10 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -259,65 +260,87 @@ public class Main extends javax.swing.JFrame {
         jPanel10.setLayout(new java.awt.BorderLayout());
 
         jPanel13.setBackground(new java.awt.Color(88, 0, 0));
-        jPanel13.setPreferredSize(new java.awt.Dimension(500, 40));
+        jPanel13.setPreferredSize(new java.awt.Dimension(550, 40));
         jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        jButton5.setBackground(new java.awt.Color(127, 3, 3));
-        jButton5.setFont(getNewFont(12f));
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Folder");
-        jButton5.setToolTipText("Open saved folder");
-        jButton5.setContentAreaFilled(false);
-        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton5.setFocusable(false);
-        jButton5.setMaximumSize(null);
-        jButton5.setMinimumSize(new java.awt.Dimension(100, 32));
-        jButton5.setPreferredSize(new java.awt.Dimension(100, 32));
-        jButton5.setRequestFocusEnabled(false);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        folderButton.setBackground(new java.awt.Color(127, 3, 3));
+        folderButton.setFont(getNewFont(12f));
+        folderButton.setForeground(new java.awt.Color(255, 255, 255));
+        folderButton.setText("Folder");
+        folderButton.setToolTipText("Open saved folder");
+        folderButton.setContentAreaFilled(false);
+        folderButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        folderButton.setEnabled(false);
+        folderButton.setFocusable(false);
+        folderButton.setMaximumSize(null);
+        folderButton.setMinimumSize(new java.awt.Dimension(100, 32));
+        folderButton.setPreferredSize(new java.awt.Dimension(100, 32));
+        folderButton.setRequestFocusEnabled(false);
+        folderButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                folderButtonActionPerformed(evt);
             }
         });
-        jPanel13.add(jButton5);
+        jPanel13.add(folderButton);
 
-        jButton4.setBackground(new java.awt.Color(127, 3, 3));
-        jButton4.setFont(getNewFont(12f));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("New");
-        jButton4.setToolTipText("Create new filter");
-        jButton4.setContentAreaFilled(false);
-        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton4.setFocusable(false);
-        jButton4.setMaximumSize(null);
-        jButton4.setMinimumSize(new java.awt.Dimension(100, 32));
-        jButton4.setPreferredSize(new java.awt.Dimension(100, 32));
-        jButton4.setRequestFocusEnabled(false);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        newFilterButton.setBackground(new java.awt.Color(127, 3, 3));
+        newFilterButton.setFont(getNewFont(12f));
+        newFilterButton.setForeground(new java.awt.Color(255, 255, 255));
+        newFilterButton.setText("New");
+        newFilterButton.setToolTipText("Create new filter");
+        newFilterButton.setContentAreaFilled(false);
+        newFilterButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        newFilterButton.setEnabled(false);
+        newFilterButton.setFocusable(false);
+        newFilterButton.setMaximumSize(null);
+        newFilterButton.setMinimumSize(new java.awt.Dimension(100, 32));
+        newFilterButton.setPreferredSize(new java.awt.Dimension(100, 32));
+        newFilterButton.setRequestFocusEnabled(false);
+        newFilterButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                newFilterButtonActionPerformed(evt);
             }
         });
-        jPanel13.add(jButton4);
+        jPanel13.add(newFilterButton);
 
-        jButton1.setBackground(new java.awt.Color(127, 3, 3));
-        jButton1.setFont(getNewFont(12f));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Open");
-        jButton1.setToolTipText("Open filter");
-        jButton1.setContentAreaFilled(false);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.setFocusable(false);
-        jButton1.setMaximumSize(null);
-        jButton1.setMinimumSize(new java.awt.Dimension(100, 32));
-        jButton1.setPreferredSize(new java.awt.Dimension(100, 32));
-        jButton1.setRequestFocusEnabled(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        openFilterButton.setBackground(new java.awt.Color(127, 3, 3));
+        openFilterButton.setFont(getNewFont(12f));
+        openFilterButton.setForeground(new java.awt.Color(255, 255, 255));
+        openFilterButton.setText("Open");
+        openFilterButton.setToolTipText("Open filter");
+        openFilterButton.setContentAreaFilled(false);
+        openFilterButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        openFilterButton.setEnabled(false);
+        openFilterButton.setFocusable(false);
+        openFilterButton.setMaximumSize(null);
+        openFilterButton.setMinimumSize(new java.awt.Dimension(100, 32));
+        openFilterButton.setPreferredSize(new java.awt.Dimension(100, 32));
+        openFilterButton.setRequestFocusEnabled(false);
+        openFilterButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                openFilterButtonActionPerformed(evt);
             }
         });
-        jPanel13.add(jButton1);
+        jPanel13.add(openFilterButton);
+
+        importButton.setBackground(new java.awt.Color(127, 3, 3));
+        importButton.setFont(getNewFont(12f));
+        importButton.setForeground(new java.awt.Color(255, 255, 255));
+        importButton.setText("Import");
+        importButton.setToolTipText("Import filter from pastebin");
+        importButton.setContentAreaFilled(false);
+        importButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        importButton.setEnabled(false);
+        importButton.setFocusable(false);
+        importButton.setMinimumSize(new java.awt.Dimension(100, 32));
+        importButton.setPreferredSize(new java.awt.Dimension(100, 32));
+        importButton.setRequestFocusEnabled(false);
+        importButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importButtonActionPerformed(evt);
+            }
+        });
+        jPanel13.add(importButton);
 
         jButton7.setBackground(new java.awt.Color(127, 3, 3));
         jButton7.setFont(getNewFont(12f));
@@ -341,8 +364,27 @@ public class Main extends javax.swing.JFrame {
         jPanel10.add(jPanel13, java.awt.BorderLayout.WEST);
 
         jPanel16.setBackground(new java.awt.Color(88, 0, 0));
-        jPanel16.setPreferredSize(new java.awt.Dimension(400, 40));
+        jPanel16.setPreferredSize(new java.awt.Dimension(600, 40));
         jPanel16.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        exportButton.setBackground(new java.awt.Color(127, 3, 3));
+        exportButton.setFont(getNewFont(12f));
+        exportButton.setForeground(new java.awt.Color(255, 255, 255));
+        exportButton.setText("Export");
+        exportButton.setToolTipText("Export filter to pastebin (Maximum 20 per 24 hours)");
+        exportButton.setContentAreaFilled(false);
+        exportButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        exportButton.setEnabled(false);
+        exportButton.setFocusable(false);
+        exportButton.setMinimumSize(new java.awt.Dimension(100, 32));
+        exportButton.setPreferredSize(new java.awt.Dimension(100, 32));
+        exportButton.setRequestFocusEnabled(false);
+        exportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportButtonActionPerformed(evt);
+            }
+        });
+        jPanel16.add(exportButton);
 
         jButton13.setBackground(new java.awt.Color(127, 3, 3));
         jButton13.setFont(getNewFont(12f));
@@ -362,41 +404,43 @@ public class Main extends javax.swing.JFrame {
         });
         jPanel16.add(jButton13);
 
-        jButton11.setBackground(new java.awt.Color(127, 3, 3));
-        jButton11.setFont(getNewFont(12f));
-        jButton11.setForeground(new java.awt.Color(255, 255, 255));
-        jButton11.setText("Hotkeys");
-        jButton11.setToolTipText("Configure hotkeys");
-        jButton11.setContentAreaFilled(false);
-        jButton11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton11.setFocusable(false);
-        jButton11.setMinimumSize(new java.awt.Dimension(100, 32));
-        jButton11.setPreferredSize(new java.awt.Dimension(100, 32));
-        jButton11.setRequestFocusEnabled(false);
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
+        hotkeysButton.setBackground(new java.awt.Color(127, 3, 3));
+        hotkeysButton.setFont(getNewFont(12f));
+        hotkeysButton.setForeground(new java.awt.Color(255, 255, 255));
+        hotkeysButton.setText("Hotkeys");
+        hotkeysButton.setToolTipText("Configure hotkeys");
+        hotkeysButton.setContentAreaFilled(false);
+        hotkeysButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        hotkeysButton.setEnabled(false);
+        hotkeysButton.setFocusable(false);
+        hotkeysButton.setMinimumSize(new java.awt.Dimension(100, 32));
+        hotkeysButton.setPreferredSize(new java.awt.Dimension(100, 32));
+        hotkeysButton.setRequestFocusEnabled(false);
+        hotkeysButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+                hotkeysButtonActionPerformed(evt);
             }
         });
-        jPanel16.add(jButton11);
+        jPanel16.add(hotkeysButton);
 
-        jButton12.setBackground(new java.awt.Color(127, 3, 3));
-        jButton12.setFont(getNewFont(12f));
-        jButton12.setForeground(new java.awt.Color(255, 255, 255));
-        jButton12.setText("Console");
-        jButton12.setToolTipText("Open console");
-        jButton12.setContentAreaFilled(false);
-        jButton12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton12.setFocusable(false);
-        jButton12.setMinimumSize(new java.awt.Dimension(100, 32));
-        jButton12.setPreferredSize(new java.awt.Dimension(100, 32));
-        jButton12.setRequestFocusEnabled(false);
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
+        consoleButton.setBackground(new java.awt.Color(127, 3, 3));
+        consoleButton.setFont(getNewFont(12f));
+        consoleButton.setForeground(new java.awt.Color(255, 255, 255));
+        consoleButton.setText("Console");
+        consoleButton.setToolTipText("Open console");
+        consoleButton.setContentAreaFilled(false);
+        consoleButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        consoleButton.setEnabled(false);
+        consoleButton.setFocusable(false);
+        consoleButton.setMinimumSize(new java.awt.Dimension(100, 32));
+        consoleButton.setPreferredSize(new java.awt.Dimension(100, 32));
+        consoleButton.setRequestFocusEnabled(false);
+        consoleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
+                consoleButtonActionPerformed(evt);
             }
         });
-        jPanel16.add(jButton12);
+        jPanel16.add(consoleButton);
 
         jPanel10.add(jPanel16, java.awt.BorderLayout.EAST);
 
@@ -465,21 +509,22 @@ public class Main extends javax.swing.JFrame {
 
         jPanel1.add(jPanel12);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/gear5.png"))); // NOI18N
-        jButton3.setToolTipText("Open Settings");
-        jButton3.setContentAreaFilled(false);
-        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton3.setFocusPainted(false);
-        jButton3.setFocusable(false);
-        jButton3.setMaximumSize(new java.awt.Dimension(60, 60));
-        jButton3.setMinimumSize(new java.awt.Dimension(60, 60));
-        jButton3.setPreferredSize(new java.awt.Dimension(60, 60));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        settingsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/gear5.png"))); // NOI18N
+        settingsButton.setToolTipText("Open Settings");
+        settingsButton.setContentAreaFilled(false);
+        settingsButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        settingsButton.setEnabled(false);
+        settingsButton.setFocusPainted(false);
+        settingsButton.setFocusable(false);
+        settingsButton.setMaximumSize(new java.awt.Dimension(60, 60));
+        settingsButton.setMinimumSize(new java.awt.Dimension(60, 60));
+        settingsButton.setPreferredSize(new java.awt.Dimension(60, 60));
+        settingsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                settingsButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3);
+        jPanel1.add(settingsButton);
 
         jPanel3.setBackground(new java.awt.Color(30, 30, 30));
         jPanel3.setMaximumSize(new java.awt.Dimension(10, 10));
@@ -545,11 +590,6 @@ public class Main extends javax.swing.JFrame {
                 jButton2MousePressed(evt);
             }
         });
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runChaosSpam(evt);
-            }
-        });
         jPanel1.add(jButton2);
 
         jPanel5.add(jPanel1);
@@ -594,116 +634,24 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runChaosSpam
-//        PoECraftingAssistant.runChaosSpam(mainFrame);
-    }//GEN-LAST:event_runChaosSpam
+    private void openFilterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFilterButtonActionPerformed
+        FilterPersistence.openFilter();
+    }//GEN-LAST:event_openFilterButtonActionPerformed
 
-    public void openFilter()
-    {
-        JFileChooser chooser = new JFileChooser(Utility.getResourcesPath() + "/src/resources/filters");
-        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File file = chooser.getSelectedFile();
-            String path = file.toPath().toString();
-            
-            Filter loaded = null;
-            loaded = Filter.loadFilters(path);
-            
-            if (loaded == null) // Errored, wrong serial ID
-            {
-                JOptionPane.showMessageDialog(Main.mainFrame, "Invalid Filter. Filters from previous PoE Crafting Assistant\nversions cannot be opened.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            Filter.saveFilters();
-            Filter.reset_openFilter();
-            updateLeftTab();
-
-            for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
-            {
-                FilterNamePanel.filterpanels.get(i).remove();
-            }
-
-            FilterNamePanel.filterpanels.clear();
-            
-            Filter.singleton = loaded;
-
-            updateLeftTab();
-            itemConfigPanel.updateFromFilter();
-            
-            if (FilterNamePanel.filterpanels.size() >= 1)
-            {
-                FilterNamePanel.filterpanels.get(0).open();
-            }
-            
-            jButton2.setVisible(true);
-            jButton10.setVisible(true);
-            jButton7.setVisible(true);
-            
-            ModifierPanel.updateTierViews();
-        }
-        
-        for (FilterNamePanel fnp : FilterNamePanel.filterpanels)
-        {
-            if (fnp.active)
-            {
-                fnp.open();
-            }
-        }
-    }
     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        openFilter();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void newFilterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newFilterButtonActionPerformed
+        FilterPersistence.createNewFilter();
+    }//GEN-LAST:event_newFilterButtonActionPerformed
 
-    public void createNewFilter()
-    {   
-        String name = (String)JOptionPane.showInputDialog(
-            this,
-            "Enter the New Filter's Name",
-            "PoE Crafting Assistant",
-            JOptionPane.PLAIN_MESSAGE,
-            null,
-            null,
-            "New Filter");
-
-        if (name != null && !name.equals(""))
-        {
-            Filter.saveFilters();
-
-            Filter.reset_newFilter();
-
-            for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
-            {
-                FilterNamePanel.filterpanels.get(i).remove();
-            }
-
-            FilterNamePanel.filterpanels.clear();
-
-            jTextField1.setText(name);
-
-            Filter.singleton.setName(name);
-            Filter.saveFilters();
-
-            jTextField1.setVisible(true);
-            jButton8.setVisible(true);
-            jButton2.setVisible(true);
-            jButton10.setVisible(true);
-            jButton7.setVisible(true);
-        }
-    }
-    
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        createNewFilter();
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void folderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_folderButtonActionPerformed
         String path = Utility.getResourcesPath() + "/src/resources/filters";
         File file = new File(path);
         try {
             Desktop.getDesktop().open(file);
         } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_folderButtonActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         jPanel6.requestFocusInWindow();
@@ -729,16 +677,16 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
         requestFocusInWindow();
         Settings.singleton.OpenSettings();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_settingsButtonActionPerformed
 
     public void saveFilters()
     {
         if (Filter.singleton != null)
         {
-            Filter.saveFilters();
+            FilterPersistence.saveFilters();
         }
         
         jButton7.setText("Saved!");
@@ -759,21 +707,24 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton10runChaosSpam(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10runChaosSpam
         requestFocusInWindow();
-        PoECraftingAssistant.testFilter(this, jButton10);
+        Run.testFilter(this, jButton10);
     }//GEN-LAST:event_jButton10runChaosSpam
 
     private void jButton2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MousePressed
         requestFocusInWindow();
-        PoECraftingAssistant.runChaosSpam(mainFrame);
+        Run.runFilter();
     }//GEN-LAST:event_jButton2MousePressed
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+    private void hotkeysButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hotkeysButtonActionPerformed
         HotkeyEditor.show(new HotkeyEditor());
-    }//GEN-LAST:event_jButton11ActionPerformed
+    }//GEN-LAST:event_hotkeysButtonActionPerformed
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        Console.open();
-    }//GEN-LAST:event_jButton12ActionPerformed
+    private void consoleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consoleButtonActionPerformed
+        if (Console.loadingFrame.isVisible())
+            Console.close();
+        else
+            Console.open();
+    }//GEN-LAST:event_consoleButtonActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE))
@@ -781,10 +732,24 @@ public class Main extends javax.swing.JFrame {
             try {
                 Desktop.getDesktop().browse(new URI("https://github.com/CharlieBaird/PoECraftingAssistant/wiki"));
             } catch (URISyntaxException | IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
+        if (Filter.singleton.isInitial || !Filter.verify())
+        {
+            JOptionPane.showMessageDialog(Frame.mainFrame, "Invalid filter", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        PastebinIO.exportFilter();
+    }//GEN-LAST:event_exportButtonActionPerformed
+
+    private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importButtonActionPerformed
+        PastebinIO.importFilter();
+    }//GEN-LAST:event_importButtonActionPerformed
 
     public void updateLeftTab()
     {
@@ -803,15 +768,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel ChangeFilterPanel;
     private javax.swing.JPanel SelectFilterPanel;
     private javax.swing.JPanel Window;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton consoleButton;
+    private javax.swing.JButton exportButton;
+    private javax.swing.JButton folderButton;
+    private javax.swing.JButton hotkeysButton;
+    private javax.swing.JButton importButton;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
@@ -835,6 +799,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton newFilterButton;
+    private javax.swing.JButton openFilterButton;
+    private javax.swing.JButton settingsButton;
     // End of variables declaration//GEN-END:variables
 
     
@@ -850,7 +817,7 @@ public class Main extends javax.swing.JFrame {
             font = Font.createFont(Font.TRUETYPE_FONT, is);
             is.close();
         } catch (FontFormatException | IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
         }
         GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
         genv.registerFont(font);
@@ -863,7 +830,7 @@ public class Main extends javax.swing.JFrame {
     {
         new FilterNamePanel(this, jPanel6, filter);
 
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
         
         jTextField1.setVisible(true);
         jButton8.setVisible(true);
@@ -886,14 +853,15 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
         
         
@@ -928,7 +896,7 @@ public class Main extends javax.swing.JFrame {
                 old.delete();
 
                 Filter.singleton.setName(jTextField1.getText());
-                Filter.saveFilters();
+                FilterPersistence.saveFilters();
             }
         });
         
@@ -953,7 +921,7 @@ public class Main extends javax.swing.JFrame {
                 public void provideErrorFeedback(Component component) {}
             });
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         jTextField1.setVisible(false);
@@ -975,47 +943,30 @@ public class Main extends javax.swing.JFrame {
         jPanel9.addMouseListener(new MouseFocusListener(jPanel9));
         jPanel14.addMouseListener(new MouseFocusListener(jPanel14));
         
-        establishHotkeyShortcut();
+        HookEstablisher.establishHotkeyListener();
         
         addComponentListener(new ResizeListener());
         
         requestFocusInWindow();
-        
-        this.addWindowFocusListener(new WindowFocusListener() {
-        @Override
-        public void windowGainedFocus(WindowEvent e) {
-//            System.out.println("Window gained focus");
-//            if (e.getOppositeWindow() == null) {
-//                if (Settings.singleton.disableOnFocus)
-//                    PoECraftingAssistant.stop();
-//            }
-        }
-
-        @Override
-        public void windowLostFocus(WindowEvent e) {
-//            if (e.getOppositeWindow() != null) {
-//                PoECraftingAssistant.stop();
-//            }
-        }
-    });
     }
     
-    public Main(String title)
+    public Frame(String title)
     {
         super(title);
         
         initComponents();
     }
     
-    public static Main mainFrame = null;
+    public static Frame mainFrame = null;
     
     public static void main() {
         java.awt.EventQueue.invokeLater(() -> {
-            mainFrame = new Main("PoE Crafting Assistant");
+            mainFrame = new Frame("PoE Crafting Assistant");
             mainFrame.setLocationRelativeTo(null);
             mainFrame.preload();
             mainFrame.setVisible(true);
             mainFrame.postload();
+            mainFrame.updateImportExport(Settings.singleton.pastebinKey);
         });
     }
     
@@ -1059,5 +1010,42 @@ public class Main extends javax.swing.JFrame {
     public static boolean isFocus()
     {
         return mainFrame.isActive() && mainFrame.isFocused();
+    }
+
+    public void updateImportExport(String pastebinKey) {
+        if (pastebinKey != null && !pastebinKey.isEmpty())
+        {
+            importButton.setEnabled(true);
+            exportButton.setEnabled(true);
+        }
+        else
+        {
+            importButton.setEnabled(false);
+            exportButton.setEnabled(false);
+        }
+    }
+
+    public void onOpenFilter() {
+        jButton2.setVisible(true);
+        jButton10.setVisible(true);
+        jButton7.setVisible(true);
+    }
+
+    public void onCreateNewFilter(String name) {
+        jTextField1.setText(name);
+        jTextField1.setVisible(true);
+        jButton8.setVisible(true);
+        jButton2.setVisible(true);
+        jButton10.setVisible(true);
+        jButton7.setVisible(true);
+    }
+
+    public void onFinishedLoading() {
+        folderButton.setEnabled(true);
+        newFilterButton.setEnabled(true);
+        openFilterButton.setEnabled(true);
+        hotkeysButton.setEnabled(true);
+        consoleButton.setEnabled(true);
+        settingsButton.setEnabled(true);
     }
 }

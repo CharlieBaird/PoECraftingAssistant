@@ -1,20 +1,13 @@
 package crafting.filters;
 
-import crafting.PoECraftingAssistant;
-import crafting.UI.Main;
-import crafting.Utility;
+import crafting.UI.Frame;
+import crafting.utility.Utility;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
+import crafting.run.Run;
 import java.awt.AWTException;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InvalidClassException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -28,15 +21,15 @@ import poeitem.PoEItem;
 public class Filter implements Serializable {
     
     public static String testMods = null;
-    
-    private String name = "";
+    public boolean isInitial = false;
+    public String name = "";
 
     public void setName(String name) {
         this.name = name;
     }
     public ArrayList<Subfilter> filters = new ArrayList<>();
     
-    public static Filter singleton = new Filter(false);
+    public static Filter singleton = new Filter(true);
     
     public Base SelectedBase = null;
     public int SelectedItemLevel = 86;
@@ -53,8 +46,9 @@ public class Filter implements Serializable {
         return singleton.name;
     }
     
-    public Filter(boolean x)
+    public Filter(boolean isInitial)
     {
+        this.isInitial = isInitial;
         filters.clear();
     }
     
@@ -103,14 +97,14 @@ public class Filter implements Serializable {
         singleton.filters.clear();
         singleton.SelectedItemLevel = 86;
         
-        Main.mainFrame.itemConfigPanel.itemType.baseComboBox.reset();
+        Frame.mainFrame.itemConfigPanel.itemType.baseComboBox.reset();
         
-        Main.mainFrame.itemConfigPanel.shaper.reset();
-        Main.mainFrame.itemConfigPanel.elder.reset();
-        Main.mainFrame.itemConfigPanel.hunter.reset();
-        Main.mainFrame.itemConfigPanel.warlord.reset();
-        Main.mainFrame.itemConfigPanel.redeemer.reset();
-        Main.mainFrame.itemConfigPanel.crusader.reset();
+        Frame.mainFrame.itemConfigPanel.shaper.reset();
+        Frame.mainFrame.itemConfigPanel.elder.reset();
+        Frame.mainFrame.itemConfigPanel.hunter.reset();
+        Frame.mainFrame.itemConfigPanel.warlord.reset();
+        Frame.mainFrame.itemConfigPanel.redeemer.reset();
+        Frame.mainFrame.itemConfigPanel.crusader.reset();
     }
     
     public static void add(Subfilter f)
@@ -130,8 +124,8 @@ public class Filter implements Serializable {
             }
             if (mods == null)
             {
-                JOptionPane.showMessageDialog(Main.mainFrame, "Failed to access clipboard", "Error", JOptionPane.ERROR_MESSAGE);
-                PoECraftingAssistant.stop();
+                JOptionPane.showMessageDialog(Frame.mainFrame, "Failed to access clipboard", "Error", JOptionPane.ERROR_MESSAGE);
+                Run.stop();
                 return false;
             }
         }
@@ -149,8 +143,8 @@ public class Filter implements Serializable {
         
         else if (item.brokenModifiers.size() >= 1)
         {
-            JOptionPane.showMessageDialog(Main.mainFrame, "The tool was not able to parse the item. Broken mods:\n" + item.brokenModifiers + ".\nPlease create an issue report at https://github.com/CharlieBaird/PoECraftingAssistant/issues/new. Thanks!", "Error", JOptionPane.ERROR_MESSAGE);
-            PoECraftingAssistant.stop();
+            JOptionPane.showMessageDialog(Frame.mainFrame, "The tool was not able to parse the item. Broken mods:\n" + item.brokenModifiers + ".\nPlease create an issue report at https://github.com/CharlieBaird/PoECraftingAssistant/issues/new. Thanks!", "Error", JOptionPane.ERROR_MESSAGE);
+            Run.stop();
             return false;
         }
         
@@ -223,8 +217,13 @@ public class Filter implements Serializable {
     
     public static void print()
     {
-        System.out.println(singleton.name + ":");
-        for (Subfilter f : singleton.filters)
+        singleton.printFilter();
+    }
+    
+    public void printFilter()
+    {
+        System.out.println(name + ":");
+        for (Subfilter f : filters)
         {
             f.print();
         }
@@ -241,90 +240,10 @@ public class Filter implements Serializable {
         return str;
     }
     
-    public static Filter loadFilters(String path)
-    {
-        FileInputStream fi = null;
-        try {
-            fi = new FileInputStream(new File(path));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        ObjectInputStream oi = null;
-        try {
-            oi = new ObjectInputStream(fi);
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Filter input = null;
-        try {
-            input = (Filter) oi.readObject();
-        } catch (InvalidClassException | ClassNotFoundException ex) {
-            return null;
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-                
-        try {
-            fi.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            oi.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return input;
-    }
-    
-    public static void saveFilters()
-    {
-        
-        if (singleton.name.equals("") || singleton.name == null)
-            return;
-        
-        FileOutputStream f = null;
-        try {
-            f = new FileOutputStream(new File(Utility.getResourcesPath() + "/src/resources/filters" + "/" + singleton.name + ".cbfilter"));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        ObjectOutputStream o = null;
-        try {
-            o = new ObjectOutputStream(f);
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try {
-            // Write objects to file
-            o.writeObject(singleton);
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try {
-            o.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            f.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public static void deleteFilters(String name)
-    {
-        File f = new File(Utility.getResourcesPath() + "/src/resources/filters" + "/" + name + ".cbfilter");
-        f.delete();
-    }
-    
     public static boolean verify()
     {
         
-        if (singleton.filters.isEmpty() || singleton.SelectedBase == null) return false;
+        if (singleton.isInitial || singleton.filters.isEmpty() || singleton.SelectedBase == null) return false;
         
         for (Subfilter f : singleton.filters)
         {

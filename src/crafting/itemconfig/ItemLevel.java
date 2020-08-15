@@ -1,7 +1,7 @@
 package crafting.itemconfig;
 
 import crafting.filters.Filter;
-import crafting.UI.Main;
+import crafting.UI.Frame;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
@@ -23,7 +23,7 @@ public class ItemLevel extends JPanel {
         levelComboBox = new ItemLevelComboBox(this, levels);
         add(levelComboBox);
         
-        Main.mainFrame.requestFocusInWindow();
+        Frame.mainFrame.requestFocusInWindow();
     }
 
     public void updateFromFilter() {

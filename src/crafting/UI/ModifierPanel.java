@@ -17,11 +17,12 @@ import java.util.ArrayList;
 import poeitem.Base;
 import poeitem.BaseItem;
 import poeitem.ModifierTier;
+import crafting.persistence.FilterPersistence;
 
 public class ModifierPanel extends JPanel {
      
     public String resourcePath;
-    public Main frame;
+    public Frame frame;
     public FilterBase filterbase;
     public Mod mod;
     public FilterTypePanel parent;
@@ -33,7 +34,7 @@ public class ModifierPanel extends JPanel {
     
     public Modifier assocMod = null;
     
-    public ModifierPanel(Main frame, FilterTypePanel parent, FilterBase filterbase, Mod mod, ModifierComboBox searchBox)
+    public ModifierPanel(Frame frame, FilterTypePanel parent, FilterBase filterbase, Mod mod, ModifierComboBox searchBox)
     {
         String path = "src/resources";
         File file = new File(path);
@@ -90,8 +91,8 @@ public class ModifierPanel extends JPanel {
         mcb = showSearchBox(mod, assocMod, searchBox);
         mcb.setPreferredSize(new Dimension(this.getWidth(), 20));
         mcb.setMaximumSize(new Dimension(this.getWidth(), 20));
-        ((JTextField) mcb.getEditor().getEditorComponent()).setFont(Main.mainFrame.getNewFont(12));
-        ((JLabel) mcb.getRenderer()).setFont(Main.mainFrame.getNewFont(12));
+        ((JTextField) mcb.getEditor().getEditorComponent()).setFont(Frame.mainFrame.getNewFont(12));
+        ((JLabel) mcb.getRenderer()).setFont(Frame.mainFrame.getNewFont(12));
         min = new MPMinMax(this, String.valueOf(mod.ID.min), true);
         max = new MPMinMax(this, String.valueOf(mod.ID.max), false);
         tier = new TierComboBox(this);
@@ -117,7 +118,7 @@ public class ModifierPanel extends JPanel {
         parent.add(this);
         mod.assocModifierPanel = this;
         
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
     }
     
     public void updateMCBSize()
@@ -375,13 +376,13 @@ class CloseMPButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                Main.mainFrame.requestFocusInWindow();
+                Frame.mainFrame.requestFocusInWindow();
                 parent.parent.modifierpanels.remove(parent);
                 parent.filterbase.mods.remove(parent.mod);
                 FilterTypePanel.reshow();
                 parent.setVisible(false);
         
-                Filter.saveFilters();
+                FilterPersistence.saveFilters();
             }
         };
         addActionListener(actionListener);
@@ -476,14 +477,14 @@ class MPMinMax extends JTextField {
             parent.tier.manualUpdate(getText());
         }
         
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
     }
 
     void textUpdate(double val) {
         setForeground(new Color(255,255,255));
         setText(String.valueOf((int) val));
         parent.mod.ID.min = (int) val;
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
     }
 }
 

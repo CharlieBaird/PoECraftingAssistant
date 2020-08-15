@@ -5,6 +5,7 @@ import crafting.UI.FilterTypePanel;
 import crafting.UI.SearchBoxBase;
 import java.awt.event.ItemEvent;
 import javax.swing.JTextField;
+import crafting.persistence.FilterPersistence;
 
 public class ItemLevelComboBox extends SearchBoxBase {
     
@@ -27,7 +28,7 @@ public class ItemLevelComboBox extends SearchBoxBase {
            Filter.singleton.SelectedItemLevelIndex = getSelectedIndex();
            FilterTypePanel.reshow();
        }
-       Filter.saveFilters();
+       FilterPersistence.saveFilters();
     }
     
     @Override
@@ -36,6 +37,6 @@ public class ItemLevelComboBox extends SearchBoxBase {
         setModel(defaultmodel);
         setSelectedIndex(0);
         entry = "86";
-        Filter.saveFilters();
+        FilterPersistence.saveFilters();
     }
 }
