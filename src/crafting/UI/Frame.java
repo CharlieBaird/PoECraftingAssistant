@@ -38,6 +38,7 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import crafting.persistence.FilterPersistence;
 import crafting.run.HookEstablisher;
 import crafting.run.Run;
+import javax.swing.JOptionPane;
 
 public class Frame extends javax.swing.JFrame {
     
@@ -367,7 +368,7 @@ public class Frame extends javax.swing.JFrame {
         exportButton.setFont(getNewFont(12f));
         exportButton.setForeground(new java.awt.Color(255, 255, 255));
         exportButton.setText("Export");
-        exportButton.setToolTipText("Export filter to pastebin");
+        exportButton.setToolTipText("Export filter to pastebin (Maximum 20 per 24 hours)");
         exportButton.setContentAreaFilled(false);
         exportButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         exportButton.setEnabled(false);
@@ -633,7 +634,7 @@ public class Frame extends javax.swing.JFrame {
 
     
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Filter.createNewFilter();
+        FilterPersistence.createNewFilter();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -728,6 +729,12 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
+        if (Filter.singleton.isInitial || !Filter.verify())
+        {
+            JOptionPane.showMessageDialog(Frame.mainFrame, "Invalid filter", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         PastebinIO.exportFilter();
     }//GEN-LAST:event_exportButtonActionPerformed
 

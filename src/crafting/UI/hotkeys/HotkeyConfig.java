@@ -65,7 +65,7 @@ public class HotkeyConfig implements Serializable {
                 Frame.mainFrame.repaint();
                 break;
             case NEW_FILTER:
-                Filter.createNewFilter();
+                FilterPersistence.createNewFilter();
                 break;
             case OPEN_FILTER:
                 FilterPersistence.openFilter();

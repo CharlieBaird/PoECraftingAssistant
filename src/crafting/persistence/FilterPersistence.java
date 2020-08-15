@@ -4,7 +4,6 @@ import crafting.UI.FilterNamePanel;
 import crafting.UI.Frame;
 import crafting.UI.ModifierPanel;
 import crafting.filters.Filter;
-import static crafting.filters.Filter.singleton;
 import crafting.utility.Utility;
 import java.io.File;
 import java.io.FileInputStream;
@@ -61,6 +60,61 @@ public class FilterPersistence {
         FilterNamePanel.filterpanels.clear();
 
         Filter.singleton = loaded;
+        Filter.singleton.isInitial = false;
+
+        Frame.mainFrame.updateLeftTab();
+        Frame.mainFrame.itemConfigPanel.updateFromFilter();
+
+        if (FilterNamePanel.filterpanels.size() >= 1)
+        {
+            FilterNamePanel.filterpanels.get(0).open();
+        }
+
+        Frame.mainFrame.onOpenFilter();
+
+        ModifierPanel.updateTierViews();
+        
+        for (FilterNamePanel fnp : FilterNamePanel.filterpanels)
+        {
+            if (fnp.active)
+            {
+                fnp.open();
+            }
+        }
+    }
+    
+    public static void importFilter(Filter loaded)
+    {
+        if (loaded == null) // Errored, wrong serial ID
+        {
+            JOptionPane.showMessageDialog(Frame.mainFrame, "Invalid Filter. Filters from previous PoE Crafting Assistant\nversions cannot be opened.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        saveFilters();
+        boolean useSavedName = false;
+        String savedName = "";
+        if (!Filter.singleton.isInitial)
+        {
+            useSavedName = true;
+            savedName = Filter.singleton.name;
+        }
+        Filter.reset_openFilter();
+        Frame.mainFrame.updateLeftTab();
+
+        for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
+        {
+            FilterNamePanel.filterpanels.get(i).remove();
+        }
+
+        FilterNamePanel.filterpanels.clear();
+        
+        
+        Filter.singleton = loaded;
+        Filter.singleton.isInitial = false;
+        if (useSavedName)
+        {
+            Filter.singleton.name = savedName;
+        }
 
         Frame.mainFrame.updateLeftTab();
         Frame.mainFrame.itemConfigPanel.updateFromFilter();
@@ -127,7 +181,7 @@ public class FilterPersistence {
         
         FileOutputStream f = null;
         try {
-            f = new FileOutputStream(new File(Utility.getResourcesPath() + "/src/resources/filters" + "/" + singleton.name + ".cbfilter"));
+            f = new FileOutputStream(new File(Utility.getResourcesPath() + "/src/resources/filters" + "/" + Filter.singleton.name + ".cbfilter"));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -140,7 +194,7 @@ public class FilterPersistence {
 
         try {
             // Write objects to file
-            o.writeObject(singleton);
+            o.writeObject(Filter.singleton);
         } catch (IOException ex) {
             Logger.getLogger(Filter.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -161,5 +215,49 @@ public class FilterPersistence {
     {
         File f = new File(Utility.getResourcesPath() + "/src/resources/filters" + "/" + name + ".cbfilter");
         f.delete();
+    }
+    
+    public static void createNewFilter()
+    {   
+        String name = (String)JOptionPane.showInputDialog(Frame.mainFrame,
+            "Enter the New Filter's Name",
+            "PoE Crafting Assistant",
+            JOptionPane.PLAIN_MESSAGE,
+            null,
+            null,
+            "New Filter");
+
+        if (name != null && !name.equals(""))
+        {
+            File file = new File(Utility.getResourcesPath() + "/src/resources/filters" + "/" + name + ".cbfilter");
+            if (file.exists())
+            {
+                Object[] message = {
+                    "A filter of the name \"" + name + "\" already exists.\nContinuing will overwrite this filter. Is this ok?"
+                };
+
+                int n = JOptionPane.showConfirmDialog(Frame.mainFrame, message, "Settings", JOptionPane.OK_CANCEL_OPTION);
+                
+                if (n != JOptionPane.OK_OPTION) return;
+            }
+            
+            FilterPersistence.saveFilters();
+
+            Filter.reset_newFilter();
+
+            for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
+            {
+                FilterNamePanel.filterpanels.get(i).remove();
+            }
+
+            FilterNamePanel.filterpanels.clear();
+
+
+            Filter.singleton.setName(name);
+            Filter.singleton.isInitial = false;
+            FilterPersistence.saveFilters();
+
+            Frame.mainFrame.onCreateNewFilter(name);
+        }
     }
 }

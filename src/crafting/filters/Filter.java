@@ -1,12 +1,9 @@
 package crafting.filters;
 
-import crafting.Main;
-import crafting.UI.FilterNamePanel;
 import crafting.UI.Frame;
 import crafting.utility.Utility;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
-import crafting.persistence.FilterPersistence;
 import crafting.run.Run;
 import java.awt.AWTException;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -24,40 +21,7 @@ import poeitem.PoEItem;
 public class Filter implements Serializable {
     
     public static String testMods = null;
-
-    public static void createNewFilter()
-    {   
-        String name = (String)JOptionPane.showInputDialog(Frame.mainFrame,
-            "Enter the New Filter's Name",
-            "PoE Crafting Assistant",
-            JOptionPane.PLAIN_MESSAGE,
-            null,
-            null,
-            "New Filter");
-
-        if (name != null && !name.equals(""))
-        {
-            
-            
-            FilterPersistence.saveFilters();
-
-            reset_newFilter();
-
-            for (int i=0; i<FilterNamePanel.filterpanels.size(); i++)
-            {
-                FilterNamePanel.filterpanels.get(i).remove();
-            }
-
-            FilterNamePanel.filterpanels.clear();
-
-
-            Filter.singleton.setName(name);
-            FilterPersistence.saveFilters();
-
-            Frame.mainFrame.onCreateNewFilter(name);
-        }
-    }
-    
+    public boolean isInitial = false;
     public String name = "";
 
     public void setName(String name) {
@@ -65,7 +29,7 @@ public class Filter implements Serializable {
     }
     public ArrayList<Subfilter> filters = new ArrayList<>();
     
-    public static Filter singleton = new Filter(false);
+    public static Filter singleton = new Filter(true);
     
     public Base SelectedBase = null;
     public int SelectedItemLevel = 86;
@@ -82,8 +46,9 @@ public class Filter implements Serializable {
         return singleton.name;
     }
     
-    public Filter(boolean x)
+    public Filter(boolean isInitial)
     {
+        this.isInitial = isInitial;
         filters.clear();
     }
     
@@ -278,7 +243,7 @@ public class Filter implements Serializable {
     public static boolean verify()
     {
         
-        if (singleton.filters.isEmpty() || singleton.SelectedBase == null) return false;
+        if (singleton.isInitial || singleton.filters.isEmpty() || singleton.SelectedBase == null) return false;
         
         for (Subfilter f : singleton.filters)
         {
