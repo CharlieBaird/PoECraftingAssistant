@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import poeitem.ModifierLoader;
 
-
 public class Main {
     
     private static final Release RELEASE = new Release("1.0.1");
@@ -49,6 +48,10 @@ public class Main {
         
         System.out.println();
         
+        Frame.mainFrame.updateImportExport(Settings.singleton.pastebinKey);
+        if (Console.loadingFrame != null) Console.loadingFrame.setAlwaysOnTop(false);
+        Frame.mainFrame.onFinishedLoading();
+        
         System.out.println("> Checking for updates... <");
         Release release = UpdateCheck.checkForNewRelease();
         int comp = release.compareTo(RELEASE);
@@ -57,8 +60,7 @@ public class Main {
         if (comp == 0) System.out.println("You are up to date with the latest release.");
         System.out.println("> Finished! <");
         
-        Frame.mainFrame.updateImportExport(Settings.singleton.pastebinKey);
-        
         System.out.println();
+        
     }
 }

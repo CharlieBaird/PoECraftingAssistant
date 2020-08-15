@@ -117,7 +117,7 @@ public class Settings implements Serializable {
     public int volume = 80;
     public int ctrlKey = KeyEvent.VK_CONTROL; // left control
     public boolean showPopup = true;
-    public boolean disableOnHit = true;
+    public boolean disableOnHit = false;
     public String pastebinKey = "";
     
     public void OpenSettings()

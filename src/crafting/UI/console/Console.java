@@ -16,11 +16,12 @@ public class Console extends JFrame {
     
     public static void launch()
     {
-        if (true) return;
+//        if (true) return;
         loadingFrame = new Console();
         loadingFrame.setTitle("PoE Crafting Assistant Console");
         loadingFrame.setBackground(Color.BLACK);
-//        loadingFrame.setAlwaysOnTop(true);
+        loadingFrame.setAlwaysOnTop(true);
+        loadingFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         
         Point p = loadingFrame.getLocation();
         loadingFrame.setLocation(p.x-loadingFrame.getWidth()/2, p.y-loadingFrame.getHeight()/2);
@@ -51,8 +52,8 @@ public class Console extends JFrame {
         ta.setForeground(Color.WHITE);
         TextAreaOutputStream taos = new TextAreaOutputStream( ta, 60 );
         PrintStream ps = new PrintStream( taos );
-//        System.setOut( ps );
-//        System.setErr( ps );
+        System.setOut( ps );
+        System.setErr( ps );
 
 
         add( new JScrollPane( ta )  );
