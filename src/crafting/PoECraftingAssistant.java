@@ -5,7 +5,6 @@ import crafting.filters.Filter;
 import crafting.UI.Main;
 import crafting.UI.hotkeys.Ctrl;
 import crafting.UI.hotkeys.HotkeyConfig;
-import static crafting.Utility.*;
 import crafting.update.Release;
 import crafting.update.UpdateCheck;
 import java.awt.MouseInfo;
@@ -106,7 +105,7 @@ public class PoECraftingAssistant {
                     {
                         if (onSwingWindow() || ignore) return;
                         
-                        delay(Settings.singleton.delay + 35);
+                        Utility.delay(Settings.singleton.delay + 35);
                         double start = System.nanoTime();
                         boolean b = Filter.checkIfHitOne(debug);
                         System.out.println("Elapsed: " + (System.nanoTime() - start)/1000000);

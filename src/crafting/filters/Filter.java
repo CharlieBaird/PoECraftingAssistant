@@ -323,7 +323,8 @@ public class Filter implements Serializable {
     
     public static boolean verify()
     {
-        if (singleton.filters.isEmpty()) return false;
+        
+        if (singleton.filters.isEmpty() || singleton.SelectedBase == null) return false;
         
         for (Subfilter f : singleton.filters)
         {
