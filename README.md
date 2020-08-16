@@ -11,6 +11,9 @@ The Crafting Assistant comes with a UI to assist users in creating filters. This
 ## Download
 Go to the [releases page](https://github.com/CharlieBaird/PoECraftingAssistant/releases) and download the latest release. For instructions in setting up the tool, head over to [getting started](https://github.com/CharlieBaird/PoECraftingAssistant/wiki/1.-Getting-Started) in the [wiki](https://github.com/CharlieBaird/PoECraftingAssistant/wiki).
 
+## Wiki / Tutorial
+The [wiki](https://github.com/CharlieBaird/PoECraftingAssistant/wiki/1.-Getting-Started) has all the information you need.
+
 ## Configuring Delay
 ### **THIS IS AN EXTREMELY IMPORTANT STEP. THE TOOL WILL NOT WORK AS EXPECTED IF NOT ADJUSTED CORRECTLY TO YOUR IN-GAME PING.**
 ### **IF THE TOOL SEEMS TO NOT BE DETECTING WHEN FILTERS HAVE HIT, IT IS MOST LIKELY BECAUSE THIS VALUE IS TOO LOW. ADJUST AND TEST BEFORE YOU TRUST IT WITH SPAMMING.**
