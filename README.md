@@ -42,7 +42,7 @@ No, it's not perfect. Error comes from network instability. For example, the too
 Yes, the tool is entirely stand-alone. However, the .jar and the "src" folder **must** remain in the same directory.
 
 # Roadmap
-- Auto update
+- Item level config
 
 ## Demo Video
 https://youtu.be/3w9q7ZIyEKU
