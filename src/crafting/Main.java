@@ -13,7 +13,7 @@ import poeitem.ModifierLoader;
 
 public class Main {
     
-    private static final Release RELEASE = new Release("1.1.0");
+    private static final Release RELEASE = new Release("1.1.2");
     
     public static void main(String[] args)
     {
