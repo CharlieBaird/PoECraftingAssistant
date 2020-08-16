@@ -179,7 +179,7 @@ public class Settings implements Serializable {
             Settings.singleton.pastebinKey = pastebinKeyField.getText();
 
             Settings.save();
-            Frame.mainFrame.updateImportExport(Settings.singleton.pastebinKey);
+            Frame.mainFrame.updateExport(Settings.singleton.pastebinKey);
         }
     }
 }

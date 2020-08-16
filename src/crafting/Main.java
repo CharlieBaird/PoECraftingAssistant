@@ -13,7 +13,7 @@ import poeitem.ModifierLoader;
 
 public class Main {
     
-    private static final Release RELEASE = new Release("1.0.1");
+    private static final Release RELEASE = new Release("1.1.0");
     
     public static void main(String[] args)
     {
@@ -48,8 +48,11 @@ public class Main {
         
         System.out.println();
         
-        Frame.mainFrame.updateImportExport(Settings.singleton.pastebinKey);
+        while (Frame.mainFrame == null && !Frame.mainFrame.isVisible()) {}
+        
         if (Console.loadingFrame != null) Console.loadingFrame.setAlwaysOnTop(false);
+            
+        Frame.mainFrame.updateExport(Settings.singleton.pastebinKey);
         Frame.mainFrame.onFinishedLoading();
         
         System.out.println("> Checking for updates... <");

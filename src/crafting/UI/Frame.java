@@ -960,14 +960,12 @@ public class Frame extends javax.swing.JFrame {
     public static Frame mainFrame = null;
     
     public static void main() {
-        java.awt.EventQueue.invokeLater(() -> {
-            mainFrame = new Frame("PoE Crafting Assistant");
-            mainFrame.setLocationRelativeTo(null);
-            mainFrame.preload();
-            mainFrame.setVisible(true);
-            mainFrame.postload();
-            mainFrame.updateImportExport(Settings.singleton.pastebinKey);
-        });
+        mainFrame = new Frame("PoE Crafting Assistant");
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.preload();
+        mainFrame.setVisible(true);
+        mainFrame.postload();
+        mainFrame.updateExport(Settings.singleton.pastebinKey);
     }
     
     public void hideAddButton()
@@ -1012,19 +1010,6 @@ public class Frame extends javax.swing.JFrame {
         return mainFrame.isActive() && mainFrame.isFocused();
     }
 
-    public void updateImportExport(String pastebinKey) {
-        if (pastebinKey != null && !pastebinKey.isEmpty())
-        {
-            importButton.setEnabled(true);
-            exportButton.setEnabled(true);
-        }
-        else
-        {
-            importButton.setEnabled(false);
-            exportButton.setEnabled(false);
-        }
-    }
-
     public void onOpenFilter() {
         jButton2.setVisible(true);
         jButton10.setVisible(true);
@@ -1047,5 +1032,18 @@ public class Frame extends javax.swing.JFrame {
         hotkeysButton.setEnabled(true);
         consoleButton.setEnabled(true);
         settingsButton.setEnabled(true);
+        importButton.setEnabled(true);
+        repaint();
+    }
+
+    public void updateExport(String pastebinKey) {
+        if (pastebinKey != null && !pastebinKey.isEmpty())
+        {
+            exportButton.setEnabled(true);
+        }
+        else
+        {
+            exportButton.setEnabled(false);
+        }
     }
 }

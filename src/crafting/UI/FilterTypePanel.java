@@ -277,6 +277,7 @@ public class FilterTypePanel extends JPanel {
     {
         if (selected != null && !selected.equals(type))
         {
+            Filter.print();
             type = selected;
             addRemMinMax();
             
@@ -300,7 +301,9 @@ public class FilterTypePanel extends JPanel {
             }
             
             filter.filters.set(index, filterbase);
+            for (ModifierPanel mp : this.modifierpanels) mp.filterbase = filterbase;
             FilterPersistence.saveFilters();
+            Filter.print();
         }        
     }
     

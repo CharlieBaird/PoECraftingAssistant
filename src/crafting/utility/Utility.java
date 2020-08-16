@@ -60,7 +60,7 @@ public class Utility {
         delay(5);
         bot.keyRelease(KeyEvent.VK_C);
         bot.keyRelease(Settings.singleton.ctrlKey);
-        delay(5);
+        delay(10);
         return getClipboard();
     }
     

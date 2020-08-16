@@ -44,6 +44,10 @@ store/*
 *.stackdump
 build/classes/resources/*
 nbproject/
+roadmap.txt
+pics/*
+pics/
+
 
 .idea
 *.iml
