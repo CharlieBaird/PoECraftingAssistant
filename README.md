@@ -45,7 +45,7 @@ Yes, the tool is entirely stand-alone. However, the .jar and the "src" folder **
 - Item level config
 
 ## Demo Video
-https://youtu.be/3w9q7ZIyEKU
+<iframe width="560" height="315" src="https://www.youtube.com/embed/dph3x5uqPxI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 # Bug reports
 If you find a bug, please create an [issue thread](https://github.com/CharlieBaird/PoECraftingAssistant/issues/new). I will try to get back to you as soon as possible.
