@@ -8,6 +8,7 @@ import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import javax.swing.ComboBoxModel;
 import crafting.persistence.FilterPersistence;
+import poeitem.bases.BaseItem;
 
 public class ItemTypeComboBox extends SearchBoxBase
 {
@@ -36,7 +37,7 @@ public class ItemTypeComboBox extends SearchBoxBase
     @Override
     public void itemUpdate(ItemEvent event)
     {
-       if (event.getStateChange() == ItemEvent.SELECTED && ItemType.BaseTypes.get((String) event.getItem()) != null)
+       if (event.getStateChange() == ItemEvent.SELECTED && ItemType.BaseTypes.indexOf(event.getItem()) != -1)
        {
            update();
        }
@@ -45,33 +46,33 @@ public class ItemTypeComboBox extends SearchBoxBase
     
     private void update()
     {
-        Filter.singleton.SelectedBase = ItemType.BaseTypes.get((String) getSelectedItem());
+        Filter.singleton.SelectedBase = (BaseItem) getSelectedItem();
         FilterTypePanel.reshow();
     }
     
     public static String[] toArr(ArrayList<Modifier> typesList)
     {
-        for (int i=0; i<typesList.size(); i++)
-        {
-            Modifier m = typesList.get(i);
-            if (
-                    m.getModGenerationTypeID() != 1
-                    && m.getModGenerationTypeID() != 2
-                    && m.getModGenerationTypeID() != -2
-                    && m.getModGenerationTypeID() != -1
-                    && m.getModGenerationTypeID() != 0
-                    && m.getModGenerationTypeID() != -3
-                )
-            {
-                typesList.remove(m);
-                i--;
-            }
-        }
+//        for (int i=0; i<typesList.size(); i++)
+//        {
+//            Modifier m = typesList.get(i);
+//            if (
+//                    m.getModGenerationTypeID() != 1
+//                    && m.getModGenerationTypeID() != 2
+//                    && m.getModGenerationTypeID() != -2
+//                    && m.getModGenerationTypeID() != -1
+//                    && m.getModGenerationTypeID() != 0
+//                    && m.getModGenerationTypeID() != -3
+//                )
+//            {
+//                typesList.remove(m);
+//                i--;
+//            }
+//        }
         
         String[] types = new String[typesList.size()];
         
         for (int i=0; i<types.length; i++)
-            types[i] = typesList.get(i).getStr();
+            types[i] = typesList.get(i).getKey();
         
         return types;
     }

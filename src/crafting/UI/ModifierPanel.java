@@ -14,8 +14,7 @@ import java.awt.event.ItemListener;
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
-import poeitem.Base;
-import poeitem.BaseItem;
+import poeitem.bases.BaseItem;
 import poeitem.ModifierTier;
 import crafting.persistence.FilterPersistence;
 
@@ -57,24 +56,24 @@ public class ModifierPanel extends JPanel {
             max = new MPMinMax(this, "max", false);
         }
         
-        else
-        {
-            if (mod.assocModifier == null)
-            {
-                if (Filter.singleton.SelectedBase != null)
-                {
-                    assocMod = BaseItem.getFromBase(Filter.singleton.SelectedBase).getExplicitFromStr(mod.name);
-                }
-                else
-                {
-                    assocMod = Modifier.getExplicitFromStr(mod.name);
-                }
-            }
-            else
-            {
-                assocMod = mod.assocModifier;
-            }
-        }
+//        else
+//        {
+//            if (mod.assocModifier == null)
+//            {
+//                if (Filter.singleton.SelectedBase != null)
+//                {
+//                    assocMod = Filter.singleton.SelectedBase.getExplicitFromStr(mod.name);
+//                }
+//                else
+//                {
+//                    assocMod = Modifier.getExplicitFromStr(mod.name);
+//                }
+//            }
+//            else
+//            {
+//                assocMod = mod.assocModifier;
+//            }
+//        }
         
         this.mod = mod;
         
@@ -107,12 +106,12 @@ public class ModifierPanel extends JPanel {
         add(min, Box.RIGHT_ALIGNMENT);
         add(max, Box.RIGHT_ALIGNMENT);
         
-        if (Filter.singleton.SelectedBase != null && assocMod != null && assocMod.tiers.size() >= 1)
-        {
-            this.showTierComboBox(assocMod);
-            this.updateDD();
-            this.tier.manualUpdate(this.min.getText());
-        }
+//        if (Filter.singleton.SelectedBase != null && assocMod != null && assocMod.tiers.size() >= 1)
+//        {
+//            this.showTierComboBox(assocMod);
+//            this.updateDD();
+//            this.tier.manualUpdate(this.min.getText());
+//        }
         
         parent.modifierpanels.add(this);
         parent.add(this);
@@ -138,7 +137,7 @@ public class ModifierPanel extends JPanel {
                 types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
             }
             else {
-                ArrayList<Modifier> modifiers = BaseItem.getFromBase(Filter.singleton.SelectedBase).assocModifiers;
+                ArrayList<Modifier> modifiers = Modifier.getAllApplicableModifiers(BaseItem.getBaseItemFromName(Filter.singleton.SelectedBase.getName()));
                 types = ModifierComboBox.toArr(modifiers);
             }
             ModifierComboBox mcb = new ModifierComboBox(this, types);
@@ -245,7 +244,7 @@ public class ModifierPanel extends JPanel {
         String s = "The following modifiers in your filters cannot be hit on Item Type \"" + Filter.singleton.SelectedBase + "\"\n";
         for (int i=0; i<mods.size(); i++)
         {
-            s += (i+1) + ". " + mods.get(i).getStr() + "\n";
+            s += (i+1) + ". " + mods.get(i).getKey() + "\n";
         }
         
         return s;
@@ -288,11 +287,11 @@ class TierComboBox extends JComboBox {
     {
         if (assocModifier != null)
         {
-            whatTier = assocModifier.tiers.size() - whatTier;
+            whatTier = assocModifier.getModifierTiers().size() - whatTier;
             
-            double val = assocModifier.tiers.get(whatTier).getValue();
+//            double val = assocModifier.getModifierTiers().get(whatTier).getValue();
             
-            parent.min.textUpdate(val);
+            parent.min.textUpdate(999);
             
         }
     }
@@ -300,7 +299,8 @@ class TierComboBox extends JComboBox {
     public String[] modelToTiers(Modifier m, int itemLevel)
     {
         this.assocModifier = m;
-        ModifierTier[] tiers = m.getTiersWithLevel(itemLevel);
+//        ModifierTier[] tiers = m.getTiersWithLevel(itemLevel);
+        ModifierTier[] tiers = new ModifierTier[0];
                 
         String[] tiersStr = new String[1+tiers.length];
         
@@ -315,40 +315,40 @@ class TierComboBox extends JComboBox {
     }
 
     public void manualUpdate(String text) {
-        Base b = Filter.singleton.SelectedBase;
-        if (Filter.singleton.SelectedBase != null)
-        {
-            if (!text.equals("min") && !text.equals(""))
-            {
-                Integer value = Integer.valueOf(text);
-                if (assocModifier == null)
-                {
-                    parent.hideTierComboBox();
-                    return;
-                }
-                else if (assocModifier.tiers.size() >= 1)
-                {
-                    for (int i=0; i<assocModifier.tiers.size(); i++)
-                    {
-                        if ((int) assocModifier.tiers.get(i).getValue() == value)
-                        {
-                            int foundTier = assocModifier.tiers.size() - i - 1;
-                            if (foundTier < this.getModel().getSize() && foundTier != -1)
-                                this.setSelectedIndex(foundTier);
-                            else this.setSelectedIndex(this.getModel().getSize()-1);
-                            return;
-                        }
-                    }
-                }
-                else
-                {
-                    parent.hideTierComboBox();
-                    return;
-                }
-            }
-        }
-        if (assocModifier.tiers.size() >= 1)
-            this.setSelectedIndex(this.getModel().getSize()-1);
+        BaseItem b = Filter.singleton.SelectedBase;
+//        if (Filter.singleton.SelectedBase != null)
+//        {
+//            if (!text.equals("min") && !text.equals(""))
+//            {
+//                Integer value = Integer.valueOf(text);
+//                if (assocModifier == null)
+//                {
+//                    parent.hideTierComboBox();
+//                    return;
+//                }
+//                else if (assocModifier.getModifierTiers().size() >= 1)
+//                {
+//                    for (int i=0; i<assocModifier.getModifierTiers().size(); i++)
+//                    {
+//                        if ((int) assocModifier.getModifierTiers().get(i).getValue() == value)
+//                        {
+//                            int foundTier = assocModifier.tiers.size() - i - 1;
+//                            if (foundTier < this.getModel().getSize() && foundTier != -1)
+//                                this.setSelectedIndex(foundTier);
+//                            else this.setSelectedIndex(this.getModel().getSize()-1);
+//                            return;
+//                        }
+//                    }
+//                }
+//                else
+//                {
+//                    parent.hideTierComboBox();
+//                    return;
+//                }
+//            }
+//        }
+//        if (assocModifier.tiers.size() >= 1)
+//            this.setSelectedIndex(this.getModel().getSize()-1);
     }
 }
 

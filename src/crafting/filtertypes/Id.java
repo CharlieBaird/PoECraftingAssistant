@@ -37,13 +37,13 @@ public class Id implements Serializable
     
     public boolean valid(double roll, Modifier m)
     {
-        if (m.getModGenerationTypeID() == -1 && min == -100000)
-        {
-//            System.out.println(1 + " <= " + roll + " <= " +  + max);
-            return (roll <= max && roll >= 1); 
-        }
-//        System.out.println(min + " <= " + roll + " <= " +  + max);
-        return (roll <= max && roll >= min);
+//        if (m.getModGenerationTypeID() == -1 && min == -100000)
+//        {
+//            return (roll <= max && roll >= 1); 
+//        }
+//        return (roll <= max && roll >= min);
+        // come back to this
+        return true;
     }
     
     public boolean valid (double[] rolls)

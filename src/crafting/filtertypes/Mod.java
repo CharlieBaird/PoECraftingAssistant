@@ -28,20 +28,20 @@ public class Mod implements Serializable {
         for (int i=0; i<id.length; i+=2)
             ID = new Id(id[i/2], id[i/2+1]);
         
-        if (assocModifier != null && assocModifier.getModGenerationTypeID() == -1) // Pseudo mod. Default min should be 1
-        {
-            ID = new Id(1);
-        }
+//        if (assocModifier != null && assocModifier.getModGenerationTypeID() == -1) // Pseudo mod. Default min should be 1
+//        {
+//            ID = new Id(1);
+//        }
     }
     
     public boolean hit(Modifier em)
     {
 //        System.out.println("'" + this.name + "'-'" + em.getStr() + "'");
-        if (this.name.equals(em.getStr()))
-        {
-            if (ID.valid(em.rolls))
-                return true;
-        }
+//        if (this.name.equals(em.getStr()))
+//        {
+//            if (ID.valid(em.rolls))
+//                return true;
+//        }
         
         return false;
     }

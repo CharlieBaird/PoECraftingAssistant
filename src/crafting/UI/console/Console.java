@@ -16,7 +16,7 @@ public class Console extends JFrame {
     
     public static void launch()
     {
-//        if (true) return;
+        if (true) return;
         loadingFrame = new Console();
         loadingFrame.setTitle("PoE Crafting Assistant Console");
         loadingFrame.setBackground(Color.BLACK);

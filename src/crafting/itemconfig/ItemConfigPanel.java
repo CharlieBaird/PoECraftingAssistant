@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import poeitem.Influence;
+import poeitem.bases.Influence;
 
 public class ItemConfigPanel extends JPanel {
     
@@ -26,8 +26,8 @@ public class ItemConfigPanel extends JPanel {
         setBackground(new Color(30,30,30));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
-        itemType = new ItemType();
-        add(itemType);
+//        itemType = new ItemType();
+//        add(itemType);
         add(Box.createRigidArea(new Dimension(0,10)));
         
 //        itemLevel = new ItemLevel();
@@ -59,7 +59,7 @@ public class ItemConfigPanel extends JPanel {
     }
 
     public void updateFromFilter() {
-        itemType.baseComboBox.setSelectedItem(ItemType.getKey(Filter.singleton.SelectedBase));
+        itemType.baseComboBox.setSelectedItem(Filter.singleton.SelectedBase);
         shaper.influenceCheckBox.setSelected(Filter.singleton.shaper);
         elder.influenceCheckBox.setSelected(Filter.singleton.elder);
         hunter.influenceCheckBox.setSelected(Filter.singleton.hunter);

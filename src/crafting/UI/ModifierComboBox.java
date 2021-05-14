@@ -27,7 +27,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.plaf.basic.BasicComboBoxUI;
-import poeitem.Influence;
+import poeitem.bases.Influence;
 import poeitem.Modifier;
 import crafting.persistence.FilterPersistence;
 
@@ -105,18 +105,18 @@ public class ModifierComboBox extends JComboBox
             for (int i=0; i<defaultmodel.getSize(); i++)
             {
                 Modifier o = (Modifier) defaultmodel.getElementAt(i);
-                if (o.isInfluenced)
-                {
+//                if (o.isInfluenced)
+//                {
                     ArrayList<InfluenceConfig> assoc = new ArrayList<>();
-                    switch (o.influence)
-                    {
-                        case SHAPER: assoc.add(Frame.mainFrame.itemConfigPanel.shaper); break;
-                        case ELDER: assoc.add(Frame.mainFrame.itemConfigPanel.elder); break;
-                        case CRUSADER: assoc.add(Frame.mainFrame.itemConfigPanel.crusader); break;
-                        case WARLORD: assoc.add(Frame.mainFrame.itemConfigPanel.warlord); break;
-                        case HUNTER: assoc.add(Frame.mainFrame.itemConfigPanel.hunter); break;
-                        case REDEEMER: assoc.add(Frame.mainFrame.itemConfigPanel.redeemer); break;
-                    }
+//                    switch (o.influence)
+//                    {
+//                        case SHAPER: assoc.add(Frame.mainFrame.itemConfigPanel.shaper); break;
+//                        case ELDER: assoc.add(Frame.mainFrame.itemConfigPanel.elder); break;
+//                        case CRUSADER: assoc.add(Frame.mainFrame.itemConfigPanel.crusader); break;
+//                        case WARLORD: assoc.add(Frame.mainFrame.itemConfigPanel.warlord); break;
+//                        case HUNTER: assoc.add(Frame.mainFrame.itemConfigPanel.hunter); break;
+//                        case REDEEMER: assoc.add(Frame.mainFrame.itemConfigPanel.redeemer); break;
+//                    }
 
                     if (assoc.isEmpty()) os.add(o);
                     
@@ -127,7 +127,7 @@ public class ModifierComboBox extends JComboBox
                     
                     if (!selectedOne) continue;
 
-                }
+//                }
                 if (containsIgnoreCase(o.toString(), entry))
                     os.add(o);
             }
@@ -160,10 +160,10 @@ public class ModifierComboBox extends JComboBox
         for (int i=0; i<typesList.size(); i++)
         {
             Modifier m = typesList.get(i);
-            if (m.getModGenerationTypeID() <= 2 && m.getModGenerationTypeID() >= -3 && !m.getCorrectGroup().equals("Crafted"))
-            {
+//            if (m.getModGenerationTypeID() <= 2 && m.getModGenerationTypeID() >= -3 && !m.getCorrectGroup().equals("Crafted"))
+//            {
                 dispList.add(m);
-            }
+//            }
         }
         
         Modifier[] types = new Modifier[dispList.size()];
@@ -179,7 +179,7 @@ public class ModifierComboBox extends JComboBox
         if (m != null && parent.tier != null)
         {
             parent.assocMod = m;
-            parent.mod.name = m.getStr();
+            parent.mod.name = m.getKey(); // adjusted
             parent.mod.assocModifier = parent.assocMod;
             parent.showTierComboBox(m);
             if (updateTierViews) ModifierPanel.updateTierViews();
@@ -249,7 +249,7 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
         if (value instanceof Modifier)
         {
             Modifier mod = (Modifier) value;
-            setIcon(iconMap.get(mod.influence));
+            setIcon(iconMap.get(Influence.SHAPER)); // adjusted
         }
         
         text.insert(0, "<html><p style=\"" + getParagraphStyle() + "\">");
@@ -404,7 +404,7 @@ class ModKeyTypedListenerSJB implements KeyListener
         String content = ((JTextField) owner.getEditor().getEditorComponent()).getText();
         for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
             Modifier m = (Modifier) owner.defaultmodel.getElementAt(i);
-            if (content.equals(m.getStr()))
+            if (content.equals(m.getKey()))
             {
                 owner.update(m, true);
                 FilterPersistence.saveFilters();

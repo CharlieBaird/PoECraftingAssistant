@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import poeitem.Base;
-import poeitem.BaseItem;
+import poeitem.bases.BaseItem;
 import poeitem.Modifier;
 import poeitem.PoEItem;
 
@@ -31,7 +30,7 @@ public class Filter implements Serializable {
     
     public static Filter singleton = new Filter(true);
     
-    public Base SelectedBase = null;
+    public BaseItem SelectedBase = null;
     public int SelectedItemLevel = 86;
     public int SelectedItemLevelIndex = 0;
     public boolean shaper = false;
@@ -141,12 +140,12 @@ public class Filter implements Serializable {
             return false;
         }
         
-        else if (item.brokenModifiers.size() >= 1)
-        {
-            JOptionPane.showMessageDialog(Frame.mainFrame, "The tool was not able to parse the item. Broken mods:\n" + item.brokenModifiers + ".\nPlease create an issue report at https://github.com/CharlieBaird/PoECraftingAssistant/issues/new. Thanks!", "Error", JOptionPane.ERROR_MESSAGE);
-            Run.stop();
-            return false;
-        }
+//        else if (item.brokenModifiers.size() >= 1)
+//        {
+//            JOptionPane.showMessageDialog(Frame.mainFrame, "The tool was not able to parse the item. Broken mods:\n" + item.brokenModifiers + ".\nPlease create an issue report at https://github.com/CharlieBaird/PoECraftingAssistant/issues/new. Thanks!", "Error", JOptionPane.ERROR_MESSAGE);
+//            Run.stop();
+//            return false;
+//        }
         
         return hitFilters(item, singleton);
     }
@@ -243,32 +242,32 @@ public class Filter implements Serializable {
     public static boolean verify()
     {
         
-        if (singleton.isInitial || singleton.filters.isEmpty() || singleton.SelectedBase == null) return false;
-        
-        for (Subfilter f : singleton.filters)
-        {
-            for (FilterBase fb : f.filters)
-            {
-                for (Mod m : fb.mods)
-                {
-                    if (m.assocModifier == null)
-                        return false;
-                    
-                    Modifier m2;
-                    if (Filter.singleton.SelectedBase != null)
-                    {
-                        m2 = BaseItem.getFromBase(Filter.singleton.SelectedBase).getExplicitFromStr(m.name);
-                    }
-                    else
-                    {
-                        m2 = Modifier.getExplicitFromStr(m.name);
-                    }
-                    
-                    if (m2 == null)
-                        return false;
-                }
-            }
-        }
+//        if (singleton.isInitial || singleton.filters.isEmpty() || singleton.SelectedBase == null) return false;
+//        
+//        for (Subfilter f : singleton.filters)
+//        {
+//            for (FilterBase fb : f.filters)
+//            {
+//                for (Mod m : fb.mods)
+//                {
+//                    if (m.assocModifier == null)
+//                        return false;
+//                    
+//                    Modifier m2;
+//                    if (Filter.singleton.SelectedBase != null)
+//                    {
+//                        m2 = BaseItem.getFromBase(Filter.singleton.SelectedBase).getExplicitFromStr(m.name);
+//                    }
+//                    else
+//                    {
+//                        m2 = Modifier.getExplicitFromStr(m.name);
+//                    }
+//                    
+//                    if (m2 == null)
+//                        return false;
+//                }
+//            }
+//        }
         
         return true;
     }

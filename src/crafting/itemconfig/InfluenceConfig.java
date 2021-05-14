@@ -9,7 +9,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import poeitem.Influence;
+import poeitem.bases.Influence;
 
 public class InfluenceConfig extends JPanel {
     
@@ -40,7 +40,6 @@ public class InfluenceConfig extends JPanel {
 
 class InfluenceCheckBox extends JCheckBox
 {
-    
     public InfluenceConfig parent;
     
     public InfluenceCheckBox(InfluenceConfig parent)
