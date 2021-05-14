@@ -31,7 +31,14 @@ public class SearchBoxBase extends JComboBox {
         String maxLength = "a";
         for (int i=0; i<getModel().getSize(); i++)
         {
-            String m = (String) getModel().getElementAt(i);
+            Object object = getModel().getElementAt(i);
+            String m;
+            try {
+                m = (String) object;
+            } catch (ClassCastException e)
+            {
+                m = object.toString();
+            }
             if (m.length() > maxLength.length())
             {
                 maxLength = m;
@@ -173,7 +180,7 @@ class IL_ClickListener implements FocusListener
         String content = ((JTextField) owner.getEditor().getEditorComponent()).getText();
         
         for (int i = 0; i < owner.defaultmodel.getSize(); i++) {
-            String m = (String) owner.defaultmodel.getElementAt(i);
+            String m = owner.defaultmodel.getElementAt(i).toString();
             if (content.equals(m))
             {
                 FilterPersistence.saveFilters();

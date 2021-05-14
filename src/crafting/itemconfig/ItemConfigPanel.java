@@ -26,12 +26,12 @@ public class ItemConfigPanel extends JPanel {
         setBackground(new Color(30,30,30));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
-//        itemType = new ItemType();
-//        add(itemType);
+        itemType = new ItemType();
+        add(itemType);
         add(Box.createRigidArea(new Dimension(0,10)));
         
-//        itemLevel = new ItemLevel();
-//        add(itemLevel);
+        itemLevel = new ItemLevel();
+        add(itemLevel);
         
         add(Box.createRigidArea(new Dimension(0,7)));
         shaper = new InfluenceConfig(Influence.SHAPER);

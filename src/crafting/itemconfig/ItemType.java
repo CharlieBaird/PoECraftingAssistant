@@ -14,11 +14,11 @@ import poeitem.bases.BaseItem;
 
 public class ItemType extends JPanel {
         
-    public ItemTypeComboBox baseComboBox = new ItemTypeComboBox(this, BaseTypes.toArray());
-        
-    public static ArrayList<BaseItem> BaseTypes = new ArrayList<>(Arrays.asList(BaseItem.BaseItems.get(0)));
+    public ArrayList<BaseItem> BaseTypes = null;
     
-    private static void resetHashMap()
+    public ItemTypeComboBox baseComboBox = null;
+    
+    private void resetHashMap()
     {
         BaseTypes.clear();
         for (BaseItem base : BaseItem.BaseItems)
@@ -29,17 +29,20 @@ public class ItemType extends JPanel {
         
     public ItemType()
     {
-        return;
+        BaseTypes = BaseItem.BaseItems;
+        baseComboBox = new ItemTypeComboBox(this, BaseTypes.toArray());
         
-//        setMaximumSize(new Dimension(1000, 32));
-//        setBackground(new Color(30,30,30));
-//        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-//        
-//        resetHashMap();
-//        
-//        add(baseComboBox);
-//        
-//        Frame.mainFrame.requestFocusInWindow();
+        setMaximumSize(new Dimension(1000, 32));
+        setBackground(new Color(30,30,30));
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        
+        resetHashMap();
+        
+        add(baseComboBox);
+        
+        Filter.singleton.SelectedBase = (BaseItem) baseComboBox.getSelectedItem();
+        
+        Frame.mainFrame.requestFocusInWindow();
     }
 
     public void updateFromFilter() {

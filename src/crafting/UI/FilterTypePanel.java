@@ -137,7 +137,7 @@ public class FilterTypePanel extends JPanel {
                     types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
                 }
                 else {
-                    types = ModifierComboBox.toArr(Modifier.getAllApplicableModifiers(BaseItem.getBaseItemFromName(Filter.singleton.SelectedBase.getName())));
+                    types = ModifierComboBox.toArr(Modifier.getAllApplicableModifiers(Filter.singleton.SelectedBase));
                 }
                 
                 if (mp.mcb.getSelectedItem() instanceof Modifier)

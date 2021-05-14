@@ -37,7 +37,8 @@ public class ItemTypeComboBox extends SearchBoxBase
     @Override
     public void itemUpdate(ItemEvent event)
     {
-       if (event.getStateChange() == ItemEvent.SELECTED && ItemType.BaseTypes.indexOf(event.getItem()) != -1)
+        if (parent == null) return;
+       if (event.getStateChange() == ItemEvent.SELECTED && parent.BaseTypes.indexOf(event.getItem()) != -1)
        {
            update();
        }

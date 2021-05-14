@@ -19,13 +19,6 @@ public class Main {
     {
         Console.launch();
         
-        System.out.println("> Loading UI Window... <");
-        Utility.delay(100);
-        Frame.main();
-        System.out.println("> Finished! <");
-        
-        System.out.println();
-        
         System.out.println("> Loading Modifiers... <");
         try {
             ModifierLoader.loadModifiers();
@@ -33,6 +26,15 @@ public class Main {
             Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("> Finished! <");
+        
+        System.out.println("> Loading UI Window... <");
+        Utility.delay(100);
+        Frame.main();
+        System.out.println("> Finished! <");
+        
+        System.out.println();
+        
+        
         
         System.out.println();
 
