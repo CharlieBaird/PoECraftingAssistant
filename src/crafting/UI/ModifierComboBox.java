@@ -249,7 +249,7 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
         if (value instanceof Modifier)
         {
             Modifier mod = (Modifier) value;
-            setIcon(iconMap.get(Influence.SHAPER)); // adjusted
+            setIcon(iconMap.get(mod.getInfluence())); // adjusted
         }
         
         text.insert(0, "<html><p style=\"" + getParagraphStyle() + "\">");
