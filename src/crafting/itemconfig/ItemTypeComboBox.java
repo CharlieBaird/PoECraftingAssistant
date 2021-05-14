@@ -21,6 +21,7 @@ public class ItemTypeComboBox extends SearchBoxBase
     public ItemTypeComboBox(ItemType parent, Object[] types)
     {
         super(parent, types);
+        this.parent = parent;
         setSelectedIndex(0);
         update();
         FilterPersistence.saveFilters();
@@ -38,38 +39,22 @@ public class ItemTypeComboBox extends SearchBoxBase
     public void itemUpdate(ItemEvent event)
     {
         if (parent == null) return;
-       if (event.getStateChange() == ItemEvent.SELECTED && parent.BaseTypes.indexOf(event.getItem()) != -1)
-       {
-           update();
-       }
+        if (event.getStateChange() == ItemEvent.SELECTED)
+        {
+            update();
+        }
        FilterPersistence.saveFilters();
     }
     
     private void update()
     {
-        Filter.singleton.SelectedBase = (BaseItem) getSelectedItem();
+        BaseItem baseItem = (BaseItem) getSelectedItem();
+        Filter.singleton.SelectedBase = baseItem;
         FilterTypePanel.reshow();
     }
     
     public static String[] toArr(ArrayList<Modifier> typesList)
     {
-//        for (int i=0; i<typesList.size(); i++)
-//        {
-//            Modifier m = typesList.get(i);
-//            if (
-//                    m.getModGenerationTypeID() != 1
-//                    && m.getModGenerationTypeID() != 2
-//                    && m.getModGenerationTypeID() != -2
-//                    && m.getModGenerationTypeID() != -1
-//                    && m.getModGenerationTypeID() != 0
-//                    && m.getModGenerationTypeID() != -3
-//                )
-//            {
-//                typesList.remove(m);
-//                i--;
-//            }
-//        }
-        
         String[] types = new String[typesList.size()];
         
         for (int i=0; i<types.length; i++)
