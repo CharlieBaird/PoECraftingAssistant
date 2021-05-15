@@ -149,13 +149,13 @@ public class ModifierPanel extends JPanel {
         if (mt == null)
         {
             tier.setSelectedIndex(0);
-            this.mod.assocModifierTier = (ModifierTier) tier.getSelectedItem();
         }
         else
         {
             tier.setSelectedItem(mt);
         }
-        
+        this.mod.assocModifierTier = (ModifierTier) tier.getSelectedItem();
+
         tier.setVisible(true);
     }
     

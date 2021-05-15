@@ -130,8 +130,6 @@ public class FilterTypePanel extends JPanel {
             
             if (!bypass)
             {
-                if (mp.assocMod == null) System.out.println("MOD NULL");
-                else System.out.println("NOT NULL");
                 mp.mcb.update(mp.assocMod, true);
                 
                 Modifier[] types;
@@ -153,7 +151,10 @@ public class FilterTypePanel extends JPanel {
                     ArrayList<Modifier> validModifiers = new ArrayList<>();
                     for (Modifier modi : validModifiersArr) validModifiers.add(modi);
                     if (validModifiers.contains(selItem))
+                    {
                         mp.mcb.setSelectedItem(selItem);
+                        mp.showTierComboBox(selItem);
+                    }
                     else
                     {
                         System.out.println("Valid modifiers didn't contain it");
