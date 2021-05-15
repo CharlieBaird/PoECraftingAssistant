@@ -77,11 +77,10 @@ public class ModifierPanel extends JPanel {
 
         add(tier, Box.RIGHT_ALIGNMENT);
         
-//        if (Filter.singleton.SelectedBase != null && assocMod != null && assocMod.tiers.size() >= 1)
+//        if (Filter.singleton.SelectedBase != null && assocMod != null)
 //        {
 //            this.showTierComboBox(assocMod);
 //            this.updateDD();
-//            this.tier.manualUpdate(this.min.getText());
 //        }
         
         parent.modifierpanels.add(this);
@@ -146,11 +145,17 @@ public class ModifierPanel extends JPanel {
         }
         tier.setModel(model);
         
-//        if (this.min.getText().equals("min"))
-//        {
-//            this.tier.setSelectedIndex(0);
-//            tier.manualUpdate(min.getText());
-//        }
+        ModifierTier mt = this.mod.assocModifierTier;
+        if (mt == null)
+        {
+            tier.setSelectedIndex(0);
+            this.mod.assocModifierTier = (ModifierTier) tier.getSelectedItem();
+        }
+        else
+        {
+            tier.setSelectedItem(mt);
+        }
+        
         
         tier.setVisible(true);
     }
@@ -232,65 +237,13 @@ class TierComboBox extends JComboBox {
                }
             }
         });
-
-        
     }
-    
-//    public void setMin(int whatTier)
-//    {
-//        if (assocModifier != null)
-//        {
-//            whatTier = assocModifier.getModifierTiers().size() - whatTier;
-//            
-//            double val = assocModifier.getModifierTiers().get(whatTier).getValue();
-//            
-//            parent.min.textUpdate(999);
-//            
-//        }
-//    }
     
     public ModifierTier[] modelToTiers(Modifier m, int itemLevel)
     {
         this.assocModifier = m;
         ModifierTier[] tiersWithLevel = m.getModifierTiers(itemLevel);
         return tiersWithLevel;
-    }
-
-    public void manualUpdate(String text) {
-        BaseItem b = Filter.singleton.SelectedBase;
-//        if (Filter.singleton.SelectedBase != null)
-//        {
-//            if (!text.equals("min") && !text.equals(""))
-//            {
-//                Integer value = Integer.valueOf(text);
-//                if (assocModifier == null)
-//                {
-//                    parent.hideTierComboBox();
-//                    return;
-//                }
-//                else if (assocModifier.getModifierTiers().size() >= 1)
-//                {
-//                    for (int i=0; i<assocModifier.getModifierTiers().size(); i++)
-//                    {
-//                        if ((int) assocModifier.getModifierTiers().get(i).getValue() == value)
-//                        {
-//                            int foundTier = assocModifier.tiers.size() - i - 1;
-//                            if (foundTier < this.getModel().getSize() && foundTier != -1)
-//                                this.setSelectedIndex(foundTier);
-//                            else this.setSelectedIndex(this.getModel().getSize()-1);
-//                            return;
-//                        }
-//                    }
-//                }
-//                else
-//                {
-//                    parent.hideTierComboBox();
-//                    return;
-//                }
-//            }
-//        }
-//        if (assocModifier.tiers.size() >= 1)
-//            this.setSelectedIndex(this.getModel().getSize()-1);
     }
 }
 
@@ -338,115 +291,5 @@ class ModLabel extends JLabel {
         setFont(parent.frame.getNewFont(13));
         setBackground(new Color(255,0,0));
         setForeground(new Color(255,255,255));
-//        setPreferredSize(new Dimension((int) (parent.getWidth() * 0.4),(int) ((32))));
     }
 }
-
-//class MPMinMax extends JTextField {
-//    public String placeholder;
-//    public boolean isMin; // true = min, false = max;
-//    public ModifierPanel parent;
-//    
-//    public MPMinMax(ModifierPanel parent, String placeholder, boolean isMin)
-//    {
-//        if (placeholder.contains("100000"))
-//        {
-//            if (isMin) placeholder = "min";
-//            else placeholder = "max";
-//        }
-//        
-//        setText(placeholder);
-//        setMaximumSize(new Dimension(45,40));
-//        setMinimumSize(new Dimension(45,40));
-//        setPreferredSize(new Dimension(45,40));
-//        
-//        this.isMin = isMin;
-//        this.parent = parent;
-//        
-//        setFont(parent.frame.getNewFont(14));
-//        setBackground(new Color(0,0,0));
-//        setForeground(new Color(120,120,120));
-//        
-//        setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-//        
-//        if (!placeholder.equals("min") && !placeholder.equals("max"))
-//            setForeground(new Color(255,255,255));
-//        
-//        if (!placeholder.equals("min") && !placeholder.equals("max"))
-//            placeholder = isMin ? "min" : "max";
-//        
-//        this.placeholder = placeholder;
-//        
-//        setHorizontalAlignment(SwingConstants.CENTER);
-//        
-//        addFocusListener(new FListener(this, this.placeholder));
-//                
-//        addKeyListener(new NumFieldKeyListener());
-//    }
-//    
-//    @Override
-//    public void paste() {}
-//    
-//    public void focusGained()
-//    {
-//        if (getText().equals(placeholder)) {
-//            setText("");
-//            setForeground(new Color(255,255,255));
-//        }
-//    }
-//    
-//    public void focusLost()
-//    {
-//        
-//        if (getText().isEmpty())
-//        {
-//            setText(placeholder);
-//            setForeground(new Color(120,120,120));
-//            if (isMin) parent.mod.ID.min = -100000;
-//            else       parent.mod.ID.max =  100000;
-//        }
-//
-//        else 
-//        {
-//            try {
-//                if (isMin) parent.mod.ID.min = Integer.valueOf(parent.min.getText());
-//                else       parent.mod.ID.max = Integer.valueOf(parent.max.getText());
-//            } catch (NumberFormatException e) { }
-//        }
-//            
-//        if (isMin && parent.tier.isVisible())
-//        {
-//            parent.tier.manualUpdate(getText());
-//        }
-//        
-//        FilterPersistence.saveFilters();
-//    }
-//
-//    void textUpdate(double val) {
-//        setForeground(new Color(255,255,255));
-//        setText(String.valueOf((int) val));
-//        parent.mod.ID.min = (int) val;
-//        FilterPersistence.saveFilters();
-//    }
-//}
-
-//class FListener implements FocusListener
-//{
-//    String placeholder;
-//    MPMinMax owner;
-//    
-//    public FListener(MPMinMax owner, String placeholder)
-//    {
-//        this.placeholder = placeholder;
-//        this.owner = owner;
-//    }
-//    
-//    @Override
-//    public void focusGained(FocusEvent e) {
-//        owner.focusGained();
-//    }
-//    @Override
-//    public void focusLost(FocusEvent e) {
-//        owner.focusLost();
-//    }
-//}
