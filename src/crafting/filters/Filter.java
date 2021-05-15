@@ -229,16 +229,6 @@ public class Filter implements Serializable {
         System.out.println("----");
     }
     
-    public static String view()
-    {
-        String str = "";
-        for (Subfilter f : singleton.filters)
-        {
-            str += f.view() + "\n";
-        }
-        return str;
-    }
-    
     public static boolean verify()
     {
         

@@ -26,7 +26,7 @@ public class FilterBase implements IFilter, Serializable {
         }
     }
     
-    public boolean hit (PoEItem item)
+    public boolean hit(PoEItem item)
     {
         return true;
     }
@@ -38,17 +38,5 @@ public class FilterBase implements IFilter, Serializable {
         {
             m.print();
         }
-    }
-    
-    public String view()
-    {
-        String str = "    " + this.getClass().getSimpleName() + "\n";
-              
-        for (Mod m : mods)
-        {
-            str += "        " + m.view() + "\n";
-        }
-        
-        return str;
     }
 }

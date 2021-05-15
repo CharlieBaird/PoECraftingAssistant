@@ -13,7 +13,4 @@ public interface IFilter {
     public boolean hit(PoEItem item);
     
     public void print();
-    
-    public String view();
-//    public FilterBase dupe();
 }

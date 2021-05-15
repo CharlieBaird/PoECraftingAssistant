@@ -738,13 +738,17 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
-        if (Filter.singleton.isInitial || !Filter.verify())
-        {
-            JOptionPane.showMessageDialog(Frame.mainFrame, "Invalid filter", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+//        if (Filter.singleton.isInitial || !Filter.verify())
+//        {
+//            JOptionPane.showMessageDialog(Frame.mainFrame, "Invalid filter", "Error", JOptionPane.ERROR_MESSAGE);
+//            return;
+//        }
+//        
+//        PastebinIO.exportFilter();
+
+        // todo uncomment this
         
-        PastebinIO.exportFilter();
+        Filter.print();
     }//GEN-LAST:event_exportButtonActionPerformed
 
     private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importButtonActionPerformed

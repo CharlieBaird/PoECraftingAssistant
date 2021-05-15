@@ -194,7 +194,7 @@ public class FilterTypePanel extends JPanel {
     private void setDefault(ModifierPanel mp)
     {
         mp.assocMod = null;
-        mp.mod.name = "New Modifier";
+//        mp.mod.name = "New Modifier";
         mp.mcb.entry = "";
         mp.mcb.setSelectedIndex(-1);
         mp.hideTierComboBox();

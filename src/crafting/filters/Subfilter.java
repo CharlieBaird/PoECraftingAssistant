@@ -31,14 +31,4 @@ public class Subfilter implements Serializable
             f.print();
         }
     }
-    
-    public String view()
-    {
-        String str = name + "\n";
-        for (FilterBase f : filters)
-        {
-            str += f.view() + "\n";
-        }
-        return str;
-    }
 }

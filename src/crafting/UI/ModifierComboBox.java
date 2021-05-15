@@ -174,22 +174,26 @@ public class ModifierComboBox extends JComboBox
     
     public void update(Modifier m, boolean updateTierViews)
     {
-        if (m != null && parent.tier != null)
+        System.out.println();
+        if (m != null)
         {
+            System.out.println("1");
             parent.assocMod = m;
-            parent.mod.name = m.getKey(); // adjusted
+//            parent.mod.name = m.getKey(); // adjusted
             parent.mod.assocModifier = parent.assocMod;
-            parent.showTierComboBox(m);
-            if (updateTierViews) ModifierPanel.updateTierViews();
+//            parent.showTierComboBox(m);
+//            if (updateTierViews) ModifierPanel.updateTierViews();
         }
         else if (m == null)
         {
+            System.out.println("2");
             parent.assocMod = null;
-            parent.mod.name = null;
+//            parent.mod.name = null;
             parent.mod.assocModifier = parent.assocMod;
-            parent.hideTierComboBox();
-            if (updateTierViews) ModifierPanel.updateTierViews();
+//            parent.hideTierComboBox();
+//            if (updateTierViews) ModifierPanel.updateTierViews();
         }
+        System.out.println("3");
     }
 }
 
@@ -452,6 +456,7 @@ class ModClickListenerSJB implements FocusListener
     {        
         if (owner.parent.assocMod == null)
         {
+            System.out.println("assocMod was null");
             ((JTextField) owner.getEditor().getEditorComponent()).setText("New Modifier");
             ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
             owner.entry = "";
@@ -478,19 +483,17 @@ class ModSelectionListener implements ItemListener
             return;
         }
         
-        try {
+        if (event.getItem() instanceof Modifier)
+        {
             Modifier selected = (Modifier) event.getItem();
             if (selected != null)
             {
                 owner.update(selected, true);
                 FilterPersistence.saveFilters();
             }
-        } catch (ClassCastException e) {
-            owner.update(null, true);
-        } finally {
-            ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
-            FilterPersistence.saveFilters();
-            ((JTextField) owner.getEditor().getEditorComponent()).setFont(Frame.mainFrame.getNewFont(12));
         }
+        ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(255,255,255));
+        FilterPersistence.saveFilters();
+        ((JTextField) owner.getEditor().getEditorComponent()).setFont(Frame.mainFrame.getNewFont(12));
     }
 }
