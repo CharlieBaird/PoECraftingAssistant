@@ -73,7 +73,6 @@ class InfluenceCheckBox extends JCheckBox
             public void itemStateChanged(ItemEvent e)
             {
                 boolean selected = isSelected();
-                System.out.println(parent.influence + " to " + selected);
                 switch (parent.influence)
                 {
                     case SHAPER: Filter.singleton.shaper = selected; break;
