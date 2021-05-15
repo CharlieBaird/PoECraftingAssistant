@@ -145,14 +145,13 @@ public class FilterTypePanel extends JPanel {
                 
                 if (mp.mcb.getSelectedItem() instanceof Modifier)
                 {
-                    System.out.println(((Modifier) mp.mcb.getSelectedItem()).getKey());
-                    Modifier[] validModifiersArr = mp.mcb.getCompatObjects();
-                    ArrayList<Modifier> validModifiers = new ArrayList<>();
-                    for (Modifier modi : validModifiersArr) validModifiers.add(modi);
-                    
                     Modifier selItem = (Modifier) mp.mcb.getSelectedItem();
                     mp.mcb.setModel(new DefaultComboBoxModel<>(types));
                     mp.mcb.defaultmodel = mp.mcb.getModel();
+                    
+                    Modifier[] validModifiersArr = mp.mcb.getCompatObjects();
+                    ArrayList<Modifier> validModifiers = new ArrayList<>();
+                    for (Modifier modi : validModifiersArr) validModifiers.add(modi);
                     if (validModifiers.contains(selItem))
                         mp.mcb.setSelectedItem(selItem);
                     else
@@ -169,15 +168,8 @@ public class FilterTypePanel extends JPanel {
                     mp.mcb.setSelectedItem(selItem);
                 }
                 
-                if (mp.assocMod == null || Filter.singleton.SelectedBase == null)
+                if (mp.assocMod == null)
                 {
-                    setDefault(mp);
-                }
-                
-                BaseItem b = Filter.singleton.SelectedBase;
-                if (b == null)
-                {
-                    System.out.println("Base was null");
                     setDefault(mp);
                 }
             }
@@ -201,7 +193,8 @@ public class FilterTypePanel extends JPanel {
     private void setDefault(ModifierPanel mp)
     {
         mp.assocMod = null;
-//        mp.mod.name = "New Modifier";
+        mp.mod.assocModifier = null;
+        mp.mod.assocModifierTier = null;
         mp.mcb.entry = "";
         mp.mcb.setSelectedIndex(-1);
         mp.hideTierComboBox();

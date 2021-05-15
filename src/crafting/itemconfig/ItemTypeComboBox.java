@@ -49,10 +49,20 @@ public class ItemTypeComboBox extends SearchBoxBase
     private void update()
     {
         Object object = getSelectedItem();
-        if (object instanceof BaseItem)
+        if (object instanceof String)
+        {
+            BaseItem baseItem = BaseItem.getBaseItemFromName(object.toString());
+            if (baseItem == null) return;
+            Filter.singleton.SelectedBase = baseItem;
+            System.out.println("Selected base set to " + baseItem.getName());
+            FilterTypePanel.reshow();
+            
+        }
+        else if (object instanceof BaseItem)
         {
             BaseItem baseItem = (BaseItem) getSelectedItem();
             Filter.singleton.SelectedBase = baseItem;
+            System.out.println("Selected base set to " + baseItem.getName());
             FilterTypePanel.reshow();
         }
     }

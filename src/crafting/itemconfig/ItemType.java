@@ -29,7 +29,11 @@ public class ItemType extends JPanel {
         
     public ItemType()
     {
-        BaseTypes = BaseItem.BaseItems;
+        BaseTypes = new ArrayList<>();
+        for (BaseItem b : BaseItem.BaseItems)
+        {
+            BaseTypes.add(b);
+        }
         baseComboBox = new ItemTypeComboBox(this, BaseTypes.toArray());
         
         setMaximumSize(new Dimension(1000, 32));

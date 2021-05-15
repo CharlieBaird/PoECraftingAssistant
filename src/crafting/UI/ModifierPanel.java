@@ -156,7 +156,6 @@ public class ModifierPanel extends JPanel {
             tier.setSelectedItem(mt);
         }
         
-        
         tier.setVisible(true);
     }
     
