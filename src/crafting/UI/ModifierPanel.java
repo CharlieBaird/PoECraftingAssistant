@@ -48,33 +48,7 @@ public class ModifierPanel extends JPanel {
         {
             mod = new Mod(null, null);
             filterbase.mods.add(mod);
-//            min = new MPMinMax(this, "min", true);
-//            max = new MPMinMax(this, "max", false);
         }
-//        else if (mod.name == null)
-//        {
-//            min = new MPMinMax(this, "min", true);
-//            max = new MPMinMax(this, "max", false);
-//        }
-        
-//        else
-//        {
-//            if (mod.assocModifier == null)
-//            {
-//                if (Filter.singleton.SelectedBase != null)
-//                {
-//                    assocMod = Filter.singleton.SelectedBase.getExplicitFromStr(mod.name);
-//                }
-//                else
-//                {
-//                    assocMod = Modifier.getExplicitFromStr(mod.name);
-//                }
-//            }
-//            else
-//            {
-//                assocMod = mod.assocModifier;
-//            }
-//        }
         
         this.mod = mod;
         
@@ -93,8 +67,6 @@ public class ModifierPanel extends JPanel {
         mcb.setMaximumSize(new Dimension(this.getWidth(), 20));
         ((JTextField) mcb.getEditor().getEditorComponent()).setFont(Frame.mainFrame.getNewFont(12));
         ((JLabel) mcb.getRenderer()).setFont(Frame.mainFrame.getNewFont(12));
-//        min = new MPMinMax(this, String.valueOf(mod.ID.min), true);
-//        max = new MPMinMax(this, String.valueOf(mod.ID.max), false);
         tier = new TierComboBox(this);
         
         
@@ -104,8 +76,6 @@ public class ModifierPanel extends JPanel {
         add(Box.createHorizontalGlue());
 
         add(tier, Box.RIGHT_ALIGNMENT);
-//        add(min, Box.RIGHT_ALIGNMENT);
-//        add(max, Box.RIGHT_ALIGNMENT);
         
 //        if (Filter.singleton.SelectedBase != null && assocMod != null && assocMod.tiers.size() >= 1)
 //        {
@@ -190,52 +160,35 @@ public class ModifierPanel extends JPanel {
         tier.setVisible(false);
     }
     
-    public Modifier updateDD()
+    public boolean updateDD() // true if success
     {
-        Modifier thrownModifier = null;
-        
         if (assocMod != null)
         {
-            Modifier result = (Modifier) this.mcb.getSelectedItem();
-
-            if (result != null)
-            {
-                assocMod = result;
-                showTierComboBox(assocMod);
-            }
-            else
-            {
-                thrownModifier = assocMod;
-            }
+            mcb.setSelectedItem(assocMod);
+            showTierComboBox(assocMod);
+            return true;
         }
         
-        return thrownModifier;
+        return false;
     }
     
     public static void updateTierViews() {
         if (Filter.singleton.SelectedBase == null) return;
-                
-        ArrayList<Modifier> errorModifiers = new ArrayList<>();
-        
+                        
         for (FilterTypePanel ftp : FilterTypePanel.filtertypepanels)
         {
             for (ModifierPanel mp : ftp.modifierpanels)
             {
-                mp.mcb.update(mp.assocMod, false);
-                Modifier m = mp.updateDD();
-                if (m != null)
+//                mp.mcb.update(mp.assocMod, false);
+                boolean success = mp.updateDD();
+                if (success)
                 {
-                    errorModifiers.add(m);
-                    mp.mcb.setForeground(new Color(238,99,90));
-                    mp.hideTierComboBox();
+                    mp.mcb.setForeground(new Color(255,255,255));
                 }
                 else
                 {
-                    mp.mcb.setForeground(new Color(255,255,255));
-//                    if (!mp.min.getText().equals("min"))
-//                    {
-//                        mp.tier.manualUpdate(mp.min.getText());
-//                    }
+                    mp.mcb.setForeground(new Color(238,99,90));
+                    mp.hideTierComboBox();
                 }
             }
         }
@@ -274,10 +227,8 @@ class TierComboBox extends JComboBox {
             {
                if (event.getStateChange() == ItemEvent.SELECTED)
                {
-                    String selection = (String) event.getItem();
-                    if (selection.equals("Custom")) return;
-                    int tier = Integer.valueOf((selection).substring(1,selection.length()));
-                    setMin(tier);
+                    ModifierTier selection = (ModifierTier) event.getItem();
+                    parent.mod.assocModifierTier = selection;
                }
             }
         });
@@ -285,35 +236,24 @@ class TierComboBox extends JComboBox {
         
     }
     
-    public void setMin(int whatTier)
-    {
-        if (assocModifier != null)
-        {
-            whatTier = assocModifier.getModifierTiers().size() - whatTier;
-            
+//    public void setMin(int whatTier)
+//    {
+//        if (assocModifier != null)
+//        {
+//            whatTier = assocModifier.getModifierTiers().size() - whatTier;
+//            
 //            double val = assocModifier.getModifierTiers().get(whatTier).getValue();
-            
+//            
 //            parent.min.textUpdate(999);
-            
-        }
-    }
+//            
+//        }
+//    }
     
-    public String[] modelToTiers(Modifier m, int itemLevel)
+    public ModifierTier[] modelToTiers(Modifier m, int itemLevel)
     {
         this.assocModifier = m;
-//        ModifierTier[] tiers = m.getTiersWithLevel(itemLevel);
-        ModifierTier[] tiers = new ModifierTier[0];
-                
-        String[] tiersStr = new String[1+tiers.length];
-        
-        tiersStr[tiersStr.length-1] = "Custom";
-        for (int i=0; i<tiers.length; i++)
-        {
-//            int val = (int) m.tiers.get(m.tiers.size()-1-i).getValue();
-            tiersStr[i] = "T" + (i + 1)/* + " - " + val*/;
-        }        
-        return tiersStr;
-        
+        ModifierTier[] tiersWithLevel = m.getModifierTiers(itemLevel);
+        return tiersWithLevel;
     }
 
     public void manualUpdate(String text) {

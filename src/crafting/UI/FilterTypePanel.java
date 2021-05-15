@@ -130,6 +130,8 @@ public class FilterTypePanel extends JPanel {
             
             if (!bypass)
             {
+                if (mp.assocMod == null) System.out.println("MOD NULL");
+                else System.out.println("NOT NULL");
                 mp.mcb.update(mp.assocMod, true);
                 
                 Modifier[] types;
@@ -153,7 +155,9 @@ public class FilterTypePanel extends JPanel {
                     if (validModifiers.contains(selItem))
                         mp.mcb.setSelectedItem(selItem);
                     else
+                    {
                         setDefault(mp);
+                    }
                 }
                 else
                 {
@@ -169,10 +173,10 @@ public class FilterTypePanel extends JPanel {
                 }
                 
                 BaseItem b = Filter.singleton.SelectedBase;
-//                if (b != null && !b.containsExact(mp.assocMod)) // ????
-//                    setDefault(mp);
-                if (b != null) // ????
+                if (b == null) // ????
+                {
                     setDefault(mp);
+                }
             }
             
             Dimension mpsize = new Dimension((int) (getWidth() * 0.95),(int) (40)); // 0.912

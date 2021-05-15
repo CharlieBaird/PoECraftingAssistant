@@ -174,26 +174,21 @@ public class ModifierComboBox extends JComboBox
     
     public void update(Modifier m, boolean updateTierViews)
     {
-        System.out.println();
         if (m != null)
         {
-            System.out.println("1");
             parent.assocMod = m;
-//            parent.mod.name = m.getKey(); // adjusted
             parent.mod.assocModifier = parent.assocMod;
-//            parent.showTierComboBox(m);
-//            if (updateTierViews) ModifierPanel.updateTierViews();
+            parent.showTierComboBox(m);
+            if (updateTierViews) ModifierPanel.updateTierViews();
         }
         else if (m == null)
         {
-            System.out.println("2");
+            System.out.println("setting to null");
             parent.assocMod = null;
-//            parent.mod.name = null;
             parent.mod.assocModifier = parent.assocMod;
-//            parent.hideTierComboBox();
-//            if (updateTierViews) ModifierPanel.updateTierViews();
+            parent.hideTierComboBox();
+            if (updateTierViews) ModifierPanel.updateTierViews();
         }
-        System.out.println("3");
     }
 }
 
