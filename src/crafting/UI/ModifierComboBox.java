@@ -30,6 +30,7 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 import poeitem.bases.Influence;
 import poeitem.Modifier;
 import crafting.persistence.FilterPersistence;
+import javax.swing.Icon;
 
 public class ModifierComboBox extends JComboBox
 {
@@ -246,7 +247,8 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
         if (value instanceof Modifier)
         {
             Modifier mod = (Modifier) value;
-            setIcon(iconMap.get(mod.getInfluence())); // adjusted
+            Icon icon = iconMap.get(mod.getInfluence());
+            setIcon(icon);
         }
         
         text.insert(0, "<html><p style=\"" + getParagraphStyle() + "\">");
