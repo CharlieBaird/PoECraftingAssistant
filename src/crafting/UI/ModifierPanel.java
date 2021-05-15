@@ -4,6 +4,7 @@ import crafting.filters.Filter;
 import poeitem.Modifier;
 import crafting.filtertypes.FilterBase;
 import crafting.filtertypes.Mod;
+import crafting.itemconfig.InfluenceConfig;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -138,7 +139,7 @@ public class ModifierPanel extends JPanel {
             }
             else {
                 BaseItem base = Filter.singleton.SelectedBase;
-                ArrayList<Modifier> modifiers = Modifier.getAllApplicableModifiers(base);
+                ArrayList<Modifier> modifiers = Modifier.getAllApplicableModifiers(base, InfluenceConfig.getArrOfSelectedInflu());
                 types = ModifierComboBox.toArr(modifiers);
             }
             ModifierComboBox mcb = new ModifierComboBox(this, types);

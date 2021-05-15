@@ -105,18 +105,18 @@ public class ModifierComboBox extends JComboBox
             for (int i=0; i<defaultmodel.getSize(); i++)
             {
                 Modifier o = (Modifier) defaultmodel.getElementAt(i);
-//                if (o.isInfluenced)
-//                {
+                if (o.isInfluenced())
+                {
                     ArrayList<InfluenceConfig> assoc = new ArrayList<>();
-//                    switch (o.influence)
-//                    {
-//                        case SHAPER: assoc.add(Frame.mainFrame.itemConfigPanel.shaper); break;
-//                        case ELDER: assoc.add(Frame.mainFrame.itemConfigPanel.elder); break;
-//                        case CRUSADER: assoc.add(Frame.mainFrame.itemConfigPanel.crusader); break;
-//                        case WARLORD: assoc.add(Frame.mainFrame.itemConfigPanel.warlord); break;
-//                        case HUNTER: assoc.add(Frame.mainFrame.itemConfigPanel.hunter); break;
-//                        case REDEEMER: assoc.add(Frame.mainFrame.itemConfigPanel.redeemer); break;
-//                    }
+                    switch (o.getInfluence())
+                    {
+                        case SHAPER: assoc.add(Frame.mainFrame.itemConfigPanel.shaper); break;
+                        case ELDER: assoc.add(Frame.mainFrame.itemConfigPanel.elder); break;
+                        case CRUSADER: assoc.add(Frame.mainFrame.itemConfigPanel.crusader); break;
+                        case WARLORD: assoc.add(Frame.mainFrame.itemConfigPanel.warlord); break;
+                        case HUNTER: assoc.add(Frame.mainFrame.itemConfigPanel.hunter); break;
+                        case REDEEMER: assoc.add(Frame.mainFrame.itemConfigPanel.redeemer); break;
+                    }
 
                     if (assoc.isEmpty()) os.add(o);
                     
@@ -127,7 +127,7 @@ public class ModifierComboBox extends JComboBox
                     
                     if (!selectedOne) continue;
 
-//                }
+                }
                 if (containsIgnoreCase(o.toString(), entry))
                     os.add(o);
             }
@@ -160,10 +160,7 @@ public class ModifierComboBox extends JComboBox
         for (int i=0; i<typesList.size(); i++)
         {
             Modifier m = typesList.get(i);
-//            if (m.getModGenerationTypeID() <= 2 && m.getModGenerationTypeID() >= -3 && !m.getCorrectGroup().equals("Crafted"))
-//            {
-                dispList.add(m);
-//            }
+            dispList.add(m);
         }
         
         Modifier[] types = new Modifier[dispList.size()];

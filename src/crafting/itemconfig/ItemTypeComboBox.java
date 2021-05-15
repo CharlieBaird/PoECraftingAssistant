@@ -48,9 +48,13 @@ public class ItemTypeComboBox extends SearchBoxBase
     
     private void update()
     {
-        BaseItem baseItem = (BaseItem) getSelectedItem();
-        Filter.singleton.SelectedBase = baseItem;
-        FilterTypePanel.reshow();
+        Object object = getSelectedItem();
+        if (object instanceof BaseItem)
+        {
+            BaseItem baseItem = (BaseItem) getSelectedItem();
+            Filter.singleton.SelectedBase = baseItem;
+            FilterTypePanel.reshow();
+        }
     }
     
     public static String[] toArr(ArrayList<Modifier> typesList)

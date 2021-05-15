@@ -13,6 +13,7 @@ import crafting.filtertypes.FilterBase;
 import java.util.ArrayList;
 import crafting.filtertypes.Mod;
 import crafting.filtertypes.logicgroups.*;
+import crafting.itemconfig.InfluenceConfig;
 import poeitem.bases.BaseItem;
 import poeitem.Modifier;
 import crafting.persistence.FilterPersistence;
@@ -137,7 +138,7 @@ public class FilterTypePanel extends JPanel {
                     types = ModifierComboBox.toArr(Modifier.AllExplicitModifiers);
                 }
                 else {
-                    types = ModifierComboBox.toArr(Modifier.getAllApplicableModifiers(Filter.singleton.SelectedBase));
+                    types = ModifierComboBox.toArr(Modifier.getAllApplicableModifiers(Filter.singleton.SelectedBase, InfluenceConfig.getArrOfSelectedInflu()));
                 }
                 
                 if (mp.mcb.getSelectedItem() instanceof Modifier)
