@@ -145,6 +145,7 @@ public class FilterTypePanel extends JPanel {
                 
                 if (mp.mcb.getSelectedItem() instanceof Modifier)
                 {
+                    System.out.println(((Modifier) mp.mcb.getSelectedItem()).getKey());
                     Modifier[] validModifiersArr = mp.mcb.getCompatObjects();
                     ArrayList<Modifier> validModifiers = new ArrayList<>();
                     for (Modifier modi : validModifiersArr) validModifiers.add(modi);
@@ -156,6 +157,7 @@ public class FilterTypePanel extends JPanel {
                         mp.mcb.setSelectedItem(selItem);
                     else
                     {
+                        System.out.println("Valid modifiers didn't contain it");
                         setDefault(mp);
                     }
                 }
@@ -173,8 +175,9 @@ public class FilterTypePanel extends JPanel {
                 }
                 
                 BaseItem b = Filter.singleton.SelectedBase;
-                if (b == null) // ????
+                if (b == null)
                 {
+                    System.out.println("Base was null");
                     setDefault(mp);
                 }
             }
