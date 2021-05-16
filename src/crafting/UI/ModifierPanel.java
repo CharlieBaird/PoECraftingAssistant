@@ -137,9 +137,13 @@ public class ModifierPanel extends JPanel {
     
     public void showTierComboBox(Modifier m)
     {
-        DefaultComboBoxModel model = new DefaultComboBoxModel(tier.modelToTiers(m, Filter.singleton.SelectedItemLevel));
+        ModifierTier[] modTiers = tier.modelToTiers(m, Filter.singleton.SelectedItemLevel);
+        DefaultComboBoxModel model = new DefaultComboBoxModel(modTiers);
+        
         if (model.getSize() <= 1)
-        {
+        {        
+            if (model.getSize() == 1)
+                this.mod.assocModifierTier = modTiers[0];
             hideTierComboBox();
             return;
         }
