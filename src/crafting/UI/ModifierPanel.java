@@ -77,11 +77,13 @@ public class ModifierPanel extends JPanel {
 
         add(tier, Box.RIGHT_ALIGNMENT);
         
-//        if (Filter.singleton.SelectedBase != null && assocMod != null)
-//        {
-//            this.showTierComboBox(assocMod);
-//            this.updateDD();
-//        }
+        this.assocMod = this.mod.assocModifier;
+        if (Filter.singleton.SelectedBase != null && assocMod != null)
+        {
+            this.showTierComboBox(assocMod);
+            this.updateDD();
+        }
+        Filter.print();
         
         parent.modifierpanels.add(this);
         parent.add(this);
