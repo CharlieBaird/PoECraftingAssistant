@@ -183,7 +183,6 @@ public class ModifierComboBox extends JComboBox
         }
         else if (m == null)
         {
-            System.out.println("setting to null");
             parent.assocMod = null;
             parent.mod.assocModifier = parent.assocMod;
             parent.hideTierComboBox();
@@ -237,23 +236,49 @@ class ModifierComboBoxRenderer extends JLabel implements ListCellRenderer {
         
         return text;
     }
+    
+    private StringBuffer affixColor(Modifier mod)
+    {
+        StringBuffer buffer = null;
+        
+        switch (mod.getModifierTiers().get(0).getAffix_type())
+        {
+            case PREFIX:
+                buffer = new StringBuffer("<span style=\"Color: #db9000\">Prefix</span>  ");
+                break;
+            case SUFFIX:
+                buffer = new StringBuffer("<span style=\"Color: #66bbff\">Suffix</span>  ");
+                break;
+            default:
+                buffer = new StringBuffer("Affix");
+                
+        }
+        
+        return buffer;
+    }
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         
         StringBuffer text = genHTMLString(value.toString(), owner.entry);
         
+        
+        
         if (value instanceof Modifier)
         {
             Modifier mod = (Modifier) value;
             Icon icon = iconMap.get(mod.getInfluence());
             setIcon(icon);
+            text.insert(0, affixColor(mod));
         }
         
-        text.insert(0, "<html><p style=\"" + getParagraphStyle() + "\">");
+        StringBuffer b = new StringBuffer("<html><p style=\"" + getParagraphStyle() + "\">");
+        text.insert(0, b);
         text.insert(text.length(), "</p></html>");
         
-        setText(text.toString().replaceAll("\n", " | "));
+        
+//        setText(text.toString().replaceAll("\n", " | "));
+        setText(text.toString());
         
         if (isSelected)
         {
@@ -451,7 +476,6 @@ class ModClickListenerSJB implements FocusListener
     {        
         if (owner.parent.assocMod == null)
         {
-            System.out.println("assocMod was null");
             ((JTextField) owner.getEditor().getEditorComponent()).setText("New Modifier");
             ((JTextField)owner.getEditor().getEditorComponent()).setForeground(new Color(238,99,90));
             owner.entry = "";
