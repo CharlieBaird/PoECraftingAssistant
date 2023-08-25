@@ -1,5 +1,7 @@
 # PoE Crafting Assistant
 
+**Update 8/24/2023: This repository is deprecated. You may be banned from PoE for using this tool. Clone and compile at your own risk**
+
 A lightweight and intuitive crafting assistant for Path of Exile. This tool was created to assist players with in-game tasks such as chaos spam. To do so, each time the player clicks an item in-game (with perhaps a chaos orb), the tool parses the item and conditionally plays a sound indicating that the item hit the filter created by the user. The tool can also prevent you from rolling-over an item by blocking your mouse.
 
 The Crafting Assistant comes with a UI to assist users in creating filters. This program is entirely standalone, and does not come with an installer. It runs off of a single .jar file, using resources that come in the downloaded folder. Currently it is only tested and functional on Windows 10. Support for  other platforms may come in the future.
