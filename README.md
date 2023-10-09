@@ -31,9 +31,6 @@ To adjust the delay, click the gear in the bottom right. *If you are mid-range, 
 
 # Frequently Asked Questions
 
-#### Will I be banned for using this tool?
-No. This tool is **entirely** compliant with the Path of Exile terms of service for macros and 3rd party tools. It only performs one action on the client per click, a simple Ctrl+C. Because it is a separate window, the popup that blocks your cursor from left-clicking is also compliant with the TOS.
-
 #### How do I create an "or" logic gate?
 To create an "or" gate, you can create a subfilter in the GUI. To do so, click the white plus button on the left side of the screen to the right of your created filter. The tool will play the sound if the item hits **any** of the created subfilters.
 
